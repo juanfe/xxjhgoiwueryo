@@ -20,8 +20,7 @@ class PlaceBids(webapp.RequestHandler):
 
 application = webapp.WSGIApplication(
                                      [('/', HomePage)
-                                      ('/placebids',PlaceBids)
-                                    ],
+                                     ],
                                      debug=True)
 
 def main():
