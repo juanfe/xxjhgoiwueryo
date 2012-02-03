@@ -7,19 +7,26 @@ from google.appengine.ext.webapp.util import run_wsgi_app
 
 class HomePage(webapp.RequestHandler):
     def get(self):
+        self.response.out.write(template.render("templates/welcome.html",dict))
+
+class Search(webapp.RequestHandler):
+    def get(self):
         self.response.out.write(template.render("templates/search.html",dict))
 
 class PlaceBids(webapp.RequestHandler):
-    def get(self):
-        
-        
+    def get(self):       
         self.response.out.write(template.render("templates/placeBids.html",dict))
-
+        
+class MyBids(webapp.RequestHandler):
+    def get(self):       
+        self.response.out.write(template.render("templates/myBids.html",dict))
+        
 
 #################################################################
 
 application = webapp.WSGIApplication(
-                                     [('/', HomePage)
+                                     [('/myBids', MyBids),
+                                      ('/', Search)                                      
                                      ],
                                      debug=True)
 
