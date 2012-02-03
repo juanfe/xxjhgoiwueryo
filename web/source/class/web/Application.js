@@ -56,23 +56,21 @@ qx.Class.define("web.Application",
 	  desktop.add(WinTbl);
 
 	  var WinCtl = new web.Control(/*WinTbl.__tableModel, WinTbl.__tbl*/);
-          WinCtl.__BtnCancel.addListener("execute", WinCtl.close, WinCtl);
-          WinCtl.__BtnOk.addListener("execute",function(e)
-          {
-              WinTbl.__tableModel.addNumericFilter("!=", 3, "Occupancy Code");
-              WinTbl.__tableModel.applyFilters();
-              WinTbl.__tbl.setAdditionalStatusBarText(", Filteres by State.");
-              WinCtl.close();
-          }); 
-          WinCtl.setModal(true);
+	  WinCtl.setModal(true);
 	  desktop.add(WinCtl);
 
 	  WinTbl.open();
 	  WinTbl.moveTo(10, 10);
 
-          WinTbl.__BtnFilter.addListener("execute", WinCtl.open, WinCtl);
-          WinTbl.__BtnFilter.addListener("execute", WinCtl.open, WinCtl);
-          WinTbl.__BtnFilter.addListener("execute", WinCtl.open, WinCtl);
+	  WinTbl.BtnFilter.addListener("execute", WinCtl.open, WinCtl);
+	  WinCtl.BtnCancel.addListener("execute", WinCtl.close, WinCtl);
+	  WinCtl.BtnOk.addListener("execute",function(e)
+	  {
+		  WinTbl.__tableModel.addNumericFilter("!=", 3, "Occupancy Code");
+		  WinTbl.__tableModel.applyFilters();
+		  WinTbl.__tbl.setAdditionalStatusBarText(", Filteres by State.");
+		  WinCtl.close();
+	  }); 
     }
   }
 });

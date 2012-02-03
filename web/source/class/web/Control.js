@@ -188,21 +188,21 @@ qx.Class.define("web.Control",
     this.add(this.CreatePropertyType(), {row: 3, column: 5, rowSpan: 2, colSpan: 2});
     this.add(this.CreateAcceptState(), {row: 5, column: 1, rowSpan: 2});
 
-    this.__BtnOk = new qx.ui.form.Button("Apply", "icon/16/actions/dialog-ok.png");
+    this.BtnOk = new qx.ui.form.Button("Apply", "icon/16/actions/dialog-ok.png");
     /*BtnOk.addListener("execute", function(e) {
         //TODO send a message and field a struct with the filter
         //this.close();
         this.hide();
     });*/
-    this.add(this.__BtnOk, {row: 5, column: 5, colSpan:0});
+    this.add(this.BtnOk, {row: 5, column: 5, colSpan:0});
 
-    this.__BtnCancel = new qx.ui.form.Button("Cancel", "icon/16/actions/dialog-cancel.png");
-    /*btnCancel.addListener("execute", function(e) {
+    this.BtnCancel = new qx.ui.form.Button("Cancel", "icon/16/actions/dialog-cancel.png");
+    /*BtnCancel.addListener("execute", function(e) {
         //TODO send a message and field a struct with the filter
         //this.close();
         this.hide();
     });*/
-    this.add(this.__BtnCancel, {row: 5, column: 6, rowSpan:0});
+    this.add(this.BtnCancel, {row: 5, column: 6, rowSpan:0});
   },
 
   members :
@@ -224,8 +224,8 @@ qx.Class.define("web.Control",
     GBPropertyType: null,
     GBAcceptState: null,
   
-    __BtnOk: null,
-    __btnCancel: null,
+    BtnOk: null,
+    BtnCancel: null,
 
     CreateLoanType : function()
     {

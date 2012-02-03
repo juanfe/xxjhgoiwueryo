@@ -36,7 +36,7 @@ qx.Class.define("web.Table",
 	toolbar.addSpacer();
 
 	var TBPart2 = new qx.ui.toolbar.Part();
-	var BtnFilter = this.__BtnFilter = new qx.ui.toolbar.Button("Filter");
+	var BtnFilter = this.BtnFilter = new qx.ui.toolbar.Button("Filter");
     TBPart2.add(BtnFilter);
 	toolbar.add(TBPart2);
 
@@ -147,6 +147,6 @@ qx.Class.define("web.Table",
   {
     __tableModel : null,
     __tbl : null,
-    __BtnFilter : null
+    BtnFilter : null
   }
 });
