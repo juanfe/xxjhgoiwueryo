@@ -68,12 +68,14 @@ qx.Class.define("web.Application",
 	});
       WinCtl.addListener("changeData",function(e)
       {
-          /*WinTbl.__tableModel.addNumericFilter("!=", "WA", "State");
-          WinTbl.__tableModel.applyFilters();
-          WinTbl.__tbl.setAdditionalStatusBarText(", Filteres by State.");*/
 		  var data = e.getData();
-		  //alert(data.SLCorLogFraudRiskScore);
-          //WinTbl.__tableModel.addBetweenFilter("between", 0, data.SLCorLogFraudRiskScore, "CoreLogic Fraud Risk Score");
+          WinTbl.TableModel.addNumericFilter("!=", "WA", "State");
+          WinTbl.TableModel.addBetweenFilter("between", 0, data.SLCorLogFraudRiskScore, "CoreLogic Fraud Risk Score");
+          WinTbl.TableModel.addBetweenFilter("between", 0, data.SLCorLogCollRiskScore, "CoreLogic Fraud Risk Score");
+          WinTbl.TableModel.addBetweenFilter("between", 0, data.SLAcceptableFICO, "CoreLogic Fraud Risk Score");
+          WinTbl.TableModel.applyFilters();
+          //WinTbl.tbl.setAdditionalStatusBarText(", Filteres by State.");
+		  WinCtl.close();
       }); 
       WinCtl.setModal(true);
 	  desktop.add(WinCtl);
