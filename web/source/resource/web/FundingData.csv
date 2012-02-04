@@ -1,4 +1,4 @@
-"Collateral","State","Zip","Original UPB","Current UPB","Origination Date","Is Adjustable","Max Advance","Investor Code","Property Type Code","Lien Position","Original LTV","Original CLTV","FICO Score","Purpose Code","Occupancy Code","Doc Level Code","Debt Service Ratio","Cur Note Rate","CoreLogic Fraud Risk Score","CoreLogic Collateral Risk Score"
+"Collateral","State","Zip","Original UPB","Current UPB","Origination Date","Is Adjustable","Advance","Investor Code","Property Type Code","Lien Position","Original LTV","Original CLTV","FICO Score","Purpose Code","Occupancy Code","Doc Level Code","Debt Service Ratio","Cur Note Rate","CoreLogic Fraud Risk Score","CoreLogic Collateral Risk Score"
 201149912,"WA",98606,232000,232000,"12/16/2011",0,0,"JPM","SFR",1,35.831,35.831,741,"CO","O",3,20.801104,4.375,616,918
 201149215,"CA",90815,393750,393750,"12/16/2011",1,0,"JPM","SFR",1,45.833,45.833,758,"R","I",1,25.643788,4.25,396,124
 201148834,"CA",91320,228000,228000,"12/16/2011",0,0,"JPM","SFR",1,89.209,89.209,719,"R","O",3,33.156344,4.99,986,349

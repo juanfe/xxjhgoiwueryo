@@ -68,13 +68,20 @@ qx.Class.define("web.Application",
 	});
       WinCtl.addListener("changeData",function(e)
       {
+		  //TODO Reset the filter after change
 		  var data = e.getData();
-          WinTbl.TableModel.addNumericFilter("!=", "WA", "State");
-          WinTbl.TableModel.addBetweenFilter("between", 0, data.SLCorLogFraudRiskScore, "CoreLogic Fraud Risk Score");
-          WinTbl.TableModel.addBetweenFilter("between", 0, data.SLCorLogCollRiskScore, "CoreLogic Fraud Risk Score");
-          WinTbl.TableModel.addBetweenFilter("between", 0, data.SLAcceptableFICO, "CoreLogic Fraud Risk Score");
+          WinTbl.TableModel.addNumericFilter(">", data.SLCorLogFraudRiskScore, "CoreLogic Fraud Risk Score");
+          WinTbl.TableModel.addNumericFilter(">", data.SLCorLogCollRiskScore, "CoreLogic Collateral Risk Score");
+          WinTbl.TableModel.addNumericFilter(">", data.SLAcceptableFICO + 300, "FICO Score");
+
+          WinTbl.TableModel.addNumericFilter("<", data.SPMinLoanAmount, "Current UPB");
+          WinTbl.TableModel.addNumericFilter(">", data.SPMaxLoanAmount, "Current UPB");
+          WinTbl.TableModel.addNumericFilter(">", data.SPMaxLoanToValue, "Original LTV");
+          WinTbl.TableModel.addNumericFilter(">", data.SPMaxComLoanToValue, "Original CLTV");
+          WinTbl.TableModel.addNumericFilter(">", data.SPMaxAdvance, "Advance");
+
           WinTbl.TableModel.applyFilters();
-          //WinTbl.tbl.setAdditionalStatusBarText(", Filteres by State.");
+          WinTbl.Tbl.setAdditionalStatusBarText(", Filtered.");
 		  WinCtl.close();
       }); 
       WinCtl.setModal(true);

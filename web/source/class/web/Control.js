@@ -160,19 +160,19 @@ qx.Class.define("web.Control",
     this.SPMaxLoanAmount.setWidth(100);
     this.SPMaxLoanAmount.setNumberFormat(nfmoney);
 
-    this.SPMaxLoanToValue = new qx.ui.form.Spinner(0, 0, 100);	
+    this.SPMaxLoanToValue = new qx.ui.form.Spinner(0, 100, 100);	
     this.SPMaxLoanToValue.setSingleStep(1);
     this.SPMaxLoanToValue.setWidth(100);
     this.SPMaxLoanToValue.setNumberFormat(nfmoney);
     this.AddPopup ("Maximun Loan To Value", this.SPMaxLoanToValue);
 
-    this.SPMaxComLoanToValue = new qx.ui.form.Spinner(0, 0, 100);	
+    this.SPMaxComLoanToValue = new qx.ui.form.Spinner(0, 100, 100);	
     this.SPMaxComLoanToValue.setSingleStep(1);
     this.SPMaxComLoanToValue.setWidth(100);
     this.SPMaxComLoanToValue.setNumberFormat(nfpercent);
     this.AddPopup ("Maximun Combined Loan To Value", this.SPMaxComLoanToValue);
 
-    this.SPMaxAdvance = new qx.ui.form.Spinner(0, 0, 100);	
+    this.SPMaxAdvance = new qx.ui.form.Spinner(0, 100, 100);	
     this.SPMaxAdvance.setSingleStep(1);
     this.SPMaxAdvance.setWidth(100);
     this.SPMaxAdvance.setNumberFormat(nfpercent);
@@ -201,7 +201,12 @@ qx.Class.define("web.Control",
 		var data = {
 			SLCorLogFraudRiskScore : this.SLCorLogFraudRiskScore.getValue(),
 			SLCorLogCollRiskScore : this.SLCorLogCollRiskScore.getValue(),
-			SLAcceptableFICO : this.SLAcceptableFICO.getValue()
+			SLAcceptableFICO : this.SLAcceptableFICO.getValue(),
+			SPMaxLoanAmount : this.SPMaxLoanAmount.getValue,
+			SPMinLoanAmount : this.SPMinLoanAmount.getValue(),
+		    SPMaxLoanToValue : this.SPMaxLoanToValue.getValue(),
+		    SPMaxComLoanToValue : this.SPMaxComLoanToValue.getValue(),
+		    SPMaxAdvance : this.SPMaxAdvance.getValue
 		}
 	    this.fireDataEvent("changeData", data);
 	    this.close();

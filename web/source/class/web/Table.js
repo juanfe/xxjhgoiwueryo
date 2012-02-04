@@ -49,15 +49,15 @@ qx.Class.define("web.Table",
     layout.setRowFlex(1, 1);
     layout.setColumnFlex(0,1);
 
-    var CapColmNames = ["Collateral", "State", "Zip", "Original UPB", "Current UPB",  "Origination Date", "Is Adjustable", "Max Advance", "Investor Code", "Property Type Code", "Lien Position", "Original LTV", "Original CLTV", "FICO Score", "Purpose Code", "Occupancy Code", "Doc Level Code", "Debt Service Ratio", "Cur Note Rate", "CoreLogic Fraud Risk Score", "CoreLogic Collateral Risk Score"]; 
+    var CapColmNames = ["Collateral", "State", "Zip", "Original UPB", "Current UPB",  "Origination Date", "Is Adjustable", "Advance", "Investor Code", "Property Type Code", "Lien Position", "Original LTV", "Original CLTV", "FICO Score", "Purpose Code", "Occupancy Code", "Doc Level Code", "Debt Service Ratio", "Cur Note Rate", "CoreLogic Fraud Risk Score", "CoreLogic Collateral Risk Score"]; 
 	var colTypes = { "Collateral":"int",
 		"State":"string",
 		"Zip":"int",
 		"Original UPB":"int",
 		"Current UPB":"int",
 		"Origination Date":"date",
-		"Is Adjustabl":"int",
-		"Max Advance":"int",
+		"Is Adjustable":"int",
+		"Advance":"int",
 		"Investor Code":"string",
 		"Property Type Code":"string",
 		"Lien Position":"int",
@@ -88,14 +88,13 @@ qx.Class.define("web.Table",
 		var flag = 0;
 		pdata = qx.lang.Json.parse(data, function(key, value)
 		{
-			//if (isNaN(parseInt(key)) || key == "1st_adj_max_initial_rate" || key == "1st_adj_min_initial_rate")
 			if (isNaN(parseInt(key)))
 	     	{
 				if (colTypes[key] == "string" || colTypes[key] == "date"){
  				  row.push(value);
 				}
 				else if (colTypes[key] == "int"){
-				  row.push(parseInt(value));
+				  row.push(parseInt(value));//}
 				}
 				else if (colTypes[key] == "float"){
 				  row.push(parseFloat(value));
@@ -132,16 +131,8 @@ qx.Class.define("web.Table",
 
     var tcm = tbl.getTableColumnModel();
 
-    tcm.setDataCellRenderer(3, new qx.ui.table.cellrenderer.Boolean());
+    //tcm.setDataCellRenderer(3, new qx.ui.table.cellrenderer.Boolean());
     tcm.setHeaderCellRenderer(5, new qx.ui.table.headerrenderer.Icon("icon/16/apps/office-calendar.png", "A date"));
-
-    /*tbl.addListener("tableWidthChanged", function(e)
-    {
-      //  alert(this.Tbl.minWidth);
-      TableModel.addNumericFilter("==", 3, "Occupancy Code");
-      TableModel.applyFilters();
-      Tbl.setAdditionalStatusBarText(", Filteres by State.");
-    });*/
 
     this.add(tbl, {row: 2, column: 0});
   },
