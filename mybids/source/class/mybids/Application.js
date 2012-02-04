@@ -68,7 +68,7 @@ qx.Class.define("mybids.Application",
 
       //root.add(desktop);
 
-      var WinTbl = new mybids.BaseTable(loansJson);
+      var WinTbl = new mybids.Table(loansJson);
       root.add(WinTbl);
 	  
       WinTbl.open();

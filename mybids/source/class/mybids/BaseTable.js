@@ -22,32 +22,12 @@ qx.Class.define("mybids.BaseTable",
     layout.setRowFlex(0, 1);
     layout.setColumnFlex(0,1);
 
-    var CapColmNames = ["Collateral", "State", "Zip", "Original UPB", "Current UPB",  "Origination Date", "Is Adjustable", "Max Advance", "Investor Code", "Property Type Code", "Lien Position", "Original LTV", "Original CLTV", "FICO Score", "Purpose Code", "Occupancy Code", "Doc Level Code", "Debt Service Ratio", "Cur Note Rate", "CoreLogic Fraud Risk Score", "CoreLogic Collateral Risk Score"]; 
-    var colTypes = { "Collateral":"int",
-		  "State":"string",
-		  "Zip":"int",
-		  "Original UPB":"int",
-		  "Current UPB":"int",
-      "Origination Date":"date",
-      "Is Adjustabl":"int",
-      "Max Advance":"int",
-      "Investor Code":"string",
-      "Property Type Code":"string",
-      "Lien Position":"int",
-      "Original LTV":"float",
-      "Original CLTV":"float",
-      "FICO Score":"int",
-      "Purpose Code":"string",
-      "Occupancy Code":"string",
-      "Doc Level Code":"int",
-      "Debt Service Ratio":"float",
-      "Cur Note Rate":"float",
-      "CoreLogic Fraud Risk Score":"int",
-      "CoreLogic Collateral Risk Score":"int"};
-
     var tableModel = this.__tableModel = new qx.ui.table.model.Filtered();
-
-    tableModel.setColumns(CapColmNames);
+    
+    var columnsInfo = this.self(arguments).columnsInfo;
+    var columnInfoDict = new mybids.common.ColumnInfoDictionary(columnsInfo);
+    
+    tableModel.setColumns(columnInfoDict.getNames());
     var url = qx.util.ResourceManager.getInstance().toUri(jsonFilepath);
 	
     var req = new qx.io.remote.Request(url, "GET", "text/plain"); 
@@ -64,13 +44,14 @@ qx.Class.define("mybids.BaseTable",
         //if (isNaN(parseInt(key)) || key == "1st_adj_max_initial_rate" || key == "1st_adj_min_initial_rate")
         if (isNaN(parseInt(key)))
 	     	{
-				  if (colTypes[key] == "string" || colTypes[key] == "date"){
+	     	  var type = columnInfoDict.getType(key);
+				  if (type == "string" || type == "date"){
             row.push(value);
 				  }
-				  else if (colTypes[key] == "int"){
+				  else if (type == "int"){
             row.push(parseInt(value));
 				  }
-				  else if (colTypes[key] == "float"){
+				  else if (type == "float"){
 				    row.push(parseFloat(value));
 				  }
   			}
@@ -89,17 +70,11 @@ qx.Class.define("mybids.BaseTable",
     });
     req.send();
 
-    for (var i = 0; i < CapColmNames.length; i++){
+    for (var i = 0; i < columnsInfo.length; i++){
       tableModel.setColumnEditable(i, false);
     }
 
     var tbl = this.__tbl = new qx.ui.table.Table(tableModel);
-
-    tbl.set({
-        width: 900,
-        height: 430,
-        decorator : null
-    });
 
     tbl.getSelectionModel().setSelectionMode(qx.ui.table.selection.Model.MULTIPLE_INTERVAL_SELECTION);
 
@@ -110,7 +85,61 @@ qx.Class.define("mybids.BaseTable",
 
     this.add(tbl, {row: 0, column: 0});
   },
-
+  
+  statics : {
+    columnsInfo : [
+      new mybids.common.ColumnInfo("Collateral","int"),
+      new mybids.common.ColumnInfo("State","string"),
+      new mybids.common.ColumnInfo("Zip","int"),
+      new mybids.common.ColumnInfo("Original UPB","int"),
+      new mybids.common.ColumnInfo("Current UPB","int"),
+      new mybids.common.ColumnInfo("Origination Date","int"),
+      new mybids.common.ColumnInfo("Is Adjustable","int"),
+      new mybids.common.ColumnInfo("Max Advance","int"),
+      new mybids.common.ColumnInfo("Investor Code","string"),
+      new mybids.common.ColumnInfo("Property Type Code","string"),
+      new mybids.common.ColumnInfo("Collateral","int"),
+      new mybids.common.ColumnInfo("Lien Position","int"),
+      new mybids.common.ColumnInfo("Original LTV","float"),
+      new mybids.common.ColumnInfo("Original CLTV","float"),
+      new mybids.common.ColumnInfo("FICO Score","int"),
+      new mybids.common.ColumnInfo("Purpose Code","string"),
+      new mybids.common.ColumnInfo("Occupancy Code","string"),
+      new mybids.common.ColumnInfo("Doc Level Code","int"),
+      new mybids.common.ColumnInfo("Debt Service Ratio","float"),
+      new mybids.common.ColumnInfo("Cur Note Rate","float"),
+      new mybids.common.ColumnInfo("CoreLogic Fraud Risk Score","int"),
+      new mybids.common.ColumnInfo("CoreLogic Collateral Risk Score","int")
+    ]
+  },
+  
+  statics : {
+    columnsInfo : [
+      new mybids.common.ColumnInfo("Collateral","int"),
+      new mybids.common.ColumnInfo("State","string"),
+      new mybids.common.ColumnInfo("Zip","int"),
+      new mybids.common.ColumnInfo("Original UPB","int"),
+      new mybids.common.ColumnInfo("Current UPB","int"),
+      new mybids.common.ColumnInfo("Origination Date","int"),
+      new mybids.common.ColumnInfo("Is Adjustable","int"),
+      new mybids.common.ColumnInfo("Max Advance","int"),
+      new mybids.common.ColumnInfo("Investor Code","string"),
+      new mybids.common.ColumnInfo("Property Type Code","string"),
+      new mybids.common.ColumnInfo("Collateral","int"),
+      new mybids.common.ColumnInfo("Lien Position","int"),
+      new mybids.common.ColumnInfo("Original LTV","float"),
+      new mybids.common.ColumnInfo("Original CLTV","float"),
+      new mybids.common.ColumnInfo("FICO Score","int"),
+      new mybids.common.ColumnInfo("Purpose Code","string"),
+      new mybids.common.ColumnInfo("Occupancy Code","string"),
+      new mybids.common.ColumnInfo("Doc Level Code","int"),
+      new mybids.common.ColumnInfo("Debt Service Ratio","float"),
+      new mybids.common.ColumnInfo("Cur Note Rate","float"),
+      new mybids.common.ColumnInfo("CoreLogic Fraud Risk Score","int"),
+      new mybids.common.ColumnInfo("CoreLogic Collateral Risk Score","int")
+    ]
+  },
+  
   members :
   {
     __tableModel : null,
