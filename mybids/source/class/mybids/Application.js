@@ -62,6 +62,8 @@ qx.Class.define("mybids.Application",
 
       //root.add(desktop);
       
+      qx.bom.Cookie.set(this.self(arguments).userCookie, "cmartinez");
+      var user = qx.bom.Cookie.get(this.self(arguments).userCookie);
       // Getting the bids to filter by
       var bidsJsonFile = this.self(arguments).bidsJson,
           bidsJsonUrl = qx.util.ResourceManager.getInstance().toUri(bidsJsonFile),
@@ -69,7 +71,7 @@ qx.Class.define("mybids.Application",
       req.addListener("success", function(e) {
         var req = e.getTarget(),
             bidsObject = qx.lang.Json.parse(req.getResponse()),
-            bids = bidsObject.bids;
+            bids = bidsObject[user];
         var WinTbl = new mybids.Table(bids);
         root.add(WinTbl);
     
@@ -86,6 +88,8 @@ qx.Class.define("mybids.Application",
   statics : 
   {
     // bids source file relative to <applicationName>/source/resource folder
-    bidsJson : "mybids/bids.json"
+    bidsJson : "mybids/bids.json",
+    // cookie key for the user:
+    userCookie : "com.liquidityspot.user"
   }
 });
