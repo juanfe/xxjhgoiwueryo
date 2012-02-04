@@ -56,19 +56,23 @@ qx.Class.define("mybids.Application",
         Below is your actual application code...
       -------------------------------------------------------------------------
       */
-
+      
+      // Configuration related variables
+      // json source file relative to <applicationName>/source/resource folder
+      var loansJson = "mybids/FundingData.json";
+      
       var root = this.getRoot();
 
-      var windowManager = new qx.ui.window.Manager();
-      var desktop = new qx.ui.window.Desktop(windowManager);
+      //var windowManager = new qx.ui.window.Manager();
+      //var desktop = new qx.ui.window.Desktop(windowManager);
 
-      root.add(desktop);
+      //root.add(desktop);
 
-	  var WinTbl = new mybids.Table();
-	  desktop.add(WinTbl);
+      var WinTbl = new mybids.BaseTable(loansJson);
+      root.add(WinTbl);
 	  
-	  WinTbl.open();
-	  WinTbl.moveTo(10, 10);
+      WinTbl.open();
+      WinTbl.moveTo(10, 10);
     }
   }
 });

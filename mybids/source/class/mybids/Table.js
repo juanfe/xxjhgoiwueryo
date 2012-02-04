@@ -7,7 +7,7 @@ qx.Class.define("mybids.Table",
 {
   extend : qx.ui.window.Window,
 
-  construct : function()
+  construct : function(jsonFilepath)
   {
     this.base(arguments, "Loans")
     this.setShowClose(false);
@@ -72,7 +72,7 @@ qx.Class.define("mybids.Table",
     var tableModel = this.__tableModel = new qx.ui.table.model.Filtered();
 
 	tableModel.setColumns(CapColmNames);
-	var url = qx.util.ResourceManager.getInstance().toUri("mybids/FundingData.json");
+	var url = qx.util.ResourceManager.getInstance().toUri(jsonFilepath);
 	
 	var req = new qx.io.remote.Request(url, "GET", "text/plain"); 
 	var rows = [];
