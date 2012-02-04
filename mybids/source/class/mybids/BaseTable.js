@@ -65,7 +65,13 @@ qx.Class.define("mybids.BaseTable",
 				  header.push(key);
         }
       });
+      alert("populating");
       tableModel.setData(rows);
+      alert("before Filter");
+      //tableModel.addNumericFilter("!=", 1,"Is Adjustable");
+      //tableModel.addNotRegex("OR", "State", true);
+      tableModel.addNotRegex("201149912|201149215", "Collateral", true);
+      tableModel.applyFilters();
     });
     req.send();
 
