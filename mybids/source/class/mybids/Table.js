@@ -7,12 +7,16 @@ qx.Class.define("mybids.Table",
 {
   extend : mybids.BaseTable,
   
-  construct : function(jsonFilepath)
+  construct : function(keysToFilter)
   {
-    this.base(arguments, jsonFilepath, this.self(arguments).columnsInfo);
+    this.base(arguments, this.self(arguments).jsonFilepath, this.self(arguments).columnsInfo, keysToFilter);
   },
 
   statics : {
+    // Configuration related variables
+    // json source file relative to <applicationName>/source/resource folder
+    jsonFilepath :  "mybids/FundingData.json",
+    // Column name and type of each column of the table
     columnsInfo : [
       new mybids.common.ColumnInfo("Collateral","int"),
       new mybids.common.ColumnInfo("State","string"),

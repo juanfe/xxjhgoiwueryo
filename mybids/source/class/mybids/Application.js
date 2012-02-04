@@ -21,8 +21,6 @@ qx.Class.define("mybids.Application",
 {
   extend : qx.application.Standalone,
 
-
-
   /*
   *****************************************************************************
      MEMBERS
@@ -57,22 +55,37 @@ qx.Class.define("mybids.Application",
       -------------------------------------------------------------------------
       */
       
-      // Configuration related variables
-      // json source file relative to <applicationName>/source/resource folder
-      var loansJson = "mybids/FundingData.json";
-      
       var root = this.getRoot();
 
       //var windowManager = new qx.ui.window.Manager();
       //var desktop = new qx.ui.window.Desktop(windowManager);
 
       //root.add(desktop);
+      
+      // Getting the bids to filter by
+      var bidsJsonFile = this.self(arguments).bidsJson,
+          bidsJsonUrl = qx.util.ResourceManager.getInstance().toUri(bidsJsonFile),
+          req = new qx.io.request.Xhr(bidsJsonUrl);
+      req.addListener("success", function(e) {
+        var req = e.getTarget(),
+            bidsObject = qx.lang.Json.parse(req.getResponse()),
+            bids = bidsObject.bids;
+        var WinTbl = new mybids.Table(bids);
+        root.add(WinTbl);
+    
+        WinTbl.open();
+        WinTbl.moveTo(10, 10);
+      }, this);
 
-      var WinTbl = new mybids.Table(loansJson);
-      root.add(WinTbl);
-	  
-      WinTbl.open();
-      WinTbl.moveTo(10, 10);
+      // Send request
+      req.send(); 
     }
+  },
+  
+  // Configuration related variables
+  statics : 
+  {
+    // bids source file relative to <applicationName>/source/resource folder
+    bidsJson : "mybids/bids.json"
   }
 });

@@ -7,14 +7,16 @@ qx.Class.define("mybids.BaseTable",
 {
   extend : qx.ui.window.Window,
 
-  construct : function(jsonFilepath, columnsInfo)
+  construct : function(jsonFilepath, columnsInfo, keysToFilter)
   {
     this.base(arguments, "Loans")
     this.setShowClose(false);
     this.setShowMaximize(false);
     this.setShowMinimize(false);
     this.maximize();
-	
+    
+    var regExpStr = this.self(arguments).__matchAll(keysToFilter);
+    
     // add layout
     var layout = new qx.ui.layout.Grid(0, 0);
     this.setLayout(layout);
@@ -68,9 +70,7 @@ qx.Class.define("mybids.BaseTable",
       alert("populating");
       tableModel.setData(rows);
       alert("before Filter");
-      //tableModel.addNumericFilter("!=", 1,"Is Adjustable");
-      //tableModel.addNotRegex("OR", "State", true);
-      tableModel.addNotRegex("201149912|201149215", "Collateral", true);
+      tableModel.addNotRegex(regExpStr, "Collateral", true);
       tableModel.applyFilters();
     });
     req.send();
@@ -89,6 +89,20 @@ qx.Class.define("mybids.BaseTable",
     tcm.setHeaderCellRenderer(5, new qx.ui.table.headerrenderer.Icon("icon/16/apps/office-calendar.png", "A date"));
 
     this.add(tbl, {row: 0, column: 0});
+  },
+  
+  statics :
+  {
+    __matchAll : function(array) {
+      var i,
+          regExpString = "";
+      if(array) {
+        for(i = 0; i<array.length; i++ ) {
+          regExpString += ((i == 0 ? '' : '|') + array[i]); 
+        }
+      }
+      return regExpString;
+    }
   },
   
   members :
