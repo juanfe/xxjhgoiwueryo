@@ -33,14 +33,17 @@ qx.Class.define("web.Table",
 	TBPart1.add(new qx.ui.toolbar.Separator());
 	toolbar.add(TBPart1);
 
-	toolbar.addSpacer();
-
 	var TBPart2 = new qx.ui.toolbar.Part();
 	var BtnFilter = this.BtnFilter = new qx.ui.toolbar.Button("Filter");
+	var BtnLogout = new qx.ui.toolbar.Button("Logout");
     TBPart2.add(BtnFilter);
+	TBPart2.add(BtnLogout);
 	toolbar.add(TBPart2);
 
-	//toolbar.add(BtnFilter);
+	toolbar.addSpacer();
+	//var helpButton = new qx.ui.toolbar.Button("Help", "icon/22/actions/help-contents.png");
+	var helpButton = new qx.ui.toolbar.Button("Help");
+	toolbar.add(helpButton);
     this.setContentPadding(0);
 
     layout.setRowFlex(1, 1);
@@ -69,7 +72,7 @@ qx.Class.define("web.Table",
 		"CoreLogic Fraud Risk Score":"int",
 		"CoreLogic Collateral Risk Score":"int"};
 
-    var tableModel = this.__tableModel = new qx.ui.table.model.Filtered();
+    var tableModel = this.TableModel = new qx.ui.table.model.Filtered();
 
 	tableModel.setColumns(CapColmNames);
 	var url = qx.util.ResourceManager.getInstance().toUri("web/FundingData.json");
@@ -117,7 +120,7 @@ qx.Class.define("web.Table",
       tableModel.setColumnEditable(i, false);
 	}
 
-    var tbl = this.__tbl = new qx.ui.table.Table(tableModel);
+    var tbl = this.Tbl = new qx.ui.table.Table(tableModel);
 
     tbl.set({
         width: 900,
@@ -132,21 +135,21 @@ qx.Class.define("web.Table",
     tcm.setDataCellRenderer(3, new qx.ui.table.cellrenderer.Boolean());
     tcm.setHeaderCellRenderer(5, new qx.ui.table.headerrenderer.Icon("icon/16/apps/office-calendar.png", "A date"));
 
-    tbl.addListener("tableWidthChanged", function(e)
+    /*tbl.addListener("tableWidthChanged", function(e)
     {
-      //  alert(this.__tbl.minWidth);
-      /*__tableModel.addNumericFilter("==", 3, "Occupancy Code");
-      __tableModel.applyFilters();
-      __tbl.setAdditionalStatusBarText(", Filteres by State.");*/
-    });
+      //  alert(this.Tbl.minWidth);
+      TableModel.addNumericFilter("==", 3, "Occupancy Code");
+      TableModel.applyFilters();
+      Tbl.setAdditionalStatusBarText(", Filteres by State.");
+    });*/
 
     this.add(tbl, {row: 2, column: 0});
   },
 
   members :
   {
-    __tableModel : null,
-    __tbl : null,
+    TableModel : null,
+    Tbl : null,
     BtnFilter : null
   }
 });

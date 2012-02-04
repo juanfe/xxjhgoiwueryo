@@ -9,7 +9,11 @@ qx.Class.define("web.Control",
 {
   extend : qx.ui.window.Window,
 
-  construct : function(/* __tableModel, __tbl*/)
+  events : {
+	      "changeData" : "qx.event.type.Data"
+  },
+
+  construct : function()
   {
     this.base(arguments, "");
     //this.setShowClose(false);
@@ -18,9 +22,11 @@ qx.Class.define("web.Control",
     this.setWidth(950);
     this.setHeight(150);
     this.setShowClose(false);
+
+    //this.Filter = {};
     
-    this.__layout = new qx.ui.layout.Grid(10, 20);
-	this.setLayout(this.__layout);
+    this.CtlLayout = new qx.ui.layout.Grid(10, 20);
+	this.setLayout(this.CtlLayout);
 
     var toolbar = new qx.ui.toolbar.ToolBar();
     this.add(toolbar, {row: 0, column: 0, colSpan: 7});
@@ -30,15 +36,6 @@ qx.Class.define("web.Control",
     //TODO add icons
     //var BtnFindMyAssets = new qx.ui.toolbar.Button("Find My Assets", "icon/22/actions/document-new.png");
     var BtnFindMyAssets = new qx.ui.toolbar.Button("Find My Assets");
-    /*BtnFindMyAssets.addListener("execute", function(e)
-	{
-		//alert(__tbl.minWidth);
-		alert(__tbl);
-		//alert("Hola");
-	  __tableModel.addNumericFilter("==", 3, "Occupancy Code");
-	  __tableModel.applyFilters();
-	  __tbl.setAdditionalStatusBarText(", Filteres by State.");
-    });*/
 
     var BtnRtrnToMySpot = new qx.ui.toolbar.Button("Return to My Spot");
     TBPart1.add(BtnFindMyAssets);
@@ -115,20 +112,29 @@ qx.Class.define("web.Control",
 	this.add(lblAcceptState, {row: 5, column: 0, rowSpan: 0});
 
     this.SLCorLogFraudRiskScore = new qx.ui.form.Slider().set({
+		minimum: 0,
         maximum: 1000,
-        value: 1000
+        value: 1000,
+		singleStep: 1,
+		pageStep: 100
     });
     this.add(this.SLCorLogFraudRiskScore, {row: 1, column: 1, rowSpan:0});
 
     this.SLCorLogCollRiskScore = new qx.ui.form.Slider().set({
+		minimum: 0,
         maximum: 1000,
-        value: 1000
+        value: 1000,
+		singleStep: 1,
+		pageStep: 100
     });
     this.add(this.SLCorLogCollRiskScore, {row: 2, column: 1, rowSpan:0});
 	
     this.SLAcceptableFICO = new qx.ui.form.Slider().set({
-        maximum: 1000,
-        value: 1000
+		minimum: 0,
+        maximum: 550,
+        value: 550,
+		singleStep: 1,
+		pageStep: 50
     });
     this.add(this.SLAcceptableFICO, {row: 2, column: 5, rowSpan:0, colSpan:2});
 
@@ -188,26 +194,26 @@ qx.Class.define("web.Control",
     this.add(this.CreatePropertyType(), {row: 3, column: 5, rowSpan: 2, colSpan: 2});
     this.add(this.CreateAcceptState(), {row: 5, column: 1, rowSpan: 2});
 
-    this.BtnOk = new qx.ui.form.Button("Apply", "icon/16/actions/dialog-ok.png");
-    /*BtnOk.addListener("execute", function(e) {
-        //TODO send a message and field a struct with the filter
-        //this.close();
-        this.hide();
-    });*/
-    this.add(this.BtnOk, {row: 5, column: 5, colSpan:0});
+    this.BtnCtlOk = new qx.ui.form.Button("Apply", "icon/16/actions/dialog-ok.png");
+    this.add(this.BtnCtlOk, {row: 5, column: 5, colSpan:0});
+	this.BtnCtlOk.addListener("execute", function()
+	{
+		var data = {
+			SLCorLogFraudRiskScore : this.SLCorLogFraudRiskScore.getValue(),
+			SLCorLogCollRiskScore : this.SLCorLogCollRiskScore.getValue(),
+			SLAcceptableFICO : this.SLAcceptableFICO.getValue()
+		}
+	    this.fireDataEvent("changeData", data);
+	    this.close();
+	}, this);
 
     this.BtnCancel = new qx.ui.form.Button("Cancel", "icon/16/actions/dialog-cancel.png");
-    /*BtnCancel.addListener("execute", function(e) {
-        //TODO send a message and field a struct with the filter
-        //this.close();
-        this.hide();
-    });*/
     this.add(this.BtnCancel, {row: 5, column: 6, rowSpan:0});
   },
 
   members :
   {
-    __layout: null,
+    CtlLayout: null,
     SLCorLogFraudRiskScore: null,
     SLCorLogCollRiskScore: null,
     SLAcceptableFICO: null,
@@ -224,8 +230,10 @@ qx.Class.define("web.Control",
     GBPropertyType: null,
     GBAcceptState: null,
   
-    BtnOk: null,
+    BtnCtrOk: null,
     BtnCancel: null,
+
+    Filter: null,
 
     CreateLoanType : function()
     {

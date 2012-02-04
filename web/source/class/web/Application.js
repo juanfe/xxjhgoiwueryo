@@ -21,7 +21,10 @@ qx.Class.define("web.Application",
 {
   extend : qx.application.Standalone,
 
-
+  construct : function()
+  {
+	  this.Filter = {};
+  },
 
   /*
   *****************************************************************************
@@ -31,6 +34,9 @@ qx.Class.define("web.Application",
 
   members :
   {
+
+	Filter : null, 
+
     main : function()
     {
       // Call super class
@@ -55,22 +61,28 @@ qx.Class.define("web.Application",
 	  var WinTbl = new web.Table();
 	  desktop.add(WinTbl);
 
-	  var WinCtl = new web.Control(/*WinTbl.__tableModel, WinTbl.__tbl*/);
-	  WinCtl.setModal(true);
+	  var WinCtl = new web.Control();
+      //WinCtl.BtnCancel.addListener("execute", WinCtl.close, WinCtl);
+      WinCtl.BtnCancel.addListener("execute", function(e){
+		WinCtl.close();
+	});
+      WinCtl.addListener("changeData",function(e)
+      {
+          /*WinTbl.__tableModel.addNumericFilter("!=", "WA", "State");
+          WinTbl.__tableModel.applyFilters();
+          WinTbl.__tbl.setAdditionalStatusBarText(", Filteres by State.");*/
+		  var data = e.getData();
+		  //alert(data.SLCorLogFraudRiskScore);
+          //WinTbl.__tableModel.addBetweenFilter("between", 0, data.SLCorLogFraudRiskScore, "CoreLogic Fraud Risk Score");
+      }); 
+      WinCtl.setModal(true);
 	  desktop.add(WinCtl);
 
 	  WinTbl.open();
 	  WinTbl.moveTo(10, 10);
 
-	  WinTbl.BtnFilter.addListener("execute", WinCtl.open, WinCtl);
-	  WinCtl.BtnCancel.addListener("execute", WinCtl.close, WinCtl);
-	  WinCtl.BtnOk.addListener("execute",function(e)
-	  {
-		  WinTbl.__tableModel.addNumericFilter("!=", 3, "Occupancy Code");
-		  WinTbl.__tableModel.applyFilters();
-		  WinTbl.__tbl.setAdditionalStatusBarText(", Filteres by State.");
-		  WinCtl.close();
-	  }); 
+      WinTbl.BtnFilter.addListener("execute", WinCtl.open, WinCtl);
+
     }
   }
 });
