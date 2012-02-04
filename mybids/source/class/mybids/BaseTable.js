@@ -101,6 +101,9 @@ qx.Class.define("mybids.BaseTable",
           regExpString += ((i == 0 ? '' : '|') + array[i]); 
         }
       }
+      if(regExpString === "") {
+        regExpString = " ";
+      }
       return regExpString;
     }
   },
