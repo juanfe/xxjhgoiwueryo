@@ -55,7 +55,13 @@ qx.Class.define("ls.Application",
 
       //root.add(desktop);
       
-      ls.common.Cookie.setUser("cmartinez");
+      // For debugging it is not using app engine
+      if (qx.core.Environment.get("qx.debug")) {
+        ls.common.Cookie.setUser("cmartinez");
+      } else {
+        // Add any app engine required code
+      }
+      
       //var user = qx.bom.Cookie.get(this.self(arguments).userCookie);
       // Creating the search window
       var mybidsScreen = new ls.mybids.MybidsScreen(root);
