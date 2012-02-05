@@ -191,7 +191,7 @@ qx.Class.define("web.Control",
     this.add(this.CreatePropertyType(), {row: 3, column: 5, rowSpan: 2, colSpan: 2});
     this.add(this.CreateAcceptState(), {row: 5, column: 1, rowSpan: 2});
 
-    this.BtnCtlOk = new qx.ui.form.Button("Apply", "icon/16/actions/dialog-ok.png");
+    this.BtnCtlOk = new qx.ui.form.Button("Find My Assets", "icon/16/actions/dialog-ok.png");
     this.add(this.BtnCtlOk, {row: 5, column: 5, colSpan:0});
 	this.BtnCtlOk.addListener("execute", function()
 	{
