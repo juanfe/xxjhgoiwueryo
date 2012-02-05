@@ -13,7 +13,8 @@ qx.Class.define("mybids.Table",
     this.base(arguments, columnInfoDict.getNames());
     this.user = user;
     this.self(arguments).loadJson(this.self(arguments).getJsonUrl(), this.self(arguments).extractDataTo, this);
-    this.button = this.BtnFilter;
+    var homeButton = new qx.ui.toolbar.Button("Home");
+    this.addButton(homeButton);
   },
   
   members : {
@@ -31,7 +32,10 @@ qx.Class.define("mybids.Table",
     },
     // Column name and type of each column of the table
     columnsInfo : [
-      new mybids.common.ColumnInfo("Collateral","int")
+      new mybids.common.ColumnInfo("Collateral","int"),
+      new mybids.common.ColumnInfo("Percentage owned (%)","float"),
+      new mybids.common.ColumnInfo("Bid rate (%)","float"),
+      new mybids.common.ColumnInfo("Status","string")
     ],
     // wrapper for the resource manager
     toResourceUrl : function(filepath) {
