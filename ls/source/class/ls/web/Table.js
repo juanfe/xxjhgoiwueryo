@@ -66,7 +66,7 @@ qx.Class.define("ls.web.Table",
     layout.setColumnFlex(0,1);
 
     //var CapColmNames = ["Sel", "Collateral", "State", "Zip", "Original UPB", "Current UPB",  "Origination Date", "Is Adjustable", "Advance %", "Investor Code", "Property Type Code", "Lien Position", "Original LTV", "Original CLTV", "FICO Score", "Purpose Code", "Occupancy Code", "Doc Level Code", "Debt Service Ratio", "Cur Note Rate", "CoreLogic Fraud Risk Score", "CoreLogic Collateral Risk Score"]; 
-    var CapColmNames = ["Collateral", "State", "Zip", "Original UPB", "Current UPB",  "Origination Date", "Is Adjustable", "Advance %", "Investor Code", "Property Type Code", "Lien Position", "Original LTV", "Original CLTV", "FICO Score", "Purpose Code", "Occupancy Code", "Doc Level Code", "Debt Service Ratio", "Cur Note Rate", "CoreLogic Fraud Risk Score", "CoreLogic Collateral Risk Score", "Selected", "%Bid", "%Interest "]; 
+    var CapColmNames = ["Selected", "Collateral", "State", "Zip", "Original UPB", "Current UPB",  "Origination Date", "Is Adjustable", "Advance %", "Investor Code", "Property Type Code", "Lien Position", "Original LTV", "Original CLTV", "FICO Score", "Purpose Code", "Occupancy Code", "Doc Level Code", "Debt Service Ratio", "Cur Note Rate", "CoreLogic Fraud Risk Score", "CoreLogic Collateral Risk Score", "%Bid", "%Interest "]; 
 	var colTypes = { "Collateral":"string",
 		"State":"string",
 		"Zip":"string",
@@ -98,14 +98,14 @@ qx.Class.define("ls.web.Table",
 	var rows = [];
 	
 	var row = new Array(CapColmNames.length);
-	row[0] = "All Collaterals: ";
+	row[0] = false;
+	row[1] = "All Collaterals: ";
 	rows.push(row);
 	
 	req.addListener("completed", function(e) { 
 		var data = e.getContent();
-
 		var pdata = new qx.data.Array();
-		var row = [];
+		var row = [false];
 		var header = [];
 		var flag = 0;
 		pdata = qx.lang.Json.parse(data, function(key, value)
@@ -127,7 +127,7 @@ qx.Class.define("ls.web.Table",
 			else
 	      	{
 				rows.push(row);
-				row = [];
+				row = [false];
 				flag = 1;
 			}
 			if (flag == 0)
@@ -136,7 +136,6 @@ qx.Class.define("ls.web.Table",
 			}
 		});
         tableModel.setData(rows);
-        tableModel.hideRows(0,1);        
 	});
 	req.send();
 
@@ -146,10 +145,15 @@ qx.Class.define("ls.web.Table",
 
 	for (var i = 0; i < CapColmNames.length; i++){
 		tableModel.setColumnEditable(i, false);
-		if (i >= CapColmNames.length - 3){
+		if (i >= CapColmNames.length - 2){
 		    tcm.setColumnVisible(i, false);
 		}      	
 	}
+
+	tcm.setDataCellRenderer(0, new qx.ui.table.cellrenderer.Boolean());
+	tcm.setCellEditorFactory(0, new qx.ui.table.celleditor.CheckBox());
+	tableModel.setColumnEditable(0, true);
+    tableModel.hideRows(0,1);        
 
     tbl.set({
         width: 900,
@@ -159,7 +163,7 @@ qx.Class.define("ls.web.Table",
 
 	BtnPlaceBids.addListener("execute", function(evt)
       {
-      	var i = 1
+      	var i = 2
       	var SelectionColumnName = "Selected";
       	var selectColumnId = tableModel.getColumnIndexById(SelectionColumnName);
 		for (i; i < CapColmNames.length - 2; i++){
@@ -169,44 +173,37 @@ qx.Class.define("ls.web.Table",
 	      tableModel.setColumnEditable(i, true);
 	      tcm.setColumnVisible(i, true);
 		}
-		for (i = rows.length - 1 ; i > 0 ; i--){
-			tableModel.setValue(selectColumnId,i,0);
-        }
-		tsm.iterateSelection(function(index) {
-			tableModel.setValue(selectColumnId,index,1);
-		});
-        tsm.resetSelection();
 		tableModel.resetHiddenRows();
 		tableModel.setValue(selectColumnId,0,1);
-		tableModel.addNumericFilter("!=", 1, SelectionColumnName);
+		tableModel.addNumericFilter("!=", true, SelectionColumnName);
         tableModel.applyFilters();
       }, this);
 
-    tbl.getSelectionModel().setSelectionMode(qx.ui.table.selection.Model.MULTIPLE_INTERVAL_SELECTION_TOGGLE);
+    tbl.getSelectionModel().setSelectionMode(qx.ui.table.selection.Model.NO_SELECTION);
 
     var tcm = tbl.getTableColumnModel();
 
      //tcm.setDataCellRenderer(0, new qx.ui.table.cellrenderer.Boolean());
 	//TODO add the popups messages in the setHeaderCellRenderer last parameter
-     tcm.setHeaderCellRenderer(5, new qx.ui.table.headerrenderer.Icon( "icon/16/apps/office-calendar.png", "A date"));
-     tcm.setHeaderCellRenderer(0, new qx.ui.table.headerrenderer.Icon( "ls/web/16/Collateral.png", "Identifier of the Collateral."));
-     tcm.setHeaderCellRenderer(2, new qx.ui.table.headerrenderer.Icon( "ls/web/16/Zip.png", "Identifier of the Collateral."));
-     tcm.setHeaderCellRenderer(3, new qx.ui.table.headerrenderer.Icon( "ls/web/16/Original_UPB.png", ""));
-     tcm.setHeaderCellRenderer(4, new qx.ui.table.headerrenderer.Icon( "ls/web/16/Current_UPB.png", ""));
-     tcm.setHeaderCellRenderer(6, new qx.ui.table.headerrenderer.Icon( "ls/web/16/Adjustable.png", ""));
-     tcm.setHeaderCellRenderer(7, new qx.ui.table.headerrenderer.Icon( "ls/web/16/Max_Advance.png", ""));
-     tcm.setHeaderCellRenderer(8, new qx.ui.table.headerrenderer.Icon( "ls/web/16/Investor_Code.png", ""));
-     tcm.setHeaderCellRenderer(9, new qx.ui.table.headerrenderer.Icon( "ls/web/16/Property_Type.png", ""));
-     tcm.setHeaderCellRenderer(11, new qx.ui.table.headerrenderer.Icon( "ls/web/16/Max_LTV.png", ""));
-     tcm.setHeaderCellRenderer(12, new qx.ui.table.headerrenderer.Icon( "ls/web/16/Max_CLTV.png", ""));
-     tcm.setHeaderCellRenderer(13, new qx.ui.table.headerrenderer.Icon( "ls/web/16/FICO.png", ""));
-     tcm.setHeaderCellRenderer(14, new qx.ui.table.headerrenderer.Icon( "ls/web/16/Purpose_Code.png", ""));
-     tcm.setHeaderCellRenderer(15, new qx.ui.table.headerrenderer.Icon( "ls/web/16/Occupancy_Code.png", ""));
-     tcm.setHeaderCellRenderer(16, new qx.ui.table.headerrenderer.Icon( "ls/web/16/Doc_Level_Code.png", ""));
-     tcm.setHeaderCellRenderer(17, new qx.ui.table.headerrenderer.Icon( "ls/web/16/Debt_Service_Ratio.png", ""));
-     tcm.setHeaderCellRenderer(18, new qx.ui.table.headerrenderer.Icon( "ls/web/16/Current_Rate.png", ""));
-     tcm.setHeaderCellRenderer(19, new qx.ui.table.headerrenderer.Icon( "ls/web/16/CoreLogic_Fraud_Risk_Score.png", ""));
-     tcm.setHeaderCellRenderer(20, new qx.ui.table.headerrenderer.Icon( "ls/web/16/CoreLogic_Collateral_Risk_Score.png", ""));
+     tcm.setHeaderCellRenderer(1, new qx.ui.table.headerrenderer.Icon( "ls/web/16/Collateral.png", "Identifier of the Collateral."));
+     tcm.setHeaderCellRenderer(3, new qx.ui.table.headerrenderer.Icon( "ls/web/16/Zip.png", "Identifier of the Collateral."));
+     tcm.setHeaderCellRenderer(4, new qx.ui.table.headerrenderer.Icon( "ls/web/16/Original_UPB.png", ""));
+     tcm.setHeaderCellRenderer(5, new qx.ui.table.headerrenderer.Icon( "ls/web/16/Current_UPB.png", ""));
+     tcm.setHeaderCellRenderer(6, new qx.ui.table.headerrenderer.Icon( "icon/16/apps/office-calendar.png", "A date"));
+     tcm.setHeaderCellRenderer(7, new qx.ui.table.headerrenderer.Icon( "ls/web/16/Adjustable.png", ""));
+     tcm.setHeaderCellRenderer(8, new qx.ui.table.headerrenderer.Icon( "ls/web/16/Max_Advance.png", ""));
+     tcm.setHeaderCellRenderer(9, new qx.ui.table.headerrenderer.Icon( "ls/web/16/Investor_Code.png", ""));
+     tcm.setHeaderCellRenderer(10, new qx.ui.table.headerrenderer.Icon( "ls/web/16/Property_Type.png", ""));
+     tcm.setHeaderCellRenderer(12, new qx.ui.table.headerrenderer.Icon( "ls/web/16/Max_LTV.png", ""));
+     tcm.setHeaderCellRenderer(13, new qx.ui.table.headerrenderer.Icon( "ls/web/16/Max_CLTV.png", ""));
+     tcm.setHeaderCellRenderer(14, new qx.ui.table.headerrenderer.Icon( "ls/web/16/FICO.png", ""));
+     tcm.setHeaderCellRenderer(15, new qx.ui.table.headerrenderer.Icon( "ls/web/16/Purpose_Code.png", ""));
+     tcm.setHeaderCellRenderer(16, new qx.ui.table.headerrenderer.Icon( "ls/web/16/Occupancy_Code.png", ""));
+     tcm.setHeaderCellRenderer(17, new qx.ui.table.headerrenderer.Icon( "ls/web/16/Doc_Level_Code.png", ""));
+     tcm.setHeaderCellRenderer(18, new qx.ui.table.headerrenderer.Icon( "ls/web/16/Debt_Service_Ratio.png", ""));
+     tcm.setHeaderCellRenderer(19, new qx.ui.table.headerrenderer.Icon( "ls/web/16/Current_Rate.png", ""));
+     tcm.setHeaderCellRenderer(20, new qx.ui.table.headerrenderer.Icon( "ls/web/16/CoreLogic_Fraud_Risk_Score.png", ""));
+     tcm.setHeaderCellRenderer(21, new qx.ui.table.headerrenderer.Icon( "ls/web/16/CoreLogic_Collateral_Risk_Score.png", ""));
     this.add(tbl, {row: 2, column: 0});
   },
 
