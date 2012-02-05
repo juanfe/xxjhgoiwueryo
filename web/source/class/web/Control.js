@@ -198,7 +198,7 @@ qx.Class.define("web.Control",
 	//TODO make that only one could be selected, now the last one
 	//is sended
 		var GBLnTp = null;
-		for (child in this.GBLoanType.getChildren())
+		for (var child in this.GBLoanType.getChildren())
 			if(this.GBLoanType.getChildren()[child].getValue())
 				GBLnTp = this.GBLoanType.getChildren()[child].getLabel();
 
