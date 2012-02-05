@@ -55,24 +55,15 @@ qx.Class.define("ls.Application",
 
       //root.add(desktop);
       
-      qx.bom.Cookie.set(this.self(arguments).userCookie, "cmartinez");
-      var user = qx.bom.Cookie.get(this.self(arguments).userCookie);
-      // Creating the mybids window
-      var WinTbl = new ls.mybids.Table(user);
-      root.add(WinTbl);
+      ls.common.Cookie.setUser("cmartinez");
+      //var user = qx.bom.Cookie.get(this.self(arguments).userCookie);
       // Creating the search window
+      var mybidsScreen = new ls.mybids.MybidsScreen(root);
       var searchScreen = new ls.web.SearchScreen(root);
       var WinHome = new ls.mybids.Home();
-      WinHome.mybidsButton.addListener("execute", WinTbl.open, WinTbl);
+      WinHome.mybidsButton.addListener("execute", mybidsScreen.open, mybidsScreen);
       WinHome.searchButton.addListener("execute", searchScreen.open, searchScreen);
       WinHome.open();
     }
-  },
-  
-  // Configuration related variables
-  statics : 
-  {
-    // cookie key for the user:
-    userCookie : "com.liquidityspot.user"
   }
 });
