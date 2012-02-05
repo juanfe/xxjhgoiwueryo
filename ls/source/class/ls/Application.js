@@ -1,10 +1,15 @@
 /* ************************************************************************
 
-   Copyright:
+   Copyright: Copyright (C) 2012 Vichara Technologies Inc.
 
-   License:
+   License: All rights reserved.
+            Permission to use, copy, modify, distribute, and sell the source code for any purpose is not permitted 
+            without a written authorization from  Vichara Technologies Inc.
 
-   Authors:
+   Authors: Eduardo Zea,
+            Juan Jaramillo,
+            Leonardo Zuniga,
+            Camilo Martínez
 
 ************************************************************************ */
 
@@ -20,8 +25,6 @@
 qx.Class.define("ls.Application",
 {
   extend : qx.application.Standalone,
-
-
 
   /*
   *****************************************************************************
@@ -56,20 +59,29 @@ qx.Class.define("ls.Application",
         Below is your actual application code...
       -------------------------------------------------------------------------
       */
+      
+      var root = this.getRoot();
 
-      // Create a button
-      var button1 = new qx.ui.form.Button("First Button", "ls/test.png");
+      //var windowManager = new qx.ui.window.Manager();
+      //var desktop = new qx.ui.window.Desktop(windowManager);
 
-      // Document is the application root
-      var doc = this.getRoot();
-
-      // Add button to document at fixed coordinates
-      doc.add(button1, {left: 100, top: 50});
-
-      // Add an event listener
-      button1.addListener("execute", function(e) {
-        alert("Hello World!");
-      });
+      //root.add(desktop);
+      
+      qx.bom.Cookie.set(this.self(arguments).userCookie, "cmartinez");
+      var user = qx.bom.Cookie.get(this.self(arguments).userCookie);
+      // Creating the table window
+      var WinTbl = new ls.mybids.Table(user);
+      root.add(WinTbl);
+      var WinHome = new ls.mybids.Home();
+      WinHome.mybidsButton.addListener("execute", WinTbl.open, WinTbl);
+      WinHome.open();
     }
+  },
+  
+  // Configuration related variables
+  statics : 
+  {
+    // cookie key for the user:
+    userCookie : "com.liquidityspot.user"
   }
 });
