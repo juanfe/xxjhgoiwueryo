@@ -3,6 +3,21 @@
  * #asset(web/FundingData.json)
  * #asset(web/16/Collateral.png)
  * #asset(web/16/Zip.png)
+ * #asset(web/16/Adjustable.png)
+ * #asset(web/16/Current_UPB.png)
+ * #asset(web/16/Max_Advance.png)
+ * #asset(web/16/Investor_Code.png)
+ * #asset(web/16/Property_Type.png)
+ * #asset(web/16/Max_LTV.png)
+ * #asset(web/16/Max_CLTV.png)
+ * #asset(web/16/FICO.png)
+ * #asset(web/16/Purpose_Code.png)
+ * #asset(web/16/Occupancy_Code.png)
+ * #asset(web/16/Doc_Level_Code.png)
+ * #asset(web/16/Debt_Service_Ratio.png)
+ * #asset(web/16/Current_Rate.png)
+ * #asset(web/16/CoreLogic_Collateral_Risk_Score.png)
+ * #asset(web/16/CoreLogic_Fraud_Risk_Score.png)
  *
  * ************************************************************************ */
 qx.Class.define("web.Table",
@@ -55,7 +70,7 @@ qx.Class.define("web.Table",
     var CapColmNames = ["Collateral", "State", "Zip", "Original UPB", "Current UPB",  "Origination Date", "Is Adjustable", "Advance %", "Investor Code", "Property Type Code", "Lien Position", "Original LTV", "Original CLTV", "FICO Score", "Purpose Code", "Occupancy Code", "Doc Level Code", "Debt Service Ratio", "Cur Note Rate", "CoreLogic Fraud Risk Score", "CoreLogic Collateral Risk Score", "%Bid", "%Interest "]; 
 	var colTypes = { "Collateral":"string",
 		"State":"string",
-		"Zip":"int",
+		"Zip":"strign",
 		"Original UPB":"int",
 		"Current UPB":"int",
 		"Origination Date":"date",
@@ -156,11 +171,27 @@ qx.Class.define("web.Table",
 
     var tcm = tbl.getTableColumnModel();
 
-    //tcm.setDataCellRenderer(0, new qx.ui.table.cellrenderer.Boolean
-    tcm.setHeaderCellRenderer(5, new qx.ui.table.headerrenderer.Icon("icon/16/apps/office-calendar.png", "A date"));
-    tcm.setHeaderCellRenderer(0, new qx.ui.table.headerrenderer.Icon("web/16/Collateral.png", "Identifier of the Collateral."));
-    tcm.setHeaderCellRenderer(2, new qx.ui.table.headerrenderer.Icon("web/16/Zip.png", "Identifier of the Collateral."));
-
+     //tcm.setDataCellRenderer(0, new qx.ui.table.cellrenderer.Boolean());
+	//TODO add the popups messages in the setHeaderCellRenderer last parameter
+     tcm.setHeaderCellRenderer(5, new qx.ui.table.headerrenderer.Icon( "icon/16/apps/office-calendar.png", "A date"));
+     tcm.setHeaderCellRenderer(0, new qx.ui.table.headerrenderer.Icon( "web/16/Collateral.png", "Identifier of the Collateral."));
+     tcm.setHeaderCellRenderer(2, new qx.ui.table.headerrenderer.Icon( "web/16/Zip.png", "Identifier of the Collateral."));
+     tcm.setHeaderCellRenderer(3, new qx.ui.table.headerrenderer.Icon( "web/16/Original_UPB.png", ""));
+     tcm.setHeaderCellRenderer(4, new qx.ui.table.headerrenderer.Icon( "web/16/Current_UPB.png", ""));
+     tcm.setHeaderCellRenderer(6, new qx.ui.table.headerrenderer.Icon( "web/16/Adjustable.png", ""));
+     tcm.setHeaderCellRenderer(7, new qx.ui.table.headerrenderer.Icon( "web/16/Max_Advance.png", ""));
+     tcm.setHeaderCellRenderer(8, new qx.ui.table.headerrenderer.Icon( "web/16/Investor_Code.png", ""));
+     tcm.setHeaderCellRenderer(9, new qx.ui.table.headerrenderer.Icon( "web/16/Property_Type.png", ""));
+     tcm.setHeaderCellRenderer(11, new qx.ui.table.headerrenderer.Icon( "web/16/Max_LTV.png", ""));
+     tcm.setHeaderCellRenderer(12, new qx.ui.table.headerrenderer.Icon( "web/16/Max_CLTV.png", ""));
+     tcm.setHeaderCellRenderer(13, new qx.ui.table.headerrenderer.Icon( "web/16/FICO.png", ""));
+     tcm.setHeaderCellRenderer(14, new qx.ui.table.headerrenderer.Icon( "web/16/Purpose_Code.png", ""));
+     tcm.setHeaderCellRenderer(15, new qx.ui.table.headerrenderer.Icon( "web/16/Occupancy_Code.png", ""));
+     tcm.setHeaderCellRenderer(16, new qx.ui.table.headerrenderer.Icon( "web/16/Doc_Level_Code.png", ""));
+     tcm.setHeaderCellRenderer(17, new qx.ui.table.headerrenderer.Icon( "web/16/Debt_Service_Ratio.png", ""));
+     tcm.setHeaderCellRenderer(18, new qx.ui.table.headerrenderer.Icon( "web/16/Current_Rate.png", ""));
+     tcm.setHeaderCellRenderer(19, new qx.ui.table.headerrenderer.Icon( "web/16/CoreLogic_Fraud_Risk_Score.png", ""));
+     tcm.setHeaderCellRenderer(20, new qx.ui.table.headerrenderer.Icon( "web/16/CoreLogic_Collateral_Risk_Score.png", ""));
     this.add(tbl, {row: 2, column: 0});
   },
 
