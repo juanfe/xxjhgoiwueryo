@@ -273,7 +273,7 @@ function initFilters() {
             name: "maxAdvance",
             style: 'width:100px;',
             label :"Max Advance %",
-            constraints: {pattern: "#00.00%"},
+            constraints: {pattern: "#00.00"},
     		onChange: function(value){
 				if (this.State == 'Error') return;
 				if (!value){
@@ -286,7 +286,7 @@ function initFilters() {
 				};
 				var condition = new ls.Condition({
 					field : 'Advance',
-					value: value
+					value: value/100
 				});
 				condition.setSatisfy(func);
 				ls.conditions['Advance'] = condition;
@@ -513,54 +513,98 @@ function createGrid(dataStore) {
 	var layout = [ [ {
 		'name' : 'Collateral Key',
 		'field' : 'Collateral',
-		'width' : 'auto'
+		'width' : 'auto',
+		'cellStyles' : 'text-align: center;',
+		'headerStyles': 'text-align: center;'
 	}, {
 		'name' : 'Property Type',
 		'field' : 'Property Type Code',
-		'width' : 'auto'
+		'width' : 'auto',
+		'cellStyles' : 'text-align: center;',
+		'headerStyles': 'text-align: center;'
 	}, {
 		'name' : 'State',
 		'field' : 'State',
-		'width' : 'auto'
+		'width' : 'auto',
+		'cellStyles' : 'text-align: center;',
+		'headerStyles': 'text-align: center;'
 	}, {
 		'name' : 'Loan Type',
 		'field' : 'Is Adjustable',
-		'width' : 'auto'
+		'width' : 'auto',
+		'formatter': function(item){
+			var names = {'0':'FIXED','1':'ARM'};
+			return names[item];
+			},
+		'cellStyles' : 'text-align: center;',
+		'headerStyles': 'text-align: center;'
 	},{
 		'name' : 'Lien Type',
 		'field' : 'Lien Position',
-		'width' : 'auto'
+		'width' : 'auto',
+		'formatter': function(item){
+			var names = {'1':'FIRST','2':'SECOND'};
+			return names[item];
+			},		
+		'cellStyles' : 'text-align: center;',
+		'headerStyles': 'text-align: center;'
 	},{
 		'name' : 'Max LTV',
 		'field' : 'Original LTV',
-		'width' : 'auto'
+		'width' : 'auto',
+		'formatter': function(item){
+			return dojo.number.format(item,{pattern: "#00.00"});
+			},
+		'cellStyles' : 'text-align: center;',
+		'headerStyles': 'text-align: center;'
 	},{
 		'name' : 'Max CLTV',
 		'field' : 'Original CLTV',
-		'width' : 'auto'
+		'width' : 'auto',
+		'formatter': function(item){
+			return dojo.number.format(item,{pattern: "#00.00"});
+			},
+		'cellStyles' : 'text-align: center;',
+		'headerStyles': 'text-align: center;'
 	},
 	{
 		'name' : 'Loan Amount',
 		'field' : 'Current UPB',
-		'width' : 'auto'
+		'width' : 'auto',
+		'formatter': function(item){
+			return dojo.number.format(item,{pattern:'#,##0.##'});
+			},
+		'cellStyles' : 'text-align: center;',
+		'headerStyles': 'text-align: center;'
 	},
 	{
 		'name' : 'Advance %',
 		'field' : 'Advance',
-		'width' : 'auto'
+		'width' : 'auto',
+		'formatter': function(item){
+			return dojo.number.format(item,{pattern:'#%'});
+			},		
+		'cellStyles' : 'text-align: center;',
+		'headerStyles': 'text-align: center;'
 	},
 	{
 		'name' : 'CoreLogic Collateral Risk',
 		'field' : 'CoreLogic Collateral Risk Score',
-		'width' : 'auto'
+		'width' : 'auto',
+		'cellStyles' : 'text-align: center;',
+		'headerStyles': 'text-align: center;'
 	},{
 		'name' : 'CoreLogic Fraud Risk',
 		'field' : 'CoreLogic Fraud Risk Score',
-		'width' : 'auto'
+		'width' : 'auto',
+		'cellStyles' : 'text-align: center;',
+		'headerStyles': 'text-align: center;'
 	},{
 		'name' : 'FICO',
 		'field' : 'FICO Score',
-		'width' : 'auto'
+		'width' : 'auto',
+		'cellStyles' : 'text-align: center;',
+		'headerStyles': 'text-align: center;'
 	} ] ];
 	
 	
@@ -570,6 +614,8 @@ function createGrid(dataStore) {
 		clientSort : true,
 		rowSelector : '20px',
 		structure : layout,
+		columnReordering: true,
+		selectionMode: 'multiple'
 	}, document.createElement('div'));
 
 	// append the new grid to the div "grid":
