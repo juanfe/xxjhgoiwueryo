@@ -25,31 +25,31 @@ qx.Class.define("ls.web.Control",
     this.CtlLayout = new qx.ui.layout.Grid(10, 20);
 	this.setLayout(this.CtlLayout);
 
-    var toolbar = new qx.ui.toolbar.ToolBar();
-    this.add(toolbar, {row: 0, column: 0, colSpan: 7});
+    //var toolbar = new qx.ui.toolbar.ToolBar();
+    //this.add(toolbar, {row: 0, column: 0, colSpan: 7});
 
-    var TBPart1 = new qx.ui.toolbar.Part();
+    //var TBPart1 = new qx.ui.toolbar.Part();
 
     //TODO add icons
     //var BtnPlaceBids = new qx.ui.toolbar.Button("Find My Assets", "icon/22/actions/document-new.png");
-    var BtnPlaceBids = new qx.ui.toolbar.Button("Find My Assets");
+    //var BtnPlaceBids = new qx.ui.toolbar.Button("Find My Assets");
 
-    var BtnRtrnToMySpot = new qx.ui.toolbar.Button("Return to My Spot");
-    TBPart1.add(BtnPlaceBids);
-    TBPart1.add(BtnRtrnToMySpot);
-    TBPart1.add(new qx.ui.toolbar.Separator());
-    toolbar.add(TBPart1);
+    //var BtnRtrnToMySpot = new qx.ui.toolbar.Button("Return to My Spot");
+    //TBPart1.add(BtnPlaceBids);
+    //TBPart1.add(BtnRtrnToMySpot);
+    //TBPart1.add(new qx.ui.toolbar.Separator());
+    //toolbar.add(TBPart1);
 
-    var TBPart2 = new qx.ui.toolbar.Part();
-    var BtnLogout = new qx.ui.toolbar.Button("Logout");
-    TBPart2.add(BtnLogout);
-    toolbar.add(TBPart2);
+    //var TBPart2 = new qx.ui.toolbar.Part();
+    //var BtnLogout = new qx.ui.toolbar.Button("Logout");
+    //TBPart2.add(BtnLogout);
+    //toolbar.add(TBPart2);
 
-    toolbar.addSpacer();
+    //toolbar.addSpacer();
 
     //var helpButton = new qx.ui.toolbar.Button("Help", "icon/22/actions/help-contents.png");
-    var helpButton = new qx.ui.toolbar.Button("Help");
-    toolbar.add(helpButton);
+    //var helpButton = new qx.ui.toolbar.Button("Help");
+    //toolbar.add(helpButton);
 
     this.setContentPadding(0);
 
