@@ -52,7 +52,7 @@ qx.Class.define("mybids.Table",
       req.send();
     },
     extractDataTo : function(data, instance) {
-      var sourceData = instance.sourceData = data[instance.user];
+      var sourceData = instance.sourceData = data[instance.user] || [];
       //sourceData.push(userData);
       instance.setData(sourceData);
     }
