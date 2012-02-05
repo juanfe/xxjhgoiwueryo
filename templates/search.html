@@ -3,11 +3,13 @@
 <head>
 <!-- css -->
 <link rel="stylesheet" type="text/css"
-	href="http://ajax.googleapis.com/ajax/libs/dojo/1.7/dijit/themes/claro/claro.css" />
+	href="http://ajax.googleapis.com/ajax/libs/dojo/1.6.0/dijit/themes/claro/claro.css" />
 <link rel="stylesheet" type="text/css"
-	href="http://ajax.googleapis.com/ajax/libs/dojo/1.7/dojox/grid/enhanced/resources/claro/EnhancedGrid.css" />
+	href="http://ajax.googleapis.com/ajax/libs/dojo/1.6.0/dojox/grid/enhanced/resources/claro/EnhancedGrid.css" />
 <link rel="stylesheet" type="text/css"
-	href="http://ajax.googleapis.com/ajax/libs/dojo/1.7/dojox/grid/resources/claroGrid.css" />
+	href="http://ajax.googleapis.com/ajax/libs/dojo/1.6.0/dojox/grid/resources/claroGrid.css" />
+<link rel='stylesheet' type='text/css' 
+	href='http://ajax.googleapis.com/ajax/libs/dojo/1.6.0/dojox/form/resources/RangeSlider.css'/>		
 <style type="text/css">
 html,body {
 	width: 100%;
@@ -21,21 +23,105 @@ html,body {
 	width: 100%;
 	height: 100%;
 }
+
 </style>
 
 <!-- 3rd party libs -->
-<script type="text/javascript"
-	src="http://ajax.googleapis.com/ajax/libs/dojo/1.7.1/dojo/dojo.js"
-	djConfig="parseOnLoad: true"></script>
-
+<script>
+	dojoConfig = {
+		parseOnLoad : true,
+		isDebug : true,
+		baseUrl : "./",
+		modulePaths : {
+			ls: "scripts"
+		},
+		require : ["dijit.TitlePane",
+    	          "dojo.data.ItemFileReadStore",
+    	          "dojo.data.ItemFileWriteStore",
+    	          "dijit.form.NumberTextBox",
+    	          "dijit.form.Select",
+    	          "dijit.layout.BorderContainer",
+    	          "dijit.layout.ContentPane",
+    	          "dijit.form.Button",
+    	          "dojox.grid.EnhancedGrid",
+    	          "dojox.form.RangeSlider",
+    	          "dijit.form.CheckBox",
+    	          "ls.Condition"
+    	          ]
+    };
+</script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/dojo/1.6.0/dojo/dojo.xd.js"></script>
+<script type="text/javascript" src="scripts/transpose.js"></script>
 <!-- own js -->
 <script type="text/javascript" src="scripts/myscript.js"></script>
 
 </head>
 <body class='claro'>
 	<div id="filters" data-dojo-type="dijit.TitlePane" data-dojo-props="title: 'Loan Filters'">
-		<table><tr><td>TEST</td></tr><tr><td>TEST</td></tr><tr><td>TEST</td></tr><tr><td>TEST</td></tr><tr><td>TEST</td></tr>
-		<tr><td>TEST</td></tr></table>   			
+		<table>
+			<tr>
+				<td>
+					<span>Core Logic Fraud Risk Score</span>
+					<div id="CoreLogicFraudRiskRangeSlider"></div>
+					<span id="CoreLogicFraudRiskRange">[1,10]</span> 
+				</td>
+				<td>
+					<span>Core Logic Collateral Risk Score</span>
+					<div id="CoreLogicCollateralRiskRangeSlider"></div>
+					<span id="CoreLogicCollateralRiskRange">[1,10]</span>
+				</td>
+				<td>
+					<span>Acceptable FICO Range</span>
+					<div id="ficoRangeSlider"></div>
+					<span id="ficoRange">[1,10]</span> 
+				</td>
+				<td>
+					<button dojoType='dijit.form.Button' class='delete-button' id ="apply" onClick="applyFilters">
+						Search
+					</button> 
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<span>Loan Amount (minimum)</span>
+					<div id="minLoanAmount"></div>
+					</br></br>
+					<span>Loan Amount (maximum)</span>
+					<div id="maxLoanAmount"></div>
+				</td>
+				<td>
+					<span>Maximum Loan to Value (LTV)</span>
+					<div id="maxLTV"></div>
+					</br></br>
+					<span>Maximum Combined Loan to Value (CLTV)</span>
+					<div id="maxCLTV"></div>
+				</td>
+				<td>
+					<span>Max advance %</span>
+					<div id="maxAdv"></div>
+				</td>				
+			</tr>
+			<tr>	
+				<td>
+					<span>LienType</span>
+					<div id="lienType"></div>
+				</td>
+				<td>
+					<span>Loan Type (select to apply):&nbsp;</span>
+					<input id="fixed"> <label for="fixed">Fixed</label>
+					<input id="ARM"> <label for="ARM">ARM</label>
+					<input id="hybrid"> <label for="hybrid">Hybrid</label>
+				</td>
+				<td>
+					<span>Property Type (select to apply):&nbsp;</span>
+					<input id="sfr"> <label for="sfr">SFR</label>
+					<input id="pud"> <label for="pud">PUD</label>
+					<input id="condo"> <label for="condo">Condo</label>
+					<input id="townhouse"> <label for="townhouse">Townhouse</label>
+					<input id="manufactured"> <label for="manufactured">Manufactured Housing</label>
+				</td>
+			</tr>
+		</table>   			
 	</div>
 	<div style="width:100%;height:100%;" dojoType="dijit.layout.ContentPane">
 		<div id="grid"></div>
