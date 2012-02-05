@@ -25,21 +25,9 @@
 qx.Class.define("ls.Application",
 {
   extend : qx.application.Standalone,
-
-  /*
-  *****************************************************************************
-     MEMBERS
-  *****************************************************************************
-  */
-
+   
   members :
   {
-    /**
-     * This method contains the initial application code and gets called 
-     * during startup of the application
-     * 
-     * @lint ignoreDeprecated(alert)
-     */
     main : function()
     {
       // Call super class
@@ -69,11 +57,14 @@ qx.Class.define("ls.Application",
       
       qx.bom.Cookie.set(this.self(arguments).userCookie, "cmartinez");
       var user = qx.bom.Cookie.get(this.self(arguments).userCookie);
-      // Creating the table window
+      // Creating the mybids window
       var WinTbl = new ls.mybids.Table(user);
       root.add(WinTbl);
+      // Creating the search window
+      var searchScreen = new ls.web.SearchScreen(root);
       var WinHome = new ls.mybids.Home();
       WinHome.mybidsButton.addListener("execute", WinTbl.open, WinTbl);
+      WinHome.searchButton.addListener("execute", searchScreen.open, searchScreen);
       WinHome.open();
     }
   },

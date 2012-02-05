@@ -11,10 +11,10 @@ qx.Class.define("ls.mybids.Home",
     this.maximize();
     var layout = new qx.ui.layout.Grid(0, 0);
     this.setLayout(layout);
-    var button = this.mybidsButton = new qx.ui.toolbar.Button("My Bids");
-    //button.addListener("execute", WinTbl.open, WinTbl);
-    this.add(button, {row:0, column:0});
-    //this.open();
+    var mybidsButton = this.mybidsButton = new qx.ui.toolbar.Button("My Bids");
+    var searchButton = this.searchButton = new qx.ui.toolbar.Button("Search");
+    this.add(searchButton, {row:0, column:0});
+    this.add(mybidsButton, {row:0, column:1});
   },
   
   members :
