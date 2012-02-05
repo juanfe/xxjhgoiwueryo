@@ -1,8 +1,3 @@
-/* ************************************************************************
- *
- * #asset(web/FundingData.json)
- *
- * ************************************************************************ */
 qx.Class.define("mybids.Table",
 {
   extend : mybids.BaseTable,
@@ -14,6 +9,7 @@ qx.Class.define("mybids.Table",
     this.user = user;
     this.self(arguments).loadJson(this.self(arguments).getJsonUrl(), this.self(arguments).extractDataTo, this);
     var homeButton = new qx.ui.toolbar.Button("Home");
+    homeButton.addListener("execute", this.close, this);
     this.addButton(homeButton);
   },
   

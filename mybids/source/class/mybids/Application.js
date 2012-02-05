@@ -1,10 +1,15 @@
 /* ************************************************************************
 
-   Copyright:
+   Copyright: Copyright (C) 2012 Vichara Technologies Inc.
 
-   License:
+   License: All rights reserved.
+            Permission to use, copy, modify, distribute, and sell the source code for any purpose is not permitted 
+            without a written authorization from  Vichara Technologies Inc.
 
-   Authors:
+   Authors: Eduardo Zea,
+            Juan Jaramillo,
+            Leonardo Zuniga,
+            Camilo Martínez
 
 ************************************************************************ */
 
@@ -67,8 +72,9 @@ qx.Class.define("mybids.Application",
       // Creating the table window
       var WinTbl = new mybids.Table(user);
       root.add(WinTbl);
-      WinTbl.open();
-      //WinTbl.moveTo(10, 10);
+      var WinHome = new mybids.Home();
+      WinHome.mybidsButton.addListener("execute", WinTbl.open, WinTbl);
+      WinHome.open();
     }
   },
   
