@@ -6,6 +6,7 @@ ls.convertFunctions={};
 ls.fullData=[];
 ls.selectedLoanType = {};
 ls.selectedPropertyType = {};
+ls.checkboxGroups = {};
 dojo.addOnLoad(function() {
 	ls.dataStore = new dojo.data.ItemFileReadStore({
 		identifier:'Collateral',
@@ -326,160 +327,57 @@ function initFilters() {
     }, "lienType");
     select.startup();
     
-    //Loan Type
-    var loanTypeFixedCheckBox = new dijit.form.CheckBox({
-        name: "fixed",
-        value: "fixed",
-        checked: false,
-        onChange: function(value){
-        	if (value)
-        		ls.selectedLoanType['0']=true;
-        	else
-        		delete ls.selectedLoanType['0'];
-        	
-			var func = function(item, obj) {
-				var val = item['Is Adjustable'][0];
-				if(ls.selectedLoanType[val]){
-					return true;
-				}					
-			};
-			var condition = new ls.Condition();
-			condition.setSatisfy(func);
-			ls.conditions['Is Adjustable'] = condition;        	
-        }
-    }, "fixed");
+    //Loan Types
+    createCheckboxGroup('Is Adjustable',["0","1"],'loanType',{'0':'FIXED', '1':'ARM'});
     
-    var loanTypeARMCheckBox = new dijit.form.CheckBox({
-        name: "ARM",
-        value: "ARM",
-        checked: false,
-        onChange: function(value){
-        	if (value)
-        		ls.selectedLoanType['1']=true;
-        	else
-        		delete ls.selectedLoanType['1'];
-        	
-			var func = function(item, obj) {
-				var val = item['Is Adjustable'][0];
-				if(ls.selectedLoanType[val]){
-					return true;
-				}					
-			};
-			var condition = new ls.Condition();
-			condition.setSatisfy(func);
-			ls.conditions['Is Adjustable'] = condition;        	
-        }
-      }, "ARM");
+    //Property Types
+    createCheckboxGroup('Property Type Code',["SFR","PUD","CONDO","TOWNHOUSE","MANUFACTURED"],'propertyType');
+    
+    //States
+    createCheckboxGroup('State', 
+    		["AL","AK","AZ","AR","CA","CO","CT","DE","FL","GA","HI","ID","IL","IN","IA","KS","KY","LA","ME","MD",
+    		 "MA","MI","MN","MS","MO","MT","NE","NV","NH","NJ","NM","NY","NC","ND","OH","OK","OR","PA","RI","SC",
+    		 "SD","TN","TX","UT","VT","VA","WA","WV","WI","WY"],
+    		 'states');
         
-    //Property Type
-    var propertyTypeSFRCheckBox = new dijit.form.CheckBox({
-        name: "sfr",
-        value: "SFR",
+}
+
+function createCheckboxGroup(name,options,parentNode,labelMap){
+	var node = dojo.create("div", { id:name},parentNode);
+	ls.checkboxGroups[name]={};
+	for (var i=0; i<options.length; i++){
+		createCheckbox(name,options[i],(labelMap ? labelMap[options[i]] : undefined));
+	}
+}
+
+function createCheckbox(group,option, label){
+	var name = (label ? label : option);
+	var node = dojo.create("span", { innerHTML:'&nbsp;' + name + '&nbsp;'},dojo.byId(group));
+	var node = dojo.create("div", { id:option},dojo.byId(group));
+	var checkBox = new dijit.form.CheckBox({
+        name: option,
         checked: false,
         onChange: function(value){
         	if (value)
-        		ls.selectedPropertyType['SFR']=true;
-        	else
-        		delete selectedPropertyType['SFR'];
-        	
+        		ls.checkboxGroups[group][option]=true;
+        	else{
+        		delete ls.checkboxGroups[group][option];
+        		if (isEmpty(ls.checkboxGroups[group])){
+	        		delete ls.conditions[group];
+	        		return;
+	        	}
+        	}
 			var func = function(item, obj) {
-				var val = item['Property Type Code'][0];
-				if(ls.selectedPropertyType[val]){
+				var val = item[group][0];
+				if(ls.checkboxGroups[group][val]){
 					return true;
 				}					
 			};
 			var condition = new ls.Condition();
 			condition.setSatisfy(func);
-			ls.conditions['Property Type Code'] = condition;        	
+			ls.conditions[group] = condition;        	
         }
-      }, "sfr");
-    
-    var propertyTypeHUDCheckBox = new dijit.form.CheckBox({
-        name: "PUD",
-        value: "pud",
-        checked: false,
-        onChange: function(value){
-        	if (value)
-        		ls.selectedPropertyType['PUD']=true;
-        	else
-        		delete selectedPropertyType['PUD'];
-        	
-			var func = function(item, obj) {
-				var val = item['Property Type Code'][0];
-				if(ls.selectedPropertyType[val]){
-					return true;
-				}					
-			};
-			var condition = new ls.Condition();
-			condition.setSatisfy(func);
-			ls.conditions['Property Type Code'] = condition;        	
-        }
-      }, "pud");
-    
-    var propertyTypeCondoCheckBox = new dijit.form.CheckBox({
-        name: "condo",
-        value: "condo",
-        checked: false,
-        onChange: function(value){
-        	if (value)
-        		ls.selectedPropertyType['CONDO']=true;
-        	else
-        		delete selectedPropertyType['CONDO'];
-        	
-			var func = function(item, obj) {
-				var val = item['Property Type Code'][0];
-				if(ls.selectedPropertyType[val]){
-					return true;
-				}					
-			};
-			var condition = new ls.Condition();
-			condition.setSatisfy(func);
-			ls.conditions['Property Type Code'] = condition;        	
-        }
-      }, "condo");
-    var propertyTypeTownhouseCheckBox = new dijit.form.CheckBox({
-        name: "townhouse",
-        value: "townhouse",
-        checked: false,
-        onChange: function(value){
-        	if (value)
-        		ls.selectedPropertyType['TOWNHOUSE']=true;
-        	else
-        		delete selectedPropertyType['TOWNHOUSE'];
-        	
-			var func = function(item, obj) {
-				var val = item['Property Type Code'][0];
-				if(ls.selectedPropertyType[val]){
-					return true;
-				}					
-			};
-			var condition = new ls.Condition();
-			condition.setSatisfy(func);
-			ls.conditions['Property Type Code'] = condition;        	
-        }
-      }, "townhouse");
-    var propertyTypeManufacturedCheckBox = new dijit.form.CheckBox({
-        name: "manufactured",
-        value: "manufactured",
-        checked: false,
-        onChange: function(value){
-        	if (value)
-        		ls.selectedPropertyType['MANUFACTURED']=true;
-        	else
-        		delete selectedPropertyType['MANUFACTURED'];
-        	
-			var func = function(item, obj) {
-				var val = item['Property Type Code'][0];
-				if(ls.selectedPropertyType[val]){
-					return true;
-				}					
-			};
-			var condition = new ls.Condition();
-			condition.setSatisfy(func);
-			ls.conditions['Property Type Code'] = condition;        	
-        }
-      }, "manufactured");
-    
+      },node);
 }
 
 
@@ -631,10 +529,13 @@ Array.max = function( array ){
 Array.min = function( array ){
     return Math.min.apply( Math, array );
 };
-function stringArrayToIntArray(array){
-	return array.map(function(item){return parseInt(item);});
-}
 
-function stringArrayToFloatArray(array){
-	return array.map(function(item){return parseFloat(item);});
+function isEmpty(map) {
+	for(var key in map) {
+		if (map.hasOwnProperty(key)) {
+			return false;
+		}
+		return true;
+	}
+	return true;
 }

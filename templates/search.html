@@ -61,16 +61,17 @@ vertical-align: top;
 border: 3px solid black; 
 border-radius: 15px; 
 border-color: #EBEBEB; 
-padding: 10px;"
+padding: 10px;
+font-size: 14px;
 }
 </style>
 
 </head>
 <body class='claro'>
 	<div id="filters" data-dojo-type="dijit.TitlePane" data-dojo-props="title: 'Loan Filters'">
-		<table style='margin:auto;'>
+		<table style='margin:auto;width:100%'>
 			<tr>
-				<td class='mytd'>
+				<td class='mytd' style='width:25%'>
 					<span>Core Logic Fraud Risk Score</span>
 					<div id="CoreLogicFraudRiskRangeSlider"></div>
 					<span id="CoreLogicFraudRiskRange">[0,1000]</span></br> 
@@ -81,7 +82,7 @@ padding: 10px;"
 					<div id="ficoRangeSlider"></div>
 					<span id="ficoRange">[0,1000]</span> 
 				</td>
-				<td class='mytd'>
+				<td class='mytd'style='width:25%'>
 					<span>Loan Amount (minimum)</span>
 					<div id="minLoanAmount"></div>
 					</br></br>
@@ -97,20 +98,20 @@ padding: 10px;"
 					<span>Max advance %</span>
 					<div id="maxAdv"></div>
 				</td>				
-				<td class='mytd'>
+				<td class='mytd' style='width:50%'>
 					<span>Lien Type</span>
-					<div id="lienType"></div></br></br>
-					<span>Loan Type (select to apply):&nbsp;</span></br>
-					<input id="fixed"> <label for="fixed">Fixed</label>
-					<input id="ARM"> <label for="ARM">ARM</label>
-					<input id="hybrid"> <label for="hybrid">Hybrid</label>
+					<div id="lienType"></div>
+					</br></br>
+					<span>Loan Type (select to apply):&nbsp;</span>
+					</br></br>
+					<div id= "loanType"></div>
 					</br></br>
 					<span>Property Type (select to apply):&nbsp;</span></br>
-					<input id="sfr"> <label for="sfr">SFR</label>
-					<input id="pud"> <label for="pud">PUD</label>
-					<input id="condo"> <label for="condo">Condo</label>
-					<input id="townhouse"> <label for="townhouse">Townhouse</label>
-					<input id="manufactured"> <label for="manufactured">Manufactured Housing</label>
+					<div id='propertyType'></div>
+					</br></br>
+					<div data-dojo-type="dijit.TitlePane" data-dojo-props="title: 'Acceptable States'">
+						<div id='states'></div>
+					</div>	
 				</td>
 			</tr>
 			<tr>
