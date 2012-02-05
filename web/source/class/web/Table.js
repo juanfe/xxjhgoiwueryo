@@ -31,8 +31,6 @@ qx.Class.define("web.Table",
     this.setShowMaximize(false);
     this.setShowMinimize(false);
     this.maximize();
-    //this.setWidth(950);
-    //this.setHeight(400);
 	
     // add layout
     var layout = new qx.ui.layout.Grid(0, 0);
@@ -147,7 +145,7 @@ qx.Class.define("web.Table",
 
     tbl.set({
         width: 900,
-        height: 430,
+        height: 500,
         decorator : null
     });
 
