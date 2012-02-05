@@ -15,7 +15,7 @@
  * 
  * @lint ignoreUndefined(simulator)
  */
-qx.Class.define("mybids.simulation.DemoSimulation", {
+qx.Class.define("ls.simulation.DemoSimulation", {
 
   extend : simulator.unit.TestCase,
   
