@@ -27,10 +27,10 @@ qx.Class.define("web.Table",
     this.add(toolbar, {row: 0, column: 0, colSpan: 2});
 
 	var TBPart1 = new qx.ui.toolbar.Part();
-	var BtnFindMyAssets = new qx.ui.toolbar.Button("Find My Assets");
+	var BtnPlaceBids = new qx.ui.toolbar.Button("Place bids");
 	var BtnRtrnToMySpot = new qx.ui.toolbar.Button("Return to My Spot");
 
-	TBPart1.add(BtnFindMyAssets);
+	TBPart1.add(BtnPlaceBids);
 	TBPart1.add(BtnRtrnToMySpot);
 	TBPart1.add(new qx.ui.toolbar.Separator());
 	toolbar.add(TBPart1);
@@ -52,7 +52,7 @@ qx.Class.define("web.Table",
     layout.setColumnFlex(0,1);
 
     //var CapColmNames = ["Sel", "Collateral", "State", "Zip", "Original UPB", "Current UPB",  "Origination Date", "Is Adjustable", "Advance %", "Investor Code", "Property Type Code", "Lien Position", "Original LTV", "Original CLTV", "FICO Score", "Purpose Code", "Occupancy Code", "Doc Level Code", "Debt Service Ratio", "Cur Note Rate", "CoreLogic Fraud Risk Score", "CoreLogic Collateral Risk Score"]; 
-    var CapColmNames = ["Collateral", "State", "Zip", "Original UPB", "Current UPB",  "Origination Date", "Is Adjustable", "Advance %", "Investor Code", "Property Type Code", "Lien Position", "Original LTV", "Original CLTV", "FICO Score", "Purpose Code", "Occupancy Code", "Doc Level Code", "Debt Service Ratio", "Cur Note Rate", "CoreLogic Fraud Risk Score", "CoreLogic Collateral Risk Score"]; 
+    var CapColmNames = ["Collateral", "State", "Zip", "Original UPB", "Current UPB",  "Origination Date", "Is Adjustable", "Advance %", "Investor Code", "Property Type Code", "Lien Position", "Original LTV", "Original CLTV", "FICO Score", "Purpose Code", "Occupancy Code", "Doc Level Code", "Debt Service Ratio", "Cur Note Rate", "CoreLogic Fraud Risk Score", "CoreLogic Collateral Risk Score", "%Bid", "%Interest "]; 
 	var colTypes = { "Collateral":"string",
 		"State":"string",
 		"Zip":"int",
@@ -120,11 +120,14 @@ qx.Class.define("web.Table",
 	});
 	req.send();
 
+    var tbl = this.Tbl = new qx.ui.table.Table(tableModel);
+  	var tcm = tbl.getTableColumnModel();
+
 	for (var i = 0; i < CapColmNames.length; i++){
       tableModel.setColumnEditable(i, false);
+      if (i >= CapColmNames.length - 2)
+	      tcm.setColumnVisible(i, false);      	
 	}
-
-    var tbl = this.Tbl = new qx.ui.table.Table(tableModel);
 
     tbl.set({
         width: 900,
@@ -132,7 +135,24 @@ qx.Class.define("web.Table",
         decorator : null
     });
 
-    tbl.getSelectionModel().setSelectionMode(qx.ui.table.selection.Model.MULTIPLE_INTERVAL_SELECTION);
+	BtnPlaceBids.addListener("execute", function(evt)
+      {
+      	var i = 1
+		for (i; i < CapColmNames.length - 2; i++){
+	      tcm.setColumnVisible(i, false);
+		}
+		for (i; i < CapColmNames.length; i++){
+	      tableModel.setColumnEditable(i, true);
+	      tcm.setColumnVisible(i, true);
+		}
+		tbl.getSelectionModel().iterateSelection(function(ind) {
+          //selection.push(ind + "");
+          tableModel.hideRows(ind,1);
+        });
+        //this.showDialog("Selected rows:<br>" + selection.join(", "));
+      }, this);
+
+    tbl.getSelectionModel().setSelectionMode(qx.ui.table.selection.Model.MULTIPLE_INTERVAL_SELECTION_TOGGLE);
 
     var tcm = tbl.getTableColumnModel();
 

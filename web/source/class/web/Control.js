@@ -31,11 +31,11 @@ qx.Class.define("web.Control",
     var TBPart1 = new qx.ui.toolbar.Part();
 
     //TODO add icons
-    //var BtnFindMyAssets = new qx.ui.toolbar.Button("Find My Assets", "icon/22/actions/document-new.png");
-    var BtnFindMyAssets = new qx.ui.toolbar.Button("Find My Assets");
+    //var BtnPlaceBids = new qx.ui.toolbar.Button("Find My Assets", "icon/22/actions/document-new.png");
+    var BtnPlaceBids = new qx.ui.toolbar.Button("Find My Assets");
 
     var BtnRtrnToMySpot = new qx.ui.toolbar.Button("Return to My Spot");
-    TBPart1.add(BtnFindMyAssets);
+    TBPart1.add(BtnPlaceBids);
     TBPart1.add(BtnRtrnToMySpot);
     TBPart1.add(new qx.ui.toolbar.Separator());
     toolbar.add(TBPart1);
