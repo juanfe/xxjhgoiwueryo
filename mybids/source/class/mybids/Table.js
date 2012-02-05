@@ -7,38 +7,50 @@ qx.Class.define("mybids.Table",
 {
   extend : mybids.BaseTable,
   
-  construct : function(keysToFilter)
+  construct : function(user)
   {
-    this.base(arguments, this.self(arguments).jsonFilepath, this.self(arguments).columnsInfo, keysToFilter);
+    var columnInfoDict = new mybids.common.ColumnInfoDictionary(this.self(arguments).columnsInfo);
+    this.base(arguments, columnInfoDict.getNames());
+    this.user = user;
+    this.self(arguments).loadJson(this.self(arguments).getJsonUrl(), this.self(arguments).extractDataTo, this);
+    this.button = this.BtnFilter;
   },
-
+  
+  members : {
+    sourceData : null,
+    user : "",
+    button : null
+  },
+  
   statics : {
     // Configuration related variables
     // json source file relative to <applicationName>/source/resource folder
-    jsonFilepath :  "mybids/FundingData.json",
+    jsonFilepath :  "mybids/bids.json",
+    getJsonUrl : function() {
+      return this.constructor.toResourceUrl(this.constructor.jsonFilepath);
+    },
     // Column name and type of each column of the table
     columnsInfo : [
-      new mybids.common.ColumnInfo("Collateral","int"),
-      new mybids.common.ColumnInfo("State","string"),
-      new mybids.common.ColumnInfo("Zip","int"),
-      new mybids.common.ColumnInfo("Original UPB","int"),
-      new mybids.common.ColumnInfo("Current UPB","int"),
-      new mybids.common.ColumnInfo("Origination Date","date"),
-      new mybids.common.ColumnInfo("Is Adjustable","int"),
-      new mybids.common.ColumnInfo("Max Advance","int"),
-      new mybids.common.ColumnInfo("Investor Code","string"),
-      new mybids.common.ColumnInfo("Property Type Code","string"),
-      new mybids.common.ColumnInfo("Lien Position","int"),
-      new mybids.common.ColumnInfo("Original LTV","float"),
-      new mybids.common.ColumnInfo("Original CLTV","float"),
-      new mybids.common.ColumnInfo("FICO Score","int"),
-      new mybids.common.ColumnInfo("Purpose Code","string"),
-      new mybids.common.ColumnInfo("Occupancy Code","string"),
-      new mybids.common.ColumnInfo("Doc Level Code","int"),
-      new mybids.common.ColumnInfo("Debt Service Ratio","float"),
-      new mybids.common.ColumnInfo("Cur Note Rate","float"),
-      new mybids.common.ColumnInfo("CoreLogic Fraud Risk Score","int"),
-      new mybids.common.ColumnInfo("CoreLogic Collateral Risk Score","int")
-    ]
+      new mybids.common.ColumnInfo("Collateral","int")
+    ],
+    // wrapper for the resource manager
+    toResourceUrl : function(filepath) {
+      return qx.util.ResourceManager.getInstance().toUri(filepath);
+    },
+    // the complete handler must acept an object as parameter 
+    loadJson : function(url, completeHandler, instance) {
+      var req = new qx.io.remote.Request(url, "GET", "text/plain");
+      req.addListener("completed", function(response) {
+        var responseContent = response.getContent();
+        var jsObj = qx.lang.Json.parse(responseContent);
+        completeHandler(jsObj, instance);
+      });
+      req.send();
+    },
+    extractDataTo : function(data, instance) {
+      var sourceData = instance.sourceData = data[instance.user];
+      //sourceData.push(userData);
+      instance.setData(sourceData);
+    }
   }
 });

@@ -72,7 +72,7 @@ qx.Class.define("mybids.Application",
         var req = e.getTarget(),
             bidsObject = qx.lang.Json.parse(req.getResponse()),
             bids = bidsObject[user];
-        var WinTbl = new mybids.Table(bids);
+        var WinTbl = new mybids.Table(user);
         root.add(WinTbl);
     
         WinTbl.open();

@@ -7,15 +7,15 @@ qx.Class.define("mybids.BaseTable",
 {
   extend : qx.ui.window.Window,
 
-  construct : function(jsonFilepath, columnsInfo, keysToFilter)
+  construct : function(columnsName)
   {
-    this.base(arguments, "Loans")
+    this.base(arguments, "My Bids")
     this.setShowClose(false);
     this.setShowMaximize(false);
     this.setShowMinimize(false);
     this.maximize();
     
-    var regExpStr = this.self(arguments).__matchAll(keysToFilter);
+    //var regExpStr = this.self(arguments).__matchAll(keysToFilter);
     
     // add layout
     var layout = new qx.ui.layout.Grid(0, 0);
@@ -26,10 +26,9 @@ qx.Class.define("mybids.BaseTable",
 
     var tableModel = this.__tableModel = new qx.ui.table.model.Filtered();
     
-    var columnInfoDict = new mybids.common.ColumnInfoDictionary(columnsInfo);
     
-    tableModel.setColumns(columnInfoDict.getNames());
-    var url = qx.util.ResourceManager.getInstance().toUri(jsonFilepath);
+    tableModel.setColumns(columnsName);
+    /*var url = qx.util.ResourceManager.getInstance().toUri(jsonFilepath);
 	
     var req = new qx.io.remote.Request(url, "GET", "text/plain"); 
     var rows = [];
@@ -73,9 +72,9 @@ qx.Class.define("mybids.BaseTable",
       tableModel.addNotRegex(regExpStr, "Collateral", true);
       tableModel.applyFilters();
     });
-    req.send();
+    req.send();*/
 
-    for (var i = 0; i < columnsInfo.length; i++){
+    for (var i = 0; i < columnsName.length; i++){
       tableModel.setColumnEditable(i, false);
     }
 
@@ -83,10 +82,9 @@ qx.Class.define("mybids.BaseTable",
 
     tbl.getSelectionModel().setSelectionMode(qx.ui.table.selection.Model.MULTIPLE_INTERVAL_SELECTION);
 
-    var tcm = tbl.getTableColumnModel();
-
-    tcm.setDataCellRenderer(3, new qx.ui.table.cellrenderer.Boolean());
-    tcm.setHeaderCellRenderer(5, new qx.ui.table.headerrenderer.Icon("icon/16/apps/office-calendar.png", "A date"));
+    //var tcm = tbl.getTableColumnModel();
+    //tcm.setDataCellRenderer(3, new qx.ui.table.cellrenderer.Boolean());
+    //tcm.setHeaderCellRenderer(5, new qx.ui.table.headerrenderer.Icon("icon/16/apps/office-calendar.png", "A date"));
 
     this.add(tbl, {row: 0, column: 0});
   },
@@ -112,6 +110,14 @@ qx.Class.define("mybids.BaseTable",
   {
     __tableModel : null,
     __tbl : null,
-    BtnFilter : null
+    BtnFilter : true, 
+    setData : function(rows) {
+      this.__tableModel.setData(rows);
+    },
+    // Is going to hide all the columns that don't match the regular expression
+    filterCollateralBy : function(regExpStr) {
+      this.__tableModel.addNotRegex(regExpStr, "Collateral", true);
+      this.__tableModel.applyFilters();
+    }
   }
 });
