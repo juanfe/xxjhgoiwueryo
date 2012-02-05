@@ -335,7 +335,7 @@ function initFilters() {
         	if (value)
         		ls.selectedLoanType['0']=true;
         	else
-        		delete selectedLoanType['0'];
+        		delete ls.selectedLoanType['0'];
         	
 			var func = function(item, obj) {
 				var val = item['Is Adjustable'][0];
@@ -357,7 +357,7 @@ function initFilters() {
         	if (value)
         		ls.selectedLoanType['1']=true;
         	else
-        		delete selectedLoanType['1'];
+        		delete ls.selectedLoanType['1'];
         	
 			var func = function(item, obj) {
 				var val = item['Is Adjustable'][0];
@@ -370,29 +370,7 @@ function initFilters() {
 			ls.conditions['Is Adjustable'] = condition;        	
         }
       }, "ARM");
-    
-    var loanTypeHybridCheckBox = new dijit.form.CheckBox({
-        name: "hybrid",
-        value: "hybrid",
-        checked: false,
-        onChange: function(value){
-        	if (value)
-        		ls.selectedLoanType['2']=true;
-        	else
-        		delete selectedLoanType['2'];
-        	
-			var func = function(item, obj) {
-				var val = item['Is Adjustable'][0];
-				if(ls.selectedLoanType[val]){
-					return true;
-				}					
-			};
-			var condition = new ls.Condition();
-			condition.setSatisfy(func);
-			ls.conditions['Is Adjustable'] = condition;        	
-        }
-      }, "hybrid");
-    
+        
     //Property Type
     var propertyTypeSFRCheckBox = new dijit.form.CheckBox({
         name: "sfr",
@@ -400,13 +378,13 @@ function initFilters() {
         checked: false,
         onChange: function(value){
         	if (value)
-        		ls.selectedLoanType['SFR']=true;
+        		ls.selectedPropertyType['SFR']=true;
         	else
-        		delete selectedLoanType['SFR'];
+        		delete selectedPropertyType['SFR'];
         	
 			var func = function(item, obj) {
 				var val = item['Property Type Code'][0];
-				if(ls.selectedLoanType[val]){
+				if(ls.selectedPropertyType[val]){
 					return true;
 				}					
 			};
@@ -422,13 +400,13 @@ function initFilters() {
         checked: false,
         onChange: function(value){
         	if (value)
-        		ls.selectedLoanType['PUD']=true;
+        		ls.selectedPropertyType['PUD']=true;
         	else
-        		delete selectedLoanType['PUD'];
+        		delete selectedPropertyType['PUD'];
         	
 			var func = function(item, obj) {
 				var val = item['Property Type Code'][0];
-				if(ls.selectedLoanType[val]){
+				if(ls.selectedPropertyType[val]){
 					return true;
 				}					
 			};
@@ -444,13 +422,13 @@ function initFilters() {
         checked: false,
         onChange: function(value){
         	if (value)
-        		ls.selectedLoanType['CONDO']=true;
+        		ls.selectedPropertyType['CONDO']=true;
         	else
-        		delete selectedLoanType['CONDO'];
+        		delete selectedPropertyType['CONDO'];
         	
 			var func = function(item, obj) {
 				var val = item['Property Type Code'][0];
-				if(ls.selectedLoanType[val]){
+				if(ls.selectedPropertyType[val]){
 					return true;
 				}					
 			};
@@ -465,13 +443,13 @@ function initFilters() {
         checked: false,
         onChange: function(value){
         	if (value)
-        		ls.selectedLoanType['TOWNHOUSE']=true;
+        		ls.selectedPropertyType['TOWNHOUSE']=true;
         	else
-        		delete selectedLoanType['TOWNHOUSE'];
+        		delete selectedPropertyType['TOWNHOUSE'];
         	
 			var func = function(item, obj) {
 				var val = item['Property Type Code'][0];
-				if(ls.selectedLoanType[val]){
+				if(ls.selectedPropertyType[val]){
 					return true;
 				}					
 			};
@@ -486,13 +464,13 @@ function initFilters() {
         checked: false,
         onChange: function(value){
         	if (value)
-        		ls.selectedLoanType['MANUFACTURED']=true;
+        		ls.selectedPropertyType['MANUFACTURED']=true;
         	else
-        		delete selectedLoanType['MANUFACTURED'];
+        		delete selectedPropertyType['MANUFACTURED'];
         	
 			var func = function(item, obj) {
 				var val = item['Property Type Code'][0];
-				if(ls.selectedLoanType[val]){
+				if(ls.selectedPropertyType[val]){
 					return true;
 				}					
 			};
