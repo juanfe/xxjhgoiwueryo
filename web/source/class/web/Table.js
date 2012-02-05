@@ -30,8 +30,9 @@ qx.Class.define("web.Table",
     this.setShowClose(false);
     this.setShowMaximize(false);
     this.setShowMinimize(false);
-    this.setWidth(950);
-    this.setHeight(400);
+    this.maximize();
+    //this.setWidth(950);
+    //this.setHeight(400);
 	
     // add layout
     var layout = new qx.ui.layout.Grid(0, 0);

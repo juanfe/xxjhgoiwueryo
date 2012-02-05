@@ -53,13 +53,13 @@ qx.Class.define("web.Application",
 
       var root = this.getRoot();
 
-      var windowManager = new qx.ui.window.Manager();
-      var desktop = new qx.ui.window.Desktop(windowManager);
+      //var windowManager = new qx.ui.window.Manager();
+      //var desktop = new qx.ui.window.Desktop(windowManager);
 
-      root.add(desktop);
+      //root.add(desktop);
 
 	  var WinTbl = new web.Table();
-	  desktop.add(WinTbl);
+	  root.add(WinTbl);
 
 	  var WinCtl = new web.Control();
       //WinCtl.BtnCancel.addListener("execute", WinCtl.close, WinCtl);
@@ -105,7 +105,7 @@ qx.Class.define("web.Application",
 		  WinCtl.close();
       }); 
       WinCtl.setModal(true);
-	  desktop.add(WinCtl);
+	  root.add(WinCtl);
 
 	  WinTbl.open();
 	  WinTbl.moveTo(10, 10);
