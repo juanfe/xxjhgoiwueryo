@@ -160,8 +160,8 @@ qx.Class.define("web.Table",
 	BtnPlaceBids.addListener("execute", function(evt)
       {
       	var i = 1
-      	var SelectionColumnName = "Selected";
-      	var selectColumnId = tableModel.getColumnIndexById(SelectionColumnName);
+      	var selectColumnName = "Selected";
+      	var selectColumnId = tableModel.getColumnIndexById(selectColumnName);
 		for (i; i < CapColmNames.length - 2; i++){
 	      tcm.setColumnVisible(i, false);
 		}
@@ -178,7 +178,7 @@ qx.Class.define("web.Table",
         tsm.resetSelection();
 		tableModel.resetHiddenRows();
 		tableModel.setValue(selectColumnId,0,1);
-		tableModel.addNumericFilter("!=", 1, SelectionColumnName);
+		tableModel.addNumericFilter("!=", 1, selectColumnName);
         tableModel.applyFilters();
       }, this);
 
