@@ -22,7 +22,7 @@ qx.Class.define("ls.mybids.Table",
   statics : {
     // Configuration related variables
     // json source file relative to <applicationName>/source/resource folder
-    jsonFilepath :  "mybids/bids.json",
+    jsonFilepath :  "ls/mybids/bids.json",
     getJsonUrl : function() {
       return this.constructor.toResourceUrl(this.constructor.jsonFilepath);
     },
