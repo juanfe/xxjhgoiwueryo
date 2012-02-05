@@ -1,16 +1,16 @@
 qx.Class.define("ls.common.Cookie",
 {
-  extend: qx.core.Object,
+  type :  "static",
   
   statics: {
     // cookie key for the user:
     userKey : "com.liquidityspot.user",
     // user accesors
     getUser : function() {
-      return qx.bom.Cookie.get(this.constructor.userKey);
+      return qx.bom.Cookie.get(this.userKey);
     },
     setUser : function(user) {
-      qx.bom.Cookie.set(this.constructor.userKey, user);
+      qx.bom.Cookie.set(this.userKey, user);
     }
   }
 });
