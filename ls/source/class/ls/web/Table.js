@@ -69,7 +69,7 @@ qx.Class.define("ls.web.Table",
     var CapColmNames = ["Collateral", "State", "Zip", "Original UPB", "Current UPB",  "Origination Date", "Is Adjustable", "Advance %", "Investor Code", "Property Type Code", "Lien Position", "Original LTV", "Original CLTV", "FICO Score", "Purpose Code", "Occupancy Code", "Doc Level Code", "Debt Service Ratio", "Cur Note Rate", "CoreLogic Fraud Risk Score", "CoreLogic Collateral Risk Score", "Selected", "%Bid", "%Interest "]; 
 	var colTypes = { "Collateral":"string",
 		"State":"string",
-		"Zip":"strign",
+		"Zip":"string",
 		"Original UPB":"int",
 		"Current UPB":"int",
 		"Origination Date":"date",

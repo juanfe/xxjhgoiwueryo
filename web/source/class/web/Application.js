@@ -69,7 +69,7 @@ qx.Class.define("web.Application",
       WinCtl.addListener("changeData",function(e)
       {
 		  WinTbl.TableModel.resetHiddenRows();
-          WinTbl.TableModel.applyFilters();
+		  WinTbl.TableModel.hideRows(0,1);        
 		  var data = e.getData();
           WinTbl.TableModel.addNumericFilter(">", data.SLCorLogFraudRiskScore, "CoreLogic Fraud Risk Score");
           WinTbl.TableModel.addNumericFilter(">", data.SLCorLogCollRiskScore, "CoreLogic Collateral Risk Score");

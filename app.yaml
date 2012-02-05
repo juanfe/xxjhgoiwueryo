@@ -16,11 +16,8 @@ handlers:
 - url: /data
   static_dir: data
 
-- url: /search
-  static_dir: web/build
-
-- url: /mybids
-  static_dir: mybids/build
+- url: /system
+  static_dir: ls/build
 
 - url: /.*
   script: dispatcher.py
