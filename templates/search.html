@@ -55,70 +55,68 @@ html,body {
 <!-- own js -->
 <script type="text/javascript" src="scripts/myscript.js"></script>
 
+<style type="text/css">
+td.mytd {
+vertical-align: top;
+border: 3px solid black; 
+border-radius: 15px; 
+border-color: #EBEBEB; 
+padding: 10px;"
+}
+</style>
+
 </head>
 <body class='claro'>
 	<div id="filters" data-dojo-type="dijit.TitlePane" data-dojo-props="title: 'Loan Filters'">
-		<table>
+		<table style='margin:auto;'>
 			<tr>
-				<td>
+				<td class='mytd'>
 					<span>Core Logic Fraud Risk Score</span>
 					<div id="CoreLogicFraudRiskRangeSlider"></div>
-					<span id="CoreLogicFraudRiskRange">[1,10]</span> 
-				</td>
-				<td>
+					<span id="CoreLogicFraudRiskRange">[0,1000]</span></br> 
 					<span>Core Logic Collateral Risk Score</span>
 					<div id="CoreLogicCollateralRiskRangeSlider"></div>
-					<span id="CoreLogicCollateralRiskRange">[1,10]</span>
-				</td>
-				<td>
+					<span id="CoreLogicCollateralRiskRange">[0,1000]</span></br>
 					<span>Acceptable FICO Range</span>
 					<div id="ficoRangeSlider"></div>
-					<span id="ficoRange">[1,10]</span> 
+					<span id="ficoRange">[0,1000]</span> 
 				</td>
-				<td>
-					<button dojoType='dijit.form.Button' class='delete-button' id ="apply" onClick="applyFilters">
-						Search
-					</button> 
-				</td>
-			</tr>
-			<tr>
-				<td>
+				<td class='mytd'>
 					<span>Loan Amount (minimum)</span>
 					<div id="minLoanAmount"></div>
 					</br></br>
 					<span>Loan Amount (maximum)</span>
 					<div id="maxLoanAmount"></div>
-				</td>
-				<td>
-					<span>Maximum Loan to Value (LTV)</span>
+					</br></br>
+					<span>Max Loan to Value (LTV)</span>
 					<div id="maxLTV"></div>
 					</br></br>
-					<span>Maximum Combined Loan to Value (CLTV)</span>
+					<span>Max Combined LTV (CLTV)</span>
 					<div id="maxCLTV"></div>
-				</td>
-				<td>
+					</br></br>
 					<span>Max advance %</span>
 					<div id="maxAdv"></div>
 				</td>				
-			</tr>
-			<tr>	
-				<td>
-					<span>LienType</span>
-					<div id="lienType"></div>
-				</td>
-				<td>
-					<span>Loan Type (select to apply):&nbsp;</span>
+				<td class='mytd'>
+					<span>Lien Type</span>
+					<div id="lienType"></div></br></br>
+					<span>Loan Type (select to apply):&nbsp;</span></br>
 					<input id="fixed"> <label for="fixed">Fixed</label>
 					<input id="ARM"> <label for="ARM">ARM</label>
 					<input id="hybrid"> <label for="hybrid">Hybrid</label>
-				</td>
-				<td>
-					<span>Property Type (select to apply):&nbsp;</span>
+					</br></br>
+					<span>Property Type (select to apply):&nbsp;</span></br>
 					<input id="sfr"> <label for="sfr">SFR</label>
 					<input id="pud"> <label for="pud">PUD</label>
 					<input id="condo"> <label for="condo">Condo</label>
 					<input id="townhouse"> <label for="townhouse">Townhouse</label>
 					<input id="manufactured"> <label for="manufactured">Manufactured Housing</label>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<button dojoType='dijit.form.Button' class='delete-button'
+						id="apply" onClick="applyFilters">Find My Assets</button>
 				</td>
 			</tr>
 		</table>   			
