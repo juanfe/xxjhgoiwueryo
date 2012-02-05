@@ -16,15 +16,12 @@ qx.Class.define("web.Control",
   construct : function()
   {
     this.base(arguments, "");
-    //this.setShowClose(false);
-    //this.setShowMaximize(false);
-    //this.setShowMinimize(false);
+    this.setShowMaximize(false);
+    this.setShowMinimize(false);
     this.setWidth(950);
     this.setHeight(150);
     this.setShowClose(false);
 
-    //this.Filter = {};
-    
     this.CtlLayout = new qx.ui.layout.Grid(10, 20);
 	this.setLayout(this.CtlLayout);
 
@@ -198,6 +195,23 @@ qx.Class.define("web.Control",
     this.add(this.BtnCtlOk, {row: 5, column: 5, colSpan:0});
 	this.BtnCtlOk.addListener("execute", function()
 	{
+	//TODO make that only one could be selected, now the last one
+	//is sended
+		var GBLnTp = null;
+		for (child in this.GBLoanType.getChildren())
+			if(this.GBLoanType.getChildren()[child].getValue())
+				GBLnTp = this.GBLoanType.getChildren()[child].getLabel();
+
+		var GBPropSel = null;
+		for (child in this.GBPropertyType.getChildren())
+			if(this.GBPropertyType.getChildren()[child].getValue())
+				GBPropSel = this.GBPropertyType.getChildren()[child].getLabel();
+
+		var GBAcpSt = null;
+		for (child in this.GBAcceptState.getChildren())
+			if(this.GBAcceptState.getChildren()[child].getValue())
+				GBAcpSt = this.GBAcceptState.getChildren()[child].getLabel();
+
 		var data = {
 			SLCorLogFraudRiskScore : this.SLCorLogFraudRiskScore.getValue(),
 			SLCorLogCollRiskScore : this.SLCorLogCollRiskScore.getValue(),
@@ -206,7 +220,11 @@ qx.Class.define("web.Control",
 			SPMinLoanAmount : this.SPMinLoanAmount.getValue(),
 		    SPMaxLoanToValue : this.SPMaxLoanToValue.getValue(),
 		    SPMaxComLoanToValue : this.SPMaxComLoanToValue.getValue(),
-		    SPMaxAdvance : this.SPMaxAdvance.getValue
+		    SPMaxAdvance : this.SPMaxAdvance.getValue(),
+		    CBLienType : this.CBLienType.getValue(),
+			GBLoanType : GBLnTp,
+		    GBPropertyType : GBPropSel,
+		    GBAcceptState : GBAcpSt
 		}
 	    this.fireDataEvent("changeData", data);
 	    this.close();
@@ -246,7 +264,7 @@ qx.Class.define("web.Control",
       this.GBLoanType.setLayout(new qx.ui.layout.HBox());
       this.GBLoanType.add(new qx.ui.form.CheckBox("Fixed"));
       this.GBLoanType.add(new qx.ui.form.CheckBox("ARM"));
-      this.GBLoanType.add(new qx.ui.form.CheckBox("Hybrid"));
+      //this.GBLoanType.add(new qx.ui.form.CheckBox("Hybrid"));
 
       this.AddPopup ("Select to apply", this.GBLoanType);
 

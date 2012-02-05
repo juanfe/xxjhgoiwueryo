@@ -68,7 +68,8 @@ qx.Class.define("web.Application",
 	});
       WinCtl.addListener("changeData",function(e)
       {
-		  //TODO Reset the filter after change
+		  WinTbl.TableModel.resetHiddenRows();
+          WinTbl.TableModel.applyFilters();
 		  var data = e.getData();
           WinTbl.TableModel.addNumericFilter(">", data.SLCorLogFraudRiskScore, "CoreLogic Fraud Risk Score");
           WinTbl.TableModel.addNumericFilter(">", data.SLCorLogCollRiskScore, "CoreLogic Collateral Risk Score");
@@ -78,8 +79,27 @@ qx.Class.define("web.Application",
           WinTbl.TableModel.addNumericFilter(">", data.SPMaxLoanAmount, "Current UPB");
           WinTbl.TableModel.addNumericFilter(">", data.SPMaxLoanToValue, "Original LTV");
           WinTbl.TableModel.addNumericFilter(">", data.SPMaxComLoanToValue, "Original CLTV");
-          WinTbl.TableModel.addNumericFilter(">", data.SPMaxAdvance, "Advance");
+          WinTbl.TableModel.addNumericFilter(">", data.SPMaxAdvance, "Advance %");
 
+		  if (data.CBLienType == "First")
+		      WinTbl.TableModel.addNumericFilter("!=", 1, "Lien Position"); 
+	      else if (data.CBLienType == "Second")
+		      WinTbl.TableModel.addNumericFilter("!=", 2, "Lien Position"); 
+		  else if (data.CBLienType == "First & Second")
+	      {
+		      WinTbl.TableModel.addNumericFilter("<", 1, "Lien Position"); 
+		      WinTbl.TableModel.addNumericFilter(">", 2, "Lien Position"); 
+		  }
+
+		  if (data.GBLoanType != null)
+			  WinTbl.TableModel.addNumericFilter("!=", data.GBLoanType, "Is Adjustable");
+
+		  if (data.GBPropertyType != null)
+			  WinTbl.TableModel.addNumericFilter("!=", data.GBPropertyType, "Property Type Code");
+
+		  if (data.GBAcceptState != null)
+			  WinTbl.TableModel.addNumericFilter("!=", data.GBAcceptState, "State");
+		  
           WinTbl.TableModel.applyFilters();
           WinTbl.Tbl.setAdditionalStatusBarText(", Filtered.");
 		  WinCtl.close();
@@ -90,6 +110,7 @@ qx.Class.define("web.Application",
 	  WinTbl.open();
 	  WinTbl.moveTo(10, 10);
 
+	  WinCtl.moveTo(10, 10);
       WinTbl.BtnFilter.addListener("execute", WinCtl.open, WinCtl);
 
     }

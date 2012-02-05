@@ -1,6 +1,8 @@
 /* ************************************************************************
  *
  * #asset(web/FundingData.json)
+ * #asset(web/16/Collateral.png)
+ * #asset(web/16/Zip.png)
  *
  * ************************************************************************ */
 qx.Class.define("web.Table",
@@ -49,15 +51,16 @@ qx.Class.define("web.Table",
     layout.setRowFlex(1, 1);
     layout.setColumnFlex(0,1);
 
-    var CapColmNames = ["Collateral", "State", "Zip", "Original UPB", "Current UPB",  "Origination Date", "Is Adjustable", "Advance", "Investor Code", "Property Type Code", "Lien Position", "Original LTV", "Original CLTV", "FICO Score", "Purpose Code", "Occupancy Code", "Doc Level Code", "Debt Service Ratio", "Cur Note Rate", "CoreLogic Fraud Risk Score", "CoreLogic Collateral Risk Score"]; 
-	var colTypes = { "Collateral":"int",
+    //var CapColmNames = ["Sel", "Collateral", "State", "Zip", "Original UPB", "Current UPB",  "Origination Date", "Is Adjustable", "Advance %", "Investor Code", "Property Type Code", "Lien Position", "Original LTV", "Original CLTV", "FICO Score", "Purpose Code", "Occupancy Code", "Doc Level Code", "Debt Service Ratio", "Cur Note Rate", "CoreLogic Fraud Risk Score", "CoreLogic Collateral Risk Score"]; 
+    var CapColmNames = ["Collateral", "State", "Zip", "Original UPB", "Current UPB",  "Origination Date", "Is Adjustable", "Advance %", "Investor Code", "Property Type Code", "Lien Position", "Original LTV", "Original CLTV", "FICO Score", "Purpose Code", "Occupancy Code", "Doc Level Code", "Debt Service Ratio", "Cur Note Rate", "CoreLogic Fraud Risk Score", "CoreLogic Collateral Risk Score"]; 
+	var colTypes = { "Collateral":"string",
 		"State":"string",
 		"Zip":"int",
 		"Original UPB":"int",
 		"Current UPB":"int",
 		"Origination Date":"date",
-		"Is Adjustable":"int",
-		"Advance":"int",
+		"Is Adjustable":"string",
+		"Advance %":"float",
 		"Investor Code":"string",
 		"Property Type Code":"string",
 		"Lien Position":"int",
@@ -88,6 +91,8 @@ qx.Class.define("web.Table",
 		var flag = 0;
 		pdata = qx.lang.Json.parse(data, function(key, value)
 		{
+		//	if (key == "Collateral")
+		//		row.push(1);
 			if (isNaN(parseInt(key)))
 	     	{
 				if (colTypes[key] == "string" || colTypes[key] == "date"){
@@ -131,8 +136,10 @@ qx.Class.define("web.Table",
 
     var tcm = tbl.getTableColumnModel();
 
-    //tcm.setDataCellRenderer(3, new qx.ui.table.cellrenderer.Boolean());
+    //tcm.setDataCellRenderer(0, new qx.ui.table.cellrenderer.Boolean
     tcm.setHeaderCellRenderer(5, new qx.ui.table.headerrenderer.Icon("icon/16/apps/office-calendar.png", "A date"));
+    tcm.setHeaderCellRenderer(0, new qx.ui.table.headerrenderer.Icon("web/16/Collateral.png", "Identifier of the Collateral."));
+    tcm.setHeaderCellRenderer(2, new qx.ui.table.headerrenderer.Icon("web/16/Zip.png", "Identifier of the Collateral."));
 
     this.add(tbl, {row: 2, column: 0});
   },
