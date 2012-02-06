@@ -192,16 +192,17 @@ qx.Class.define("ls.web.Table", {
 			var sentRow = [];
 			var sentRows = [];
 			for ( var i = 1; i < dataToPost.length; i++) {
-				if ( dataToPost[i][0] == true && dataToPost.lenght == 24 && dataToPost[i][22].lenght > 0 && dataToPost[i][23].lenght > 0 )
+				if ( dataToPost[i][0] == true) //&& dataToPost.lenght == 24 && dataToPost[i][22].lenght > 0 && dataToPost[i][23].lenght > 0 )
 				{
 					sentRow.push(dataToPost[i][1]);
 					sentRow.push(dataToPost[i][22]);
 					sentRow.push(dataToPost[i][23]);
+					sentRow.push("Accepted");
 					sentRows.push(sentRow);
 					sentRow = [];
 				}
-			}
-	    ls.common.RequestAdapter.saveJson(dataToPost);
+			}			
+	        ls.common.RequestAdapter.saveJson(sentRows);
 		}, this);
 
 		tbl.getSelectionModel().setSelectionMode(qx.ui.table.selection.Model.NO_SELECTION);
