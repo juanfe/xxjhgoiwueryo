@@ -7,7 +7,7 @@ import logging
 import urllib
 
 class JsonStore(db.Model):
-    content = db.StringProperty()
+    content = db.TextProperty()
 
 class HomePage(webapp.RequestHandler):
     def get(self):
@@ -60,7 +60,7 @@ class Persist(webapp.RequestHandler):
         text = urllib.unquote(text.encode('ascii')).decode('utf-8')
         logging.info(text)
         jsonStore = JsonStore(parent=bidsKey())
-        jsonStore.content = text
+        jsonStore.content = db.Text(text)
         jsonStore.put()
             
 class Retrieve(webapp.RequestHandler):
@@ -69,10 +69,12 @@ class Retrieve(webapp.RequestHandler):
                             "FROM JsonStore "
                             "WHERE ANCESTOR IS :1 ",
                             bidsKey())
+        jsonStore = None
         for jsonStore in jsonStores:
-            self.response.out.write(jsonStore.content)
             logging.info(jsonStore.content)
-            break
+        self.response.out.write(jsonStore.content)
+        
+            
 
 class Logout(webapp.RequestHandler):
     def get(self):
