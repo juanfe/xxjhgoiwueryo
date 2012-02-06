@@ -1,12 +1,42 @@
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <title>Liquidity Spot Exchange</title>
+<!-- css -->
+<link rel="stylesheet" type="text/css"
+  href="http://ajax.googleapis.com/ajax/libs/dojo/1.6.0/dijit/themes/claro/claro.css" />
+<style type="text/css">
+html,body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+}
+
+/*Grid need a explicit width/height by default*/
+#grid {
+  width: 100%;
+  height: 100%;
+}
+
+</style>
+
+<!-- 3rd party libs -->
+<script>
+  dojoConfig = {
+    parseOnLoad : true,
+    isDebug : true,
+    baseUrl : "./",
+    require : ["dijit.form.Button"
+                ]
+    };
+</script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/dojo/1.6.0/dojo/dojo.xd.js"></script>
 </head>
-<body>
-  <a href="/search">Search</a>
-  <a href="/mybids">My Bids</a>
-  <a href="/dlogout">Logout</a>
+<body class='claro'>
+  <div>
+    <button dojoType='dijit.form.Button' id="search" onclick="location.href='/search'">Search assets</button>
+    <button dojoType='dijit.form.Button' id="myBids" onclick="location.href='/mybids'">My placed bids</button>
+    <button dojoType='dijit.form.Button' id="logout" onclick="location.href='/dlogout'">Logout</button>
+  </div>
 </body>
 </html>
