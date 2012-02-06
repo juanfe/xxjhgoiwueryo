@@ -155,14 +155,14 @@ class DojoLogin(webapp.RequestHandler):
         if user:
             self.redirect('/home')
         else:
-            self.redirect(users.create_login_url('/home'))
+            self.redirect(users.create_login_url('/'))
 
 class DojoHome(webapp.RequestHandler):
     def get(self):
         self.response.out.write(template.render("templates/home.html",dict))
 class DojoLogout(webapp.RequestHandler):
     def get(self):
-        self.redirect(users.create_logout_url('/login'))
+        self.redirect(users.create_logout_url('/'))
        
 #################################################################
 
@@ -174,9 +174,9 @@ application = webapp.WSGIApplication(
                                       ('/dojobids', DojoBids),
                                       ('/logout', Logout),
                                       ('/home', DojoHome),
-                                      ('/login', DojoLogin),
                                       ('/dlogout', DojoLogout),
-                                      ('/', Search)                                      
+                                      ('/search', Search),
+                                      ('/', DojoLogin)
                                      ],
                                      debug=True)
 
