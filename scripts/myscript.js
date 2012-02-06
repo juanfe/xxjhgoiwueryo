@@ -49,51 +49,6 @@ dojo.addOnLoad(function() {
 		    ls.bidDialog.set("content",html);
 		    ls.bidDialog.set("title", 'Place Bids');
 
-			// set the layout structure:
-			var layout = [ [ {
-				'name' : 'Loan #',
-				'field' : 'Collateral',
-				'width' : 'auto',
-				'cellStyles' : 'text-align: center;',
-				'headerStyles': 'text-align: center;'
-			}, {
-				'name' : 'Loan Amount',
-				'field' : 'Current UPB',
-				'width' : 'auto',
-				'cellStyles' : 'text-align: center;',
-				'headerStyles': 'text-align: center;',
-				'formatter': function(item){
-					return dojo.number.format(item,{pattern:'#,##0.##'});
-					},
-			},{
-				'name' : 'Participation %',
-				'field' : 'participation',
-				'width' : 'auto',
-				'cellStyles' : 'text-align: center;',
-				'headerStyles': 'text-align: center;',
-				'editable':'true',
-				'formatter': function(item){
-					return dojo.number.format(item,{pattern: "#0.0"});
-					},
-			}, {
-				'name' : 'Bid Rate',
-				'field' : 'bidrate',
-				'width' : 'auto',
-				'formatter': '',
-				'cellStyles' : 'text-align: center;',
-				'headerStyles': 'text-align: center;',
-				'editable':'true',
-				'formatter': function(item){
-					return dojo.number.format(item,{pattern: "#0.0"});
-					},
-			}	] ];
-
-			ls.bidGrid = new dojox.grid.EnhancedGrid({
-				clientSort : true,
-				rowSelector : '20px',
-				structure : layout,
-				selectionMode: 'multiple'
-			}, 'bidGrid');
 		}
 	})
 });
@@ -137,7 +92,52 @@ function createBidGrid(selectedLoans){
 	}
 	bidData = {	items: selectedLoans}
 	var bidStore = new dojo.data.ItemFileWriteStore({data: bidData});
-	ls.bidGrid.store = bidStore; 
+	// set the layout structure:
+	var layout = [ [ {
+		'name' : 'Loan #',
+		'field' : 'Collateral',
+		'width' : 'auto',
+		'cellStyles' : 'text-align: center;',
+		'headerStyles': 'text-align: center;'
+	}, {
+		'name' : 'Loan Amount',
+		'field' : 'Current UPB',
+		'width' : 'auto',
+		'cellStyles' : 'text-align: center;',
+		'headerStyles': 'text-align: center;',
+		'formatter': function(item){
+			return dojo.number.format(item,{pattern:'#,##0.##'});
+			},
+	},{
+		'name' : 'Participation %',
+		'field' : 'participation',
+		'width' : 'auto',
+		'cellStyles' : 'text-align: center;',
+		'headerStyles': 'text-align: center;',
+		'editable':'true',
+		'formatter': function(item){
+			return dojo.number.format(item,{pattern: "#0.0"});
+			},
+	}, {
+		'name' : 'Bid Rate',
+		'field' : 'bidrate',
+		'width' : 'auto',
+		'formatter': '',
+		'cellStyles' : 'text-align: center;',
+		'headerStyles': 'text-align: center;',
+		'editable':'true',
+		'formatter': function(item){
+			return dojo.number.format(item,{pattern: "#0.0"});
+			},
+	}	] ];
+
+	ls.bidGrid = new dojox.grid.EnhancedGrid({
+		store : bidStore,
+		clientSort : true,
+		rowSelector : '20px',
+		structure : layout,
+		selectionMode: 'multiple'
+	}, 'bidGrid'); 
 	ls.bidGrid.startup();	
 }
 
