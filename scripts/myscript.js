@@ -164,6 +164,7 @@ function submitBidsClick(){
 			'bidrate' : selectedBids[i]['bidrate'][0]
 		};
 	}
+	dijit.byId('bidDialog').hide();
 	
 	var xhrArgs = {
             url: "/dojobids",
