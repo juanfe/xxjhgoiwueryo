@@ -147,7 +147,22 @@ class DojoBids(webapp.RequestHandler):
         bidsToSendJson = json.dumps(itemsWrapper)
         self.response.headers['Content-Type'] = 'application/json'
         self.response.out.write(bidsToSendJson)
-        
+
+class DojoLogin(webapp.RequestHandler):
+    def get(self):
+        user = getUser()
+        self.response.headers.add_header('Set-Cookie',userCookie())
+        if user:
+            self.redirect('/home')
+        else:
+            self.redirect(users.create_login_url('/home'))
+
+class DojoHome(webapp.RequestHandler):
+    def get(self):
+        self.response.out.write(template.render("templates/home.html",dict))
+class DojoLogout(webapp.RequestHandler):
+    def get(self):
+        self.redirect(users.create_logout_url('/login'))
        
 #################################################################
 
@@ -158,6 +173,9 @@ application = webapp.WSGIApplication(
                                       ('/bids', Retrieve),
                                       ('/dojobids', DojoBids),
                                       ('/logout', Logout),
+                                      ('/home', DojoHome),
+                                      ('/login', DojoLogin),
+                                      ('/dlogout', DojoLogout),
                                       ('/', Search)                                      
                                      ],
                                      debug=True)
