@@ -34,8 +34,8 @@ qx.Class.define("ls.mybids.Table",
     // Column name and type of each column of the table
     columnsInfo : [
       new ls.mybids.common.ColumnInfo("Collateral","int"),
-      new ls.mybids.common.ColumnInfo("Percentage owned (%)","float"),
-      new ls.mybids.common.ColumnInfo("Bid rate (%)","float"),
+      new ls.mybids.common.ColumnInfo("Participation %","float"),
+      new ls.mybids.common.ColumnInfo("Bid rate","float"),
       new ls.mybids.common.ColumnInfo("Status","string")
     ],
     // wrapper for the resource manager
