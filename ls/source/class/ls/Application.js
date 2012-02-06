@@ -69,6 +69,10 @@ qx.Class.define("ls.Application",
       var WinHome = new ls.mybids.Home();
       WinHome.mybidsButton.addListener("execute", mybidsScreen.open, mybidsScreen);
       WinHome.searchButton.addListener("execute", searchScreen.open, searchScreen);
+      searchScreen.setSubmitHandler(function() {
+        searchScreen.close();
+        mybidsScreen.open();
+      });
       WinHome.open();
     }
   }

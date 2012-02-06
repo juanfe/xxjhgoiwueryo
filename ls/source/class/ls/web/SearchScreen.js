@@ -65,6 +65,12 @@ qx.Class.define("ls.web.SearchScreen",
     WinTbl : null,
     open : function() {
       this.WinTbl.open();
+    },
+    close : function() {
+      this.WinTbl.close();
+    },
+    setSubmitHandler : function(handler) {
+      this.WinTbl.submissionSuccesful = handler
     }
   }
 });

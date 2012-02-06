@@ -201,6 +201,7 @@ qx.Class.define("ls.web.Table", {
 				}
 			}			
 	        ls.common.RequestAdapter.saveJson(sentRows);
+	        this.submissionSuccesful();
 		}, this);
 
 		tbl.getSelectionModel().setSelectionMode(qx.ui.table.selection.Model.NO_SELECTION);
@@ -236,6 +237,7 @@ qx.Class.define("ls.web.Table", {
 	members : {
 		TableModel : null,
 		Tbl : null,
-		BtnFilter : null
+		BtnFilter : null,
+		submissionSuccesful : null
 	}
 });
