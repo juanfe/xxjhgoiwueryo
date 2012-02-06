@@ -187,7 +187,7 @@ qx.Class.define("ls.web.Table", {
 			BtnPlaceBids.setWidth(0);
 		}, this);
 
-		BtnSubmitBids.addListenerOnce("execute", function(evt) {
+		BtnSubmitBids.addListener("execute", function(evt) {
 			var dataToPost = tableModel.getData();
 			var sentRow = [];
 			var sentRows = [];
@@ -201,7 +201,7 @@ qx.Class.define("ls.web.Table", {
 					sentRow = [];
 				}
 			}
-	        ls.common.RequestAdapter.saveJson(sentRows);
+	        ls.common.RequestAdapter.saveJson(dataToPost);
 		}, this);
 
 		tbl.getSelectionModel().setSelectionMode(qx.ui.table.selection.Model.NO_SELECTION);
