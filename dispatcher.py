@@ -3,6 +3,7 @@ from google.appengine.ext import webapp
 from google.appengine.ext import db
 from google.appengine.ext.webapp import template
 from google.appengine.ext.webapp.util import run_wsgi_app
+from django.utils import simplejson as json
 import logging
 import urllib
 
@@ -54,25 +55,37 @@ def bidsKey():
     key = getUser()
     return db.Key.from_path(entityKind, key)
 
+def getLatestJsonStoreContent():
+    jsonStores = JsonStore.gql("WHERE ANCESTOR IS :1 ", bidsKey())
+    jsonStore = None
+    for jsonStore in jsonStores:
+        logging.info(jsonStore.content)
+    return jsonStore.content if jsonStore else None
+
+def decodeJsonStr(jsonStr):
+    return urllib.unquote(jsonStr.encode('ascii')).decode('utf-8')
+
 class Persist(webapp.RequestHandler):
     def post(self):
-        text = self.request.get('bids') 
-        text = urllib.unquote(text.encode('ascii')).decode('utf-8')
-        logging.info(text)
+        storedJsonStr = getLatestJsonStoreContent()
+        if storedJsonStr:
+            storedJsonObj = json.loads(storedJsonStr)
+        else:
+            storedJsonObj = []
+        postedJsonStr = self.request.get('bids') 
+        postedJsonObj = json.loads(decodeJsonStr(postedJsonStr))
+        for element in postedJsonObj:
+            storedJsonObj.append(element)
+        logging.info(storedJsonObj)
+        storedJsonStr = json.dumps(storedJsonObj)
+        logging.info(storedJsonStr)
         jsonStore = JsonStore(parent=bidsKey())
-        jsonStore.content = db.Text(text)
+        jsonStore.content = db.Text(storedJsonStr)
         jsonStore.put()
             
 class Retrieve(webapp.RequestHandler):
     def get(self):
-        jsonStores = db.GqlQuery("SELECT * "
-                            "FROM JsonStore "
-                            "WHERE ANCESTOR IS :1 ",
-                            bidsKey())
-        jsonStore = None
-        for jsonStore in jsonStores:
-            logging.info(jsonStore.content)
-        self.response.out.write(jsonStore.content)
+        self.response.out.write(getLatestJsonStoreContent())
         
             
 
