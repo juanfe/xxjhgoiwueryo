@@ -55,11 +55,15 @@ def bidsKey():
     key = getUser()
     return db.Key.from_path(entityKind, key)
 
-def getLatestJsonStoreContent():
+def getLatestJsonStore():
     jsonStores = JsonStore.gql("WHERE ANCESTOR IS :1 ", bidsKey())
     jsonStore = None
     for jsonStore in jsonStores:
         logging.info(jsonStore.content)
+    return jsonStore
+
+def getLatestJsonStoreContent():
+    jsonStore = getLatestJsonStore()
     return jsonStore.content if jsonStore else None
 
 def decodeJsonStr(jsonStr):
@@ -79,7 +83,9 @@ class Persist(webapp.RequestHandler):
         logging.info(storedJsonObj)
         storedJsonStr = json.dumps(storedJsonObj)
         logging.info(storedJsonStr)
-        jsonStore = JsonStore(parent=bidsKey())
+        jsonStore = getLatestJsonStore()
+        if (not jsonStore):
+            jsonStore = JsonStore(parent=bidsKey())
         jsonStore.content = db.Text(storedJsonStr)
         jsonStore.put()
             
