@@ -71,10 +71,9 @@ qx.Class.define("ls.Application",
       WinHome.searchButton.addListener("execute", searchScreen.open, searchScreen);
       WinHome.saveButton.addListener("execute", function() {
         alert("trying to save");
-        var objToSend = {
-          "cmartinez": [["201149912", 1.13, 0.24, "Active"] , ["201148834", 31, 1.52, "Accepted"]],
-          "lzuniga" : [["201123452", 1.23, 0.34, "Cancelled"] , ["201148834", 45, 1.74, "Accepted"]]
-        };
+        var objToSend = [
+          ["201149912", 1.13, 0.24, "Active"] , ["201148834", 31, 1.52, "Accepted"]
+        ];
         ls.common.RequestAdapter.saveJson(objToSend);
         alert("should be saved");
       });
