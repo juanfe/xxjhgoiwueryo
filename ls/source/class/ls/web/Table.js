@@ -23,7 +23,7 @@
 qx.Class.define("ls.web.Table", {
 	extend : qx.ui.window.Window,
 
-	construct : function() {
+	construct : function(root) {
 		this.base(arguments, "Loans")
 		this.setShowClose(false);
 		this.setShowMaximize(false);
@@ -44,9 +44,12 @@ qx.Class.define("ls.web.Table", {
 
 		var TBPart1 = new qx.ui.toolbar.Part();
 		var BtnPlaceBids = new qx.ui.toolbar.Button("Place bids");
+		var BtnSubmitBids = new qx.ui.toolbar.Button("Submit bids");
+		BtnSubmitBids.setWidth(0);
 		var BtnRtrnToMySpot = new qx.ui.toolbar.Button("Return to My Spot");
 		BtnRtrnToMySpot.addListener("execute", this.close, this);
 		TBPart1.add(BtnPlaceBids);
+		TBPart1.add(BtnSubmitBids);
 		TBPart1.add(BtnRtrnToMySpot);
 		TBPart1.add(new qx.ui.toolbar.Separator());
 		toolbar.add(TBPart1);
@@ -167,7 +170,7 @@ qx.Class.define("ls.web.Table", {
 			decorator : null
 		});
 
-		BtnPlaceBids.addListener("execute", function(evt) {
+		BtnPlaceBids.addListenerOnce("execute", function(evt) {
 			var i = 2
 			for(i; i < CapColmNames.length - 2; i++) {
 				tcm.setColumnVisible(i, false);
@@ -180,6 +183,25 @@ qx.Class.define("ls.web.Table", {
 			tableModel.setValue(selectColumnId, selectColumnId, true);
 			tableModel.addNumericFilter("!=", true, selectColumnName);
 			tableModel.applyFilters();
+			BtnSubmitBids.setWidth(BtnPlaceBids.getWidth());
+			BtnPlaceBids.setWidth(0);
+		}, this);
+
+		BtnSubmitBids.addListenerOnce("execute", function(evt) {
+			var dataToPost = tableModel.getData();
+			var sentRow = [];
+			var sentRows = [];
+			for ( var i = 1; i < dataToPost.length; i++) {
+				if ( dataToPost[i][0] == true && dataToPost.lenght == 24 && dataToPost[i][22].lenght > 0 && dataToPost[i][23].lenght > 0 )
+				{
+					sentRow.push(dataToPost[i][1]);
+					sentRow.push(dataToPost[i][22]);
+					sentRow.push(dataToPost[i][23]);
+					sentRows.push(sentRow);
+					sentRow = [];
+				}
+			}
+	        ls.common.RequestAdapter.saveJson(sentRows);
 		}, this);
 
 		tbl.getSelectionModel().setSelectionMode(qx.ui.table.selection.Model.NO_SELECTION);
