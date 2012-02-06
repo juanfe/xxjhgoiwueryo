@@ -65,6 +65,15 @@ function filterFunc(item){
 	return selected;
 }
 
+function findMyAssetsClick(){
+	dijit.byId('filters').toggle();
+	applyFilters();
+}
+
+function placeBidsClick(){
+	var selectedLoans = ls.grid.selection.getSelected(); 
+}
+
 function applyFilters(){
 	//Find selected items
 	var selected = ls.fullData.filter(filterFunc, ls.conditions);

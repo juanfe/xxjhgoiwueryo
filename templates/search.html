@@ -116,14 +116,14 @@ font-size: 14px;
 			</tr>
 			<tr>
 				<td>
-					<button dojoType='dijit.form.Button' class='delete-button'
-						id="apply" onClick="applyFilters">Find My Assets</button>
+					<button dojoType='dijit.form.Button' id="apply" onClick="findMyAssetsClick">Find My Assets</button>
 				</td>
 			</tr>
 		</table>   			
 	</div>
-	<div style="width:99%;height:95%;" dojoType="dijit.layout.ContentPane">
+	<div style="width:99%;height:85%;" dojoType="dijit.layout.ContentPane">
 		<div id="grid"></div>
 	</div>
+	<button dojoType='dijit.form.Button' id="placeBids" onClick="placeBidsClick">Place bids on selected loans</button>
 </body>
 </html>
