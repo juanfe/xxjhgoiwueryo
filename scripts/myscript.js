@@ -40,6 +40,60 @@ dojo.addOnLoad(function() {
 			ls.advancePercentage = items.map(extractField,{field:'Advance'});
 			//Filters
 			initFilters();
+			//init palcebids dialog
+		    ls.bidDialog = new dijit.Dialog({
+		    	id: "bidDialog",
+		        autofocus: false	
+		    }); 
+		    var html = "<div style='width: 500px; height: 500px;'dojoType='dijit.layout.ContentPane'><button dojoType='dijit.form.Button' id='submitBids' onClick='submitBidsClick'>Place bids</button><div id='bidGrid'></div></div>";							
+		    ls.bidDialog.set("content",html);
+		    ls.bidDialog.set("title", 'Place Bids');
+
+			// set the layout structure:
+			var layout = [ [ {
+				'name' : 'Loan #',
+				'field' : 'Collateral',
+				'width' : 'auto',
+				'cellStyles' : 'text-align: center;',
+				'headerStyles': 'text-align: center;'
+			}, {
+				'name' : 'Loan Amount',
+				'field' : 'Current UPB',
+				'width' : 'auto',
+				'cellStyles' : 'text-align: center;',
+				'headerStyles': 'text-align: center;',
+				'formatter': function(item){
+					return dojo.number.format(item,{pattern:'#,##0.##'});
+					},
+			},{
+				'name' : 'Participation %',
+				'field' : 'participation',
+				'width' : 'auto',
+				'cellStyles' : 'text-align: center;',
+				'headerStyles': 'text-align: center;',
+				'editable':'true',
+				'formatter': function(item){
+					return dojo.number.format(item,{pattern: "#0.0"});
+					},
+			}, {
+				'name' : 'Bid Rate',
+				'field' : 'bidrate',
+				'width' : 'auto',
+				'formatter': '',
+				'cellStyles' : 'text-align: center;',
+				'headerStyles': 'text-align: center;',
+				'editable':'true',
+				'formatter': function(item){
+					return dojo.number.format(item,{pattern: "#0.0"});
+					},
+			}	] ];
+
+			ls.bidGrid = new dojox.grid.EnhancedGrid({
+				clientSort : true,
+				rowSelector : '20px',
+				structure : layout,
+				selectionMode: 'multiple'
+			}, 'bidGrid');
 		}
 	})
 });
@@ -71,8 +125,49 @@ function findMyAssetsClick(){
 }
 
 function placeBidsClick(){
-	var selectedLoans = ls.grid.selection.getSelected(); 
+	var selectedLoans = ls.grid.selection.getSelected();
+    createBidGrid(selectedLoans);
+    ls.bidDialog.resize();
+    ls.bidDialog.show();
 }
+
+function createBidGrid(selectedLoans){
+	for(var i=0; i < selectedLoans.length; i++){
+		dojo.mixin(selectedLoans[i],{'participation':[0.0], 'bidrate':[0.0]});
+	}
+	bidData = {	items: selectedLoans}
+	var bidStore = new dojo.data.ItemFileWriteStore({data: bidData});
+	ls.bidGrid.store = bidStore; 
+	ls.bidGrid.startup();	
+}
+
+function submitBidsClick(){
+	var selectedBids = ls.bidGrid.selection.getSelected();
+	var bids = {};
+	for (var i=0; i< selectedBids.length; i++){
+		bids[selectedBids[i]['Collateral']] =
+		{
+			'Collateral': selectedBids[i]['Collateral'][0],
+			'participation': selectedBids[i]['participation'][0],
+			'bidrate' : selectedBids[i]['bidrate'][0]
+		};
+	}
+	
+	var xhrArgs = {
+            url: "/dojobids",
+            content: {'bids':dojo.toJson(bids)},
+            handleAs: "json",
+            load: function(data) {
+            	console.log(data);
+            },
+            error: function(error) {
+            	console.log(error);
+            }
+        };
+        //Call the asynchronous xhrPost
+        var deferred = dojo.xhrPost(xhrArgs);
+}
+
 
 function applyFilters(){
 	//Find selected items

@@ -99,6 +99,12 @@ class Logout(webapp.RequestHandler):
     def get(self):
         self.redirect(users.create_logout_url('/qxapp'))
         
+class DojoBids(webapp.RequestHandler):
+    def post(self):
+        postedJsonStr = self.request.get('bids')
+        logging.info(postedJsonStr)
+        print postedJsonStr
+        
 #################################################################
 
 application = webapp.WSGIApplication(
@@ -107,6 +113,7 @@ application = webapp.WSGIApplication(
                                       ('/save', Persist),
                                       ('/bids', Retrieve),
                                       ('/logout', Logout),
+                                      ('/dojobids', DojoBids),
                                       ('/', Search)                                      
                                      ],
                                      debug=True)
