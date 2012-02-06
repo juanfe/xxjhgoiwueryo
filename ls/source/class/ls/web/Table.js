@@ -201,7 +201,7 @@ qx.Class.define("ls.web.Table", {
 					sentRow = [];
 				}
 			}
-	        ls.common.RequestAdapter.saveJson(dataToPost);
+	    ls.common.RequestAdapter.saveJson(dataToPost);
 		}, this);
 
 		tbl.getSelectionModel().setSelectionMode(qx.ui.table.selection.Model.NO_SELECTION);
