@@ -19,7 +19,7 @@ class Search(webapp.RequestHandler):
 
 class MyBids(webapp.RequestHandler):
     def get(self):       
-        self.response.out.write(template.render("templates/myBids.html",dict))
+        self.response.out.write(template.render("templates/mybids.html",dict))
 
 def getUser():
     user = users.get_current_user()
