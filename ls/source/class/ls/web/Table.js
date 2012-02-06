@@ -56,9 +56,7 @@ qx.Class.define("ls.web.Table", {
 
 		var TBPart2 = new qx.ui.toolbar.Part();
 		var BtnFilter = this.BtnFilter = new qx.ui.toolbar.Button("Filter");
-		var BtnLogout = new qx.ui.toolbar.Button("Logout");
 		TBPart2.add(BtnFilter);
-		TBPart2.add(BtnLogout);
 		toolbar.add(TBPart2);
 
 		toolbar.addSpacer();
