@@ -34,9 +34,9 @@ qx.Class.define("web.Control",
     //var BtnPlaceBids = new qx.ui.toolbar.Button("Find My Assets", "icon/22/actions/document-new.png");
     var BtnPlaceBids = new qx.ui.toolbar.Button("Find My Assets");
 
-    var BtnRtrnToMySpot = new qx.ui.toolbar.Button("Return to My Spot");
+    var BtnHome = new qx.ui.toolbar.Button("Return to My Spot");
     TBPart1.add(BtnPlaceBids);
-    TBPart1.add(BtnRtrnToMySpot);
+    TBPart1.add(BtnHome);
     TBPart1.add(new qx.ui.toolbar.Separator());
     toolbar.add(TBPart1);
 

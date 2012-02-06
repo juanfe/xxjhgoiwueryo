@@ -45,12 +45,16 @@ qx.Class.define("ls.web.Table", {
 		var TBPart1 = new qx.ui.toolbar.Part();
 		var BtnPlaceBids = new qx.ui.toolbar.Button("Place bids");
 		var BtnSubmitBids = new qx.ui.toolbar.Button("Submit bids");
+		
+		var BtnReturn = new qx.ui.toolbar.Button("Return");
+		var BtnHome = new qx.ui.toolbar.Button("Home");
 		BtnSubmitBids.setWidth(0);
-		var BtnRtrnToMySpot = new qx.ui.toolbar.Button("Return to My Spot");
-		BtnRtrnToMySpot.addListener("execute", this.close, this);
+		BtnReturn.setWidth(0);
+		
 		TBPart1.add(BtnPlaceBids);
 		TBPart1.add(BtnSubmitBids);
-		TBPart1.add(BtnRtrnToMySpot);
+		TBPart1.add(BtnReturn);
+		TBPart1.add(BtnHome);
 		TBPart1.add(new qx.ui.toolbar.Separator());
 		toolbar.add(TBPart1);
 
@@ -69,7 +73,7 @@ qx.Class.define("ls.web.Table", {
 		layout.setColumnFlex(0, 1);
 
 		//var CapColmNames = ["Sel", "Collateral", "State", "Zip", "Original UPB", "Current UPB",  "Origination Date", "Is Adjustable", "Advance %", "Investor Code", "Property Type Code", "Lien Position", "Original LTV", "Original CLTV", "FICO Score", "Purpose Code", "Occupancy Code", "Doc Level Code", "Debt Service Ratio", "Cur Note Rate", "CoreLogic Fraud Risk Score", "CoreLogic Collateral Risk Score"];
-		var CapColmNames = ["Selected", "Collateral", "State", "Zip", "Original UPB", "Current UPB", "Origination Date", "Is Adjustable", "Advance %", "Investor Code", "Property Type Code", "Lien Position", "Original LTV", "Original CLTV", "FICO Score", "Purpose Code", "Occupancy Code", "Doc Level Code", "Debt Service Ratio", "Cur Note Rate", "CoreLogic Fraud Risk Score", "CoreLogic Collateral Risk Score", "Participation %", "Bid rate"];
+		var CapColmNames = ["Selected", "Collateral", "State", "Zip", "Orig Loan Amount", "Curr Loan Amount", "Origination Date", "Is Adjustable", "Advance %", "Investor Code", "Property Type Code", "Lien Position", "Original LTV", "Original CLTV", "FICO Score", "Purpose Code", "Occupancy Code", "Doc Level Code", "Debt Service Ratio", "Cur Note Rate", "CoreLogic Fraud Risk Score", "CoreLogic Collateral Risk Score", "Participation %", "Bid rate"];
 		var colTypes = {
 			"Collateral" : "string",
 			"State" : "string",
@@ -134,6 +138,7 @@ qx.Class.define("ls.web.Table", {
 				}
 			});
 			tableModel.setData(rows);
+			tableModel.hideRows(0, 1);
 		});
 		req.send();
 
@@ -150,17 +155,28 @@ qx.Class.define("ls.web.Table", {
 
 		var selectColumnName = "Selected";
 		var selectColumnId = tableModel.getColumnIndexById(selectColumnName);
+		var loanAmountName = "Curr Loan Amount";
+		var loanAmountId = tableModel.getColumnIndexById(loanAmountName);
 
 		tcm.setDataCellRenderer(0, new qx.ui.table.cellrenderer.Boolean());
-		tableModel.setColumnEditable(0, true);
-		tcm.setCellEditorFactory(0, new qx.ui.table.celleditor.CheckBox());
-		//tbl.addListener("cellClick",function(e) {
-		//if (e.column == selectColumnId){
-		//tableModel.setValue( selectColumnId,e.getRow(),( tableModel.getValue( selectColumnId,e.getRow() == true ) ? false : true ));
-		//this.updateContent();
-		//}
-		//}, this);
-		tableModel.hideRows(0, 1);
+		tbl.addListener("cellClick", function(e) {
+			if(e.getColumn() == selectColumnId) {
+				var bValue = ((tableModel.getValue(selectColumnId, e.getRow()) == true ) ? false : true );
+				if(e.getRow() != 0) {
+					tableModel.setValue(selectColumnId, e.getRow(), bValue);
+				} 
+				// else {
+					// var dataToPost = tableModel.getData();
+					// for(var i = 0; i < dataToPost.length; i++) {
+						// for(var j = 0; j < rows.length; j++) {
+							// if(dataToPost[i][1] == rows[j][1]) {
+								// tableModel.setValue(selectColumnId, j, bValue);
+							// }
+						// }
+					// }
+				// }
+			}
+		}, this);
 
 		tbl.set({
 			width : 900,
@@ -168,30 +184,49 @@ qx.Class.define("ls.web.Table", {
 			decorator : null
 		});
 
-		BtnPlaceBids.addListenerOnce("execute", function(evt) {
-			var i = 2
+		BtnPlaceBids.addListener("execute", function(evt) {
+			var i = 2;
 			for(i; i < CapColmNames.length - 2; i++) {
 				tcm.setColumnVisible(i, false);
 			}
+			tcm.setColumnVisible(loanAmountId, true);
 			for(i; i < CapColmNames.length; i++) {
 				tableModel.setColumnEditable(i, true);
 				tcm.setColumnVisible(i, true);
 			}
 			tableModel.resetHiddenRows();
-			tableModel.setValue(selectColumnId, selectColumnId, true);
 			tableModel.addNumericFilter("!=", true, selectColumnName);
 			tableModel.applyFilters();
 			BtnSubmitBids.setWidth(BtnPlaceBids.getWidth());
+			BtnReturn.setWidth(BtnPlaceBids.getWidth());
 			BtnPlaceBids.setWidth(0);
 		}, this);
+
+		BtnReturn.addListener("execute", function(evt) {
+			var i = 2;
+			for(i; i < CapColmNames.length - 2; i++) {
+				tcm.setColumnVisible(i, true);
+			}
+			for(i; i < CapColmNames.length; i++) {
+				tableModel.setColumnEditable(i, false);
+				tcm.setColumnVisible(i, false);
+			}
+			tableModel.resetHiddenRows();
+			// tableModel.addNumericFilter("!=", true, selectColumnName);
+			// tableModel.applyFilters();
+			BtnPlaceBids.setWidth(BtnReturn.getWidth());
+			BtnSubmitBids.setWidth(0);
+			BtnReturn.setWidth(0);
+		}, this);
+
+		BtnHome.addListener("execute", this.close, this);
 
 		BtnSubmitBids.addListener("execute", function(evt) {
 			var dataToPost = tableModel.getData();
 			var sentRow = [];
 			var sentRows = [];
-			for ( var i = 1; i < dataToPost.length; i++) {
-				if ( dataToPost[i][0] == true) //&& dataToPost.lenght == 24 && dataToPost[i][22].lenght > 0 && dataToPost[i][23].lenght > 0 )
-				{
+			for(var i = 1; i < dataToPost.length; i++) {
+				if(dataToPost[i][0] == true && dataToPost.length == 24 && dataToPost[i][22].length > 0 && dataToPost[i][23].length > 0) {
 					sentRow.push(dataToPost[i][1]);
 					sentRow.push(dataToPost[i][22]);
 					sentRow.push(dataToPost[i][23]);
@@ -199,9 +234,9 @@ qx.Class.define("ls.web.Table", {
 					sentRows.push(sentRow);
 					sentRow = [];
 				}
-			}			
-	        ls.common.RequestAdapter.saveJson(sentRows);
-	        this.submissionSuccesful();
+			}
+			ls.common.RequestAdapter.saveJson(sentRows);
+			this.submissionSuccesful();
 		}, this);
 
 		tbl.getSelectionModel().setSelectionMode(qx.ui.table.selection.Model.NO_SELECTION);

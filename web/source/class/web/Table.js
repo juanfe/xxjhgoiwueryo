@@ -42,10 +42,10 @@ qx.Class.define("web.Table",
 
 	var TBPart1 = new qx.ui.toolbar.Part();
 	var BtnPlaceBids = new qx.ui.toolbar.Button("Place bids");
-	var BtnRtrnToMySpot = new qx.ui.toolbar.Button("Return to My Spot");
+	var BtnHome = new qx.ui.toolbar.Button("Return to My Spot");
 
 	TBPart1.add(BtnPlaceBids);
-	TBPart1.add(BtnRtrnToMySpot);
+	TBPart1.add(BtnHome);
 	TBPart1.add(new qx.ui.toolbar.Separator());
 	toolbar.add(TBPart1);
 
