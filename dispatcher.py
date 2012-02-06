@@ -32,12 +32,19 @@ def getUser():
     else:
         return None
 
+def userCookie():
+    userCookieKey = 'com.liquidityspot.user'
+    user = getUser()
+    if user:
+        return '%s=%s;' % (userCookieKey, user)
+    else:
+        return '%s=; Max-Age=0; Path=/' % userCookieKey
+
 class Qxapp(webapp.RequestHandler):
     def get(self):
         user = getUser()
-        logging.debug(user)
+        self.response.headers.add_header('Set-Cookie',userCookie())
         if user:
-            self.response.headers.add_header('Set-Cookie','com.liquidityspot.user=%s;' % user)     
             self.redirect('/system/index.html')
         else:
             self.redirect(users.create_login_url(self.request.uri))
@@ -55,12 +62,6 @@ class Persist(webapp.RequestHandler):
         jsonStore = JsonStore(parent=bidsKey())
         jsonStore.content = text
         jsonStore.put()
-        #jsonStores = db.GqlQuery("SELECT * "
-                            #"FROM JsonStore "
-                            #"WHERE ANCESTOR IS :1 ",
-                            #bidsKey())
-        #for retrievesJsonStore in jsonStores:
-            #logging.info(retrievesJsonStore.content)
             
 class Retrieve(webapp.RequestHandler):
     def get(self):
@@ -72,6 +73,10 @@ class Retrieve(webapp.RequestHandler):
             self.response.out.write(jsonStore.content)
             logging.info(jsonStore.content)
             break
+
+class Logout(webapp.RequestHandler):
+    def get(self):
+        self.redirect(users.create_logout_url('/qxapp'))
         
 #################################################################
 
@@ -80,6 +85,7 @@ application = webapp.WSGIApplication(
                                       ('/qxapp', Qxapp),
                                       ('/save', Persist),
                                       ('/bids', Retrieve),
+                                      ('/logout', Logout),
                                       ('/', Search)                                      
                                      ],
                                      debug=True)
