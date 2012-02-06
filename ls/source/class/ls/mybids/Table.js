@@ -7,7 +7,8 @@ qx.Class.define("ls.mybids.Table",
     var columnInfoDict = new ls.mybids.common.ColumnInfoDictionary(this.self(arguments).columnsInfo);
     this.base(arguments, columnInfoDict.getNames());
     this.user = user;
-    this.self(arguments).loadJson(this.self(arguments).getJsonUrl(), this.self(arguments).extractDataTo, this);
+    //this.self(arguments).loadJson(this.self(arguments).getJsonUrl(), this.self(arguments).extractDataTo, this);
+    this.reloadJson();
     var homeButton = new qx.ui.toolbar.Button("Home");
     homeButton.addListener("execute", this.close, this);
     this.addButton(homeButton);
@@ -16,7 +17,10 @@ qx.Class.define("ls.mybids.Table",
   members : {
     sourceData : null,
     user : "",
-    button : null
+    button : null,
+    reloadJson : function() {
+      this.self(arguments).loadJson(this.self(arguments).getJsonUrl(), this.self(arguments).extractDataTo, this);
+    }
   },
   
   statics : {

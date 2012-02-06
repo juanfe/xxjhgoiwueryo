@@ -14,6 +14,7 @@ qx.Class.define("ls.mybids.MybidsScreen",
   {
     WinTbl : null,
     open : function() {
+      this.WinTbl.reloadJson();
       this.WinTbl.open();
     }
   }
