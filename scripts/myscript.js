@@ -92,7 +92,7 @@ function updateBidGrid(selectedLoans){
 		dojo.mixin(selectedLoans[i],{'participation':[0.0], 'bidrate':[0.0]});
 	}
 	// Create new datastore with selected items only
-	var bidStore = new dojo.data.ItemFileReadStore(
+	var bidStore = new dojo.data.ItemFileWriteStore(
 			{data: {	
 				identifier: 'Collateral',
 				items: selectedLoans}
