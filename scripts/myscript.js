@@ -48,6 +48,7 @@ dojo.addOnLoad(function() {
 		    var html = "<div style='width: 500px; height: 500px;'dojoType='dijit.layout.ContentPane'><button dojoType='dijit.form.Button' id='submitBids' onClick='submitBidsClick'>Place bids</button><div id='bidGrid'></div></div>";							
 		    ls.bidDialog.set("content",html);
 		    ls.bidDialog.set("title", 'Place Bids');
+		    initBidsGrid();
 
 		}
 	})
@@ -79,18 +80,29 @@ function findMyAssetsClick(){
 	applyFilters();
 }
 
-function placeBidsClick(){
+function placeBidsClick() {
 	var selectedLoans = ls.grid.selection.getSelected();
-    createBidGrid(selectedLoans);
-    ls.bidDialog.resize();
-    ls.bidDialog.show();
+	updateBidGrid(selectedLoans);
+	ls.bidDialog.resize();
+	ls.bidDialog.show();
 }
 
-function createBidGrid(selectedLoans){
+function updateBidGrid(selectedLoans){
 	for(var i=0; i < selectedLoans.length; i++){
 		dojo.mixin(selectedLoans[i],{'participation':[0.0], 'bidrate':[0.0]});
 	}
-	bidData = {	items: selectedLoans}
+	// Create new datastore with selected items only
+	var bidStore = new dojo.data.ItemFileReadStore(
+			{data: {	
+				identifier: 'Collateral',
+				items: selectedLoans}
+			});
+	
+	ls.bidGrid.setStore(bidStore);
+}
+
+function initBidsGrid(){
+	bidData = {	items: []};
 	var bidStore = new dojo.data.ItemFileWriteStore({data: bidData});
 	// set the layout structure:
 	var layout = [ [ {
@@ -130,15 +142,15 @@ function createBidGrid(selectedLoans){
 			return dojo.number.format(item,{pattern: "#0.0"});
 			},
 	}	] ];
-
+		
 	ls.bidGrid = new dojox.grid.EnhancedGrid({
 		store : bidStore,
 		clientSort : true,
 		rowSelector : '20px',
 		structure : layout,
 		selectionMode: 'multiple'
-	}, 'bidGrid'); 
-	ls.bidGrid.startup();	
+	}, 'bidGrid');
+	ls.bidGrid.startup();
 }
 
 function submitBidsClick(){
