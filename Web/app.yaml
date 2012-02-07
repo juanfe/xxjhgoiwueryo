@@ -1,0 +1,23 @@
+application: liquidityspot
+version: 1
+runtime: python
+api_version: 1
+
+handlers:
+- url: /css
+  static_dir: css
+  
+- url: /scripts
+  static_dir: scripts
+
+- url: /images
+  static_dir: images
+
+- url: /data
+  static_dir: data
+
+- url: /system
+  static_dir: ls/build
+
+- url: /.*
+  script: dispatcher.py
