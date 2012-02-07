@@ -48,6 +48,7 @@ qx.Class.define("ls.web.Table", {
 		
 		var BtnReturn = new qx.ui.toolbar.Button("Return");
 		var BtnHome = new qx.ui.toolbar.Button("Home");
+		BtnPlaceBids.setWidth(100);
 		BtnSubmitBids.setWidth(0);
 		BtnReturn.setWidth(0);
 		
@@ -162,9 +163,9 @@ qx.Class.define("ls.web.Table", {
 		tbl.addListener("cellClick", function(e) {
 			if(e.getColumn() == selectColumnId) {
 				var bValue = ((tableModel.getValue(selectColumnId, e.getRow()) == true ) ? false : true );
-				if(e.getRow() != 0) {
+				// if(e.getRow() != 0) {
 					tableModel.setValue(selectColumnId, e.getRow(), bValue);
-				} 
+				// } 
 				// else {
 					// var dataToPost = tableModel.getData();
 					// for(var i = 0; i < dataToPost.length; i++) {
@@ -212,14 +213,26 @@ qx.Class.define("ls.web.Table", {
 				tcm.setColumnVisible(i, false);
 			}
 			tableModel.resetHiddenRows();
-			// tableModel.addNumericFilter("!=", true, selectColumnName);
-			// tableModel.applyFilters();
 			BtnPlaceBids.setWidth(BtnReturn.getWidth());
 			BtnSubmitBids.setWidth(0);
 			BtnReturn.setWidth(0);
 		}, this);
 
-		BtnHome.addListener("execute", this.close, this);
+		BtnHome.addListener("execute", function(evt) {
+			var i = 2;
+			for(i; i < CapColmNames.length - 2; i++) {
+				tcm.setColumnVisible(i, true);
+			}
+			for(i; i < CapColmNames.length; i++) {
+				tableModel.setColumnEditable(i, false);
+				tcm.setColumnVisible(i, false);
+			}
+			tableModel.resetHiddenRows();
+			BtnPlaceBids.setWidth(BtnReturn.getWidth());
+			BtnSubmitBids.setWidth(0);
+			BtnReturn.setWidth(0);
+			this.homeClicked();
+		}, this);
 
 		BtnSubmitBids.addListener("execute", function(evt) {
 			var dataToPost = tableModel.getData();
@@ -273,6 +286,7 @@ qx.Class.define("ls.web.Table", {
 		TableModel : null,
 		Tbl : null,
 		BtnFilter : null,
-		submissionSuccesful : null
+		submissionSuccesful : null,
+		homeClicked : null
 	}
 });

@@ -73,6 +73,10 @@ qx.Class.define("ls.Application",
         searchScreen.close();
         mybidsScreen.open();
       });
+      searchScreen.setHomeHandler(function() {
+        searchScreen.close();
+        WinHome.open();
+      });
       WinHome.open();
     }
   }

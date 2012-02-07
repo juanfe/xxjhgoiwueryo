@@ -71,6 +71,9 @@ qx.Class.define("ls.web.SearchScreen",
     },
     setSubmitHandler : function(handler) {
       this.WinTbl.submissionSuccesful = handler
+    },
+    setHomeHandler : function(handler) {
+      this.WinTbl.homeClicked = handler
     }
   }
 });
