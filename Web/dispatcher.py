@@ -5,7 +5,6 @@ from google.appengine.ext.webapp import template
 from google.appengine.ext.webapp.util import run_wsgi_app
 from django.utils import simplejson as json
 import logging
-import urllib
 
 class Bids(db.Model):
     content = db.TextProperty()
@@ -94,7 +93,7 @@ class BidsRest(webapp.RequestHandler):
         self.response.headers['Content-Type'] = 'application/json'
         self.response.out.write(bidsToSendJson)
 
-class DojoLogin(webapp.RequestHandler):
+class Login(webapp.RequestHandler):
     def get(self):
         user = getUser()
         #self.response.headers.add_header('Set-Cookie',userCookie())
@@ -118,7 +117,7 @@ application = webapp.WSGIApplication(
                                       ('/home', Home),
                                       ('/logout', Logout),
                                       ('/search', Search),
-                                      ('/', DojoLogin)
+                                      ('/', Login)
                                      ],
                                      debug=True)
 
