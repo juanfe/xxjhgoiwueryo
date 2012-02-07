@@ -7,6 +7,22 @@ ls.fullData=[];
 ls.selectedLoanType = {};
 ls.selectedPropertyType = {};
 ls.checkboxGroups = {};
+
+ls.Condition = function(configObj)
+{
+	//internal variables
+	var obj = configObj;
+	var userSatisfy;
+
+	this.setSatisfy = function(func){
+		userSatisfy = func;
+	}
+	    	    	
+	this.satisfy = function(item){
+		return userSatisfy(item,obj);
+	}
+};
+
 dojo.addOnLoad(function() {
 	ls.dataStore = new dojo.data.ItemFileReadStore({
 		identifier:'Collateral',
