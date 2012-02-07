@@ -13,7 +13,7 @@ var ls={};
 dojo.addOnLoad(function() {
 	ls.dataStore = new dojo.data.ItemFileReadStore({
     identifier:'Collateral',
-    url : "/dojobids"
+    url : "/bids"
   });
 	createGrid(ls.dataStore)
 	ls.dataStore.fetch({

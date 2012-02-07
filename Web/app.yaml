@@ -16,8 +16,5 @@ handlers:
 - url: /data
   static_dir: data
 
-- url: /system
-  static_dir: ls/build
-
 - url: /.*
   script: dispatcher.py

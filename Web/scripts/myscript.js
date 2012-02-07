@@ -183,7 +183,7 @@ function submitBidsClick(){
 	dijit.byId('bidDialog').hide();
 	
 	var xhrArgs = {
-            url: "/dojobids",
+            url: "/bids",
             content: {'bids':dojo.toJson(bids)},
             handleAs: "json",
             load: function(data) {

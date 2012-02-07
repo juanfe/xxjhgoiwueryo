@@ -7,9 +7,6 @@ from django.utils import simplejson as json
 import logging
 import urllib
 
-class JsonStore(db.Model):
-    content = db.TextProperty()
-    
 class Bids(db.Model):
     content = db.TextProperty()
 
@@ -36,61 +33,10 @@ def userCookie():
     else:
         return '%s=; Max-Age=0; Path=/' % userCookieKey
 
-class Qxapp(webapp.RequestHandler):
-    def get(self):
-        user = getUser()
-        self.response.headers.add_header('Set-Cookie',userCookie())
-        if user:
-            self.redirect('/system/index.html')
-        else:
-            self.redirect(users.create_login_url(self.request.uri))
-
 def bidsKey():
     entityKind = 'JsonStore'
     key = getUser()
     return db.Key.from_path(entityKind, key)
-
-def getLatestJsonStore():
-    jsonStores = JsonStore.gql("WHERE ANCESTOR IS :1 ", bidsKey())
-    jsonStore = None
-    for jsonStore in jsonStores:
-        logging.info(jsonStore.content)
-    return jsonStore
-
-def getLatestJsonStoreContent():
-    jsonStore = getLatestJsonStore()
-    return jsonStore.content if jsonStore else None
-
-def decodeJsonStr(jsonStr):
-    return urllib.unquote(jsonStr.encode('ascii')).decode('utf-8')
-
-class Persist(webapp.RequestHandler):
-    def post(self):
-        storedJsonStr = getLatestJsonStoreContent()
-        if storedJsonStr:
-            storedJsonObj = json.loads(storedJsonStr)
-        else:
-            storedJsonObj = []
-        postedJsonStr = self.request.get('bids') 
-        postedJsonObj = json.loads(decodeJsonStr(postedJsonStr))
-        for element in postedJsonObj:
-            storedJsonObj.append(element)
-        logging.info(storedJsonObj)
-        storedJsonStr = json.dumps(storedJsonObj)
-        logging.info(storedJsonStr)
-        jsonStore = getLatestJsonStore()
-        if (not jsonStore):
-            jsonStore = JsonStore(parent=bidsKey())
-        jsonStore.content = db.Text(storedJsonStr)
-        jsonStore.put()
-            
-class Retrieve(webapp.RequestHandler):
-    def get(self):
-        self.response.out.write(getLatestJsonStoreContent())
-
-class Logout(webapp.RequestHandler):
-    def get(self):
-        self.redirect(users.create_logout_url('/qxapp'))
 
 #Storage of the dojo bids json
 dojoAjaxKey = 'bids'
@@ -121,7 +67,7 @@ def setDbBids(bidsJson):
     bids.content = bidsJson
     bids.put()        
 
-class DojoBids(webapp.RequestHandler):
+class BidsRest(webapp.RequestHandler):
     def post(self):
         bidsObj = getBidsObj()
         bidsToAddJson = self.request.get('bids')
@@ -151,16 +97,16 @@ class DojoBids(webapp.RequestHandler):
 class DojoLogin(webapp.RequestHandler):
     def get(self):
         user = getUser()
-        self.response.headers.add_header('Set-Cookie',userCookie())
+        #self.response.headers.add_header('Set-Cookie',userCookie())
         if user:
             self.redirect('/home')
         else:
             self.redirect(users.create_login_url('/'))
 
-class DojoHome(webapp.RequestHandler):
+class Home(webapp.RequestHandler):
     def get(self):
         self.response.out.write(template.render("templates/home.html",dict))
-class DojoLogout(webapp.RequestHandler):
+class Logout(webapp.RequestHandler):
     def get(self):
         self.redirect(users.create_logout_url('/'))
        
@@ -168,13 +114,9 @@ class DojoLogout(webapp.RequestHandler):
 
 application = webapp.WSGIApplication(
                                      [('/mybids', MyBids),
-                                      ('/qxapp', Qxapp),
-                                      ('/save', Persist),
-                                      ('/bids', Retrieve),
-                                      ('/dojobids', DojoBids),
+                                      ('/bids', BidsRest),
+                                      ('/home', Home),
                                       ('/logout', Logout),
-                                      ('/home', DojoHome),
-                                      ('/dlogout', DojoLogout),
                                       ('/search', Search),
                                       ('/', DojoLogin)
                                      ],
