@@ -639,6 +639,15 @@ function createGrid(dataStore) {
 	} ] ];
 	
 	
+//	/*programmatic menus*/
+//    var menusObject = {
+//        rowMenu: new dijit.Menu(),
+//    };
+//
+//    menusObject.rowMenu.addChild(new dijit.MenuItem({label: "Show loan details"}));
+//    menusObject.rowMenu.addChild(new dijit.MenuItem({label: "Select loan"}));
+//    menusObject.rowMenu.startup();	
+	
 	ls.grid = new dojox.grid.EnhancedGrid({
 		query: {'Collateral':'*'},
 		store : dataStore,
@@ -646,8 +655,12 @@ function createGrid(dataStore) {
 		rowSelector : '20px',
 		structure : layout,
 		columnReordering: true,
-		selectionMode: 'multiple'
+		selectionMode: 'multiple',
+		onRowContextMenu: showLoanDetails
+//		plugins: {menus: menusObject},
 	}, document.createElement('div'));
+	
+	dojo.connect(ls.grid, "onRowContextMenu", showLoanDetails);
 
 	// append the new grid to the div "grid":
 	dojo.byId("grid").appendChild(ls.grid.domNode);
@@ -655,6 +668,35 @@ function createGrid(dataStore) {
 	// Call startup, in order to render the grid:
 	ls.grid.startup();
 }
+
+function showLoanDetails(e){
+	var item = e.grid.getItem(e.rowIndex);
+	dijit.showTooltip(tooltipMarkup(item),e.srcElement);
+	
+	if (dijit.byId('closeButton'))
+		dijit.byId('closeButton').destroy();
+	
+	var button = new dijit.form.Button({
+	        label: "Close",
+	        onClick: function(){
+	        	dijit.byId('dijit__MasterTooltip_0').domNode.style.cssText = '';//Ugly, should be better way!
+	        }
+	    }, "closeButton");
+}
+
+
+function tooltipMarkup(item){
+	var html = "<button id='closeButton'></button>";
+	html += "<table>";
+	for (prop in item){
+		if (item.hasOwnProperty(prop) && (prop.search("^_.*") == -1)){
+			html += "<tr><td>" + prop + ": " + item[prop] + "</td></tr>";
+		}
+	}
+	html += "</table>";
+	return html;
+}
+
 
 Array.max = function( array ){
     return Math.max.apply( Math, array );

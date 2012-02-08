@@ -48,7 +48,6 @@ html,body {
     	          "dojox.grid.EnhancedGrid",
     	          "dojox.form.RangeSlider",
     	          "dijit.form.CheckBox",
-    	          /* "ls.Condition", */
     	          "dijit.Dialog"
     	          ]
     };
@@ -126,6 +125,7 @@ font-size: 14px;
 	</div>
 	<button dojoType='dijit.form.Button' id="placeBids" onClick="placeBidsClick">Create bids for selected loans</button>
 	<button dojoType='dijit.form.Button' id="myBids" onclick="location.href='/mybids'">My Placed Bids</button>
+	<span>Right click on loan to see full detais</span>
 	<div style="width:99%;height:65%;" dojoType="dijit.layout.ContentPane">
 		<div id="grid"></div>
 	</div>
