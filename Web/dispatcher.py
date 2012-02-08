@@ -33,7 +33,7 @@ def userCookie():
         return '%s=; Max-Age=0; Path=/' % userCookieKey
 
 def bidsKey():
-    entityKind = 'JsonStore'
+    entityKind = 'Bids'
     key = getUser()
     return db.Key.from_path(entityKind, key)
 
