@@ -48,6 +48,13 @@ def getDbBids():
         dbBids = bids
     return dbBids
 
+def clearDbBids():
+    bidsQuery = Bids.gql("WHERE ANCESTOR IS :1 ", bidsKey())
+    for bids in bidsQuery:
+        bids.delete()
+    dbBids = None
+    return dbBids
+        
 def getBidsObj():
     bids =  getDbBids()
     if bids:
@@ -95,6 +102,11 @@ class BidsRest(webapp.RequestHandler):
         self.response.headers['Content-Type'] = 'application/json'
         self.response.out.write(bidsToSendJson)
 
+class Clean(webapp.RequestHandler):
+    def post(self):
+        clearDbBids()
+        self.redirect('/home')
+        
 class Login(webapp.RequestHandler):
     def get(self):
         user = getUser()
@@ -107,6 +119,7 @@ class Login(webapp.RequestHandler):
 class Home(webapp.RequestHandler):
     def get(self):
         self.response.out.write(template.render("templates/home.html",dict))
+        
 class Logout(webapp.RequestHandler):
     def get(self):
         self.redirect(users.create_logout_url('/'))
@@ -139,6 +152,7 @@ application = webapp.WSGIApplication(
                                       ('/home', Home),
                                       ('/logout', Logout),
                                       ('/search', Search),
+                                      ('/clean', Clean),
                                       ('/download', Download),
                                       ('/', Login)
                                      ],

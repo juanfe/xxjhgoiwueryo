@@ -76,3 +76,19 @@ function createGrid(dataStore) {
 	// Call startup, in order to render the grid:
 	ls.grid.startup();
 }
+
+function cleanBidsClick(){
+	var xhrArgs = {
+            url: "/clean",
+            handleAs: "json",
+            load: function(data) {
+            	console.log(data);
+            },
+            error: function(error) {
+            	console.log(error);
+            }
+        };
+        //Call the asynchronous xhrPost
+        var deferred = dojo.xhrPost(xhrArgs);
+}
+
