@@ -25,9 +25,9 @@
   	<div id = 'screenTitle'>My bids</div>
 	<div>
   		<div class='topMenuLeft'>
-			<button dojoType='dijit.form.Button' id="home" onclick="location.href='/home'">Home</button>
-			<button dojoType='dijit.form.Button' onclick="location.href='/search'">Search assets</button>
-			<button dojoType='dijit.form.Button' onclick="location.href='/logout'">Logout</button>
+  			{% for menuPage in menuPages %}
+    		<button dojoType='dijit.form.Button' onclick="location.href={{ menuPage.url }}">{{ menuPage.text }}</button>
+			{% endfor %}
   		</div>
   		<div class='topMenuRight'>
   			<button dojoType='dijit.form.Button' id='cleanBids' onClick='cleanBidsClick'>Clean bids</button>

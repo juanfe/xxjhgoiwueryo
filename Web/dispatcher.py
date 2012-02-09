@@ -8,21 +8,65 @@ import logging
 import StringIO
 import csv
 
+#Model for storage
 class Bids(db.Model):
     content = db.TextProperty()
 
+#Rendering logic
+class Page:
+    HOME = 1
+    SEARCH = 2
+    MYBIDS = 3
+    LOGOUT = 4
+    
+class HomePage:
+    url = "'/home'"
+    text = 'Home'
+class SearchPage:
+    url = "'/search'"
+    text = 'Search assets'
+class MyBidsPage:
+    url = "'/mybids'"
+    text = 'My placed bids'
+class LogoutPage:
+    url = "'/logout'"
+    text = 'Logout'
+def getMenuPages(page):
+    enumRegister = {
+        Page.HOME : HomePage,
+        Page.SEARCH : SearchPage,
+        Page.MYBIDS : MyBidsPage,
+        Page.LOGOUT : LogoutPage
+    }
+    menuPages = []
+    for key,val in enumRegister.iteritems():
+        if key != page:
+            menuPages.append(val)
+    return menuPages
+def getPageDict(page):
+    return {
+            'menuPages' : getMenuPages(page)
+    }
+#Rendered pages
 class Home(webapp.RequestHandler):
     def get(self):
-        self.response.out.write(template.render("templates/home.html",dict))
+        page = Page.HOME
+        parameters = getPageDict(page)
+        self.response.out.write(template.render("templates/home.html",parameters))
 
 class Search(webapp.RequestHandler):
     def get(self):
-        self.response.out.write(template.render("templates/search.html",dict))
+        page = Page.SEARCH
+        parameters = getPageDict(page)
+        self.response.out.write(template.render("templates/search.html",parameters))
 
 class MyBids(webapp.RequestHandler):
-    def get(self):       
-        self.response.out.write(template.render("templates/mybids.html",dict))
+    def get(self): 
+        page = Page.MYBIDS
+        parameters = getPageDict(page)  
+        self.response.out.write(template.render("templates/mybids.html",parameters))
 
+#Retrieving the current logged user
 def getUser():
     user = users.get_current_user()
     if user:

@@ -24,9 +24,9 @@
   	<div id = 'screenTitle'>Welcome to the exchange</div>
 	<div id = 'menu'>
   		<div class='topMenuLeft'>
-    		<button dojoType='dijit.form.Button' onclick="location.href='/search'">Search assets</button>
-    		<button dojoType='dijit.form.Button' onclick="location.href='/mybids'">My placed bids</button>
-    		<button dojoType='dijit.form.Button' onclick="location.href='/logout'">Logout</button>
+  			{% for menuPage in menuPages %}
+    		<button dojoType='dijit.form.Button' onclick="location.href={{ menuPage.url }}">{{ menuPage.text }}</button>
+			{% endfor %}
     	</div>
   	</div>
   	<div id = 'content'/>

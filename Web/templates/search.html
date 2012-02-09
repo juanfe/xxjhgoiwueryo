@@ -60,9 +60,9 @@ font-size: 14px;
   	<div id = 'screenTitle'>Search bids</div>
   	<div id = 'menu'>
   		<div class='topMenuLeft'>
-    		<button dojoType='dijit.form.Button' id="home" onclick="location.href='/home'">Home</button>
-			<button dojoType='dijit.form.Button' onclick="location.href='/mybids'">My placed bids</button>
-    		<button dojoType='dijit.form.Button' onclick="location.href='/logout'">Logout</button>
+  			{% for menuPage in menuPages %}
+    		<button dojoType='dijit.form.Button' onclick="location.href={{ menuPage.url }}">{{ menuPage.text }}</button>
+			{% endfor %}
   		</div>
   	</div>
   	<div id = 'content'/>
