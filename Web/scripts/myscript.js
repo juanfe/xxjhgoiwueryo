@@ -53,7 +53,7 @@ dojo.addOnLoad(function() {
 			ls.coreLogicCollateralRisk = items.map(extractField,{field:'CoreLogic Collateral Risk Score'});
 			ls.coreLogicFraudRisk = items.map(extractField,{field:'CoreLogic Fraud Risk Score'});
 			ls.fico = items.map(extractField,{field:'fico_score'});
-			ls.advancePercentage = items.map(extractField,{field:'advance_amt'});
+			ls.advanceAmount = items.map(extractField,{field:'advance_amt'});
 			//Filters
 			initFilters();
 			//init palcebids dialog
@@ -253,6 +253,7 @@ function submitBidsClick(){
 function applyFilters(){
 	//Find selected items
 	var selected = ls.fullData.filter(filterFunc, ls.conditions);
+	dojo.byId('loanCount').innerHTML = selected.length + ' loans match your criteria.';
 
 	// Create new datastore with selected items only
 	var newStore = new dojo.data.ItemFileReadStore(
@@ -519,7 +520,7 @@ function initFilters() {
     createCheckboxGroup('property_type_code',["SFR","PUD","CONDO","TOWNHOUSE","MANUFACTURED"],'propertyType');
     
     //States
-    createCheckboxGroup('State', 
+    createCheckboxGroup('state', 
     		["AL","AK","AZ","AR","CA","CO","CT","DE","FL","GA","HI","ID","IL","IN","IA","KS","KY","LA","ME","MD",
     		 "MA","MI","MN","MS","MO","MT","NE","NV","NH","NJ","NM","NY","NC","ND","OH","OK","OR","PA","RI","SC",
     		 "SD","TN","TX","UT","VT","VA","WA","WV","WI","WY"],
@@ -529,16 +530,27 @@ function initFilters() {
 
 function createCheckboxGroup(name,options,parentNode,labelMap){
 	var node = dojo.create("div", { id:name},parentNode);
+	var table = dojo.create("table",{},node);
+	var tr = dojo.create("tr",{},table);
+	var maxColsPerRow = 12;
+	var colsPerRow = 0;
 	ls.checkboxGroups[name]={};
 	for (var i=0; i<options.length; i++){
-		createCheckbox(name,options[i],(labelMap ? labelMap[options[i]] : undefined));
+		if (colsPerRow < maxColsPerRow){
+			colsPerRow++;
+			var td = dojo.create("td", {'style':'text-align:right;'},tr);
+			createCheckbox(name,options[i],(labelMap ? labelMap[options[i]] : undefined),td);			
+		}else{
+			colsPerRow = 0;
+			tr = dojo.create("tr", {},table);
+		}
 	}
 }
 
-function createCheckbox(group,option, label){
+function createCheckbox(group,option,label,parentNode){
 	var name = (label ? label : option);
-	var node = dojo.create("span", { innerHTML:'&nbsp;' + name + '&nbsp;'},dojo.byId(group));
-	var node = dojo.create("div", { id:option},dojo.byId(group));
+	var label = dojo.create("span", { innerHTML:'&nbsp;' + name + '&nbsp;'},parentNode);
+	var chkboxdiv = dojo.create("div", { id:option},parentNode);
 	var checkBox = new dijit.form.CheckBox({
         name: option,
         checked: false,
@@ -562,7 +574,7 @@ function createCheckbox(group,option, label){
 			condition.setSatisfy(func);
 			ls.conditions[group] = condition;        	
         }
-      },node);
+      },chkboxdiv);
 }
 
 
@@ -664,6 +676,7 @@ function createGrid(dataStore) {
 		'name' : 'Advance %',
 		'field' : 'advance_amt',
 		'width' : 'auto',
+		'get': getAdvancePercent,
 		'formatter': function(item){
 			return dojo.number.format(item,{pattern:'#%'});
 			},		
@@ -708,6 +721,13 @@ function createGrid(dataStore) {
 	
 	
 }
+
+function getAdvancePercent(rowIndex, item){
+    if (item != null) {
+        return item.advance_amt / item.curr_upb;
+    }
+}
+
 
 function initLoanDetailsGrid(){
 	/* set up layout */

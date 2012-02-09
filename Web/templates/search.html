@@ -118,9 +118,10 @@ font-size: 14px;
 	<button dojoType='dijit.form.Button' id="placeBids" onClick="placeBidsClick">Create bids for selected loans</button>
 	<button dojoType='dijit.form.Button' id="myBids" onclick="location.href='/mybids'">My Placed Bids</button>
 	<button dojoType='dijit.form.Button' id="downloadDetails" onClick="downloadDetailsClick">Download selected loans details</button>
-	<span style="font-size:100%">Click to select a loan, Ctrl-click to select mutliple loans and Shift-click for a range of loans.</span>
-	<span style="font-size:100%">Right-click on a loan to see full loan details.</span>
-	<div style="width:99%;height:65%;" dojoType="dijit.layout.ContentPane">
+	<span style="font-size:80%">Click to select a loan, Ctrl-click to select mutliple loans and Shift-click for a range of loans.</span>
+	<span style="font-size:80%">Right-click on a loan to see full loan details.</span></br>
+	<div id='loanCount' style="font-size:80%; color:red; text-align:center">Showing all loans.</div>
+	<div style="width:99%;height:80%;" dojoType="dijit.layout.ContentPane">
 		<div id="grid"></div>
 	</div>
 	<form id="downloadForm" method="post" action="#">
