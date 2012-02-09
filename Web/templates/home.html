@@ -21,11 +21,14 @@
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/dojo/1.6.0/dojo/dojo.xd.js"></script>
 </head>
 <body class='claro'>
-  <div id = 'screenTitle'>Welcome to the exchange</div>
-  <div>
-    <button dojoType='dijit.form.Button' onclick="location.href='/search'">Search assets</button>
-    <button dojoType='dijit.form.Button' onclick="location.href='/mybids'">My placed bids</button>
-    <button dojoType='dijit.form.Button' onclick="location.href='/logout'">Logout</button>
-  </div>
+  	<div id = 'screenTitle'>Welcome to the exchange</div>
+	<div id = 'menu'>
+  		<div class='topMenuLeft'>
+    		<button dojoType='dijit.form.Button' onclick="location.href='/search'">Search assets</button>
+    		<button dojoType='dijit.form.Button' onclick="location.href='/mybids'">My placed bids</button>
+    		<button dojoType='dijit.form.Button' onclick="location.href='/logout'">Logout</button>
+    	</div>
+  	</div>
+  	<div id = 'content'/>
 </body>
 </html>

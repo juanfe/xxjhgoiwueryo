@@ -58,11 +58,14 @@ font-size: 14px;
 </head>
 <body class='claro'>
   	<div id = 'screenTitle'>Search bids</div>
-  	<div>
-    	<button dojoType='dijit.form.Button' id="home" onclick="location.href='/home'">Home</button>
-		<button dojoType='dijit.form.Button' onclick="location.href='/mybids'">My placed bids</button>
-    	<button dojoType='dijit.form.Button' onclick="location.href='/logout'">Logout</button>
+  	<div id = 'menu'>
+  		<div class='topMenuLeft'>
+    		<button dojoType='dijit.form.Button' id="home" onclick="location.href='/home'">Home</button>
+			<button dojoType='dijit.form.Button' onclick="location.href='/mybids'">My placed bids</button>
+    		<button dojoType='dijit.form.Button' onclick="location.href='/logout'">Logout</button>
+  		</div>
   	</div>
+  	<div id = 'content'/>
 	<div id="filters" data-dojo-type="dijit.TitlePane" data-dojo-props="title: 'Loan Filters'">
 		<table style='margin:auto;width:100%'>
 			<tr>

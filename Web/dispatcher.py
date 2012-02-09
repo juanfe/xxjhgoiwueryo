@@ -11,6 +11,10 @@ import csv
 class Bids(db.Model):
     content = db.TextProperty()
 
+class Home(webapp.RequestHandler):
+    def get(self):
+        self.response.out.write(template.render("templates/home.html",dict))
+
 class Search(webapp.RequestHandler):
     def get(self):
         self.response.out.write(template.render("templates/search.html",dict))
@@ -116,10 +120,6 @@ class Login(webapp.RequestHandler):
         else:
             self.redirect(users.create_login_url('/'))
 
-class Home(webapp.RequestHandler):
-    def get(self):
-        self.response.out.write(template.render("templates/home.html",dict))
-        
 class Logout(webapp.RequestHandler):
     def get(self):
         self.redirect(users.create_logout_url('/'))
