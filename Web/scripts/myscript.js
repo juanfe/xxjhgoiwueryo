@@ -114,21 +114,6 @@ function downloadDetailsClick() {
 	dummyForm.submit();
 }
 
-/*function loansDataToJson(loansData) {
-	var rows = [],
-		loansDataJson,
-		i;
-	for(i = 0; i < loansData.length; i++) {
-		rows.push(dojo.toJson(loansData[i].slice(0,loansData[i].length - 2)));
-	}
-	loansDataJson = "[";
-	for(i = 0; i < rows.length; i++) {
-		loansDataJson += rows[i];
-	}
-	loansDataJson += "]";
-	return loansDataJson;
-}*/
-
 function extractLoansData(selectedLoans) {
 	var headers = [],
 		firstLoan = true,

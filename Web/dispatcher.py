@@ -5,7 +5,6 @@ from google.appengine.ext.webapp import template
 from google.appengine.ext.webapp.util import run_wsgi_app
 from django.utils import simplejson as json
 import logging
-#import os
 import StringIO
 import csv
 
@@ -112,13 +111,6 @@ class Logout(webapp.RequestHandler):
     def get(self):
         self.redirect(users.create_logout_url('/'))
         
-#def getLoansDetails(keys):
-#    fundingDataurl = "resources/FundingData.json"
-#    path = os.path.join(os.path.dirname(__file__), fundingDataurl)
-#    f = open(path, 'r')
-#    fundingData = json.loads(f.read())
-#    loansData = fundingData['items']      
-
 def jsonToCsv(jsonStr):
     rows = json.loads(jsonStr)
     csvOut = StringIO.StringIO()
