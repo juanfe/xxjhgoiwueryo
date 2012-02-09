@@ -11,21 +11,8 @@
 	href="http://ajax.googleapis.com/ajax/libs/dojo/1.6.0/dojox/grid/resources/claroGrid.css" />
 <link rel='stylesheet' type='text/css' 
 	href='http://ajax.googleapis.com/ajax/libs/dojo/1.6.0/dojox/form/resources/RangeSlider.css'/>		
-<style type="text/css">
-html,body {
-	width: 100%;
-	height: 100%;
-	margin: 0;
-	overflow: hidden;
-}
-
-/*Grid need a explicit width/height by default*/
-#grid {
-	width: 100%;
-	height: 100%;
-}
-
-</style>
+<link rel="stylesheet" type="text/css"
+	href="css/common.css" />
 
 <!-- 3rd party libs -->
 <script>
@@ -70,7 +57,12 @@ font-size: 14px;
 
 </head>
 <body class='claro'>
-  <a href="/home">Home</a>
+  	<div id = 'screenTitle'>Search bids</div>
+  	<div>
+    	<button dojoType='dijit.form.Button' id="home" onclick="location.href='/home'">Home</button>
+		<button dojoType='dijit.form.Button' onclick="location.href='/mybids'">My placed bids</button>
+    	<button dojoType='dijit.form.Button' onclick="location.href='/logout'">Logout</button>
+  	</div>
 	<div id="filters" data-dojo-type="dijit.TitlePane" data-dojo-props="title: 'Loan Filters'">
 		<table style='margin:auto;width:100%'>
 			<tr>
