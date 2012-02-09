@@ -29,31 +29,31 @@ dojo.addOnLoad(function() {
 		url : "../data/FundingData.json"
 	});
 	ls.dataStore.fetch({
-		query: {'Collateral':'*'},
+		query: {'collateral_key':'*'},
 		onComplete:function(items){
 			//Adjust data types
 			ls.convertFunctions['CoreLogic Collateral Risk Score'] = parseInt;
 			ls.convertFunctions['CoreLogic Fraud Risk Score'] = parseInt;
-			ls.convertFunctions['Original LTV'] = parseFloat;
-			ls.convertFunctions['Original CLTV'] = parseFloat;
-			ls.convertFunctions['Current UPB'] = parseFloat;
-			ls.convertFunctions['FICO Score'] = parseInt;
-			ls.convertFunctions['Advance'] = parseFloat;
+			ls.convertFunctions['original_ltv'] = parseFloat;
+			ls.convertFunctions['original_cltv'] = parseFloat;
+			ls.convertFunctions['curr_upb'] = parseFloat;
+			ls.convertFunctions['fico_score'] = parseInt;
+			ls.convertFunctions['advance_amt'] = parseFloat;
 			ls.fullData = items.map(adjustDataType,ls.convertFunctions);
 			//Create grid
 			createGrid(ls.dataStore);
 			//extract columns for filters
-			ls.states = items.map(extractField,{field:'State'});
-			ls.propertyType = items.map(extractField,{field:'Property Type Code'});
-			ls.loanType = items.map(extractField,{field:'Is Adjustable'});
-			ls.lienType = items.map(extractField,{field:'Lien Position'});
-			ls.maxLTV = items.map(extractField,{field:'Original LTV'});
-			ls.maxCLTV = items.map(extractField,{field:'Original CLTV'});
-			ls.loanAmount = items.map(extractField,{field:'Current UPB'});
+			ls.states = items.map(extractField,{field:'state'});
+			ls.propertyType = items.map(extractField,{field:'property_type_code'});
+			ls.loanType = items.map(extractField,{field:'is_adjustable'});
+			ls.lienType = items.map(extractField,{field:'lien_position'});
+			ls.maxLTV = items.map(extractField,{field:'original_ltv'});
+			ls.maxCLTV = items.map(extractField,{field:'original_cltv'});
+			ls.loanAmount = items.map(extractField,{field:'curr_upb'});
 			ls.coreLogicCollateralRisk = items.map(extractField,{field:'CoreLogic Collateral Risk Score'});
 			ls.coreLogicFraudRisk = items.map(extractField,{field:'CoreLogic Fraud Risk Score'});
-			ls.fico = items.map(extractField,{field:'FICO Score'});
-			ls.advancePercentage = items.map(extractField,{field:'Advance'});
+			ls.fico = items.map(extractField,{field:'fico_score'});
+			ls.advancePercentage = items.map(extractField,{field:'advance_amt'});
 			//Filters
 			initFilters();
 			//init palcebids dialog
@@ -65,7 +65,15 @@ dojo.addOnLoad(function() {
 		    ls.bidDialog.set("content",html);
 		    ls.bidDialog.set("title", 'Place Bids');
 		    initBidsGrid();
-
+			//init loand details dialog
+		    ls.loanDetailsDialog = new dijit.Dialog({
+		    	id: "loanDetailsDialog",
+		        autofocus: false	
+		    }); 
+		    var html = "<div style='width: 350px; height: 500px;'dojoType='dijit.layout.ContentPane'><div id='loanDetailsGrid'></div></div>";							
+		    ls.loanDetailsDialog.set("content",html);
+		    ls.loanDetailsDialog.set("title", 'Loan Details');
+		    initLoanDetailsGrid();
 		}
 	})
 });
@@ -152,7 +160,7 @@ function updateBidGrid(selectedLoans){
 	// Create new datastore with selected items only
 	var bidStore = new dojo.data.ItemFileWriteStore(
 			{data: {	
-				identifier: 'Collateral',
+				identifier: 'collateral_key',
 				items: selectedLoans}
 			});
 	
@@ -165,13 +173,13 @@ function initBidsGrid(){
 	// set the layout structure:
 	var layout = [ [ {
 		'name' : 'Loan #',
-		'field' : 'Collateral',
+		'field' : 'collateral_key',
 		'width' : 'auto',
 		'cellStyles' : 'text-align: center;',
 		'headerStyles': 'text-align: center;'
 	}, {
 		'name' : 'Loan Amount',
-		'field' : 'Current UPB',
+		'field' : 'curr_upb',
 		'width' : 'auto',
 		'cellStyles' : 'text-align: center;',
 		'headerStyles': 'text-align: center;',
@@ -211,13 +219,15 @@ function initBidsGrid(){
 	ls.bidGrid.startup();
 }
 
+
+
 function submitBidsClick(){
 	var selectedBids = ls.bidGrid.selection.getSelected();
 	var bids = {};
 	for (var i=0; i< selectedBids.length; i++){
-		bids[selectedBids[i]['Collateral']] =
+		bids[selectedBids[i]['collateral_key']] =
 		{
-			'Collateral': selectedBids[i]['Collateral'][0],
+			'collateral_key': selectedBids[i]['collateral_key'][0],
 			'participation': selectedBids[i]['participation'][0],
 			'bidrate' : selectedBids[i]['bidrate'][0]
 		};
@@ -247,7 +257,7 @@ function applyFilters(){
 	// Create new datastore with selected items only
 	var newStore = new dojo.data.ItemFileReadStore(
 			{data: { 
-				identifier: 'Collateral',
+				identifier: 'collateral_key',
 				items: selected}
 			});
 
@@ -328,12 +338,12 @@ function initFilters() {
 						return (val > obj.min) && (val < obj.max);
 					};
 					var condition = new ls.Condition({
-						field : 'FICO Score',
+						field : 'fico_score',
 						min : value[0],
 						max : value[1]
 					});
 					condition.setSatisfy(func);
-					ls.conditions['FICO Score'] = condition;
+					ls.conditions['fico_score'] = condition;
 					dojo.byId("ficoRange").innerHTML = "[" + dojo.number.format(value[0],{fractional:false,type:'decimal'}) + " - " +
 															 dojo.number.format(value[1],{fractional:false,type:'decimal'}) + "]";
 					
@@ -348,7 +358,7 @@ function initFilters() {
 			onChange: function(value){
 				if (this.State == 'Error') return;
 				if (!value){
-					delete ls.conditions['Current UPB_min'];
+					delete ls.conditions['curr_upb_min'];
 					return;
 				}
 				var func = function(item, obj) {
@@ -356,11 +366,11 @@ function initFilters() {
 					return (val > obj.value);
 				};
 				var condition = new ls.Condition({
-					field : 'Current UPB',
+					field : 'curr_upb',
 					value: value
 				});
 				condition.setSatisfy(func);
-				ls.conditions['Current UPB_min'] = condition;
+				ls.conditions['curr_upb_min'] = condition;
 			}
         };
 	var minLoanAmount = new dijit.form.NumberTextBox(props,"minLoanAmount");
@@ -374,7 +384,7 @@ function initFilters() {
     		onChange: function(value){
 				if (this.State == 'Error') return;
 				if (!value){
-					delete ls.conditions['Current UPB_max'];
+					delete ls.conditions['curr_upb_max'];
 					return;
 				}
 
@@ -383,11 +393,11 @@ function initFilters() {
 					return (val < obj.value);
 				};
 				var condition = new ls.Condition({
-					field : 'Current UPB',
+					field : 'curr_upb',
 					value: value
 				});
 				condition.setSatisfy(func);
-				ls.conditions['Current UPB_max'] = condition;
+				ls.conditions['curr_upb_max'] = condition;
 			}
         };
 	var maxLoanAmount = new dijit.form.NumberTextBox(props,"maxLoanAmount");
@@ -401,7 +411,7 @@ function initFilters() {
     		onChange: function(value){
 				if (this.State == 'Error') return;
 				if (!value){
-					delete ls.conditions['Original LTV'];
+					delete ls.conditions['original_ltv'];
 					return;
 				}
 				var func = function(item, obj) {
@@ -409,11 +419,11 @@ function initFilters() {
 					return (val < obj.value);
 				};
 				var condition = new ls.Condition({
-					field : 'Original LTV',
+					field : 'original_ltv',
 					value: value
 				});
 				condition.setSatisfy(func);
-				ls.conditions['Original LTV_max'] = condition;
+				ls.conditions['original_ltv_max'] = condition;
 			}
         };
 	var maxLTV = new dijit.form.NumberTextBox(props,"maxLTV");
@@ -427,7 +437,7 @@ function initFilters() {
     		onChange: function(value){
 				if (this.State == 'Error') return;
 				if (!value){
-					delete ls.conditions['Original CLTV_max'];
+					delete ls.conditions['original_cltv_max'];
 					return;
 				}
 				var func = function(item, obj) {
@@ -435,11 +445,11 @@ function initFilters() {
 					return (val < obj.value);
 				};
 				var condition = new ls.Condition({
-					field : 'Original CLTV',
+					field : 'original_cltv',
 					value: value
 				});
 				condition.setSatisfy(func);
-				ls.conditions['Original CLTV_max'] = condition;
+				ls.conditions['original_cltv_max'] = condition;
 			}
         };
 	var maxLTV = new dijit.form.NumberTextBox(props,"maxCLTV");
@@ -453,7 +463,7 @@ function initFilters() {
     		onChange: function(value){
 				if (this.State == 'Error') return;
 				if (!value){
-					delete ls.conditions['Advance'];
+					delete ls.conditions['advance_amt'];
 					return;
 				}
 				var func = function(item, obj) {
@@ -461,11 +471,11 @@ function initFilters() {
 					return (val < obj.value);
 				};
 				var condition = new ls.Condition({
-					field : 'Advance',
+					field : 'advance_amt',
 					value: value/100
 				});
 				condition.setSatisfy(func);
-				ls.conditions['Advance'] = condition;
+				ls.conditions['advance_amt'] = condition;
 			}
         };
 	var maxAdvPercentace = new dijit.form.NumberTextBox(props,"maxAdv");
@@ -493,20 +503,20 @@ function initFilters() {
 
 			};
 			var condition = new ls.Condition({
-				field : 'Lien Position',
+				field : 'lien_position',
 				value: value
 			});
 			condition.setSatisfy(func);
-			ls.conditions['Lien Position'] = condition;        	
+			ls.conditions['lien_position'] = condition;        	
         }
     }, "lienType");
     select.startup();
     
     //Loan Types
-    createCheckboxGroup('Is Adjustable',["0","1"],'loanType',{'0':'FIXED', '1':'ARM'});
+    createCheckboxGroup('is_adjustable',["0","1"],'loanType',{'0':'FIXED', '1':'ARM'});
     
     //Property Types
-    createCheckboxGroup('Property Type Code',["SFR","PUD","CONDO","TOWNHOUSE","MANUFACTURED"],'propertyType');
+    createCheckboxGroup('property_type_code',["SFR","PUD","CONDO","TOWNHOUSE","MANUFACTURED"],'propertyType');
     
     //States
     createCheckboxGroup('State', 
@@ -584,26 +594,26 @@ function distinct(items) {
 function createGrid(dataStore) {
 	// set the layout structure:
 	var layout = [ [ {
-		'name' : 'Collateral Key',
-		'field' : 'Collateral',
+		'name' : 'Loan ID',
+		'field' : 'collateral_key',
 		'width' : 'auto',
 		'cellStyles' : 'text-align: center;',
 		'headerStyles': 'text-align: center;'
 	}, {
 		'name' : 'Property Type',
-		'field' : 'Property Type Code',
+		'field' : 'property_type_code',
 		'width' : 'auto',
 		'cellStyles' : 'text-align: center;',
 		'headerStyles': 'text-align: center;'
 	}, {
 		'name' : 'State',
-		'field' : 'State',
+		'field' : 'state',
 		'width' : 'auto',
 		'cellStyles' : 'text-align: center;',
 		'headerStyles': 'text-align: center;'
 	}, {
 		'name' : 'Loan Type',
-		'field' : 'Is Adjustable',
+		'field' : 'is_adjustable',
 		'width' : 'auto',
 		'formatter': function(item){
 			var names = {'0':'FIXED','1':'ARM'};
@@ -613,7 +623,7 @@ function createGrid(dataStore) {
 		'headerStyles': 'text-align: center;'
 	},{
 		'name' : 'Lien Type',
-		'field' : 'Lien Position',
+		'field' : 'lien_position',
 		'width' : 'auto',
 		'formatter': function(item){
 			var names = {'1':'FIRST','2':'SECOND'};
@@ -623,7 +633,7 @@ function createGrid(dataStore) {
 		'headerStyles': 'text-align: center;'
 	},{
 		'name' : 'Max LTV',
-		'field' : 'Original LTV',
+		'field' : 'original_ltv',
 		'width' : 'auto',
 		'formatter': function(item){
 			return dojo.number.format(item,{pattern: "#00.00"});
@@ -632,7 +642,7 @@ function createGrid(dataStore) {
 		'headerStyles': 'text-align: center;'
 	},{
 		'name' : 'Max CLTV',
-		'field' : 'Original CLTV',
+		'field' : 'original_cltv',
 		'width' : 'auto',
 		'formatter': function(item){
 			return dojo.number.format(item,{pattern: "#00.00"});
@@ -642,7 +652,7 @@ function createGrid(dataStore) {
 	},
 	{
 		'name' : 'Loan Amount',
-		'field' : 'Current UPB',
+		'field' : 'curr_upb',
 		'width' : 'auto',
 		'formatter': function(item){
 			return dojo.number.format(item,{pattern:'#,##0.##'});
@@ -652,7 +662,7 @@ function createGrid(dataStore) {
 	},
 	{
 		'name' : 'Advance %',
-		'field' : 'Advance',
+		'field' : 'advance_amt',
 		'width' : 'auto',
 		'formatter': function(item){
 			return dojo.number.format(item,{pattern:'#%'});
@@ -674,32 +684,18 @@ function createGrid(dataStore) {
 		'headerStyles': 'text-align: center;'
 	},{
 		'name' : 'FICO',
-		'field' : 'FICO Score',
+		'field' : 'fico_score',
 		'width' : 'auto',
 		'cellStyles' : 'text-align: center;',
 		'headerStyles': 'text-align: center;'
 	} ] ];
 	
-	
-//	/*programmatic menus*/
-//    var menusObject = {
-//        rowMenu: new dijit.Menu(),
-//    };
-//
-//    menusObject.rowMenu.addChild(new dijit.MenuItem({label: "Show loan details"}));
-//    menusObject.rowMenu.addChild(new dijit.MenuItem({label: "Select loan"}));
-//    menusObject.rowMenu.startup();	
-	
 	ls.grid = new dojox.grid.EnhancedGrid({
-		query: {'Collateral':'*'},
+		query: {'collateral_key':'*'},
 		store : dataStore,
 		clientSort : true,
-		rowSelector : '20px',
 		structure : layout,
 		columnReordering: true,
-		selectionMode: 'multiple',
-		onRowContextMenu: showLoanDetails
-//		plugins: {menus: menusObject},
 	}, document.createElement('div'));
 	
 	dojo.connect(ls.grid, "onRowContextMenu", showLoanDetails);
@@ -709,35 +705,59 @@ function createGrid(dataStore) {
 
 	// Call startup, in order to render the grid:
 	ls.grid.startup();
+	
+	
 }
+
+function initLoanDetailsGrid(){
+	/* set up layout */
+	var layout = [ [ {
+		'name' : 'Field',
+		'field' : 'field',
+		'width' : 'auto'
+	}, {
+		'name' : 'Value',
+		'field' : 'value',
+		'width' : 'auto'
+	} ] ];
+
+	/* create a new grid: */
+	ls.loanDetailsGrid = new dojox.grid.DataGrid({
+		structure : layout
+	},'loanDetailsGrid');
+	ls.loanDetailsGrid.startup();
+}
+
+function updateLoanDetails(item){
+	var fields = [];
+	for (prop in item) {
+		if (item.hasOwnProperty(prop) && (prop.search("^_.*") == -1)) {
+			fields.push({
+				field : prop,
+				value : item[prop]
+			});
+		}
+	}
+
+	// Create new datastore with selected items only
+	var store = new dojo.data.ItemFileWriteStore(
+			{data: {	
+				items: fields}
+			});
+	
+	ls.loanDetailsGrid.setStore(store);
+}
+
 
 function showLoanDetails(e){
 	var item = e.grid.getItem(e.rowIndex);
-	dijit.showTooltip(tooltipMarkup(item),e.srcElement);
-	
-	if (dijit.byId('closeButton'))
-		dijit.byId('closeButton').destroy();
-	
-	var button = new dijit.form.Button({
-	        label: "Close",
-	        onClick: function(){
-	        	dijit.byId('dijit__MasterTooltip_0').domNode.style.cssText = '';//Ugly, should be better way!
-	        }
-	    }, "closeButton");
+	updateLoanDetails(item);
+	ls.loanDetailsDialog.resize();
+	ls.loanDetailsDialog.show();
 }
 
 
-function tooltipMarkup(item){
-	var html = "<button id='closeButton'></button>";
-	html += "<table>";
-	for (prop in item){
-		if (item.hasOwnProperty(prop) && (prop.search("^_.*") == -1)){
-			html += "<tr><td>" + prop + ": " + item[prop] + "</td></tr>";
-		}
-	}
-	html += "</table>";
-	return html;
-}
+	
 
 
 Array.max = function( array ){
