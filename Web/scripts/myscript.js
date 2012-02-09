@@ -103,6 +103,63 @@ function placeBidsClick() {
 	ls.bidDialog.show();
 }
 
+function downloadDetailsClick() {
+	var selectedLoans = ls.grid.selection.getSelected(),
+		loansData = extractLoansData(selectedLoans),
+		loansDataJson = dojo.toJson(loansData),
+		dummyForm = dojo.byId('downloadForm'),
+		keysPlaceHolder = dojo.byId('downloadInfo');
+	dummyForm.action = '/download';
+	keysPlaceHolder.value = loansDataJson;
+	dummyForm.submit();
+}
+
+/*function loansDataToJson(loansData) {
+	var rows = [],
+		loansDataJson,
+		i;
+	for(i = 0; i < loansData.length; i++) {
+		rows.push(dojo.toJson(loansData[i].slice(0,loansData[i].length - 2)));
+	}
+	loansDataJson = "[";
+	for(i = 0; i < rows.length; i++) {
+		loansDataJson += rows[i];
+	}
+	loansDataJson += "]";
+	return loansDataJson;
+}*/
+
+function extractLoansData(selectedLoans) {
+	var headers = [],
+		firstLoan = true,
+		loanData,
+		loansData = [];
+	if(selectedLoans.length){
+		dojo.forEach(selectedLoans, function(selectedLoan){
+			if(selectedLoan !== null){
+				loanData = []
+				dojo.forEach(ls.grid.store.getAttributes(selectedLoan), function(attribute){
+					var value = ls.grid.store.getValue(selectedLoan, attribute);
+					if(firstLoan) {
+						headers.push(attribute);
+					}
+					loanData.push(value);				
+				});
+				if(firstLoan) {
+					loansData.push(headers);
+					firstLoan = false;
+				}
+				loansData.push(loanData);
+			}
+		});
+	}
+	// removing some dojo internal attributes
+	for(var i = 0; i<loansData.length; i++){
+		loansData[i].length -= 2;
+	}
+	return loansData;
+}
+
 function updateBidGrid(selectedLoans){
 	for(var i=0; i < selectedLoans.length; i++){
 		dojo.mixin(selectedLoans[i],{'participation':[0.0], 'bidrate':[0.0]});

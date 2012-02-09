@@ -5,6 +5,9 @@ from google.appengine.ext.webapp import template
 from google.appengine.ext.webapp.util import run_wsgi_app
 from django.utils import simplejson as json
 import logging
+#import os
+import StringIO
+import csv
 
 class Bids(db.Model):
     content = db.TextProperty()
@@ -108,6 +111,33 @@ class Home(webapp.RequestHandler):
 class Logout(webapp.RequestHandler):
     def get(self):
         self.redirect(users.create_logout_url('/'))
+        
+#def getLoansDetails(keys):
+#    fundingDataurl = "resources/FundingData.json"
+#    path = os.path.join(os.path.dirname(__file__), fundingDataurl)
+#    f = open(path, 'r')
+#    fundingData = json.loads(f.read())
+#    loansData = fundingData['items']      
+
+def jsonToCsv(jsonStr):
+    rows = json.loads(jsonStr)
+    csvOut = StringIO.StringIO()
+    if rows is not None:
+        writer = csv.writer(csvOut)
+        writer.writerows(rows)
+    csvStr = csvOut.getvalue()
+    csvOut.close()
+    return csvStr      
+    
+class Download(webapp.RequestHandler):
+    def post(self):
+        self.response.headers['Content-Type'] = 'application/octet-stream'
+        self.response.headers['Content-Disposition'] = 'attachment;filename=\"Loans Details.csv\"'
+        bidsJson = self.request.get('bids')
+        bidsCsv = jsonToCsv(bidsJson)
+        #details = getLoansDetails(keys)
+        self.response.out.write(bidsCsv)
+        
        
 #################################################################
 
@@ -117,6 +147,7 @@ application = webapp.WSGIApplication(
                                       ('/home', Home),
                                       ('/logout', Logout),
                                       ('/search', Search),
+                                      ('/download', Download),
                                       ('/', Login)
                                      ],
                                      debug=True)
