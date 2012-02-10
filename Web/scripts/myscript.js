@@ -8,22 +8,10 @@ ls.selectedLoanType = {};
 ls.selectedPropertyType = {};
 ls.checkboxGroups = {};
 
-ls.Condition = function(configObj)
-{
-	//internal variables
-	var obj = configObj;
-	var userSatisfy;
-
-	this.setSatisfy = function(func){
-		userSatisfy = func;
-	}
-	    	    	
-	this.satisfy = function(item){
-		return userSatisfy(item,obj);
-	}
-};
-
 dojo.addOnLoad(function() {
+	//Get field labels
+	initFieldLabels();
+	//Get data
 	ls.dataStore = new dojo.data.ItemFileReadStore({
 		identifier:'Collateral',
 		url : "../data/FundingData.json"
@@ -56,14 +44,7 @@ dojo.addOnLoad(function() {
 			ls.advanceAmount = items.map(extractField,{field:'advance_amt'});
 			//Filters
 			initFilters();
-			//init palcebids dialog
-		    ls.bidDialog = new dijit.Dialog({
-		    	id: "bidDialog",
-		        autofocus: false	
-		    }); 
-		    var html = "<div style='width: 500px; height: 500px;'dojoType='dijit.layout.ContentPane'><button dojoType='dijit.form.Button' id='submitBids' onClick='submitBidsClick'>Place bids</button><div id='bidGrid'></div></div>";							
-		    ls.bidDialog.set("content",html);
-		    ls.bidDialog.set("title", 'Place Bids');
+			initBidsDialog();
 		    initBidsGrid();
 			//init loand details dialog
 		    ls.loanDetailsDialog = new dijit.Dialog({
@@ -77,6 +58,18 @@ dojo.addOnLoad(function() {
 		}
 	})
 });
+
+
+function initBidsDialog() {
+	ls.bidDialog = new dijit.Dialog({
+		id : "bidDialog",
+		autofocus : false
+	});
+	var html = "<div style='width: 500px; height: 500px;'dojoType='dijit.layout.ContentPane'><button dojoType='dijit.form.Button' id='submitBids' onClick='submitBidsClick'>Place bids</button><div id='bidGrid'></div></div>";
+	ls.bidDialog.set("content", html);
+	ls.bidDialog.set("title", 'Place Bids');
+
+}
 
 //this is mapped into the imported items. The "this" holds information on the data types that should be applied. 
 function adjustDataType(item){
@@ -172,13 +165,13 @@ function initBidsGrid(){
 	var bidStore = new dojo.data.ItemFileWriteStore({data: bidData});
 	// set the layout structure:
 	var layout = [ [ {
-		'name' : 'Loan #',
+		'name' : ls.labels['collateral_key'],
 		'field' : 'collateral_key',
 		'width' : 'auto',
 		'cellStyles' : 'text-align: center;',
 		'headerStyles': 'text-align: center;'
 	}, {
-		'name' : 'Loan Amount',
+		'name' : ls.labels['curr_upb'],
 		'field' : 'curr_upb',
 		'width' : 'auto',
 		'cellStyles' : 'text-align: center;',
@@ -271,7 +264,7 @@ function initFilters() {
 	var min = Array.min(ls.coreLogicFraudRisk);
 	var max = Array.max(ls.coreLogicFraudRisk);
 	var CoreLogicFraudRiskRangeSlider = new dojox.form.HorizontalRangeSlider({
-		name : "CoreLogic Fraud Risk",
+		name : ls.labels["CoreLogic Fraud Risk"],
 		value : [ min, max ],
 		minimum : min,
 		maximum : max,
@@ -299,7 +292,7 @@ function initFilters() {
 	var max = Array.max(ls.coreLogicCollateralRisk);
 	var CoreLogicCollateralRiskRangeSlider = new dojox.form.HorizontalRangeSlider(
 			{
-				name : "CoreLogic Collateral Risk",
+				name : ls.labels["CoreLogic Collateral Risk"],
 				value : [ min, max ],
 				minimum : min,
 				maximum : max,
@@ -592,39 +585,28 @@ function distinct(items) {
 	});
 }
 
-
-//filterFunc has to apply all the conditions that determine if item should be filtered.
-//An "apply filter" button will call filterGrid
-//need to write a function that will create filterFunc based on the various filter selections.
-
-//function updateGride(datastore){
-//	var newStore = new dojo.data.ItemFileReadStore({data: {... some data ...});
-//	var grid = dijit.byId("gridId");
-//	grid.setStore(newStore);
-//}
-
 function createGrid(dataStore) {
 	// set the layout structure:
 	var layout = [ [ {
-		'name' : 'Loan ID',
+		'name' : ls.labels['collateral_key'],
 		'field' : 'collateral_key',
 		'width' : 'auto',
 		'cellStyles' : 'text-align: center;',
 		'headerStyles': 'text-align: center;'
 	}, {
-		'name' : 'Property Type',
+		'name' : ls.labels['property_type_code'],
 		'field' : 'property_type_code',
 		'width' : 'auto',
 		'cellStyles' : 'text-align: center;',
 		'headerStyles': 'text-align: center;'
 	}, {
-		'name' : 'State',
+		'name' : ls.labels['state'],
 		'field' : 'state',
 		'width' : 'auto',
 		'cellStyles' : 'text-align: center;',
 		'headerStyles': 'text-align: center;'
 	}, {
-		'name' : 'Loan Type',
+		'name' : ls.labels['is_adjustable'],
 		'field' : 'is_adjustable',
 		'width' : 'auto',
 		'formatter': function(item){
@@ -634,7 +616,7 @@ function createGrid(dataStore) {
 		'cellStyles' : 'text-align: center;',
 		'headerStyles': 'text-align: center;'
 	},{
-		'name' : 'Lien Type',
+		'name' : ls.labels['lien_position'],
 		'field' : 'lien_position',
 		'width' : 'auto',
 		'formatter': function(item){
@@ -644,7 +626,7 @@ function createGrid(dataStore) {
 		'cellStyles' : 'text-align: center;',
 		'headerStyles': 'text-align: center;'
 	},{
-		'name' : 'Max LTV',
+		'name' : ls.labels['collateral_key'],
 		'field' : 'original_ltv',
 		'width' : 'auto',
 		'formatter': function(item){
@@ -653,7 +635,7 @@ function createGrid(dataStore) {
 		'cellStyles' : 'text-align: center;',
 		'headerStyles': 'text-align: center;'
 	},{
-		'name' : 'Max CLTV',
+		'name' : ls.labels['original_cltv'],
 		'field' : 'original_cltv',
 		'width' : 'auto',
 		'formatter': function(item){
@@ -663,7 +645,7 @@ function createGrid(dataStore) {
 		'headerStyles': 'text-align: center;'
 	},
 	{
-		'name' : 'Loan Amount',
+		'name' : ls.labels['curr_upb'],
 		'field' : 'curr_upb',
 		'width' : 'auto',
 		'formatter': function(item){
@@ -684,19 +666,19 @@ function createGrid(dataStore) {
 		'headerStyles': 'text-align: center;'
 	},
 	{
-		'name' : 'CoreLogic Collateral Risk',
+		'name' : ls.labels['CoreLogic Collateral Risk Score'],
 		'field' : 'CoreLogic Collateral Risk Score',
 		'width' : 'auto',
 		'cellStyles' : 'text-align: center;',
 		'headerStyles': 'text-align: center;'
 	},{
-		'name' : 'CoreLogic Fraud Risk',
+		'name' : ls.labels['CoreLogic Fraud Risk Score'],
 		'field' : 'CoreLogic Fraud Risk Score',
 		'width' : 'auto',
 		'cellStyles' : 'text-align: center;',
 		'headerStyles': 'text-align: center;'
 	},{
-		'name' : 'FICO',
+		'name' : ls.labels['fico_score'],
 		'field' : 'fico_score',
 		'width' : 'auto',
 		'cellStyles' : 'text-align: center;',
@@ -734,7 +716,10 @@ function initLoanDetailsGrid(){
 	var layout = [ [ {
 		'name' : 'Field',
 		'field' : 'field',
-		'width' : 'auto'
+		'width' : 'auto',
+		'formatter' : function(field){
+			return ls.labels[field];
+		}
 	}, {
 		'name' : 'Value',
 		'field' : 'value',
@@ -777,8 +762,34 @@ function showLoanDetails(e){
 }
 
 
-	
+ls.Condition = function(configObj)
+{
+	//internal variables
+	var obj = configObj;
+	var userSatisfy;
 
+	this.setSatisfy = function(func){
+		userSatisfy = func;
+	}
+	    	    	
+	this.satisfy = function(item){
+		return userSatisfy(item,obj);
+	}
+};
+
+
+function initFieldLabels() {
+	dojo.xhrGet({
+		url : "../data/labels.json",
+		handleAs : "json",
+		load : function(obj) {
+			ls.labels = obj;
+		},
+		error : function(err) {
+		}
+	});
+
+}
 
 Array.max = function( array ){
     return Math.max.apply( Math, array );
