@@ -1,4 +1,5 @@
 dojo.require("dijit.TitlePane");
+dojo.require("dijit.Tooltip");
 dojo.require("dojo.data.ItemFileReadStore");
 dojo.require("dijit.layout.BorderContainer");
 dojo.require("dijit.layout.ContentPane");
@@ -15,16 +16,12 @@ dojo.addOnLoad(function() {
     identifier:'collateral_key',
     url : "/bids"
   });
-	createGrid(ls.dataStore)
+	createGrid(ls.dataStore);
+	addGridEventHandlers(ls.grid);
 	ls.dataStore.fetch({
 		query: {'collateral_key':'*'}
 	})
 });
-
-function extractField(item){
-	return item[this.field][0];
-}
-
 
 function createGrid(dataStore) {
 	// set the layout structure:
@@ -75,6 +72,20 @@ function createGrid(dataStore) {
 
 	// Call startup, in order to render the grid:
 	ls.grid.startup();
+}
+
+function addGridEventHandlers(grid){
+	ls.grid.on("CellMouseOver", function(evt) {
+		value = evt.cellNode.firstChild.data;
+		if(evt.cell.name === 'Status'){
+			tooltip = new dijit.Tooltip({
+				connectId : evt.cellNode,
+				label : value + ": Lorem ipsum",
+				showDelay: 250
+			});
+			//alert(value);
+		}
+	});
 }
 
 function cleanBidsClick(){
