@@ -57,7 +57,7 @@ font-size: 14px;
 
 </head>
 <body class='claro'>
-  	<div id = 'screenTitle'>Search bids</div>
+  	<div id = 'screenTitle'>Search loans</div>
   	<div id = 'menu'>
   		<div class='topMenuLeft'>
   			{% for menuPage in menuPages %}
@@ -118,7 +118,6 @@ font-size: 14px;
 		</table>   			
 	</div>
 	<button dojoType='dijit.form.Button' id="placeBids" onClick="placeBidsClick">Create bids for selected loans</button>
-	<button dojoType='dijit.form.Button' id="myBids" onclick="location.href='/mybids'">My Placed Bids</button>
 	<button dojoType='dijit.form.Button' id="downloadDetails" onClick="downloadDetailsClick">Download selected loans details</button>
 	<span style="font-size:80%">Click to select a loan, Ctrl-click to select mutliple loans and Shift-click for a range of loans.</span>
 	<span style="font-size:80%">Right-click on a loan to see full loan details.</span></br>
