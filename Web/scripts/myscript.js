@@ -19,15 +19,7 @@ dojo.addOnLoad(function() {
 	ls.dataStore.fetch({
 		query: {'collateral_key':'*'},
 		onComplete:function(items){
-			//Adjust data types
-			ls.convertFunctions['CoreLogic Collateral Risk Score'] = parseInt;
-			ls.convertFunctions['CoreLogic Fraud Risk Score'] = parseInt;
-			ls.convertFunctions['original_ltv'] = parseFloat;
-			ls.convertFunctions['original_cltv'] = parseFloat;
-			ls.convertFunctions['curr_upb'] = parseFloat;
-			ls.convertFunctions['fico_score'] = parseInt;
-			ls.convertFunctions['advance_amt'] = parseFloat;
-			ls.fullData = items.map(adjustDataType,ls.convertFunctions);
+			ls.fullData = items;
 			//Create grid
 			createGrid(ls.dataStore);
 			//extract columns for filters
@@ -65,11 +57,144 @@ function initBidsDialog() {
 		id : "bidDialog",
 		autofocus : false
 	});
-	var html = "<div style='width: 500px; height: 500px;'dojoType='dijit.layout.ContentPane'><button dojoType='dijit.form.Button' id='submitBids' onClick='submitBidsClick'>Place bids</button><div id='bidGrid'></div></div>";
+	var html = 	"<div style='width: 500px; height: 500px;'dojoType='dijit.layout.ContentPane'>" +
+					// "<button dojoType='dijit.form.Button' id='submitBids' onClick='submitBidsClick'>Place bids</button>" +
+					"<div id = 'globalBidRateTxBx'></div>" +
+					"<div id = 'globalParticipationTxBx'></div>" +
+					"<div id='bidGrid'></div>" 
+				"</div>";
 	ls.bidDialog.set("content", html);
 	ls.bidDialog.set("title", 'Place Bids');
 
+	var props = {
+		style : 'width:100px;',
+		label : "Participation",
+		constraints : {
+			pattern : "#.##"
+		},
+		onChange : function(value) {
+			if(this.State == 'Error')
+				return;
+			applyGlobalBid(value);
+		}
+	};
+	var bidRateTxtBox = new dijit.form.NumberTextBox(props, "globalParticipationTxBx");
+	
+	var props = {
+	style : 'width:100px;',
+	label : "Bid Rate",
+	constraints : {
+		pattern : "#.##"
+	},
+	onChange : function(value) {
+			if(this.State == 'Error')
+				return;
+			applyGlobalBid(value);
+		}
+	};
+	var bidRateTxtBox = new dijit.form.NumberTextBox(props, "globalBidRateTxBx");
 }
+
+function applyGlobalBid(){
+	
+	var globalParticipation = dijit.byId('globalParticipationTxBx').get("value");
+	var globalBidRate = dijit.byId('globalBidRateTxBx').get("value");
+	
+	var store = ls.bidGrid.store;
+	store.fetch(
+		{onComplete : function(items)
+			{
+				for(var i =0; i < items.length; i++){
+					if(globalParticipation)
+						store.setValue(items[i], 'participation', globalParticipation);
+					else
+						store.setValue(items[i], 'bidrate', globalBidRate);
+				}
+			}
+		}
+	);	
+}
+
+function initBidsGrid(){
+	bidData = {	items: []};
+	var bidStore = new dojo.data.ItemFileWriteStore({data: bidData});
+	// set the layout structure:
+	var layout = [ [ {
+		'name' : ls.labels['collateral_key'],
+		'field' : 'collateral_key',
+		'width' : 'auto',
+		'cellStyles' : 'text-align: center;',
+		'headerStyles': 'text-align: center;'
+	}, {
+		'name' : ls.labels['curr_upb'],
+		'field' : 'curr_upb',
+		'width' : 'auto',
+		'cellStyles' : 'text-align: center;',
+		'headerStyles': 'text-align: center;',
+		'formatter': function(item){
+			return dojo.number.format(item,{pattern:'#,##0.##'});
+			},
+	},{
+		'name' : 'Participation %',
+		'field' : 'participation',
+		'width' : 'auto',
+		'cellStyles' : 'text-align: center;',
+		'headerStyles': 'text-align: center;',
+		'editable':'true',
+		'formatter': function(item){
+			return dojo.number.format(item,{pattern: "#0.0"});
+			},
+	}, {
+		'name' : 'Bid Rate',
+		'field' : 'bidrate',
+		'width' : 'auto',
+		'formatter': '',
+		'cellStyles' : 'text-align: center;',
+		'headerStyles': 'text-align: center;',
+		'editable':'true',
+		'formatter': function(item){
+			return dojo.number.format(item,{pattern: "#0.0"});
+			},
+	}	] ];
+		
+	ls.bidGrid = new dojox.grid.EnhancedGrid({
+		store : bidStore,
+		clientSort : true,
+		rowSelector : '20px',
+		structure : layout,
+		selectionMode: 'multiple'
+	}, 'bidGrid');
+	ls.bidGrid.startup();
+}
+
+function submitBidsClick(){
+	var selectedBids = ls.bidGrid.selection.getSelected();
+	var bids = {};
+	for (var i=0; i< selectedBids.length; i++){
+		bids[selectedBids[i]['collateral_key']] =
+		{
+			'collateral_key': selectedBids[i]['collateral_key'][0],
+			'participation': selectedBids[i]['participation'][0],
+			'bidrate' : selectedBids[i]['bidrate'][0]
+		};
+	}
+	dijit.byId('bidDialog').hide();
+	
+	var xhrArgs = {
+            url: "/bids",
+            content: {'bids':dojo.toJson(bids)},
+            handleAs: "json",
+            load: function(data) {
+            	console.log(data);
+            },
+            error: function(error) {
+            	console.log(error);
+            }
+        };
+        //Call the asynchronous xhrPost
+        var deferred = dojo.xhrPost(xhrArgs);
+}
+
 
 //this is mapped into the imported items. The "this" holds information on the data types that should be applied. 
 function adjustDataType(item){
@@ -157,90 +282,9 @@ function updateBidGrid(selectedLoans){
 				items: selectedLoans}
 			});
 	
-	ls.bidGrid.setStore(bidStore);
+	ls.bidGrid.setStore(bidStore);	
 }
 
-function initBidsGrid(){
-	bidData = {	items: []};
-	var bidStore = new dojo.data.ItemFileWriteStore({data: bidData});
-	// set the layout structure:
-	var layout = [ [ {
-		'name' : ls.labels['collateral_key'],
-		'field' : 'collateral_key',
-		'width' : 'auto',
-		'cellStyles' : 'text-align: center;',
-		'headerStyles': 'text-align: center;'
-	}, {
-		'name' : ls.labels['curr_upb'],
-		'field' : 'curr_upb',
-		'width' : 'auto',
-		'cellStyles' : 'text-align: center;',
-		'headerStyles': 'text-align: center;',
-		'formatter': function(item){
-			return dojo.number.format(item,{pattern:'#,##0.##'});
-			},
-	},{
-		'name' : 'Participation %',
-		'field' : 'participation',
-		'width' : 'auto',
-		'cellStyles' : 'text-align: center;',
-		'headerStyles': 'text-align: center;',
-		'editable':'true',
-		'formatter': function(item){
-			return dojo.number.format(item,{pattern: "#0.0"});
-			},
-	}, {
-		'name' : 'Bid Rate',
-		'field' : 'bidrate',
-		'width' : 'auto',
-		'formatter': '',
-		'cellStyles' : 'text-align: center;',
-		'headerStyles': 'text-align: center;',
-		'editable':'true',
-		'formatter': function(item){
-			return dojo.number.format(item,{pattern: "#0.0"});
-			},
-	}	] ];
-		
-	ls.bidGrid = new dojox.grid.EnhancedGrid({
-		store : bidStore,
-		clientSort : true,
-		rowSelector : '20px',
-		structure : layout,
-		selectionMode: 'multiple'
-	}, 'bidGrid');
-	ls.bidGrid.startup();
-}
-
-
-
-function submitBidsClick(){
-	var selectedBids = ls.bidGrid.selection.getSelected();
-	var bids = {};
-	for (var i=0; i< selectedBids.length; i++){
-		bids[selectedBids[i]['collateral_key']] =
-		{
-			'collateral_key': selectedBids[i]['collateral_key'][0],
-			'participation': selectedBids[i]['participation'][0],
-			'bidrate' : selectedBids[i]['bidrate'][0]
-		};
-	}
-	dijit.byId('bidDialog').hide();
-	
-	var xhrArgs = {
-            url: "/bids",
-            content: {'bids':dojo.toJson(bids)},
-            handleAs: "json",
-            load: function(data) {
-            	console.log(data);
-            },
-            error: function(error) {
-            	console.log(error);
-            }
-        };
-        //Call the asynchronous xhrPost
-        var deferred = dojo.xhrPost(xhrArgs);
-}
 
 
 function applyFilters(){
