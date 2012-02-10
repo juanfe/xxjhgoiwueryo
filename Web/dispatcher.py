@@ -51,9 +51,9 @@ def getPageDict(page):
 def checkLogin(requestHandler):
     if (not getUser()):
         requestHandler.redirect('/')
-    requestHandler.response.headers['Cache-Control'] = 'no-cache, private, must-revalidate, max-stale=0, post-check=0, pre-check=0, no-store'
+    requestHandler.response.headers['Cache-Control'] = 'no-store, no-cache'
     requestHandler.response.headers['Pragma'] = 'no-cache'
-    requestHandler.response.headers['Expires'] = '0'
+    requestHandler.response.headers['Expires'] = '-1'
 
 class Home(webapp.RequestHandler):
     def get(self):
