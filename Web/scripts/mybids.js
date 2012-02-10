@@ -75,17 +75,20 @@ function createGrid(dataStore) {
 }
 
 function addGridEventHandlers(grid){
-	ls.grid.on("CellMouseOver", function(evt) {
-		value = evt.cellNode.firstChild.data;
-		if(evt.cell.name === 'Status'){
-			tooltip = new dijit.Tooltip({
-				connectId : evt.cellNode,
-				label : value + ": Lorem ipsum",
-				showDelay: 250
-			});
-			//alert(value);
+	var showTooltip = function(e) {
+		if (e.cell.name === 'Status') { 
+        	var item = e.grid.getItem(e.rowIndex), 
+        		msg = e.grid.store.getValue(item, e.cell.field); 
+        	if (msg) { 
+            	dijit.showTooltip(msg + ': Lorem ipsum', e.cellNode); 
+        	}
 		}
-	});
+	}; 
+    var hideTooltip = function(e) { 
+		dijit.hideTooltip(e.cellNode); 
+	}; 
+	grid.on("CellMouseOver", showTooltip); 
+	grid.on("CellMouseOut", hideTooltip);  
 }
 
 function cleanBidsClick(){
