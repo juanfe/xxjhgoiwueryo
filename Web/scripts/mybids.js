@@ -12,12 +12,12 @@ var ls={};
 
 dojo.addOnLoad(function() {
 	ls.dataStore = new dojo.data.ItemFileReadStore({
-    identifier:'Collateral',
+    identifier:'collateral_key',
     url : "/bids"
   });
 	createGrid(ls.dataStore)
 	ls.dataStore.fetch({
-		query: {'Collateral':'*'}
+		query: {'collateral_key':'*'}
 	})
 });
 
@@ -30,7 +30,7 @@ function createGrid(dataStore) {
 	// set the layout structure:
 	var layout = [ [ {
     'name' : 'Loan #',
-    'field' : 'Collateral',
+    'field' : 'collateral_key',
     'width' : 'auto',
     'cellStyles' : 'text-align: center;',
     'headerStyles': 'text-align: center;'
@@ -63,7 +63,7 @@ function createGrid(dataStore) {
   } ] ];
 
 	ls.grid = new dojox.grid.EnhancedGrid({
-		query: {'Collateral':'*'},
+		query: {'collateral_key':'*'},
 		store : dataStore,
 		clientSort : true,
 		rowSelector : '20px',
