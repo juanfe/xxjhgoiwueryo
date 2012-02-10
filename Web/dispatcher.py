@@ -48,22 +48,32 @@ def getPageDict(page):
             'menuPages' : getMenuPages(page)
     }
 #Rendered pages
+def checkLogin(requestHandler):
+    if (not getUser()):
+        requestHandler.redirect('/')
+    requestHandler.response.headers['Cache-Control'] = 'no-cache, private, must-revalidate, max-stale=0, post-check=0, pre-check=0, no-store'
+    requestHandler.response.headers['Pragma'] = 'no-cache'
+    requestHandler.response.headers['Expires'] = '0'
+
 class Home(webapp.RequestHandler):
     def get(self):
+        checkLogin(self)
         page = Page.HOME
         parameters = getPageDict(page)
         self.response.out.write(template.render("templates/home.html",parameters))
 
 class Search(webapp.RequestHandler):
     def get(self):
+        checkLogin(self)
         page = Page.SEARCH
         parameters = getPageDict(page)
         self.response.out.write(template.render("templates/search.html",parameters))
 
 class MyBids(webapp.RequestHandler):
-    def get(self): 
+    def get(self):
+        checkLogin(self) 
         page = Page.MYBIDS
-        parameters = getPageDict(page)  
+        parameters = getPageDict(page)
         self.response.out.write(template.render("templates/mybids.html",parameters))
 
 #Retrieving the current logged user
@@ -125,6 +135,7 @@ def setDbBids(bidsJson):
 
 class BidsRest(webapp.RequestHandler):
     def post(self):
+        checkLogin(self)
         bidsObj = getBidsObj()
         bidsToAddJson = self.request.get('bids')
         bidsToAddObj =  json.loads(bidsToAddJson)
@@ -140,6 +151,7 @@ class BidsRest(webapp.RequestHandler):
         bidsJson = json.dumps(bidsObj)
         setDbBids(bidsJson)
     def get(self):
+        checkLogin(self)
         bidsObj = getBidsObj()
         bidsToSendObj = []
         for key, value in bidsObj.iteritems():
@@ -152,6 +164,7 @@ class BidsRest(webapp.RequestHandler):
 
 class Clean(webapp.RequestHandler):
     def post(self):
+        checkLogin(self)
         clearDbBids()
         self.redirect('/home')
         
@@ -180,6 +193,7 @@ def jsonToCsv(jsonStr):
     
 class Download(webapp.RequestHandler):
     def post(self):
+        checkLogin(self)
         self.response.headers['Content-Type'] = 'application/octet-stream'
         self.response.headers['Content-Disposition'] = 'attachment;filename=\"Loans Details.csv\"'
         bidsJson = self.request.get('bids')
