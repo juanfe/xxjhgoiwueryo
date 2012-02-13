@@ -17,7 +17,6 @@ dojo.addOnLoad(function() {
     url : "/bids"
   });
 	createGrid(ls.dataStore);
-	//addGridEventHandlers(ls.grid);
 	ls.addGridTooltip({
 		grid:ls.grid,
 		column:'Status',
@@ -190,23 +189,6 @@ ls.addGridTooltip = function(parameters) {
 			}  
 		}
 	}
-}
-
-function addGridEventHandlers(grid){
-	var showTooltip = function(e) {
-		if (e.cell.name === 'Status') { 
-        	var item = e.grid.getItem(e.rowIndex), 
-        		msg = e.grid.store.getValue(item, e.cell.field); 
-        	if (msg) { 
-            	dijit.showTooltip(msg + ': Lorem ipsum', e.cellNode); 
-        	}
-		}
-	}; 
-    var hideTooltip = function(e) { 
-		dijit.hideTooltip(e.cellNode); 
-	}; 
-	grid.on("CellMouseOver", showTooltip); 
-	grid.on("CellMouseOut", hideTooltip);  
 }
 
 function cleanBidsClick(){
