@@ -7,6 +7,7 @@ from django.utils import simplejson as json
 import logging
 import StringIO
 import csv
+import random
 
 #Model for storage
 class Bids(db.Model):
@@ -139,7 +140,8 @@ class BidsRest(webapp.RequestHandler):
                 bidData['bidrate'] = value['bidrate']
                 bidsObj[key] = bidData
             else:
-                value['status'] = 'Accepted'
+                possibleStatuses = ['Accepted', 'Active', 'Cancelled']
+                value['status'] = possibleStatuses[random.randint(0,2)]
                 bidsObj[key] = value
         bidsJson = json.dumps(bidsObj)
         setDbBids(bidsJson)
