@@ -7,6 +7,7 @@ from django.utils import simplejson as json
 import logging
 import StringIO
 import csv
+import random
 
 #Model for storage
 class Bids(db.Model):
@@ -106,13 +107,6 @@ def getDbBids():
         dbBids = bids
     return dbBids
 
-def clearDbBids():
-    bidsQuery = Bids.gql("WHERE ANCESTOR IS :1 ", bidsKey())
-    for bids in bidsQuery:
-        bids.delete()
-    dbBids = None
-    return dbBids
-        
 def getBidsObj():
     bids =  getDbBids()
     if bids:
@@ -146,7 +140,8 @@ class BidsRest(webapp.RequestHandler):
                 bidData['bidrate'] = value['bidrate']
                 bidsObj[key] = bidData
             else:
-                value['status'] = 'Accepted'
+                possibleStatuses = ['Accepted', 'Active', 'Cancelled']
+                value['status'] = possibleStatuses[random.randint(0,2)]
                 bidsObj[key] = value
         bidsJson = json.dumps(bidsObj)
         setDbBids(bidsJson)
@@ -165,9 +160,28 @@ class BidsRest(webapp.RequestHandler):
 class Clean(webapp.RequestHandler):
     def post(self):
         checkLogin(self)
-        clearDbBids()
+        bidsObj = getBidsObj()
+        bidsToAddJson = self.request.get('bids')
+        bidsToAddObj =  json.loads(bidsToAddJson)
+        for key, value in bidsToAddObj.iteritems():
+            if key in bidsObj:
+                bidsObj.pop(key)
+        bidsJson = json.dumps(bidsObj)
+        clearDbBids(bidsJson)
         self.redirect('/home')
-        
+
+def clearDbBids(bidsJson):
+    bids =  getDbBids()
+    if (not bids):
+        bids = Bids(parent=bidsKey())
+    bids.content = bidsJson
+    bids.put()
+#    bidsQuery = Bids.gql("WHERE ANCESTOR IS :1 ", bidsKey())
+#    for bids in bidsQuery:
+#        bids.delete()
+#    dbBids = None
+#    return dbBids
+
 class Login(webapp.RequestHandler):
     def get(self):
         user = getUser()
@@ -189,7 +203,7 @@ def jsonToCsv(jsonStr):
         writer.writerows(rows)
     csvStr = csvOut.getvalue()
     csvOut.close()
-    return csvStr      
+    return csvStr
     
 class Download(webapp.RequestHandler):
     def post(self):
