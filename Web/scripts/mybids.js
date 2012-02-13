@@ -92,8 +92,19 @@ function addGridEventHandlers(grid){
 }
 
 function cleanBidsClick(){
+	var selectedBids = ls.grid.selection.getSelected();
+	var bids = {};
+	for (var i=0; i< selectedBids.length; i++){
+		bids[selectedBids[i]['collateral_key']] =
+		{
+			'collateral_key': selectedBids[i]['collateral_key'][0]/*,
+			'participation': selectedBids[i]['participation'][0],
+			'bidrate' : selectedBids[i]['bidrate'][0]*/
+		};
+	}
 	var xhrArgs = {
             url: "/clean",
+            content: {'bids':dojo.toJson(bids)},
             handleAs: "json",
             load: function(data) {
             	console.log(data);
