@@ -35,39 +35,37 @@ dojo.addOnLoad(function() {
 
 function createGrid(dataStore) {
 	// set the layout structure:
-	var layout = [ [ {
-    'name' : 'Loan #',
-    'field' : 'collateral_key',
-    'width' : 'auto',
-    'cellStyles' : 'text-align: center;',
-    'headerStyles': 'text-align: center;'
-  },{
-    'name' : 'Participation %',
-    'field' : 'participation',
-    'width' : 'auto',
-    'cellStyles' : 'text-align: center;',
-    'headerStyles': 'text-align: center;',
-    'formatter': function(item){
-      return dojo.number.format(item,{pattern: "#0.0"});
-      },
-  }, {
-    'name' : 'Bid Rate',
-    'field' : 'bidrate',
-    'width' : 'auto',
-    'formatter': '',
-    'cellStyles' : 'text-align: center;',
-    'headerStyles': 'text-align: center;',
-    'formatter': function(item){
-      return dojo.number.format(item,{pattern: "#0.0"});
-      },
-  }, {
-    'name' : 'Status',
-    'field' : 'status',
-    'width' : 'auto',
-    'formatter': '',
-    'cellStyles' : 'text-align: center;',
-    'headerStyles': 'text-align: center;',
-  } ] ];
+	var layout = 
+	{
+		defaultCell:
+		{
+			width: 'auto',
+    		cellStyles: 'text-align: center;',
+    		headerStyles: 'text-align: center;'
+		}, 
+		cells: 
+		[ 
+			{
+    			name: 'Loan #',
+    			field: 'collateral_key'
+  			},{
+    			name: 'Participation %',
+    			field: 'participation',
+    			formatter: function(item){
+	    			return dojo.number.format(item,{pattern: "#0.0"});
+    			}
+  			}, {
+    			name: 'Bid Rate',
+    			field: 'bidrate',
+    			formatter: function(item){
+     				return dojo.number.format(item,{pattern: "#0.0"});
+     			}
+  			}, {
+	    		name: 'Status',
+    			field: 'status'
+    		}
+    	]
+    };
 
 	ls.grid = new dojox.grid.EnhancedGrid({
 		query: {'collateral_key':'*'},
