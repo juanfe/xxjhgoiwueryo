@@ -5,8 +5,8 @@ dojo.require("dijit.layout.BorderContainer");
 dojo.require("dijit.layout.ContentPane");
 dojo.require("dijit.form.Button");
 dojo.require("dojox.grid.EnhancedGrid");
+dojo.require("dojox.grid.enhanced.plugins.Filter");
 dojo.require("dojo.number");
-dojo.require("dojo.on");
 
 //application namespace
 var ls={};
@@ -35,39 +35,41 @@ dojo.addOnLoad(function() {
 
 function createGrid(dataStore) {
 	// set the layout structure:
-	var layout = [ [ {
-    'name' : 'Loan #',
-    'field' : 'collateral_key',
-    'width' : 'auto',
-    'cellStyles' : 'text-align: center;',
-    'headerStyles': 'text-align: center;'
-  },{
-    'name' : 'Participation %',
-    'field' : 'participation',
-    'width' : 'auto',
-    'cellStyles' : 'text-align: center;',
-    'headerStyles': 'text-align: center;',
-    'formatter': function(item){
-      return dojo.number.format(item,{pattern: "#0.0"});
-      },
-  }, {
-    'name' : 'Bid Rate',
-    'field' : 'bidrate',
-    'width' : 'auto',
-    'formatter': '',
-    'cellStyles' : 'text-align: center;',
-    'headerStyles': 'text-align: center;',
-    'formatter': function(item){
-      return dojo.number.format(item,{pattern: "#0.0"});
-      },
-  }, {
-    'name' : 'Status',
-    'field' : 'status',
-    'width' : 'auto',
-    'formatter': '',
-    'cellStyles' : 'text-align: center;',
-    'headerStyles': 'text-align: center;',
-  } ] ];
+	var layout = 
+	{
+		defaultCell:
+		{
+			width: 'auto',
+    		cellStyles: 'text-align: center;',
+    		headerStyles: 'text-align: center;'
+		}, 
+		cells: 
+		[ 
+			{
+    			name: 'Loan #',
+    			field: 'collateral_key',
+    			datatype: 'string'
+  			},{
+    			name: 'Participation %',
+    			field: 'participation',
+    			datatype: 'number',
+    			formatter: function(item){
+	    			return dojo.number.format(item,{pattern: "#0.0"});
+    			}
+  			}, {
+    			name: 'Bid Rate',
+    			field: 'bidrate',
+    			datatype: 'number',
+    			formatter: function(item){
+     				return dojo.number.format(item,{pattern: "#0.0"});
+     			}
+  			}, {
+	    		name: 'Status',
+    			field: 'status',
+    			datatype: 'string'
+    		}
+    	]
+    };
 
 	ls.grid = new dojox.grid.EnhancedGrid({
 		query: {'collateral_key':'*'},
@@ -75,6 +77,11 @@ function createGrid(dataStore) {
 		clientSort : true,
 		rowSelector : '20px',
 		structure : layout,
+		plugins: {
+			filter: {
+				itemsName: 'bids'
+			}
+		}
 	}, document.createElement('div'));
 
 	// append the new grid to the div "grid":
@@ -179,13 +186,13 @@ ls.addGridTooltip = function(parameters) {
 			};
 			// Header event connections
 			if (headerTooltip) { 
-				grid.on("HeaderCellMouseOver", showTooltip); 
-				grid.on("HeaderCellMouseOut", hideTooltip);
+				dojo.connect(grid, "onHeaderCellMouseOver", showTooltip); 
+				dojo.connect(grid, "onHeaderCellMouseOut", hideTooltip);
 			}
 			// Cells events connection
 			if (cellTooltip) {
-				grid.on("CellMouseOver", showTooltip); 
-				grid.on("CellMouseOut", hideTooltip);
+				dojo.connect(grid, "onCellMouseOver", showTooltip); 
+				dojo.connect(grid, "onCellMouseOut", hideTooltip);
 			}  
 		}
 	}
