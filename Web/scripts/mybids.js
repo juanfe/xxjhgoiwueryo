@@ -47,22 +47,26 @@ function createGrid(dataStore) {
 		[ 
 			{
     			name: 'Loan #',
-    			field: 'collateral_key'
+    			field: 'collateral_key',
+    			datatype: 'string'
   			},{
     			name: 'Participation %',
     			field: 'participation',
+    			datatype: 'number',
     			formatter: function(item){
 	    			return dojo.number.format(item,{pattern: "#0.0"});
     			}
   			}, {
     			name: 'Bid Rate',
     			field: 'bidrate',
+    			datatype: 'number',
     			formatter: function(item){
      				return dojo.number.format(item,{pattern: "#0.0"});
      			}
   			}, {
 	    		name: 'Status',
-    			field: 'status'
+    			field: 'status',
+    			datatype: 'string'
     		}
     	]
     };
@@ -74,7 +78,9 @@ function createGrid(dataStore) {
 		rowSelector : '20px',
 		structure : layout,
 		plugins: {
-			filter: true
+			filter: {
+				itemsName: 'bids'
+			}
 		}
 	}, document.createElement('div'));
 
