@@ -8,6 +8,8 @@ import logging
 import StringIO
 import csv
 import random
+from datetime import datetime
+from datetime import timedelta
 
 #Model for storage
 class Bids(db.Model):
@@ -142,6 +144,10 @@ class BidsRest(webapp.RequestHandler):
             else:
                 possibleStatuses = ['Accepted', 'Active', 'Cancelled']
                 value['status'] = possibleStatuses[random.randint(0,2)]
+                creationTime = datetime.now()
+                value['createdAt'] = datetime.now().strftime('%Y/%m/%d %H:%M:%S')
+                expirationTime = creationTime + timedelta(hours=2)
+                value['expiresAt'] = expirationTime.strftime('%Y/%m/%d %H:%M:%S')
                 bidsObj[key] = value
         bidsJson = json.dumps(bidsObj)
         setDbBids(bidsJson)
