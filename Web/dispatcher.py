@@ -167,20 +167,11 @@ class Clean(webapp.RequestHandler):
             if key in bidsObj:
                 bidsObj.pop(key)
         bidsJson = json.dumps(bidsObj)
-        clearDbBids(bidsJson)
-        self.redirect('/home')
-
-def clearDbBids(bidsJson):
-    bids =  getDbBids()
-    if (not bids):
-        bids = Bids(parent=bidsKey())
-    bids.content = bidsJson
-    bids.put()
-#    bidsQuery = Bids.gql("WHERE ANCESTOR IS :1 ", bidsKey())
-#    for bids in bidsQuery:
-#        bids.delete()
-#    dbBids = None
-#    return dbBids
+        bids =  getDbBids()
+        if (not bids):
+            bids = Bids(parent=bidsKey())
+        bids.content = bidsJson
+        bids.put()
 
 class Login(webapp.RequestHandler):
     def get(self):

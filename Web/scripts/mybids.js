@@ -197,9 +197,7 @@ function cleanBidsClick(){
 	for (var i=0; i< selectedBids.length; i++){
 		bids[selectedBids[i]['collateral_key']] =
 		{
-			'collateral_key': selectedBids[i]['collateral_key'][0]/*,
-			'participation': selectedBids[i]['participation'][0],
-			'bidrate' : selectedBids[i]['bidrate'][0]*/
+			'collateral_key': selectedBids[i]['collateral_key'][0]
 		};
 	}
 	var xhrArgs = {
@@ -215,5 +213,6 @@ function cleanBidsClick(){
         };
         //Call the asynchronous xhrPost
         var deferred = dojo.xhrPost(xhrArgs);
+        location.href="/mybids";
 }
 
