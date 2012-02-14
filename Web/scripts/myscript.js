@@ -78,7 +78,7 @@ function initBidsDialog() {
 		id : "bidDialog",
 		autofocus : false
 	});
-	var html = "<div style='width: 850px; height: 800px;'dojoType='dijit.layout.ContentPane'>" + "<div id='bidGrid'></div></br>" + "<div id='globalbid' style='margin:auto; text-align: center; width:800px; background-color: #EBF1F6;padding: 5px; border-color: #DBDBDB; border-style: solid; border-width: 5px;'>" + "&nbsp;&nbsp;&nbsp;&nbsp;Participation %&nbsp;<div id = 'globalParticipationTxBx'></div>&nbsp;&nbsp;" + "Bid Rate&nbsp;<div id = 'globalBidRateTxBx'></div>" + "&nbsp;&nbsp;&nbsp;&nbsp;" + "<button dojoType='dijit.form.Button' id='submitBids' onClick='submitBidsClick'>Place bids</button>" + "</div>" + "</div>"; "</div>";
+	var html = "<div style='width: 850px; height: 900px;overflow:hidden;'dojoType='dijit.layout.ContentPane'>" + "<div id='bidGrid'></div></br>" + "<div id='globalbid' style='margin:auto; text-align: center; width:800px; background-color: #EBF1F6;padding: 5px; border-color: #DBDBDB; border-style: solid; border-width: 5px;'>" + "&nbsp;&nbsp;&nbsp;&nbsp;Participation %&nbsp;<div id = 'globalParticipationTxBx'></div>&nbsp;&nbsp;" + "Bid Rate&nbsp;<div id = 'globalBidRateTxBx'></div>" + "&nbsp;&nbsp;&nbsp;&nbsp;" + "<button dojoType='dijit.form.Button' id='submitBids' onClick='submitBidsClick'>Place bids</button>" + "</div>" + "</div>"; "</div>";
 	ls.bidDialog.set("content", html);
 	ls.bidDialog.set("title", 'Place Bids');
 	genericCreateCheckbox('globalbidChkBx', 'Apply to All', 'globalbid', 'first', function(value) {
