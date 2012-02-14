@@ -201,18 +201,25 @@ function cleanBidsClick(){
 		};
 	}
 	var xhrArgs = {
-            url: "/clean",
-            content: {'bids':dojo.toJson(bids)},
-            handleAs: "json",
-            load: function(data) {
-            	console.log(data);
-            },
-            error: function(error) {
-            	console.log(error);
-            }
-        };
-        //Call the asynchronous xhrPost
-        var deferred = dojo.xhrPost(xhrArgs);
-        location.href="/mybids";
+        url: "/clean",
+        content: {'bids':dojo.toJson(bids)},
+        handleAs: "json",
+        load: function(data) {
+        	console.log(data);
+        },
+        error: function(error) {
+        	console.log(error);
+        }
+    };
+    //Call the asynchronous xhrPost
+    var deferred = dojo.xhrPost(xhrArgs);
+    deferred.then(
+		function(data){
+		    location.href="/mybids";
+		},
+		function(error){
+			alert("An unexpected error occurred: " + error);
+		}
+	);
 }
 
