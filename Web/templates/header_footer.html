@@ -1,0 +1,43 @@
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<!--css-->
+		<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/dojo/1.5/dijit/themes/claro/claro.css"/>
+		<!--Dojo -->
+		<script type="text/javascript">
+			djConfig = {
+				parseOnLoad : true,
+				isDebug : true,
+				require : ["dijit.layout.BorderContainer", "dijit.layout.ContentPane"]
+			};
+
+		</script>
+		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/dojo/1.6.0/dojo/dojo.xd.js"></script>
+	</head>
+	<body class="claro" border-radius="15px">
+		<div id = "topLevelContainer" dojoType="dijit.layout.BorderContainer" design="headline" isLayoutContainer="true" gutters='false'
+		style="height:100%;width:100%;border:solid 3px;">
+			<div dojoType = "dijit.layout.ContentPane" region = "top" title="Filtros">
+				<table style="width: 100%">
+					<tr>
+						<td><img src="../images/liquidityspot_logo.jpg"></img></td>
+						<td style="margin: auto; color: #F78111; vertical-align: bottom; text-align: right;"><a>Search Loans</a>&nbsp;&nbsp;&nbsp; <a>My Bids</a>&nbsp;&nbsp;&nbsp; <a>Log in</a></td>
+					</tr>
+				</table>
+			</div>
+			<div id="mainView" dojoType="dijit.layout.BorderContainer" region="center">
+				CENTER - Put page specific content here.
+			</div>
+			<div id='bottomContainer' dojoType="dijit.layout.ContentPane" splitter="false" region="bottom" style="border-radius: 0;">
+				<div id="footer">
+					<p style="float: right;margin: 0 55px 0 0;">
+						Design: Vichara Technologies, <a title="Vichara Technologies" href="http://www.vichara.com/">Vichara Technologies</a>
+					</p>
+					<p>
+						&copy; Copyright 2011 <a href="index.html">Liquidity Spot</a> &middot; All Rights Reserved
+					</p>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
