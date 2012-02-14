@@ -5,8 +5,8 @@ dojo.require("dijit.layout.BorderContainer");
 dojo.require("dijit.layout.ContentPane");
 dojo.require("dijit.form.Button");
 dojo.require("dojox.grid.EnhancedGrid");
+dojo.require("dojox.grid.enhanced.plugins.Filter");
 dojo.require("dojo.number");
-dojo.require("dojo.on");
 
 //application namespace
 var ls={};
@@ -75,6 +75,9 @@ function createGrid(dataStore) {
 		clientSort : true,
 		rowSelector : '20px',
 		structure : layout,
+		plugins: {
+			filter: true
+		}
 	}, document.createElement('div'));
 
 	// append the new grid to the div "grid":
@@ -179,13 +182,13 @@ ls.addGridTooltip = function(parameters) {
 			};
 			// Header event connections
 			if (headerTooltip) { 
-				grid.on("HeaderCellMouseOver", showTooltip); 
-				grid.on("HeaderCellMouseOut", hideTooltip);
+				dojo.connect(grid, "onHeaderCellMouseOver", showTooltip); 
+				dojo.connect(grid, "onHeaderCellMouseOut", hideTooltip);
 			}
 			// Cells events connection
 			if (cellTooltip) {
-				grid.on("CellMouseOver", showTooltip); 
-				grid.on("CellMouseOut", hideTooltip);
+				dojo.connect(grid, "onCellMouseOver", showTooltip); 
+				dojo.connect(grid, "onCellMouseOut", hideTooltip);
 			}  
 		}
 	}
