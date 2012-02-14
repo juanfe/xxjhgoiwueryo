@@ -568,7 +568,7 @@ function initFilters() {
 				return;
 			}
 			var func = function(item, obj) {
-				var val = item[obj.field][0];
+				var val = item['advance_amt'][0]/item['curr_upb'][0];
 				return (val < obj.value);
 			};
 			var condition = new ls.Condition({
@@ -787,7 +787,7 @@ function createGrid(dataStore) {
 		'cellStyles' : 'text-align: center;',
 		'headerStyles' : 'text-align: center;'
 	}, {
-		'name' : ls.labels['collateral_key'],
+		'name' : ls.labels['original_ltv'],
 		'field' : 'original_ltv',
 		'width' : 'auto',
 		'formatter' : function(item) {
