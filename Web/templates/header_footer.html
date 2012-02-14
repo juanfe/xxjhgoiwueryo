@@ -2,12 +2,14 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 		<!--css-->
-		<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/dojo/1.5/dijit/themes/claro/claro.css"/>
+		<link rel="stylesheet" type="text/css"
+		href="http://ajax.googleapis.com/ajax/libs/dojo/1.6.0/dijit/themes/claro/claro.css" />
 		<!--Dojo -->
 		<script type="text/javascript">
 			djConfig = {
 				parseOnLoad : true,
 				isDebug : true,
+				baseUrl : "./",
 				require : ["dijit.layout.BorderContainer", "dijit.layout.ContentPane"]
 			};
 
@@ -26,7 +28,7 @@
 				</table>
 			</div>
 			<div id="mainView" dojoType="dijit.layout.BorderContainer" region="center">
-				CENTER - Put page specific content here.
+				CENTER
 			</div>
 			<div id='bottomContainer' dojoType="dijit.layout.ContentPane" splitter="false" region="bottom" style="border-radius: 0;">
 				<div id="footer">
