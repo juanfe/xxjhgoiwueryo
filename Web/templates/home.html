@@ -1,34 +1,50 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<title>Liquidity Spot</title>
-<!-- css -->
-<link rel="stylesheet" type="text/css"
-  href="http://ajax.googleapis.com/ajax/libs/dojo/1.6.0/dijit/themes/claro/claro.css" />
-<link rel="stylesheet" type="text/css"
-	href="css/common.css" />
-
-<!-- 3rd party libs -->
-<script>
-  dojoConfig = {
-    parseOnLoad : true,
-    isDebug : true,
-    baseUrl : "./",
-    require : ["dijit.form.Button"
-                ]
-    };
-</script>
-<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/dojo/1.6.0/dojo/dojo.xd.js"></script>
-</head>
-<body class='claro'>
-  	<div id = 'screenTitle'>Welcome to the exchange</div>
-	<div id = 'menu'>
-  		<div class='topMenuLeft'>
-  			{% for menuPage in menuPages %}
-    		<button dojoType='dijit.form.Button' onclick="location.href={{ menuPage.url }}">{{ menuPage.text }}</button>
-			{% endfor %}
-    	</div>
-  	</div>
-  	<div id = 'content'/>
-</body>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<!--css-->
+		<link rel="stylesheet" type="text/css"
+			href="http://ajax.googleapis.com/ajax/libs/dojo/1.6.0/dojo/resources/dojo.css" />
+		<link rel="stylesheet" type="text/css"
+			href="http://ajax.googleapis.com/ajax/libs/dojo/1.6.0/dijit/themes/claro/claro.css" />
+		<link rel="stylesheet" type="text/css"
+			href="http://ajax.googleapis.com/ajax/libs/dojo/1.6.0/dijit/themes/claro/document.css" />
+		<!--Dojo -->
+		<script type="text/javascript">
+			djConfig = {
+				parseOnLoad : true,
+				isDebug : true,
+				baseUrl : "./",
+				require : ["dijit.layout.BorderContainer", "dijit.layout.ContentPane"]
+			};
+		</script>
+		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/dojo/1.6.0/dojo/dojo.xd.js"></script>
+	</head>
+	<body class='claro'>
+		<div id = "topLevelContainer" dojoType="dijit.layout.BorderContainer" design="headline" isLayoutContainer="true" gutters='false'
+		style="height:100%;width:100%;">
+			<div dojoType = "dijit.layout.ContentPane" region = "top" title="Filtros" style='width: auto;height: auto;border:solid 1px;border-color: black'>
+				<table style="width: 100%">
+					<tr>
+						<td><img src="../images/liquidityspot_logo.jpg"></img></td>
+						<td style="margin: auto; color: #F78111; vertical-align: bottom; text-align: right;">
+							<a href="/search">Search Loans</a>&nbsp;&nbsp;&nbsp;
+							<a href="/mybids">My Bids</a>&nbsp;&nbsp;&nbsp;
+							<a href="/logout">Logout</a></td>
+					</tr>
+				</table>
+			</div>
+			<div id="mainView" dojoType="dijit.layout.ContentPane" region="center" style="overflow: hidden;">
+			</div>
+			<div id='bottomContainer' dojoType="dijit.layout.ContentPane" splitter="false" region="bottom" style="background-color:#F78111;padding:0px;border:solid 1px;border-color: black">
+				<div id="footer">
+					<p style="float: right;margin: 0 55px 0 0;">
+						Design: Vichara Technologies, <a title="Vichara Technologies" href="http://www.vichara.com/">Vichara Technologies</a>
+					</p>
+					<p>
+						&copy; Copyright 2011 <a href="http://www.liquidityspot.com">Liquidity Spot</a> &middot; All Rights Reserved
+					</p>
+				</div>
+			</div>
+		</div>
+	</body>
 </html>
