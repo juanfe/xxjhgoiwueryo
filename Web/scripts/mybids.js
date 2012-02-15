@@ -67,6 +67,20 @@ function createGrid(dataStore) {
 	    		name: 'Status',
     			field: 'status',
     			datatype: 'string'
+    		}, {
+	    		name: 'Created at',
+    			field: 'createdAt',
+    			datatype: 'date',
+    			dataTypeArgs: {
+            		datePattern: "yyyy/M/d H:m:s"
+				}
+    		}, {
+	    		name: 'Expires at',
+    			field: 'expiresAt',
+    			datatype: 'date',
+    			dataTypeArgs: {
+            		datePattern: "yyyy/M/d H:m:s"
+				}
     		}
     	]
     };

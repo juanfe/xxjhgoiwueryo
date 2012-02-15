@@ -212,7 +212,6 @@ class Download(webapp.RequestHandler):
         self.response.headers['Content-Disposition'] = 'attachment;filename=\"Loans Details.csv\"'
         bidsJson = self.request.get('bids')
         bidsCsv = jsonToCsv(bidsJson)
-        #details = getLoansDetails(keys)
         self.response.out.write(bidsCsv)
         
        
