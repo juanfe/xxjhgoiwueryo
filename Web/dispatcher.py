@@ -30,7 +30,7 @@ class SearchPage:
     text = 'Search assets'
 class MyBidsPage:
     url = "'/mybids'"
-    text = 'My placed bids'
+    text = 'My bids'
 class LogoutPage:
     url = "'/logout'"
     text = 'Logout'
@@ -63,6 +63,7 @@ class Home(webapp.RequestHandler):
         checkLogin(self)
         page = Page.HOME
         parameters = getPageDict(page)
+        parameters = None
         self.response.out.write(template.render("templates/home.html",parameters))
 
 class Search(webapp.RequestHandler):
@@ -70,6 +71,7 @@ class Search(webapp.RequestHandler):
         checkLogin(self)
         page = Page.SEARCH
         parameters = getPageDict(page)
+        parameters = None
         self.response.out.write(template.render("templates/search.html",parameters))
 
 class MyBids(webapp.RequestHandler):
@@ -77,6 +79,7 @@ class MyBids(webapp.RequestHandler):
         checkLogin(self) 
         page = Page.MYBIDS
         parameters = getPageDict(page)
+        parameters = None
         self.response.out.write(template.render("templates/mybids.html",parameters))
 
 #Retrieving the current logged user

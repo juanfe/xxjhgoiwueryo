@@ -858,7 +858,7 @@ function createGrid(dataStore) {
 		store : dataStore,
 		clientSort : true,
 		structure : layout,
-		columnReordering : true,
+		columnReordering : true
 	}, document.createElement('div'));
 
 	dojo.connect(ls.grid, "onRowContextMenu", showLoanDetails);
