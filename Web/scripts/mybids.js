@@ -1,3 +1,4 @@
+dojo.require("ls.FieldLabel");
 dojo.require("dijit.TitlePane");
 dojo.require("dijit.Tooltip");
 dojo.require("dojo.data.ItemFileReadStore");
@@ -13,9 +14,9 @@ var ls={};
 
 dojo.addOnLoad(function() {
 	ls.dataStore = new dojo.data.ItemFileReadStore({
-    identifier:'collateral_key',
-    url : "/bids"
-  });
+    	identifier:'collateral_key',
+    	url : "/bids"
+  	});
 	createGrid(ls.dataStore);
 	ls.addGridTooltip({
 		grid:ls.grid,
@@ -34,6 +35,17 @@ dojo.addOnLoad(function() {
 });
 
 function createGrid(dataStore) {
+	var label = function(field) {
+		return ls.FieldLabel.label(field)
+	}
+	var fields = {
+		collateral: 'collateral_key',
+		participation: 'participation',
+		bidRate: 'bidrate',
+		status: 'status',
+		creation: 'createdAt',
+		expiration: 'expiresAt'
+	};
 	// set the layout structure:
 	var layout = 
 	{
@@ -46,37 +58,37 @@ function createGrid(dataStore) {
 		cells: 
 		[ 
 			{
-    			name: 'Loan #',
-    			field: 'collateral_key',
+    			name: label(fields.collateral),
+    			field: fields.collateral,
     			datatype: 'string'
   			},{
-    			name: 'Participation %',
-    			field: 'participation',
+    			name: label(fields.participation),
+    			field: fields.participation,
     			datatype: 'number',
     			formatter: function(item){
 	    			return dojo.number.format(item,{pattern: "#0.0"});
     			}
   			}, {
-    			name: 'Bid Rate',
-    			field: 'bidrate',
+    			name: label(fields.bidRate),
+    			field: fields.bidRate,
     			datatype: 'number',
     			formatter: function(item){
      				return dojo.number.format(item,{pattern: "#0.0"});
      			}
   			}, {
-	    		name: 'Status',
-    			field: 'status',
+	    		name: label(fields.status),
+    			field: fields.status,
     			datatype: 'string'
     		}, {
-	    		name: 'Created at',
-    			field: 'createdAt',
+	    		name: label(fields.creation),
+    			field: fields.creation,
     			datatype: 'date',
     			dataTypeArgs: {
             		datePattern: "yyyy/M/d H:m:s"
 				}
     		}, {
-	    		name: 'Expires at',
-    			field: 'expiresAt',
+	    		name: label(fields.expiration),
+    			field: fields.expiration,
     			datatype: 'date',
     			dataTypeArgs: {
             		datePattern: "yyyy/M/d H:m:s"
