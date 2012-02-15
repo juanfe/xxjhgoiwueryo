@@ -17,9 +17,14 @@
 			href="css/common.css" />
 		
 		<!-- 3rd party libs -->
-		<script type="text/javascript"
-			src="http://ajax.googleapis.com/ajax/libs/dojo/1.6.0/dojo/dojo.xd.js"
-			djConfig="parseOnLoad: true"></script>
+		<script data-dojo-config="
+				dojoBlankHtmlUrl: 'templates/blank.html',
+  				baseUrl: 'scripts/',
+  				modulePaths: {ls: 'ls'},
+  				parseOnLoad: true"
+			type="text/javascript"
+			src="http://ajax.googleapis.com/ajax/libs/dojo/1.6.0/dojo/dojo.xd.js">
+		</script>
 		
 		<!-- own js -->
 		<script type="text/javascript" src="scripts/mybids.js"></script>

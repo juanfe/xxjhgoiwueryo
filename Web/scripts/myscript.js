@@ -950,7 +950,6 @@ function initFieldLabels() {
 		error : function(err) {
 		}
 	});
-
 }
 
 Array.max = function(array) {

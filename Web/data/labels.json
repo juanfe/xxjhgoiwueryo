@@ -140,4 +140,9 @@
 "U/W":"Loan Underwriter",
 "MO City":"MO City",
 "MO State":"MO State",
-"MO Zip":"MO Zip"}
+"MO Zip":"MO Zip",
+"status":"Status",
+"participation":"Participation %",
+"bidrate":"Bid rate",
+"createdAt":"Created at",
+"expiresAt": "Expires at"}
