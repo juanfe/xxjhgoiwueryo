@@ -269,10 +269,22 @@ function placeBidsClick() {
 }
 
 function downloadDetailsClick() {
-	var selectedLoans = ls.grid.selection.getSelected(), loansData = extractLoansData(selectedLoans), loansDataJson = dojo.toJson(loansData), dummyForm = dojo.byId('downloadForm'), keysPlaceHolder = dojo.byId('downloadInfo');
-	dummyForm.action = '/download';
-	keysPlaceHolder.value = loansDataJson;
-	dummyForm.submit();
+	var selectedLoans = ls.grid.selection.getSelected();	
+	if (selectedLoans.length){
+		var loansData = extractLoansData(selectedLoans),
+			loansDataJson = dojo.toJson(loansData),
+			dummyForm = dojo.byId('downloadForm'),
+			keysPlaceHolder = dojo.byId('downloadInfo');
+		dummyForm.action = '/download';
+		keysPlaceHolder.value = loansDataJson;
+		dummyForm.submit();
+		keysPlaceHolder.value = '';
+	} else {
+		new dijit.Dialog({
+    			title: "No loans selected",
+    			content: "You did not select any loan"
+		}).show();
+	}
 }
 
 function extractLoansData(selectedLoans) {
