@@ -282,9 +282,10 @@ function extractLoansData(selectedLoans) {
 			if(selectedLoan !== null) {
 				loanData = []
 				dojo.forEach(ls.grid.store.getAttributes(selectedLoan), function(attribute) {
-					var value = ls.grid.store.getValue(selectedLoan, attribute);
+					var value = ls.grid.store.getValue(selectedLoan, attribute),
+						label = ls.labels[attribute];
 					if(firstLoan) {
-						headers.push(attribute);
+						headers.push(label ? label : attribute);
 					}
 					loanData.push(value);
 				});
@@ -295,10 +296,10 @@ function extractLoansData(selectedLoans) {
 				loansData.push(loanData);
 			}
 		});
-	}
-	// removing some dojo internal attributes
-	for(var i = 0; i < loansData.length; i++) {
-		loansData[i].length -= 2;
+		// removing some dojo internal attributes
+		for(var i = 0; i < loansData.length; i++) {
+			loansData[i].length -= 2;
+		}
 	}
 	return loansData;
 }
