@@ -1,6 +1,3 @@
-/*global
-dojo, dijit, dojox, console*/
-
 //application namespace
 var ls={};
 

@@ -14,7 +14,7 @@
 		<!-- Configuring dojo -->
 		{% block dojoConfig %}
 		<script>
-			dojoConfig = {
+            dojoConfig = {
 				isDebug: true,
 				parseOnLoad: true,
 				locale: 'en-us',
@@ -30,6 +30,7 @@
 				// Add or replace the properties specified in obj
 				// Return the instance, enabling concatenated calls
 				addProperties: function(obj) {
+				    var prop;
 					for(prop in obj){
 						if(obj.hasOwnProperty(prop)) {
 							this[prop] = obj[prop];
