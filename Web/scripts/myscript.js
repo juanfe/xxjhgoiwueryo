@@ -163,7 +163,7 @@ function initBidsGrid() {
 			return dojo.number.format(item, {
 				pattern : '#,##0.##'
 			});
-		},
+		}
 	}, {
 		'name' : 'Participation %',
 		'field' : 'participation',
@@ -175,7 +175,7 @@ function initBidsGrid() {
 			return dojo.number.format(item, {
 				pattern : "#0.0"
 			});
-		},
+		}
 	}, {
 		'name' : 'Bid Rate',
 		'field' : 'bidrate',
@@ -188,7 +188,7 @@ function initBidsGrid() {
 			return dojo.number.format(item, {
 				pattern : "#0.0"
 			});
-		},
+		}
 	}]];
 
 	ls.bidGrid = new dojox.grid.EnhancedGrid({
