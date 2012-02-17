@@ -9,6 +9,8 @@
 			href="http://ajax.googleapis.com/ajax/libs/dojo/1.6.0/dijit/themes/claro/claro.css" />
 		<link rel="stylesheet" type="text/css"
 			href="http://ajax.googleapis.com/ajax/libs/dojo/1.6.0/dijit/themes/claro/document.css" />
+		{% block stylesheets %}
+		{% endblock stylesheets%}
 		<!-- Configuring dojo -->
 		{% block dojoConfig %}
 		<script>
@@ -17,14 +19,31 @@
 				parseOnLoad: true,
 				locale: 'en-us',
 				require: [],
+				// Add the array of modules to the require property
+				//   allow child templates to add requires to
+				//   dojoConfig
+				// Return the instance, enabling concatenated calls
 				addToRequire: function(array) {
 					this.require = this.require.concat(array);
+					return this;
+				},
+				// Add or replace the properties specified in obj
+				// Return the instance, enabling concatenated calls
+				addProperties: function(obj) {
+					for(prop in obj){
+						if(obj.hasOwnProperty(prop)) {
+							this[prop] = obj[prop];
+						}
+					}
+					return this;
 				}
 			};
 		</script>
 		{% endblock dojoConfig %}
 		<!-- Dojo CDN -->
 		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/dojo/1.6.1/dojo/dojo.xd.js"></script>
+		{% block scripts %}
+		{% endblock scripts %}
 	</head>
 	<body class='claro'>
 		{% block body %}
