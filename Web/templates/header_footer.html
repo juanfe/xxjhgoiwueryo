@@ -1,7 +1,12 @@
 {% extends "base.html" %}
 {% block dojoConfig %}
 	{{ block.super }}
-	<script>dojoConfig.addToRequire(["dijit.layout.BorderContainer", "dijit.layout.ContentPane"])</script>
+	<script>
+	   dojoConfig.addToRequire([
+	       "dijit.layout.BorderContainer",
+	       "dijit.layout.ContentPane"
+       ]);
+    </script>
 {% endblock dojoConfig %}
 {% block body %}
 	<div id = "topLevelContainer" dojoType="dijit.layout.BorderContainer" design="headline" isLayoutContainer="true" gutters='false'
