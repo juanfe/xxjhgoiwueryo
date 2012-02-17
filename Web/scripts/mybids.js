@@ -1,22 +1,97 @@
-dojo.require("ls.FieldLabel");
-dojo.require("dijit.TitlePane");
-dojo.require("dijit.Tooltip");
-dojo.require("dojo.data.ItemFileReadStore");
-dojo.require("dijit.layout.BorderContainer");
-dojo.require("dijit.layout.ContentPane");
-dojo.require("dijit.form.Button");
-dojo.require("dojox.grid.EnhancedGrid");
-dojo.require("dojox.grid.enhanced.plugins.Filter");
-dojo.require("dojo.number");
+/*global
+dojo, dijit, dojox, console*/
 
 //application namespace
 var ls={};
 
-dojo.addOnLoad(function() {
+function createGrid(dataStore) {
+    var label = function(field) {
+        return ls.FieldLabel.label(field);
+    };
+    var fields = {
+        collateral: 'collateral_key',
+        participation: 'participation',
+        bidRate: 'bidrate',
+        status: 'status',
+        creation: 'createdAt',
+        expiration: 'expiresAt'
+    };
+    // set the layout structure:
+    var layout = 
+    {
+        defaultCell:
+        {
+            width: 'auto',
+            cellStyles: 'text-align: center;',
+            headerStyles: 'text-align: center;'
+        }, 
+        cells: 
+        [ 
+            {
+                name: label(fields.collateral),
+                field: fields.collateral,
+                datatype: 'string'
+            },{
+                name: label(fields.participation),
+                field: fields.participation,
+                datatype: 'number',
+                formatter: function(item){
+                    return dojo.number.format(item,{pattern: "#0.0"});
+                }
+            }, {
+                name: label(fields.bidRate),
+                field: fields.bidRate,
+                datatype: 'number',
+                formatter: function(item){
+                    return dojo.number.format(item,{pattern: "#0.0"});
+                }
+            }, {
+                name: label(fields.status),
+                field: fields.status,
+                datatype: 'string'
+            }, {
+                name: label(fields.creation),
+                field: fields.creation,
+                datatype: 'date',
+                dataTypeArgs: {
+                    datePattern: "yyyy/M/d H:m:s"
+                }
+            }, {
+                name: label(fields.expiration),
+                field: fields.expiration,
+                datatype: 'date',
+                dataTypeArgs: {
+                    datePattern: "yyyy/M/d H:m:s"
+                }
+            }
+        ]
+    };
+
+    ls.grid = new dojox.grid.EnhancedGrid({
+        query: {'collateral_key':'*'},
+        store : dataStore,
+        clientSort : true,
+        rowSelector : '20px',
+        structure : layout,
+        plugins: {
+            filter: {
+                itemsName: 'bids'
+            }
+        }
+    }, document.createElement('div'));
+
+    // append the new grid to the div "grid":
+    dojo.byId("grid").appendChild(ls.grid.domNode);
+
+    // Call startup, in order to render the grid:
+    ls.grid.startup();
+}
+
+dojo.ready(function () {
 	ls.dataStore = new dojo.data.ItemFileReadStore({
-    	identifier:'collateral_key',
-    	url : "/bids"
-  	});
+        identifier: 'collateral_key',
+        url: "/bids"
+    });
 	createGrid(ls.dataStore);
 	ls.addGridTooltip({
 		grid:ls.grid,
@@ -26,96 +101,15 @@ dojo.addOnLoad(function() {
 		messages: {
 			'Accepted' : 'The bid is already placed',
 			'Active' : 'There active bids for this loan',
-			'Cancelled' : 'The bid was cancelled by the user',
+			'Cancelled' : 'The bid was cancelled by the user'
 		}
 	});
 	ls.dataStore.fetch({
 		query: {'collateral_key':'*'}
-	})
+	});
 });
 
-function createGrid(dataStore) {
-	var label = function(field) {
-		return ls.FieldLabel.label(field)
-	}
-	var fields = {
-		collateral: 'collateral_key',
-		participation: 'participation',
-		bidRate: 'bidrate',
-		status: 'status',
-		creation: 'createdAt',
-		expiration: 'expiresAt'
-	};
-	// set the layout structure:
-	var layout = 
-	{
-		defaultCell:
-		{
-			width: 'auto',
-    		cellStyles: 'text-align: center;',
-    		headerStyles: 'text-align: center;'
-		}, 
-		cells: 
-		[ 
-			{
-    			name: label(fields.collateral),
-    			field: fields.collateral,
-    			datatype: 'string'
-  			},{
-    			name: label(fields.participation),
-    			field: fields.participation,
-    			datatype: 'number',
-    			formatter: function(item){
-	    			return dojo.number.format(item,{pattern: "#0.0"});
-    			}
-  			}, {
-    			name: label(fields.bidRate),
-    			field: fields.bidRate,
-    			datatype: 'number',
-    			formatter: function(item){
-     				return dojo.number.format(item,{pattern: "#0.0"});
-     			}
-  			}, {
-	    		name: label(fields.status),
-    			field: fields.status,
-    			datatype: 'string'
-    		}, {
-	    		name: label(fields.creation),
-    			field: fields.creation,
-    			datatype: 'date',
-    			dataTypeArgs: {
-            		datePattern: "yyyy/M/d H:m:s"
-				}
-    		}, {
-	    		name: label(fields.expiration),
-    			field: fields.expiration,
-    			datatype: 'date',
-    			dataTypeArgs: {
-            		datePattern: "yyyy/M/d H:m:s"
-				}
-    		}
-    	]
-    };
 
-	ls.grid = new dojox.grid.EnhancedGrid({
-		query: {'collateral_key':'*'},
-		store : dataStore,
-		clientSort : true,
-		rowSelector : '20px',
-		structure : layout,
-		plugins: {
-			filter: {
-				itemsName: 'bids'
-			}
-		}
-	}, document.createElement('div'));
-
-	// append the new grid to the div "grid":
-	dojo.byId("grid").appendChild(ls.grid.domNode);
-
-	// Call startup, in order to render the grid:
-	ls.grid.startup();
-}
 
 // parameters is an object with the following fields:
 //   grid: A dojox.grid.EnhancedGrid instance where the tooltip
@@ -144,8 +138,8 @@ ls.addGridTooltip = function(parameters) {
 			case 'number':
 				return type === (typeByName ? 'number' : Number);
 			case 'string':
-				return type === (typeByName ? 'string' : String)
-					&& variable;
+				return type === (typeByName ? 'string' : String) &&
+				    variable;
 			case 'object':
 				if(variable && variable instanceof type){
 					for (var prop in variable) {
@@ -171,9 +165,9 @@ ls.addGridTooltip = function(parameters) {
 		var grid = parameters.grid,
 			defaultMessage = parameters.defaultMessage,
 			column = parameters.column;
-		if(notEmptySameType(grid, dojox.grid.EnhancedGrid)
-			&& notEmptySameType(defaultMessage, String)
-			&& notEmptySameType(column, String))
+		if(notEmptySameType(grid, dojox.grid.EnhancedGrid) &&
+		  notEmptySameType(defaultMessage, String) &&
+		  notEmptySameType(column, String))
 		{
 			// Checking and managing grid section option
 			var gridSection = parameters.gridSection,
@@ -199,16 +193,16 @@ ls.addGridTooltip = function(parameters) {
 				if (e.cell.name === column) { 
 					var msg = headerTooltip ? column : '';
 					if (cellTooltip && e.rowIndex >= 0) {
-        				var item = e.grid.getItem(e.rowIndex); 
-        				cellValue = e.grid.store.getValue(item, e.cell.field);
-        				msg = cellValue;        				
-        			}
-        			msg += ': ' + (messages[msg] || defaultMessage);
-        			dijit.showTooltip(msg, e.cellNode);
+                        var item = e.grid.getItem(e.rowIndex),
+                            cellValue = e.grid.store.getValue(item, e.cell.field);
+                        msg = cellValue;
+                    }
+                    msg += ': ' + (messages[msg] || defaultMessage);
+                    dijit.showTooltip(msg, e.cellNode);
 				}
 			}; 
-    		var hideTooltip = function(e) { 
-				dijit.hideTooltip(e.cellNode); 
+            var hideTooltip = function(e) { 
+                dijit.hideTooltip(e.cellNode); 
 			};
 			// Header event connections
 			if (headerTooltip) { 
@@ -222,15 +216,15 @@ ls.addGridTooltip = function(parameters) {
 			}  
 		}
 	}
-}
+};
 
 function cleanBidsClick(){
 	var selectedBids = ls.grid.selection.getSelected();
 	var bids = {};
 	for (var i=0; i< selectedBids.length; i++){
-		bids[selectedBids[i]['collateral_key']] =
+		bids[selectedBids[i].collateral_key] =
 		{
-			'collateral_key': selectedBids[i]['collateral_key'][0]
+			'collateral_key': selectedBids[i].collateral_key[0]
 		};
 	}
 	var xhrArgs = {
@@ -238,10 +232,10 @@ function cleanBidsClick(){
         content: {'bids':dojo.toJson(bids)},
         handleAs: "json",
         load: function(data) {
-        	console.log(data);
+            console.log(data);
         },
         error: function(error) {
-        	console.log(error);
+            console.log(error);
         }
     };
     //Call the asynchronous xhrPost
