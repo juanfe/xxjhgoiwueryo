@@ -1,105 +1,109 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-	<head>
-		<title>Liquidity Spot</title>
-		<!-- css -->
-		<link rel="stylesheet" type="text/css"
-		href="http://ajax.googleapis.com/ajax/libs/dojo/1.6.0/dojo/resources/dojo.css" />
-		<link rel="stylesheet" type="text/css"
-		href="http://ajax.googleapis.com/ajax/libs/dojo/1.6.0/dijit/themes/claro/claro.css" />
-		<link rel="stylesheet" type="text/css"
-		href="http://ajax.googleapis.com/ajax/libs/dojo/1.6.0/dijit/themes/claro/document.css" />
-		<link rel="stylesheet" type="text/css"
-		href="http://ajax.googleapis.com/ajax/libs/dojo/1.6.0/dojox/grid/enhanced/resources/claro/EnhancedGrid.css" />
-		<link rel="stylesheet" type="text/css"
-		href="http://ajax.googleapis.com/ajax/libs/dojo/1.6.0/dojox/grid/enhanced/resources/EnhancedGrid_rtl.css" />
-		<link rel='stylesheet' type='text/css'
-		href='http://ajax.googleapis.com/ajax/libs/dojo/1.6.0/dojox/form/resources/RangeSlider.css'/>
-		<link rel="stylesheet" type="text/css"
-		href="css/common.css" />
-		<!-- 3rd party libs -->
-		<script>
-			dojoConfig = {
-				parseOnLoad : true,
-				isDebug : true,
-				require : ["dijit.TitlePane", "dojo.data.ItemFileReadStore", "dojo.data.ItemFileWriteStore", "dojo.number", "dijit.form.NumberTextBox", "dijit.form.Select", "dijit.layout.BorderContainer", "dijit.layout.ContentPane", "dijit.form.Button", "dojox.grid.EnhancedGrid", "dojox.form.RangeSlider", "dijit.form.CheckBox", "dijit.Dialog"]
-			};
-		</script>
-		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/dojo/1.6.0/dojo/dojo.xd.js"></script>
-		<!-- own js -->
-		<script type="text/javascript" src="scripts/myscript.js"></script>
-		<style type="text/css">
-			td.mytd {
-				vertical-align:top;
-				border:3px solid black;
-				border-radius:15px;
-				border-color:#EBEBEB;
-				padding:10px;
-/*				font-size:14px;*/
-			}
-		</style>
-	</head>
-	<body class='claro'>
-		<div id = "topLevelContainer" dojoType="dijit.layout.BorderContainer" design="headline" isLayoutContainer="true" gutters='false'
-		style="height:100%;width:100%;">
-			<div dojoType = "dijit.layout.ContentPane" region = "top" title="Filtros" style='width: auto;height: auto;border:solid 1px;border-color: black'>
-				<table style="width: 100%">
-					<tr>
-						<td><img src="../images/liquidityspot_logo.jpg" alt="logo"/></td>
-						<td style="margin: auto; color: #F78111; vertical-align: bottom; text-align: right;">
-							<a href="/search">Search Loans</a>&nbsp;&nbsp;&nbsp;
-							<a href="/mybids">My Bids</a>&nbsp;&nbsp;&nbsp;
-							<a href="/logout">Logout</a></td>
-					</tr>
-				</table>
-			</div>
-			<div id="mainView" dojoType="dijit.layout.ContentPane" region="center" style="overflow: hidden;">
-				<div id="filters" data-dojo-type="dijit.TitlePane" data-dojo-props="title: 'Loan Filters'">
-					<table style='margin:auto;width:100%'>
-						<tr>
-							<td class='mytd' style='width:25%'><span>Core Logic Fraud Risk Score</span><div id="CoreLogicFraudRiskRangeSlider"></div><span id="CoreLogicFraudRiskRange">[0,1000]</span></br><span>Core Logic Collateral Risk Score</span><div id="CoreLogicCollateralRiskRangeSlider"></div><span id="CoreLogicCollateralRiskRange">[0,1000]</span></br><span>Acceptable FICO Range</span><div id="ficoRangeSlider"></div><span id="ficoRange">[0,900]</span></td>
-							<td class='mytd'style='width:25%'><span>Loan Amount (minimum)</span><div id="minLoanAmount"></div> </br></br> <span>Loan Amount (maximum)</span><div id="maxLoanAmount"></div> </br></br> <span>Max Loan to Value (LTV)</span><div id="maxLTV"></div> </br></br> <span>Max Combined LTV (CLTV)</span><div id="maxCLTV"></div> </br></br> <span>Max advance %</span><div id="maxAdv"></div></td>
-							<td class='mytd' style='width:50%'><span>Lien Type</span><div id="lienType"></div> </br></br> <span>Loan Type (select to apply):</span></br><div id= "loanType"></div> </br> <span>Property Type (select to apply):</span></br><div id='propertyType'></div> </br>
-							<div data-dojo-type="dijit.TitlePane" data-dojo-props="title: 'Acceptable States'">
-								<div id='states'></div>
-							</div></td>
-						</tr>
-						<tr>
-							<td>
-							<button dojoType='dijit.form.Button' id="apply" onClick="findMyAssetsClick">
-								Find My Assets
-							</button></td>
-						</tr>
-					</table>
-				</div>
-				<button dojoType='dijit.form.Button' id="placeBids" onClick="placeBidsClick">
-					Create bids for selected loans
-				</button>
-				<button dojoType='dijit.form.Button' id="downloadDetails" onClick="downloadDetailsClick">
-					Download selected loans details
-				</button>
-				<span style="font-size:80%">Click to select a loan, Ctrl-click to select mutliple loans and Shift-click for a range of loans.</span>
-				<span style="font-size:80%">Right-click on a loan to see full loan details.</span></br>
-				<div id='loanCount' style="font-size:80%; color:red; text-align:center">
-					Showing all loans.
-				</div>
-				<div style="width:99%;height:88%;" dojoType="dijit.layout.ContentPane">
-					<div id="grid"></div>
-				</div>
-				<form id="downloadForm" method="post" action="#">
-					<input type="hidden" id="downloadInfo" name="bids" />
-				</form>
-			</div>
-			<div id='bottomContainer' dojoType="dijit.layout.ContentPane" splitter="false" region="bottom" style="background-color:#F78111;padding:0px;border:solid 1px;border-color: black">
-				<div id="footer">
-					<p style="float: right;margin: 0 55px 0 0;">
-						Design: Vichara Technologies, <a title="Vichara Technologies" href="http://www.vichara.com/">Vichara Technologies</a>
-					</p>
-					<p>
-						&copy; Copyright 2011 <a href="http://www.liquidityspot.com">Liquidity Spot</a> &middot; All Rights Reserved
-					</p>
-				</div>
-			</div>
-		</div>
-	</body>
-</html>
+{% extends "header_footer.html" %}
+{% block stylesheets %}
+    <link rel="stylesheet" type="text/css"
+        href="http://ajax.googleapis.com/ajax/libs/dojo/1.6.0/dojox/grid/enhanced/resources/claro/EnhancedGrid.css" />
+    <link rel="stylesheet" type="text/css"
+        href="http://ajax.googleapis.com/ajax/libs/dojo/1.6.0/dojox/grid/enhanced/resources/EnhancedGrid_rtl.css" />
+    <link rel='stylesheet' type='text/css'
+        href='http://ajax.googleapis.com/ajax/libs/dojo/1.6.0/dojox/form/resources/RangeSlider.css'/>
+    <style type="text/css">
+        td.mytd {
+            vertical-align:top;
+            border:3px solid black;
+            border-radius:15px;
+            border-color:#EBEBEB;
+            padding:10px;
+        }
+    </style>
+{% endblock stylesheets %}
+{% block dojoConfig %}
+    {{ block.super }}
+    <script>
+        dojoConfig.addToRequire([
+            "dijit.TitlePane",
+            "dojo.data.ItemFileReadStore",
+            "dojo.data.ItemFileWriteStore",
+            "dojo.number",
+            "dijit.form.NumberTextBox",
+            "dijit.form.Select",
+            "dijit.layout.BorderContainer",
+            "dijit.layout.ContentPane", 
+            "dijit.form.Button",
+            "dojox.grid.EnhancedGrid",
+            "dojox.form.RangeSlider",
+            "dijit.form.CheckBox",
+            "dijit.Dialog"
+        ]);
+    </script>
+{% endblock dojoConfig %}
+{% block scripts %}
+    <script type="text/javascript" src="scripts/myscript.js"></script>
+{% endblock scripts %}
+{% block content %}
+    <div id="filters" data-dojo-type="dijit.TitlePane" data-dojo-props="title: 'Loan Filters'">
+        <table style='margin:auto;width:100%'>
+            <tr>
+                <td class='mytd' style='width:25%'>
+                    <span>Core Logic Fraud Risk Score</span>
+                    <div id="CoreLogicFraudRiskRangeSlider"></div>
+                    <span id="CoreLogicFraudRiskRange">[0,1000]</span> </br>
+                    <span>Core Logic Collateral Risk Score</span>
+                    <div id="CoreLogicCollateralRiskRangeSlider"></div>
+                    <span id="CoreLogicCollateralRiskRange">[0,1000]</span> </br>
+                    <span>Acceptable FICO Range</span>
+                    <div id="ficoRangeSlider"></div><span id="ficoRange">[0,900]</span>
+                </td>
+                <td class='mytd'style='width:25%'>
+                    <span>Loan Amount (minimum)</span>
+                    <div id="minLoanAmount"></div> </br></br>
+                    <span>Loan Amount (maximum)</span>
+                    <div id="maxLoanAmount"></div> </br></br>
+                    <span>Max Loan to Value (LTV)</span>
+                    <div id="maxLTV"></div> </br></br>
+                    <span>Max Combined LTV (CLTV)</span>
+                    <div id="maxCLTV"></div> </br></br>
+                    <span>Max advance %</span><div id="maxAdv"></div>
+                </td>
+                <td class='mytd' style='width:50%'>
+                    <span>Lien Type</span>
+                    <div id="lienType"></div> </br></br>
+                    <span>Loan Type (select to apply):</span> </br>
+                    <div id= "loanType"></div> </br>
+                    <span>Property Type (select to apply):</span> </br>
+                    <div id='propertyType'></div> </br>
+                    <div data-dojo-type="dijit.TitlePane" data-dojo-props="title: 'Acceptable States'">
+                        <div id='states'></div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <button dojoType='dijit.form.Button' id="apply" onClick="findMyAssetsClick">
+                        Find My Assets
+                    </button>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <button dojoType='dijit.form.Button' id="placeBids" onClick="placeBidsClick">
+        Create bids for selected loans
+    </button>
+    <button dojoType='dijit.form.Button' id="downloadDetails" onClick="downloadDetailsClick">
+        Download selected loans details
+    </button>
+    <span style="font-size:80%">
+        Click to select a loan, Ctrl-click to select mutliple loans and Shift-click for a range of loans.
+    </span>
+    <span style="font-size:80%">
+        Right-click on a loan to see full loan details.
+    </span></br>
+    <div id='loanCount' style="font-size:80%; color:red; text-align:center">
+        Showing all loans.
+    </div>
+    <div style="width:99%;height:88%;" dojoType="dijit.layout.ContentPane">
+        <div id="grid"></div>
+    </div>
+    <form id="downloadForm" method="post" action="#">
+        <input type="hidden" id="downloadInfo" name="bids" />
+    </form>
+{% endblock content %}
