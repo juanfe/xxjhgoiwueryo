@@ -1,0 +1,33 @@
+<html lang="en">
+	<head>
+  		<meta charset="utf-8">
+  		<title>Liquidity Spot</title>
+  		<!-- Dojo and dijit themes css-->
+  		<link rel="stylesheet" type="text/css"
+			href="http://ajax.googleapis.com/ajax/libs/dojo/1.6.0/dojo/resources/dojo.css" />
+		<link rel="stylesheet" type="text/css"
+			href="http://ajax.googleapis.com/ajax/libs/dojo/1.6.0/dijit/themes/claro/claro.css" />
+		<link rel="stylesheet" type="text/css"
+			href="http://ajax.googleapis.com/ajax/libs/dojo/1.6.0/dijit/themes/claro/document.css" />
+		<!-- Configuring dojo -->
+		{% block dojoConfig %}
+		<script>
+			dojoConfig = {
+				isDebug: true,
+				parseOnLoad: true,
+				locale: 'en-us',
+				require: [],
+				addToRequire: function(array) {
+					this.require = this.require.concat(array);
+				}
+			};
+		</script>
+		{% endblock dojoConfig %}
+		<!-- Dojo CDN -->
+		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/dojo/1.6.1/dojo/dojo.xd.js"></script>
+	</head>
+	<body class='claro'>
+		{% block body %}
+		{% endblock body %}
+	</body>
+</html>

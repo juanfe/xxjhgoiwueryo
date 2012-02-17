@@ -1,23 +1,10 @@
-<html>
-	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-		<!--css-->
-		<link rel="stylesheet" type="text/css"
-		href="http://ajax.googleapis.com/ajax/libs/dojo/1.6.0/dijit/themes/claro/claro.css" />
-		<!--Dojo -->
-		<script type="text/javascript">
-			djConfig = {
-				parseOnLoad : true,
-				isDebug : true,
-				baseUrl : "./",
-				require : ["dijit.layout.BorderContainer", "dijit.layout.ContentPane"]
-			};
-
-		</script>
-		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/dojo/1.6.0/dojo/dojo.xd.js"></script>
-	</head>
-	<body class='claro'>
-		<div id = "topLevelContainer" dojoType="dijit.layout.BorderContainer" design="headline" isLayoutContainer="true" gutters='false'
+{% extends "base.html" %}
+{% block dojoConfig %}
+	{{ block.super }}
+	<script>dojoConfig.addToRequire(["dijit.layout.BorderContainer", "dijit.layout.ContentPane"])</script>
+{% endblock dojoConfig %}
+{% block body %}
+	<div id = "topLevelContainer" dojoType="dijit.layout.BorderContainer" design="headline" isLayoutContainer="true" gutters='false'
 		style="height:100%;width:100%;">
 			<div dojoType = "dijit.layout.ContentPane" region = "top" title="Filtros" style='width: auto;height: auto;border:solid 1px;border-color: black'>
 				<table style="width: 100%">
@@ -31,7 +18,8 @@
 				</table>
 			</div>
 			<div id="mainView" dojoType="dijit.layout.ContentPane" region="center" style="overflow: hidden;">
-				CENTER
+				{% block content %}
+				{% endblock content %}
 			</div>
 			<div id='bottomContainer' dojoType="dijit.layout.ContentPane" splitter="false" region="bottom" style="background-color:#F78111;padding:0px;border:solid 1px;border-color: black">
 				<div id="footer">
@@ -44,5 +32,4 @@
 				</div>
 			</div>
 		</div>
-	</body>
-</html>
+{% endblock body %}
