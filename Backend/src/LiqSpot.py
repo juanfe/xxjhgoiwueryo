@@ -195,7 +195,7 @@ class Application:
 		self.Exceptions[id] = excep
 
 	def LoadExceptions(self):
-		if !self.options.exceptions:
+		if not self.options.exceptions:
 			return None
 		try:
 			fexceptions = csv.reader(open(self.options.exceptions, "rb"),
