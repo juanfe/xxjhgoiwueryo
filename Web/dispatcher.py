@@ -10,6 +10,9 @@ import csv
 import random
 from datetime import datetime
 from datetime import timedelta
+import model
+from model import loansModel
+from model import metaModel
 
 #Model for storage
 class Bids(db.Model):
@@ -225,6 +228,8 @@ application = webapp.WSGIApplication(
                                       ('/search', Search),
                                       ('/clean', Clean),
                                       ('/download', Download),
+                                      ('/metaModel', model.metaModel.metaModelInstance),
+                                      ('/metaModel', model.loansModel.metaModelInstance),
                                       ('/', Login)
                                      ],
                                      debug=True)
