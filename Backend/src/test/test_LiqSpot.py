@@ -31,7 +31,16 @@ class TestApplication:
 		lo = flo.next()
 		assert lo == ['ABC Mortgage', ' 318725', ' 0.0225']
 		self.app.addLoans(idlo, lo)
-		assert self.app.Loans == [{'MO': 'ABC Mortgage', 'Load Amount': 318725.0,
-			'Rate': 0.0225}]
+		assert self.app.Loans == [{'MO': 'ABC Mortgage', 'Load Amount': 318725.0, 'Rate': 0.0225}]
 
+	def test_LoadLoans(self):
+		self.app.LoadMortgageOperators()
+		self.app.LoadLoans()
+		assert self.app.Loans == [{'MO': 'ABC Mortgage', 'Load Amount': 318725.0, 'Rate': 0.0225},
+			{'MO': 'ABC Mortgage', 'Load Amount': 375685.0, 'Rate': 0.0225},
+			{'MO': 'Prime Lending', 'Load Amount': 479875.0, 'Rate': 0.03},
+			{'MO': 'Prime Lending', 'Load Amount': 525400.0, 'Rate': 0.06},
+			{'MO': 'Best Loans Inc', 'Load Amount': 515425.0, 'Rate': 0.025},
+			{'MO': 'Integrity Lending', 'Load Amount': 485000.0, 'Rate': 0.06},
+			{'MO': 'Total', 'Load Amount': 2700110.0}]
 
