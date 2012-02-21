@@ -1,7 +1,6 @@
 import sys
 sys.path.append("../")
 from LiqSpot import *
-#import py.test
 
 #def setup_module(module):
 #	sys.argv = ['-b', '../sample/bids1.csv', '-l', '../sample/loans1.csv',
@@ -10,7 +9,7 @@ from LiqSpot import *
 
 class TestApplication:
 	def setup_method (self, method):
-		sys.argv = ['-b', '../../sample/bids1.csv', '-l', '../../sample/loans1.csv',
+		sys.argv = ['LiqSpot.py', '-b', '../../sample/bids1.csv', '-l', '../../sample/loans1.csv',
 				'True', '-d', ';', '-M', '../mo.csv', '-o', 'test.csv', '-v']
 		self.app = Application()
 
@@ -43,4 +42,17 @@ class TestApplication:
 			{'MO': 'Best Loans Inc', 'Load Amount': 515425.0, 'Rate': 0.025},
 			{'MO': 'Integrity Lending', 'Load Amount': 485000.0, 'Rate': 0.06},
 			{'MO': 'Total', 'Load Amount': 2700110.0}]
+
+	def test_LoadBids(self):
+		import datetime
+		self.app.LoadMortgageOperators()
+		self.app.LoadLoans()
+		self.app.LoadBids()
+		assert len(self.app.Bids) == 20
+		assert self.app.Bids['1104154'] == {'loannum': '',
+				'dateorder': datetime.datetime(2012, 1, 5, 9, 16), 'funds': 185000.0,
+				'mo': '', 'time': datetime.datetime(1900, 1, 1, 15, 0),
+				'bidrate': 0.03, 'competitive': True, 'ordertiming': 'Auto', 'lorm': '',
+				'specified': False, 'aggregate': 20000000.0, 'sperate': '',
+				'genrate': 0.2}
 
