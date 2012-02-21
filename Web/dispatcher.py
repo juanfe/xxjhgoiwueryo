@@ -10,9 +10,9 @@ import csv
 import random
 from datetime import datetime
 from datetime import timedelta
-import model
-from model import loansModel
-from model import metaModel
+from ls.model.user import User
+from ls.model.bid import Bid
+from ls.model.simpleLoan import SimpleLoan
 
 #Model for storage
 class Bids(db.Model):
@@ -89,6 +89,11 @@ class MyBids(webapp.RequestHandler):
 def getUser():
     user = users.get_current_user()
     if user:
+        userEmail = user.email()
+        dbUser = User.get_by_key_name(userEmail)
+        if(not dbUser):
+            dbUser = User(key_name = userEmail, account = user)
+            dbUser.put()
         return users.get_current_user().email()
     else:
         return None
@@ -227,8 +232,6 @@ application = webapp.WSGIApplication(
                                       ('/search', Search),
                                       ('/clean', Clean),
                                       ('/download', Download),
-                                      ('/metaModel', model.metaModel.metaModelInstance),
-                                      #('/metaModel', model.loansModel.metaModelInstance),
                                       ('/', Login)
                                      ],
                                      debug=True)
