@@ -56,3 +56,10 @@ class TestApplication:
 				'specified': False, 'aggregate': 20000000.0, 'sperate': '',
 				'genrate': 0.2}
 
+	def test_LoadExceptions(self):
+		import datetime 
+		self.app.LoadMortgageOperators()
+		self.app.LoadLoans()
+		self.app.LoadBids()
+		self.app.LoadExceptions()
+		assert self.app.Exceptions == []
