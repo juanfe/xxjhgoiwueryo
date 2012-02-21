@@ -161,7 +161,7 @@ class BidsRest(webapp.RequestHandler):
         checkLogin(self)
         bidsObj = getBidsObj()
         bidsToSendObj = []
-        for key, value in bidsObj.iteritems():
+        for value in bidsObj.itervalues():
             bidsToSendObj.append(value)
         itemsWrapper = {}
         itemsWrapper['items'] = bidsToSendObj
@@ -173,17 +173,16 @@ class Clean(webapp.RequestHandler):
     def post(self):
         checkLogin(self)
         bidsObj = getBidsObj()
-        bidsToAddJson = self.request.get('bids')
-        bidsToAddObj =  json.loads(bidsToAddJson)
-        for key, value in bidsToAddObj.iteritems():
+        bidsToDeleteJson = self.request.get('bids')
+        bidsToDeleteObj =  json.loads(bidsToDeleteJson)
+        for key in bidsToDeleteObj.iterkeys():
             if key in bidsObj:
                 bidsObj.pop(key)
         bidsJson = json.dumps(bidsObj)
         bids =  getDbBids()
-        if (not bids):
-            bids = Bids(parent=bidsKey())
-        bids.content = bidsJson
-        bids.put()
+        if (bids):
+            bids.content = bidsJson
+            bids.put()
 
 class Login(webapp.RequestHandler):
     def get(self):
@@ -229,7 +228,7 @@ application = webapp.WSGIApplication(
                                       ('/clean', Clean),
                                       ('/download', Download),
                                       ('/metaModel', model.metaModel.metaModelInstance),
-                                      ('/metaModel', model.loansModel.metaModelInstance),
+                                      #('/metaModel', model.loansModel.metaModelInstance),
                                       ('/', Login)
                                      ],
                                      debug=True)

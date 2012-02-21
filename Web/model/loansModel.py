@@ -150,6 +150,3 @@ class loansModel(db.Expando):
     mo_city = db.StringProperty(name="MO City",verbose_name="MO City",required=True)
     mo_state = db.StringProperty(name="MO State",verbose_name="MO State")
     mo_zip = db.StringProperty(name="MO Zip",verbose_name="MO Zip")
-
-class loansModelInstance(webapp.RequestHandler):
-    def get(self):
