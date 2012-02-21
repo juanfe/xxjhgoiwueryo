@@ -10,7 +10,7 @@ import csv
 import random
 from datetime import datetime
 from datetime import timedelta
-from ls.model.user import User
+from ls.model import user
 from ls.model.bid import Bid
 from ls.model.simpleLoan import SimpleLoan
 
@@ -87,14 +87,10 @@ class MyBids(webapp.RequestHandler):
 
 #Retrieving the current logged user
 def getUser():
-    user = users.get_current_user()
-    if user:
-        userEmail = user.email()
-        dbUser = User.get_by_key_name(userEmail)
-        if(not dbUser):
-            dbUser = User(key_name = userEmail, account = user)
-            dbUser.put()
-        return users.get_current_user().email()
+    curr_user = users.get_current_user()
+    if curr_user:
+        user.createUser(curr_user)
+        return curr_user.email()
     else:
         return None
 
