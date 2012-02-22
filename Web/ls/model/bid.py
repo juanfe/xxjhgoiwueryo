@@ -12,6 +12,7 @@ class Bid(db.Model):
     user = db.ReferenceProperty(User, collection_name = 'bids', required = 'true')
     loan = db.ReferenceProperty(SimpleLoan, collection_name = 'bids', required = 'true')
     participation = db.FloatProperty(required = 'true')
-    status = db.StringProperty(required = 'true', choices = ['Accepted', 'Active', 'Cancelled'])
+    bidrate = db.FloatProperty(required = 'true')
+    status = db.StringProperty(choices = ['Accepted', 'Active', 'Cancelled'])
     createdAt = db.DateTimeProperty()
     expiresAt = db.DateTimeProperty()

@@ -156,6 +156,26 @@ class BidsRest(webapp.RequestHandler):
                 expirationTime = creationTime + timedelta(hours=2)
                 value['expiresAt'] = expirationTime.strftime('%Y/%m/%d %H:%M:%S')
                 bidsObj[key] = value
+        # Adding the bid model objects
+        for key, value in bidsToAddObj.iteritems():
+            gqlQuery = Bid.gql("WHERE ANCESTOR IS KEY('User', :email) AND loan= Key('SimpleLoan',:collateral)",
+                                email= getUser(), collateral= key)
+            bid = gqlQuery.get()
+            participation = float(value['participation'])
+            bidrate = float(value['bidrate'])    
+            if(not bid):
+                dbUser = user.getCurrentUser(users.get_current_user())
+                loan = SimpleLoan(key_name= str(key), collateral_key = key)
+                loan.put()
+                Bid(parent = dbUser,
+                          user = dbUser,
+                          loan = loan,
+                          participation = participation,
+                          bidrate = bidrate).put()
+            else:
+                bid.participation = participation
+                bid.bidrate = bidrate
+                bid.put()
         bidsJson = json.dumps(bidsObj)
         setDbBids(bidsJson)
     def get(self):
