@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-import csv, sys
+import csv, sys, os
 from optparse import OptionParser
 from datetime import datetime
 
@@ -35,7 +35,7 @@ class Application:
 				help="Verbose mode",
 				default=False)
 		parser.add_option("-M", "--MorgageOperators", dest="OperatorFilename",
-				default="mo.csv",
+				default= os.path.dirname(sys.argv[0])+"/mo.csv",
 				help = "Specify the Mortgage Operators, default mo.csv")
 		parser.usage = "usage: %prog [options arg] [-v]"
 		return parser
