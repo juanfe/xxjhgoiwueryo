@@ -192,17 +192,16 @@ class BidsRest(webapp.RequestHandler):
 class Clean(webapp.RequestHandler):
     def post(self):
         checkLogin(self)
-        bidsObj = getBidsObj()
         bidsToDeleteJson = self.request.get('bids')
         bidsToDeleteObj =  json.loads(bidsToDeleteJson)
+        # Deleting bid model
         for key in bidsToDeleteObj.iterkeys():
-            if key in bidsObj:
-                bidsObj.pop(key)
-        bidsJson = json.dumps(bidsObj)
-        bids =  getDbBids()
-        if (bids):
-            bids.content = bidsJson
-            bids.put()
+            gqlQuery = Bid.gql("WHERE ANCESTOR IS KEY('User', :email) AND loan= Key('SimpleLoan',:collateral)",
+                                email= getUser(), collateral= key)
+            bid = gqlQuery.get()
+            if(bid):
+                bid.delete()
+        
 
 class Login(webapp.RequestHandler):
     def get(self):
