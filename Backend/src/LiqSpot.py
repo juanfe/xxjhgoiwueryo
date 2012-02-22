@@ -319,6 +319,7 @@ class Application:
 		return _WARateS  
 
 	def WARateTot(self, assetSC, assetSNC, assetGC, assetGNC, WARateGNC, WARateSGC):
+		#G174:M174
 		cummulativeSGC = map (lambda x, y, z: x+y+z, assetSC['Total'],
 				assetSNC['Total'], assetGC['Total'])
 		cummulativeT = map (lambda x, y: x+y, cummulativeSGC, assetGNC['Total'])
@@ -327,7 +328,7 @@ class Application:
 		_w0 = map(lambda x, y, z: (x+y)/z if z != 0 else 0, s1, s2, cummulativeT)
 		_w = map(lambda x, y, z: x if y == None else z, WARateGNC,
 				WARateSGC, _w0)
-		return None
+		return _w
 
 	def MarketPremium(self, assetSC, assetSNC, WARateS, WARateGC):
 		_MarketPremiumPrim = []
@@ -370,6 +371,7 @@ class Application:
 
 	def WARateGNC(self, assetSC, assetSNC, assetGNC, WARateS, WARateGC,
 			MarketPremium):
+		#G171:M171
 		_WARateGNC = []
 		#_MarketPremium = self.MarketPremium(assetSC, assetSNC, WARateS, WARateGC)
 		_WARateGNC = map (lambda x, y: x if y == None else max(x, y) , MarketPremium, WARateS[0:-1])
