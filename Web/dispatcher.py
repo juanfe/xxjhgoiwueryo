@@ -139,23 +139,8 @@ def setDbBids(bidsJson):
 class BidsRest(webapp.RequestHandler):
     def post(self):
         checkLogin(self)
-        bidsObj = getBidsObj()
         bidsToAddJson = self.request.get('bids')
         bidsToAddObj =  json.loads(bidsToAddJson)
-        for key, value in bidsToAddObj.iteritems():
-            if key in bidsObj:
-                bidData =  bidsObj[key]
-                bidData['participation'] = value['participation']
-                bidData['bidrate'] = value['bidrate']
-                bidsObj[key] = bidData
-            else:
-                possibleStatuses = ['Accepted', 'Active', 'Cancelled']
-                value['status'] = possibleStatuses[random.randint(0,2)]
-                creationTime = datetime.now()
-                value['createdAt'] = datetime.now().strftime('%Y/%m/%d %H:%M:%S')
-                expirationTime = creationTime + timedelta(hours=2)
-                value['expiresAt'] = expirationTime.strftime('%Y/%m/%d %H:%M:%S')
-                bidsObj[key] = value
         # Adding the bid model objects
         dbUser = user.getCurrentUser(users.get_current_user())
         for key, value in bidsToAddObj.iteritems():
@@ -183,14 +168,8 @@ class BidsRest(webapp.RequestHandler):
                 bid.participation = participation
                 bid.bidrate = bidrate
                 bid.put()
-        bidsJson = json.dumps(bidsObj)
-        setDbBids(bidsJson)
     def get(self):
         checkLogin(self)
-        bidsObj = getBidsObj()
-        bidsToSendObj = []
-        for value in bidsObj.itervalues():
-            bidsToSendObj.append(value)
         # Getting bids from the Db
         bidsModelObj = []
         modelBids = user.getCurrentUser(users.get_current_user()).bids
@@ -205,7 +184,6 @@ class BidsRest(webapp.RequestHandler):
             bidsModelObj.append(bidModelObj)
         # Wrapping and sending
         itemsWrapper = {}
-        #itemsWrapper['items'] = bidsToSendObj
         itemsWrapper['items'] = bidsModelObj
         bidsToSendJson = json.dumps(itemsWrapper)
         self.response.headers['Content-Type'] = 'application/json'
