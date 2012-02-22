@@ -248,10 +248,6 @@ class Application:
 				elif ((self.SpecifiedCompetitive(k, True, Competitive) and bid['sperate'] != [])
 						and ((bid['loannum'] != '' and int(bid['loannum']) == i)
 							or (bid['loannum'] == '' and bid['mo'] == a['MO']))):
-					if k == "1104151":
-						print "#"*80
-						print bid['sperate']
-						print a['Load Amount']
 					l = bid['sperate'] * a['Load Amount']
 					vals.append(l)
 					Tots[i-1] = Tots[i-1] + l
