@@ -50,7 +50,7 @@ class Application:
 				sys.exit('The mortgage "%s", does not match %s.' % (d["MO"], self.options.OperatorFilename))
 			except:
 				sys.exit('Error: in the file %s, see the field delimiter in csv file, look "LiqSpot.py --help".'
-						% self.options.OperatorFilename)
+						% self.options.loansFilename)
 		d['Load Amount'] = float(d['Load Amount'].strip(' '))
 		d['Rate'] = float(d['Rate'].strip(' '))
 		self.TotalLoans = self.TotalLoans + d['Load Amount']
@@ -393,7 +393,7 @@ class Application:
 		for i in zip(AssetAssigned['Total'], Loans):
 			c = i[1][0] - i[0]
 			#This line is added to reduce the error propagation
-			if c < 1e-11: c = 0
+			if abs(c) < 1e-11: c = 0
 			calc.append((c, None if c == 0 else "over" if c < 0 else "under"))
 		if self.options.Verbose:
 			print "Remained need"
