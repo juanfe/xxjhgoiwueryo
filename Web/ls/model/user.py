@@ -7,11 +7,10 @@ Created on Feb 21, 2012
 from google.appengine.ext import db
 
 class User(db.Model):
-    account = db.UserProperty(required='true', indexed='false')
+    account = db.UserProperty(required='true', indexed='false', auto_current_user=True)
     
 def createUser(user):
-    User(key_name = user.email(), account = user).put()
+    User(key_name = user.email()).put()
     
 def getCurrentUser(user):
     return User.get_by_key_name(key_names = user.email())
-    #return User.get_by_key_name(key_name = user.email())

@@ -157,6 +157,7 @@ class BidsRest(webapp.RequestHandler):
                 value['expiresAt'] = expirationTime.strftime('%Y/%m/%d %H:%M:%S')
                 bidsObj[key] = value
         # Adding the bid model objects
+        dbUser = user.getCurrentUser(users.get_current_user())
         for key, value in bidsToAddObj.iteritems():
             gqlQuery = Bid.gql("WHERE ANCESTOR IS KEY('User', :email) AND loan= Key('SimpleLoan',:collateral)",
                                 email= getUser(), collateral= key)
@@ -168,7 +169,6 @@ class BidsRest(webapp.RequestHandler):
             creationTime = datetime.now()
             expirationTime = creationTime + timedelta(hours=2)
             if(not bid):
-                dbUser = user.getCurrentUser(users.get_current_user())
                 loan = SimpleLoan(key_name= str(key), collateral_key = key)
                 loan.put()
                 Bid(parent = dbUser,
