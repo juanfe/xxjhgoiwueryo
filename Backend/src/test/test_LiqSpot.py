@@ -3,13 +3,13 @@ sys.path.append("../")
 from LiqSpot import *
 
 #def setup_module(module):
-#	sys.argv = ['-b', '../sample/bids1.csv', '-l', '../sample/loans1.csv',
+#	sys.argv = ['-b', '../sample/bids0.csv', '-l', '../sample/loans0.csv',
 #			'True', '-d', '";"' '-o', 'test.csv', '-v']
 #	module.TestApplication.
 
 class TestApplication:
 	def setup_method (self, method):
-		sys.argv = ['LiqSpot.py', '-b', '../../sample/bids1.csv', '-l', '../../sample/loans1.csv',
+		sys.argv = ['LiqSpot.py', '-b', '../../sample/bids0.csv', '-l', '../../sample/loans0.csv',
 				'True', '-d', ';', '-M', '../mo.csv', '-o', 'test.csv'] #, '-v']
 		self.app = Application()
 
