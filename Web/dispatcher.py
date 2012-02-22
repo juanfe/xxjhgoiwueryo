@@ -8,11 +8,8 @@ import logging
 import StringIO
 import csv
 import random
-from datetime import datetime
-from datetime import timedelta
-import model
-from model import loansModel
-from model import metaModel
+from datetime import datetime, timedelta
+from model import loansModel, metaModel
 
 #Model for storage
 class Bids(db.Model):
@@ -227,8 +224,8 @@ application = webapp.WSGIApplication(
                                       ('/search', Search),
                                       ('/clean', Clean),
                                       ('/download', Download),
-                                      ('/metaModel', model.metaModel.metaModelInstance),
-                                      #('/metaModel', model.loansModel.metaModelInstance),
+                                      ('/metaModel', metaModel.metaModelInstance),
+                                      ('/loansModel', loansModel.loansModelInstance),
                                       ('/', Login)
                                      ],
                                      debug=True)
