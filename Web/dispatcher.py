@@ -191,8 +191,22 @@ class BidsRest(webapp.RequestHandler):
         bidsToSendObj = []
         for value in bidsObj.itervalues():
             bidsToSendObj.append(value)
+        # Getting bids from the Db
+        bidsModelObj = []
+        modelBids = user.getCurrentUser(users.get_current_user()).bids
+        for modelBid in modelBids:
+            bidModelObj = {}
+            bidModelObj['collateral_key'] = modelBid.loan.collateral_key
+            bidModelObj['participation'] = modelBid.participation
+            bidModelObj['bidrate'] = modelBid.bidrate
+            bidModelObj['status'] = modelBid.status
+            bidModelObj['createdAt'] = modelBid.createdAt.strftime('%Y/%m/%d %H:%M:%S')
+            bidModelObj['expiresAt'] = modelBid.expiresAt.strftime('%Y/%m/%d %H:%M:%S')
+            bidsModelObj.append(bidModelObj)
+        # Wrapping and sending
         itemsWrapper = {}
-        itemsWrapper['items'] = bidsToSendObj
+        #itemsWrapper['items'] = bidsToSendObj
+        itemsWrapper['items'] = bidsModelObj
         bidsToSendJson = json.dumps(itemsWrapper)
         self.response.headers['Content-Type'] = 'application/json'
         self.response.out.write(bidsToSendJson)
