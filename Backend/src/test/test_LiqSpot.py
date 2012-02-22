@@ -10,7 +10,7 @@ from LiqSpot import *
 class TestApplication:
 	def setup_method (self, method):
 		sys.argv = ['LiqSpot.py', '-b', '../../sample/bids1.csv', '-l', '../../sample/loans1.csv',
-				'True', '-d', ';', '-M', '../mo.csv', '-o', 'test.csv', '-v']
+				'True', '-d', ';', '-M', '../mo.csv', '-o', 'test.csv'] #, '-v']
 		self.app = Application()
 
 	def test_init (self):
@@ -57,9 +57,47 @@ class TestApplication:
 				'genrate': 0.2}
 
 	def test_LoadExceptions(self):
-		import datetime 
 		self.app.LoadMortgageOperators()
 		self.app.LoadLoans()
 		self.app.LoadBids()
 		self.app.LoadExceptions()
 		assert self.app.Exceptions == []
+
+	def test_SpecifiedAssetAssignation(self):
+		self.app.LoadMortgageOperators()
+		self.app.LoadLoans()
+		self.app.LoadBids()
+		self.app.LoadExceptions()
+		assetSC = self.app.SpecifiedAssetAssignation(Competitive = True)
+		assert  assetSC == {'1104139': [0, 0, 0, 0, 0, 0, 0],
+				'1104138': [0, 0, 0, 0, 0, 0, 0],
+				'1104161': [0, 0, 0, 0, 0, 0, 0],
+				'1104152': [0, 0, 95975.0, 105080.0, 0, 0, 201055.0],
+				'1104131': [0, 0, 0, 0, 0, 0, 0],
+				'1104133': [0, 0, 0, 105080.0, 0, 0, 105080.0],
+				'1104134': [0, 0, 0, 0, 0, 0, 0],
+				'1104136': [0, 0, 0, 105080.0, 0, 0, 105080.0],
+				'1104140': [0, 0, 0, 0, 103085.0, 0, 103085.0],
+				'1104141': [0, 0, 0, 0, 0, 0, 0],
+				'1104151': [0, 0, 0, 0, 0, 0, 0],
+				'1104143': [0, 0, 0, 0, 0, 0, 0],
+				'1104157': [0, 0, 0, 0, 0, 0, 0],
+				'1104145': [31872.5, 0, 0, 0, 0, 0, 31872.5],
+				'1104155': [0, 0, 0, 0, 103085.0, 0, 103085.0],
+				'1104154': [0, 0, 0, 0, 0, 0, 0],
+				'1104149': [0, 0, 0, 0, 0, 0, 0],
+				'1104159': [0, 0, 0, 0, 0, 0, 0],
+				'1104158': [63745.0, 0, 0, 0, 0, 0, 63745.0],
+				'1104156': [0, 0, 0, 0, 0, 0, 0],
+				'Total': [95617.5, 0, 95975.0, 315240.0, 206170.0, 0, 713002.5]}
+
+	def test_WARate(self):
+		self.app.LoadMortgageOperators()
+		self.app.LoadLoans()
+		self.app.LoadBids()
+		self.app.LoadExceptions()
+		assetSC = self.app.SpecifiedAssetAssignation(Competitive = True)
+		WARateSC = self.app.WARate(assetSC)
+		assert WARateSC == [0.02, None, 0.03, 0.043333333333333335,
+				0.023125, None, 0.03256605867440858]
+
