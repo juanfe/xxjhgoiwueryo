@@ -588,6 +588,7 @@ class Application:
 		Tots = []
 		j = 1
 		for k, bid in self.Bids.iteritems():
+			vals = []
 			self.SummaryVals(j, k, vals, Tots, assetSC, assetSNC,
 					assetGC, assetGNC)
 			# Print in standart output if there are no output or there are
