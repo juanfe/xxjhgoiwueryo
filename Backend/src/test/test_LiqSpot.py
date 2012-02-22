@@ -147,3 +147,35 @@ class TestApplication:
 		assert WARateS == [0.021666666666666667, 0.0225, 0.03, 0.0475, 0.02375,
 				None, 0.03150890885353453]
 
+	def test_CalcRateAwarded(self):
+		self.app.LoadMortgageOperators()
+		self.app.LoadLoans()
+		self.app.LoadBids()
+		self.app.LoadExceptions()
+		assetSC = self.app.SpecifiedAssetAssignation(Competitive = True)
+		WARateSC = self.app.WARate(assetSC)
+		SCompAssetRem = self.app.CalcRemaing (assetSC, self.app.GetLoans())
+		assetSNC = self.app.SpecifiedAssetAssignation(Competitive = False)
+		SNCompAssetRem = self.app.CalcRemaing (assetSNC, SCompAssetRem)
+		WARateSNC = self.app.WARateSNC(assetSC, assetSNC)
+		rank = self.app.RankRateGenericCompetitive()
+		allocateGC = self.app.AllocateGenericCompetitive(Rank = rank)
+		valrank = self.app.AdjustRankWithAllocateAndAccepted(Allocate = allocateGC,
+				Rank = rank, Rem = SNCompAssetRem)
+		self.app.AdjustAllocateAndAccepted(Allocate = allocateGC, VRank = valrank)
+		WARateS = self.app.WARateS(assetSC, WARateSC, assetSNC, WARateSNC)
+		assetGC = self.app.GenericAssetAssignation(Rem = SNCompAssetRem, Allocate =
+				allocateGC)
+		GCompAssetRem = self.app.CalcRemaing (assetGC, SNCompAssetRem)
+		MarketPremium = self.app.MarketPremium(assetSC, assetSNC,
+				WARateS, self.app.WARate(assetGC))
+		WARateGC = self.app.WARateGC(assetGC, MarketPremium)
+		WARateSGC = self.app.WARateSGC(assetSC, assetSNC, assetGC, WARateS,
+				MarketPremium)
+		ratesGC = self.app.CalcRateAwarded(assetGC, allocateGC, SNCompAssetRem,
+				WARateGC, MarketPremium)
+		assert ratesGC == {'1104139': {'rateawarded': 0.038617011249892495, 'rate': 0.0225},
+			'1104138': {'rateawarded': 0.037367011249892494, 'rate': 0.02125},
+			'1104141': {'rateawarded': 0.0411170112498925, 'rate': 0.025},
+			'1104154': {'rateawarded': 0.046117011249892495, 'rate': 0.03},
+			'Total': {'rateawarded': 0.040308187720480726}}
