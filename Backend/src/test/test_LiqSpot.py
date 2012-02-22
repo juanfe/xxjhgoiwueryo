@@ -101,3 +101,49 @@ class TestApplication:
 		assert WARateSC == [0.02, None, 0.03, 0.043333333333333335,
 				0.023125, None, 0.03256605867440858]
 
+	def test_CalcRemaing(self):
+		self.app.LoadMortgageOperators()
+		self.app.LoadLoans()
+		self.app.LoadBids()
+		self.app.LoadExceptions()
+		assetSC = self.app.SpecifiedAssetAssignation(Competitive = True)
+		WARateSC = self.app.WARate(assetSC)
+		SCompAssetRem = self.app.CalcRemaing (assetSC, self.app.GetLoans())
+		assert SCompAssetRem == [(223107.5, 'under'), (375685.0, 'under'),
+				(383900.0, 'under'), (210160.0, 'under'), (309255.0, 'under'),
+				(485000.0, 'under'), (1987107.5, 'under')]
+
+	def test_WARateSNC(self):
+		self.app.LoadMortgageOperators()
+		self.app.LoadLoans()
+		self.app.LoadBids()
+		self.app.LoadExceptions()
+		assetSC = self.app.SpecifiedAssetAssignation(Competitive = True)
+		WARateSC = self.app.WARate(assetSC)
+		SCompAssetRem = self.app.CalcRemaing (assetSC, self.app.GetLoans())
+		assetSNC = self.app.SpecifiedAssetAssignation(Competitive = False)
+		#SNCompAssetRem = self.app.CalcRemaing (assetSNC, SCompAssetRem)
+		WARateSNC = self.app.WARateSNC(assetSC, assetSNC)
+		assert WARateSNC == [0.0225, 0.0225, 0.03, 0.06, 0.025, 0.06,
+				0.03013764067429058]
+
+	def test_WARateS(self):
+		self.app.LoadMortgageOperators()
+		self.app.LoadLoans()
+		self.app.LoadBids()
+		self.app.LoadExceptions()
+		assetSC = self.app.SpecifiedAssetAssignation(Competitive = True)
+		WARateSC = self.app.WARate(assetSC)
+		SCompAssetRem = self.app.CalcRemaing (assetSC, self.app.GetLoans())
+		assetSNC = self.app.SpecifiedAssetAssignation(Competitive = False)
+		SNCompAssetRem = self.app.CalcRemaing (assetSNC, SCompAssetRem)
+		WARateSNC = self.app.WARateSNC(assetSC, assetSNC)
+		rank = self.app.RankRateGenericCompetitive()
+		allocateGC = self.app.AllocateGenericCompetitive(Rank = rank)
+		valrank = self.app.AdjustRankWithAllocateAndAccepted(Allocate = allocateGC,
+				Rank = rank, Rem = SNCompAssetRem)
+		self.app.AdjustAllocateAndAccepted(Allocate = allocateGC, VRank = valrank)
+		WARateS = self.app.WARateS(assetSC, WARateSC, assetSNC, WARateSNC)
+		assert WARateS == [0.021666666666666667, 0.0225, 0.03, 0.0475, 0.02375,
+				None, 0.03150890885353453]
+
