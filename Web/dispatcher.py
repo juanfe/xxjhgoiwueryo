@@ -162,7 +162,11 @@ class BidsRest(webapp.RequestHandler):
                                 email= getUser(), collateral= key)
             bid = gqlQuery.get()
             participation = float(value['participation'])
-            bidrate = float(value['bidrate'])    
+            bidrate = float(value['bidrate'])
+            statusChoices = Bid.status.choices
+            status = statusChoices[random.randint(0,len(statusChoices)-1)]
+            creationTime = datetime.now()
+            expirationTime = creationTime + timedelta(hours=2)
             if(not bid):
                 dbUser = user.getCurrentUser(users.get_current_user())
                 loan = SimpleLoan(key_name= str(key), collateral_key = key)
@@ -171,7 +175,10 @@ class BidsRest(webapp.RequestHandler):
                           user = dbUser,
                           loan = loan,
                           participation = participation,
-                          bidrate = bidrate).put()
+                          bidrate = bidrate,
+                          status = status,
+                          createdAt = creationTime,
+                          expiresAt = expirationTime).put()
             else:
                 bid.participation = participation
                 bid.bidrate = bidrate
