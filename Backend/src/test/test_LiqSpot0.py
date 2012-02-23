@@ -94,7 +94,7 @@ class TestApplication:
 				'1104156': [0, 0, 0, 0, 0, 0, 0],
 				'Total': [95617.5, 0, 95975.0, 315240.0, 206170.0, 0, 713002.5]}
 
-	def test_WARate(self):
+	def test_WARateSC(self):
 		#In engine processing rules example.xlsx "assets availale for bid"!G30:M30
 		self.app.LoadMortgageOperators()
 		self.app.LoadLoans()
