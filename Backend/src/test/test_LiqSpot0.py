@@ -268,7 +268,7 @@ class TestApplication:
 		WARateTot = self.app.WARateTot(assetSC, assetSNC, assetGC, assetGNC,
 				WARateGNC, WARateSGC)
 		sum = self.app.Summary(assetSC, assetSNC, assetGC, assetGNC, WARateGNC,
-				WARateTot)
+				WARateTot, GNComptAssetRem)
 		assert sum == {'1104139': [5543.299916135251, 39203.726641962916,
 				66768.3061512063, 18275.628055141333, 35857.31096429852,
 				84351.72827125568, 250000.0],
@@ -339,7 +339,7 @@ class TestApplication:
 		WARateTot = self.app.WARateTot(assetSC, assetSNC, assetGC, assetGNC,
 				WARateGNC, WARateSGC)
 		sum = self.app.Summary(assetSC, assetSNC, assetGC, assetGNC, WARateGNC,
-				WARateTot)
+				WARateTot, GNComptAssetRem)
 		AllocRates = self.app.SumRateAllocation(assetSC, assetSNC, assetGC,
 				assetGNC, ratesGC, WARateGNC)
 		assert AllocRates == {'1104139': 0.038617011249892495,
