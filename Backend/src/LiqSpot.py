@@ -596,6 +596,7 @@ class Application:
 					self.Loans)[0:-1]
 			rate = rate + (sum(map(lambda x,y: x*y, _LoanRates,
 				assetSNC[k][0:-1]))/assetSNC[k][-1] if assetSNC[k][-1] != 0 else 0)
+			rate = rate if asset[k][-1] > 0 else 0
 			if ratesGC.has_key(k):
 				rate = rate + ratesGC[k]['rateawarded']
 			rate = rate + (WARateGNC[-1] if self.SpecifiedCompetitive(bid = k, specified = False, competitive =
