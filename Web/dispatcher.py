@@ -4,19 +4,11 @@ from google.appengine.ext import db
 from google.appengine.ext.webapp import template
 from google.appengine.ext.webapp.util import run_wsgi_app
 from django.utils import simplejson as json
-import logging
-import StringIO
-import csv
-import random
-from datetime import datetime
-from datetime import timedelta
+import StringIO, csv, random, logging
+from datetime import datetime, timedelta
 from ls.model import user
 from ls.model.bid import Bid
 from ls.model.simpleLoan import SimpleLoan
-
-#Model for storage
-class Bids(db.Model):
-    content = db.TextProperty()
 
 #Rendering logic
 class Page:
@@ -94,14 +86,6 @@ def getUser():
     else:
         return None
 
-def userCookie():
-    userCookieKey = 'com.liquidityspot.user'
-    user = getUser()
-    if user:
-        return '%s=%s;' % (userCookieKey, user)
-    else:
-        return '%s=; Max-Age=0; Path=/' % userCookieKey
-
 def bidsKey():
     entityKind = 'Bids'
     key = getUser()
@@ -109,33 +93,6 @@ def bidsKey():
 
 #Storage of the dojo bids json
 dojoAjaxKey = 'bids'
-def getDbBids():
-    bidsQuery = Bids.gql("WHERE ANCESTOR IS :1 ", bidsKey())
-    dbBids = None
-    for bids in bidsQuery:
-        dbBids = bids
-    return dbBids
-
-def getBidsObj():
-    bids =  getDbBids()
-    if bids:
-        bidsJson = bids.content
-        bidsObj = json.loads(bidsJson)
-    else:
-        bidsObj = {}
-    return bidsObj
-
-def getBidsJson():
-    bidsObj = getBidsObj()
-    return json.dumps(bidsObj)
-
-def setDbBids(bidsJson):
-    bids =  getDbBids()
-    if (not bids):
-        bids = Bids(parent=bidsKey())
-    bids.content = bidsJson
-    bids.put()        
-
 class BidsRest(webapp.RequestHandler):
     def post(self):
         checkLogin(self)
@@ -206,7 +163,6 @@ class Clean(webapp.RequestHandler):
 class Login(webapp.RequestHandler):
     def get(self):
         user = getUser()
-        #self.response.headers.add_header('Set-Cookie',userCookie())
         if user:
             self.redirect('/home')
         else:
