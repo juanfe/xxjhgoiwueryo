@@ -316,12 +316,12 @@ class TestApplication:
 		WARateGNC = self.app.WARateGNC(assetSC, assetSNC, assetGNC, WARateS,
 				                        self.app.WARate(assetGC), MarketPremium)
 		GNComptAssetRem = self.app.CalcRemaing (assetGNC, GCompAssetRem)	
-		AllocRates = self.app.SumRateAllocation(assetSC, assetSNC, assetGC,
-				assetGNC, ratesGC, WARateGNC)
 		WARateTot = self.app.WARateTot(assetSC, assetSNC, assetGC, assetGNC,
 				WARateGNC, WARateSGC)
 		sum = self.app.Summary(assetSC, assetSNC, assetGC, assetGNC, WARateGNC,
-				WARateTot, AllocRates)
+				WARateTot)
+		AllocRates = self.app.SumRateAllocation(assetSC, assetSNC, assetGC,
+				assetGNC, ratesGC, WARateGNC)
 		assert sum == {'1104139': [5543.299916135251, 39203.726641962916,
 				66768.3061512063, 18275.628055141333, 35857.31096429852,
 				84351.72827125568, 250000.0],

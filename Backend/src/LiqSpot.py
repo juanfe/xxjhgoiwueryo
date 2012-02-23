@@ -575,8 +575,7 @@ class Application:
 				TotalLoan = TotalLoan + l
 			i = i+1
 
-	def Summary(self, assetSC, assetSNC, assetGC, assetGNC, WARateGNC,
-			WARateTot, AllocRates):
+	def Summary(self, assetSC, assetSNC, assetGC, assetGNC, WARateGNC, WARateTot):
 		#TODO remove the variables that are don't used, 
 		#but before print in the format with titles WARateTot and the others
 		if self.options.Verbose:
@@ -594,12 +593,12 @@ class Application:
 					assetGC, assetGNC)
 			# Print in standart output if there are no output or there are
 			# verbose option.
-			if self.options.Verbose or not self.options.output:
-				print k,
-				print AllocRates[k],
-				print vals
-			if self.options.output:
-				summwrt.writerow([k, AllocRates[k]] + vals)
+			##if self.options.Verbose or not self.options.output:
+			##	print k,
+			##	print AllocRates[k],
+			##	print vals
+			##if self.options.output:
+			##	summwrt.writerow([k, AllocRates[k]] + vals)
 			_AssetAssignation[k] = vals
 			j = j + 1
 		_AssetAssignation['Total'] = Tots
@@ -654,13 +653,14 @@ class Application:
 		WARateGNC = self.WARateGNC(assetSC, assetSNC, assetGNC, WARateS,
 				self.WARate(assetGC), MarketPremium)
 		GNComptAssetRem = self.CalcRemaing (assetGNC, GCompAssetRem)
-		AllocRates = self.SumRateAllocation(assetSC, assetSNC, assetGC, assetGNC, ratesGC,
-				WARateGNC)
 
 		WARateTot = self.WARateTot(assetSC, assetSNC, assetGC, assetGNC, WARateGNC,
 				WARateSGC)
 		# Make the summary of the assets
-		self.Summary(assetSC, assetSNC, assetGC, assetGNC, WARateGNC, WARateTot, AllocRates)
+		asset = self.Summary(assetSC, assetSNC, assetGC, assetGNC, WARateGNC, WARateTot)
+		AllocRates = self.SumRateAllocation(assetSC, assetSNC, assetGC, assetGNC, ratesGC,
+				WARateGNC)
+		#self.PrintSummary(asset, AllocRates)
 
 if __name__ == '__main__':
 	app = Application()
