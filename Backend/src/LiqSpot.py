@@ -389,7 +389,6 @@ class Application:
 		return L
 
 	def CalcRemaing (self, AssetAssigned, Loans):
-		#G177:M177
 		calc = []
 		for i in zip(AssetAssigned['Total'], Loans):
 			c = i[1][0] - i[0]
@@ -662,6 +661,7 @@ class Application:
 				allocateGNC)
 		WARateGNC = self.WARateGNC(assetSC, assetSNC, assetGNC, WARateS,
 				self.WARate(assetGC), MarketPremium)
+		#G177:M177
 		GNComptAssetRem = self.CalcRemaing (assetGNC, GCompAssetRem)
 
 		WARateTot = self.WARateTot(assetSC, assetSNC, assetGC, assetGNC, WARateGNC,
