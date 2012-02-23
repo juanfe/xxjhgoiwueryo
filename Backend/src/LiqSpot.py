@@ -389,6 +389,7 @@ class Application:
 		return L
 
 	def CalcRemaing (self, AssetAssigned, Loans):
+		#G177:M177
 		calc = []
 		for i in zip(AssetAssigned['Total'], Loans):
 			c = i[1][0] - i[0]
