@@ -584,8 +584,7 @@ class Application:
 			ofile.close()
 		return _AssetAssignation
 	
-	def SumRateAllocation(self, assetSC, assetSNC, assetGC, assetGNC, ratesGC,
-			WARateGNC):
+	def SumRateAllocation(self, asset, assetSNC, ratesGC, WARateGNC):
 		_all = {}
 		for k, bid in self.Bids.iteritems():
 			rate = 0
@@ -670,8 +669,7 @@ class Application:
 		# Make the summary of the assets
 		asset = self.Summary(assetSC, assetSNC, assetGC, assetGNC, WARateGNC,
 				WARateTot, GNComptAssetRem)
-		AllocRates = self.SumRateAllocation(assetSC, assetSNC, assetGC, assetGNC, ratesGC,
-				WARateGNC)
+		AllocRates = self.SumRateAllocation( asset, assetSNC, ratesGC, WARateGNC)
 		#self.PrintSummary(asset, AllocRates)
 
 if __name__ == '__main__':

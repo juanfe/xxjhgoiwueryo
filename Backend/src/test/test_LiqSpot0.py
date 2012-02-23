@@ -338,10 +338,9 @@ class TestApplication:
 		GNComptAssetRem = self.app.CalcRemaing (assetGNC, GCompAssetRem)	
 		WARateTot = self.app.WARateTot(assetSC, assetSNC, assetGC, assetGNC,
 				WARateGNC, WARateSGC)
-		sum = self.app.Summary(assetSC, assetSNC, assetGC, assetGNC, WARateGNC,
+		asset = self.app.Summary(assetSC, assetSNC, assetGC, assetGNC, WARateGNC,
 				WARateTot, GNComptAssetRem)
-		AllocRates = self.app.SumRateAllocation(assetSC, assetSNC, assetGC,
-				assetGNC, ratesGC, WARateGNC)
+		AllocRates = self.app.SumRateAllocation(asset, assetSNC, ratesGC, WARateGNC)
 		assert AllocRates == {'1104139': 0.038617011249892495,
 				'1104138': 0.037367011249892494,
 				'1104161': 0.060000000000000005,
