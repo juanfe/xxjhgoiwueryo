@@ -536,27 +536,6 @@ class Application:
 		Tot = {'aggregate': TotalAggregate, 'bidrate': rate}
 		_AssetAlloAndAccept['Total'] = Tot
 		return _AssetAlloAndAccept
-
-	def SumRateAllocation(self, assetSC, assetSNC, assetGC, assetGNC, ratesGC,
-			WARateGNC):
-		_all = {}
-		for k, bid in self.Bids.iteritems():
-			rate = 0
-			# Add rate from Generic Competitive Awarded
-			if self.SpecifiedCompetitive(bid = k, specified = True, competitive
-				= True):
-				rate = rate + bid['bidrate']  
-			# Add the weighted rate for Specified Noncompetitive 
-			_LoanRates = map(lambda x: x['Rate'] if x.has_key('Rate') else None,
-					self.Loans)[0:-1]
-			rate = rate + (sum(map(lambda x,y: x*y, _LoanRates,
-				assetSNC[k][0:-1]))/assetSNC[k][-1] if assetSNC[k][-1] != 0 else 0)
-			if ratesGC.has_key(k):
-				rate = rate + ratesGC[k]['rateawarded']
-			rate = rate + (WARateGNC[-1] if self.SpecifiedCompetitive(bid = k, specified = False, competitive =
-					False) else 0)
-			_all[k] = rate
-		return _all
 	
 	def SummaryVals(self, j, k, vals, Tots, assetSC, assetSNC, assetGC,
 			assetGNC, GNComptAssetRem):
@@ -605,6 +584,27 @@ class Application:
 			ofile.close()
 		return _AssetAssignation
 	
+	def SumRateAllocation(self, assetSC, assetSNC, assetGC, assetGNC, ratesGC,
+			WARateGNC):
+		_all = {}
+		for k, bid in self.Bids.iteritems():
+			rate = 0
+			# Add rate from Generic Competitive Awarded
+			if self.SpecifiedCompetitive(bid = k, specified = True, competitive
+				= True):
+				rate = rate + bid['bidrate']  
+			# Add the weighted rate for Specified Noncompetitive 
+			_LoanRates = map(lambda x: x['Rate'] if x.has_key('Rate') else None,
+					self.Loans)[0:-1]
+			rate = rate + (sum(map(lambda x,y: x*y, _LoanRates,
+				assetSNC[k][0:-1]))/assetSNC[k][-1] if assetSNC[k][-1] != 0 else 0)
+			if ratesGC.has_key(k):
+				rate = rate + ratesGC[k]['rateawarded']
+			rate = rate + (WARateGNC[-1] if self.SpecifiedCompetitive(bid = k, specified = False, competitive =
+					False) else 0)
+			_all[k] = rate
+		return _all
+
 	def PrintSummary(asset, AllocRates):
 		if self.options.Verbose:
 			print "-"*50
