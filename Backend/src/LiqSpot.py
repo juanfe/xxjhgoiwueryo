@@ -569,9 +569,8 @@ class Application:
 				vals.append(TotalLoan)
 				Tots[i-1] = Tots[i-1] + TotalLoan
 			else:
-				#aqui es la cosa
 				l = assetSC[k][i-1] + assetSNC[k][i-1] + assetGC[k][i-1] + \
-						assetGNC[k][i-1] if GNComptAssetRem[i-1][1] != None else 0
+						assetGNC[k][i-1] if GNComptAssetRem[i-1][1] == None else 0
 				vals.append(l)
 				Tots[i-1] = Tots[i-1] + l
 				TotalLoan = TotalLoan + l
