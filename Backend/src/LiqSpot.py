@@ -559,7 +559,7 @@ class Application:
 		return _all
 	
 	def SummaryVals(self, j, k, vals, Tots, assetSC, assetSNC, assetGC,
-			assetGNC):
+			assetGNC, GNComptAssetRem):
 		i = 1
 		TotalLoan = 0
 		for a in self.Loans:
@@ -569,15 +569,19 @@ class Application:
 				vals.append(TotalLoan)
 				Tots[i-1] = Tots[i-1] + TotalLoan
 			else:
-				l = assetSC[k][i-1] + assetSNC[k][i-1] + assetGC[k][i-1] + assetGNC[k][i-1] 
+				#aqui es la cosa
+				l = assetSC[k][i-1] + assetSNC[k][i-1] + assetGC[k][i-1] + \
+						assetGNC[k][i-1] if GNComptAssetRem[i-1][1] != None else 0
 				vals.append(l)
 				Tots[i-1] = Tots[i-1] + l
 				TotalLoan = TotalLoan + l
 			i = i+1
 
-	def Summary(self, assetSC, assetSNC, assetGC, assetGNC, WARateGNC, WARateTot):
+	def Summary(self, assetSC, assetSNC, assetGC, assetGNC, WARateGNC,
+			WARateTot, GNComptAssetRem):
 		#TODO remove the variables that are don't used, 
 		#but before print in the format with titles WARateTot and the others
+		#TODO remove to the prints, and move to the Print Summary function
 		if self.options.Verbose:
 			print "-"*50
 		if self.options.output:
@@ -590,15 +594,7 @@ class Application:
 		for k, bid in self.Bids.iteritems():
 			vals = []
 			self.SummaryVals(j, k, vals, Tots, assetSC, assetSNC,
-					assetGC, assetGNC)
-			# Print in standart output if there are no output or there are
-			# verbose option.
-			##if self.options.Verbose or not self.options.output:
-			##	print k,
-			##	print AllocRates[k],
-			##	print vals
-			##if self.options.output:
-			##	summwrt.writerow([k, AllocRates[k]] + vals)
+					assetGC, assetGNC, GNComptAssetRem)
 			_AssetAssignation[k] = vals
 			j = j + 1
 		_AssetAssignation['Total'] = Tots
@@ -610,6 +606,22 @@ class Application:
 			ofile.close()
 		return _AssetAssignation
 	
+	def PrintSummary(asset, AllocRates):
+		if self.options.Verbose:
+			print "-"*50
+		if self.options.output:
+			ofile = open(self.options.output, "wb")
+			summwrt = csv.writer(ofile, delimiter=self.options.delimiter, quotechar='"')
+		for k, bid in self.Bids.iteritems():
+			# Print in standart output if there are no output or there are
+			# verbose option.
+			if self.options.Verbose or not self.options.output:
+				print k,
+				print AllocRates[k],
+				print vals
+			if self.options.output:
+				summwrt.writerow([k, AllocRates[k]] + vals)
+
 	def main(self, *args):
 		self.LoadMortgageOperators()
 		self.LoadLoans()
@@ -657,7 +669,8 @@ class Application:
 		WARateTot = self.WARateTot(assetSC, assetSNC, assetGC, assetGNC, WARateGNC,
 				WARateSGC)
 		# Make the summary of the assets
-		asset = self.Summary(assetSC, assetSNC, assetGC, assetGNC, WARateGNC, WARateTot)
+		asset = self.Summary(assetSC, assetSNC, assetGC, assetGNC, WARateGNC,
+				WARateTot, GNComptAssetRem)
 		AllocRates = self.SumRateAllocation(assetSC, assetSNC, assetGC, assetGNC, ratesGC,
 				WARateGNC)
 		#self.PrintSummary(asset, AllocRates)
