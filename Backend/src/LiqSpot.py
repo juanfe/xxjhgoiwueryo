@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-import csv, sys
+import csv, sys, os
 from optparse import OptionParser
 from datetime import datetime
 
@@ -35,7 +35,7 @@ class Application:
 				help="Verbose mode",
 				default=False)
 		parser.add_option("-M", "--MorgageOperators", dest="OperatorFilename",
-				default="mo.csv",
+				default= os.path.dirname(sys.argv[0])+"/mo.csv",
 				help = "Specify the Mortgage Operators, default mo.csv")
 		parser.usage = "usage: %prog [options arg] [-v]"
 		return parser
@@ -50,7 +50,7 @@ class Application:
 				sys.exit('The mortgage "%s", does not match %s.' % (d["MO"], self.options.OperatorFilename))
 			except:
 				sys.exit('Error: in the file %s, see the field delimiter in csv file, look "LiqSpot.py --help".'
-						% self.options.OperatorFilename)
+						% self.options.loansFilename)
 		d['Load Amount'] = float(d['Load Amount'].strip(' '))
 		d['Rate'] = float(d['Rate'].strip(' '))
 		self.TotalLoans = self.TotalLoans + d['Load Amount']
@@ -319,6 +319,7 @@ class Application:
 		return _WARateS  
 
 	def WARateTot(self, assetSC, assetSNC, assetGC, assetGNC, WARateGNC, WARateSGC):
+		#G174:M174
 		cummulativeSGC = map (lambda x, y, z: x+y+z, assetSC['Total'],
 				assetSNC['Total'], assetGC['Total'])
 		cummulativeT = map (lambda x, y: x+y, cummulativeSGC, assetGNC['Total'])
@@ -327,7 +328,7 @@ class Application:
 		_w0 = map(lambda x, y, z: (x+y)/z if z != 0 else 0, s1, s2, cummulativeT)
 		_w = map(lambda x, y, z: x if y == None else z, WARateGNC,
 				WARateSGC, _w0)
-		return None
+		return _w
 
 	def MarketPremium(self, assetSC, assetSNC, WARateS, WARateGC):
 		_MarketPremiumPrim = []
@@ -370,6 +371,7 @@ class Application:
 
 	def WARateGNC(self, assetSC, assetSNC, assetGNC, WARateS, WARateGC,
 			MarketPremium):
+		#G171:M171
 		_WARateGNC = []
 		#_MarketPremium = self.MarketPremium(assetSC, assetSNC, WARateS, WARateGC)
 		_WARateGNC = map (lambda x, y: x if y == None else max(x, y) , MarketPremium, WARateS[0:-1])
@@ -387,11 +389,12 @@ class Application:
 		return L
 
 	def CalcRemaing (self, AssetAssigned, Loans):
+		#G177:M177
 		calc = []
 		for i in zip(AssetAssigned['Total'], Loans):
 			c = i[1][0] - i[0]
 			#This line is added to reduce the error propagation
-			if c < 1e-11: c = 0
+			if abs(c) < 1e-11: c = 0
 			calc.append((c, None if c == 0 else "over" if c < 0 else "under"))
 		if self.options.Verbose:
 			print "Remained need"
@@ -586,6 +589,7 @@ class Application:
 		Tots = []
 		j = 1
 		for k, bid in self.Bids.iteritems():
+			vals = []
 			self.SummaryVals(j, k, vals, Tots, assetSC, assetSNC,
 					assetGC, assetGNC)
 			# Print in standart output if there are no output or there are
