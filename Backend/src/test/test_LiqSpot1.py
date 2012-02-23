@@ -185,6 +185,105 @@ class TestApplication:
 				WARateGC, MarketPremium)
 		assert ratesGC == {'Total': {'rateawarded': 0}}
 
+	def test_WARateTot(self):
+		#In engine processing rules example.xlsx "assets availale for bid"!G187:G187
+		self.app.LoadMortgageOperators()
+		self.app.LoadLoans()
+		self.app.LoadBids()
+		self.app.LoadExceptions()
+		assetSC = self.app.SpecifiedAssetAssignation(Competitive = True)
+		WARateSC = self.app.WARate(assetSC)
+		SCompAssetRem = self.app.CalcRemaing (assetSC, self.app.GetLoans())
+		assetSNC = self.app.SpecifiedAssetAssignation(Competitive = False)
+		SNCompAssetRem = self.app.CalcRemaing (assetSNC, SCompAssetRem)
+		WARateSNC = self.app.WARateSNC(assetSC, assetSNC)
+		rank = self.app.RankRateGenericCompetitive()
+		allocateGC = self.app.AllocateGenericCompetitive(Rank = rank)
+		valrank = self.app.AdjustRankWithAllocateAndAccepted(Allocate = allocateGC,
+				Rank = rank, Rem = SNCompAssetRem)
+		self.app.AdjustAllocateAndAccepted(Allocate = allocateGC, VRank = valrank)
+		WARateS = self.app.WARateS(assetSC, WARateSC, assetSNC, WARateSNC)
+		assetGC = self.app.GenericAssetAssignation(Rem = SNCompAssetRem, Allocate =
+				allocateGC)
+		GCompAssetRem = self.app.CalcRemaing (assetGC, SNCompAssetRem)
+		MarketPremium = self.app.MarketPremium(assetSC, assetSNC,
+				WARateS, self.app.WARate(assetGC))
+		WARateGC = self.app.WARateGC(assetGC, MarketPremium)
+		WARateSGC = self.app.WARateSGC(assetSC, assetSNC, assetGC, WARateS,
+				MarketPremium)
+		ratesGC = self.app.CalcRateAwarded(assetGC, allocateGC, SNCompAssetRem,
+				WARateGC, MarketPremium)
+		allocateGNC = self.app.AllocateGenericNonCompetitive(GCompAssetRem)
+		assetGNC = self.app.GenericAssetAssignation(Rem = GCompAssetRem, Allocate =
+				                        allocateGNC)
+		WARateGNC = self.app.WARateGNC(assetSC, assetSNC, assetGNC, WARateS,
+				                        self.app.WARate(assetGC), MarketPremium)
+		GNComptAssetRem = self.app.CalcRemaing (assetGNC, GCompAssetRem)	
+		WARateTot = self.app.WARateTot(assetSC, assetSNC, assetGC, assetGNC,
+				WARateGNC, WARateSGC)
+		assert WARateTot == [0.028269230769230772, 0.030000000000000002, 0.03,
+				0.04025, 0.025625, 0, 0.031043944088185043]
+
+	def test_Summary(self):
+		#In engine processing rules example.xlsx "assets availale for bid"!G195:M215
+		self.app.LoadMortgageOperators()
+		self.app.LoadLoans()
+		self.app.LoadBids()
+		self.app.LoadExceptions()
+		assetSC = self.app.SpecifiedAssetAssignation(Competitive = True)
+		WARateSC = self.app.WARate(assetSC)
+		SCompAssetRem = self.app.CalcRemaing (assetSC, self.app.GetLoans())
+		assetSNC = self.app.SpecifiedAssetAssignation(Competitive = False)
+		SNCompAssetRem = self.app.CalcRemaing (assetSNC, SCompAssetRem)
+		WARateSNC = self.app.WARateSNC(assetSC, assetSNC)
+		rank = self.app.RankRateGenericCompetitive()
+		allocateGC = self.app.AllocateGenericCompetitive(Rank = rank)
+		valrank = self.app.AdjustRankWithAllocateAndAccepted(Allocate = allocateGC,
+				Rank = rank, Rem = SNCompAssetRem)
+		self.app.AdjustAllocateAndAccepted(Allocate = allocateGC, VRank = valrank)
+		WARateS = self.app.WARateS(assetSC, WARateSC, assetSNC, WARateSNC)
+		assetGC = self.app.GenericAssetAssignation(Rem = SNCompAssetRem, Allocate =
+				allocateGC)
+		GCompAssetRem = self.app.CalcRemaing (assetGC, SNCompAssetRem)
+		MarketPremium = self.app.MarketPremium(assetSC, assetSNC,
+				WARateS, self.app.WARate(assetGC))
+		WARateGC = self.app.WARateGC(assetGC, MarketPremium)
+		WARateSGC = self.app.WARateSGC(assetSC, assetSNC, assetGC, WARateS,
+				MarketPremium)
+		ratesGC = self.app.CalcRateAwarded(assetGC, allocateGC, SNCompAssetRem,
+				WARateGC, MarketPremium)
+		allocateGNC = self.app.AllocateGenericNonCompetitive(GCompAssetRem)
+		assetGNC = self.app.GenericAssetAssignation(Rem = GCompAssetRem, Allocate =
+				                        allocateGNC)
+		WARateGNC = self.app.WARateGNC(assetSC, assetSNC, assetGNC, WARateS,
+				                        self.app.WARate(assetGC), MarketPremium)
+		GNComptAssetRem = self.app.CalcRemaing (assetGNC, GCompAssetRem)	
+		WARateTot = self.app.WARateTot(assetSC, assetSNC, assetGC, assetGNC,
+				WARateGNC, WARateSGC)
+		sum = self.app.Summary(assetSC, assetSNC, assetGC, assetGNC, WARateGNC,
+				WARateTot, GNComptAssetRem)
+		assert sum == {'1104139': [63745.0, 0, 0, 0, 0, 0, 63745.0],
+				'1104138': [0, 0, 0, 0, 103085.0, 0, 103085.0],
+				'1104161': [0, 0, 0, 105080.0, 0, 0, 105080.0],
+				'1104152': [0, 0, 95975.0, 105080.0, 0, 0, 201055.0],
+				'1104131': [0, 0, 0, 105080.0, 0, 0, 105080.0],
+				'1104133': [0, 0, 0, 105080.0, 0, 0, 105080.0],
+				'1104134': [63745.0, 0, 0, 0, 0, 0, 63745.0],
+				'1104136': [0, 0, 0, 105080.0, 0, 0, 105080.0],
+				'1104140': [0, 0, 0, 0, 103085.0, 0, 103085.0],
+				'1104141': [0, 0, 0, 0, 103085.0, 0, 103085.0],
+				'1104151': [63745.0, 0, 0, 0, 0, 0, 63745.0],
+				'1104143': [63745.0, 75137.0, 0, 0, 0, 0, 138882.0],
+				'1104157': [0, 0, 0, 0, 103085.0, 0, 103085.0],
+				'1104145': [31872.5, 0, 0, 0, 0, 0, 31872.5],
+				'1104155': [0, 0, 0, 0, 103085.0, 0, 103085.0],
+				'1104154': [0, 75137.0, 0, 0, 0, 0, 75137.0],
+				'1104149': [0, 0, 0, 0, 103085.0, 0, 103085.0],
+				'1104159': [63745.0, 0, 0, 0, 0, 0, 63745.0],
+				'1104158': [63745.0, 0, 0, 0, 0, 0, 63745.0],
+				'1104156': [0, 75137.0, 0, 0, 0, 0, 75137.0],
+				'Total': [414342.5, 225411.0, 95975.0, 525400.0, 618510.0, 0, 1879638.5]}
+
 	def test_SumRateAllocation(self):
 		#In engine processing rules example.xlsx "assets availale for bid"!C195:C214
 		#Note: The values in the column C many are 0 by the adding of the
@@ -234,105 +333,4 @@ class TestApplication:
 				'1104155': 0.02125, '1104154': 0.03, '1104149': 0.03625,
 				'1104159': 0.035, '1104158': 0.0225, '1104156': 0.02875}
 
-	def test_WARateTot(self):
-		#In engine processing rules example.xlsx "assets availale for bid"!G187:G187
-		self.app.LoadMortgageOperators()
-		self.app.LoadLoans()
-		self.app.LoadBids()
-		self.app.LoadExceptions()
-		assetSC = self.app.SpecifiedAssetAssignation(Competitive = True)
-		WARateSC = self.app.WARate(assetSC)
-		SCompAssetRem = self.app.CalcRemaing (assetSC, self.app.GetLoans())
-		assetSNC = self.app.SpecifiedAssetAssignation(Competitive = False)
-		SNCompAssetRem = self.app.CalcRemaing (assetSNC, SCompAssetRem)
-		WARateSNC = self.app.WARateSNC(assetSC, assetSNC)
-		rank = self.app.RankRateGenericCompetitive()
-		allocateGC = self.app.AllocateGenericCompetitive(Rank = rank)
-		valrank = self.app.AdjustRankWithAllocateAndAccepted(Allocate = allocateGC,
-				Rank = rank, Rem = SNCompAssetRem)
-		self.app.AdjustAllocateAndAccepted(Allocate = allocateGC, VRank = valrank)
-		WARateS = self.app.WARateS(assetSC, WARateSC, assetSNC, WARateSNC)
-		assetGC = self.app.GenericAssetAssignation(Rem = SNCompAssetRem, Allocate =
-				allocateGC)
-		GCompAssetRem = self.app.CalcRemaing (assetGC, SNCompAssetRem)
-		MarketPremium = self.app.MarketPremium(assetSC, assetSNC,
-				WARateS, self.app.WARate(assetGC))
-		WARateGC = self.app.WARateGC(assetGC, MarketPremium)
-		WARateSGC = self.app.WARateSGC(assetSC, assetSNC, assetGC, WARateS,
-				MarketPremium)
-		ratesGC = self.app.CalcRateAwarded(assetGC, allocateGC, SNCompAssetRem,
-				WARateGC, MarketPremium)
-		allocateGNC = self.app.AllocateGenericNonCompetitive(GCompAssetRem)
-		assetGNC = self.app.GenericAssetAssignation(Rem = GCompAssetRem, Allocate =
-				                        allocateGNC)
-		WARateGNC = self.app.WARateGNC(assetSC, assetSNC, assetGNC, WARateS,
-				                        self.app.WARate(assetGC), MarketPremium)
-		GNComptAssetRem = self.app.CalcRemaing (assetGNC, GCompAssetRem)	
-		AllocRates = self.app.SumRateAllocation(assetSC, assetSNC, assetGC,
-				assetGNC, ratesGC, WARateGNC)
-		WARateTot = self.app.WARateTot(assetSC, assetSNC, assetGC, assetGNC,
-				WARateGNC, WARateSGC)
-		assert WARateTot == [0.028269230769230772, 0.030000000000000002, 0.03,
-				0.04025, 0.025625, 0, 0.031043944088185043]
 
-	def test_Summary(self):
-		#In engine processing rules example.xlsx "assets availale for bid"!G195:M215
-		self.app.LoadMortgageOperators()
-		self.app.LoadLoans()
-		self.app.LoadBids()
-		self.app.LoadExceptions()
-		assetSC = self.app.SpecifiedAssetAssignation(Competitive = True)
-		WARateSC = self.app.WARate(assetSC)
-		SCompAssetRem = self.app.CalcRemaing (assetSC, self.app.GetLoans())
-		assetSNC = self.app.SpecifiedAssetAssignation(Competitive = False)
-		SNCompAssetRem = self.app.CalcRemaing (assetSNC, SCompAssetRem)
-		WARateSNC = self.app.WARateSNC(assetSC, assetSNC)
-		rank = self.app.RankRateGenericCompetitive()
-		allocateGC = self.app.AllocateGenericCompetitive(Rank = rank)
-		valrank = self.app.AdjustRankWithAllocateAndAccepted(Allocate = allocateGC,
-				Rank = rank, Rem = SNCompAssetRem)
-		self.app.AdjustAllocateAndAccepted(Allocate = allocateGC, VRank = valrank)
-		WARateS = self.app.WARateS(assetSC, WARateSC, assetSNC, WARateSNC)
-		assetGC = self.app.GenericAssetAssignation(Rem = SNCompAssetRem, Allocate =
-				allocateGC)
-		GCompAssetRem = self.app.CalcRemaing (assetGC, SNCompAssetRem)
-		MarketPremium = self.app.MarketPremium(assetSC, assetSNC,
-				WARateS, self.app.WARate(assetGC))
-		WARateGC = self.app.WARateGC(assetGC, MarketPremium)
-		WARateSGC = self.app.WARateSGC(assetSC, assetSNC, assetGC, WARateS,
-				MarketPremium)
-		ratesGC = self.app.CalcRateAwarded(assetGC, allocateGC, SNCompAssetRem,
-				WARateGC, MarketPremium)
-		allocateGNC = self.app.AllocateGenericNonCompetitive(GCompAssetRem)
-		assetGNC = self.app.GenericAssetAssignation(Rem = GCompAssetRem, Allocate =
-				                        allocateGNC)
-		WARateGNC = self.app.WARateGNC(assetSC, assetSNC, assetGNC, WARateS,
-				                        self.app.WARate(assetGC), MarketPremium)
-		GNComptAssetRem = self.app.CalcRemaing (assetGNC, GCompAssetRem)	
-		WARateTot = self.app.WARateTot(assetSC, assetSNC, assetGC, assetGNC,
-				WARateGNC, WARateSGC)
-		sum = self.app.Summary(assetSC, assetSNC, assetGC, assetGNC, WARateGNC,
-				WARateTot)
-		AllocRates = self.app.SumRateAllocation(assetSC, assetSNC, assetGC,
-				assetGNC, ratesGC, WARateGNC)
-		assert sum == {'1104139': [63745.0, 0, 0, 0, 0, 0, 63745.0],
-				'1104138': [0, 0, 0, 0, 103085.0, 0, 103085.0],
-				'1104161': [0, 0, 0, 105080.0, 0, 0, 105080.0],
-				'1104152': [0, 0, 95975.0, 105080.0, 0, 0, 201055.0],
-				'1104131': [0, 0, 0, 105080.0, 0, 0, 105080.0],
-				'1104133': [0, 0, 0, 105080.0, 0, 0, 105080.0],
-				'1104134': [63745.0, 0, 0, 0, 0, 0, 63745.0],
-				'1104136': [0, 0, 0, 105080.0, 0, 0, 105080.0],
-				'1104140': [0, 0, 0, 0, 103085.0, 0, 103085.0],
-				'1104141': [0, 0, 0, 0, 103085.0, 0, 103085.0],
-				'1104151': [63745.0, 0, 0, 0, 0, 0, 63745.0],
-				'1104143': [63745.0, 75137.0, 0, 0, 0, 0, 138882.0],
-				'1104157': [0, 0, 0, 0, 103085.0, 0, 103085.0],
-				'1104145': [31872.5, 0, 0, 0, 0, 0, 31872.5],
-				'1104155': [0, 0, 0, 0, 103085.0, 0, 103085.0],
-				'1104154': [0, 75137.0, 0, 0, 0, 0, 75137.0],
-				'1104149': [0, 0, 0, 0, 103085.0, 0, 103085.0],
-				'1104159': [63745.0, 0, 0, 0, 0, 0, 63745.0],
-				'1104158': [63745.0, 0, 0, 0, 0, 0, 63745.0],
-				'1104156': [0, 75137.0, 0, 0, 0, 0, 75137.0],
-				'Total': [414342.5, 225411.0, 95975.0, 525400.0, 618510.0, 0, 1879638.5]}
