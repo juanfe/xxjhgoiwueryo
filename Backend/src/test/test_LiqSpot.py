@@ -21,6 +21,10 @@ class TestApplication:
 				 'p': scenario0['test_addLoans']['p'],
 				 'q': scenario0['test_addLoans']['q'],
 				 'r': scenario0['test_addLoans']['r']},
+				{'arg': argument1,
+				 'p': scenario1['test_addLoans']['p'],
+				 'q': scenario1['test_addLoans']['q'],
+				 'r': scenario1['test_addLoans']['r']},
 				],
 			}
 
@@ -44,13 +48,10 @@ class TestApplication:
 		flo = csv.reader(open(self.app.options.loansFilename, "rb"),
 				delimiter=self.app.options.delimiter,quoting=csv.QUOTE_NONE)
 		idlo = flo.next()
-		#assert idlo == ['MO', 'Load Amount', 'Rate']
 		assert idlo == p
 		lo = flo.next()
-		#assert lo == ['ABC Mortgage', ' 318725', ' 0.0225']
 		assert lo == q
 		self.app.addLoans(idlo, lo)
-		#assert self.app.Loans == [{'MO': 'ABC Mortgage', 'Load Amount': 318725.0, 'Rate': 0.0225}]
 		assert self.app.Loans == r
 #
 #	def test_LoadLoans(self):
