@@ -72,9 +72,6 @@ dojo.addOnLoad(function() {
 			initLoanDetailsGrid();
 		}
 	});
-	//Starting up the dijit border container
-    var topLevelContainer = dijit.byId("topLevelContainer");
-    topLevelContainer.startup();
 });
 function initBidsDialog() {
 	ls.bidDialog = new dijit.Dialog({
