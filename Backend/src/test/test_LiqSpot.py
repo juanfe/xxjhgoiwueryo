@@ -1,42 +1,25 @@
 import sys
 sys.path.append("../")
 from LiqSpot import *
-
-#def setup_module(module):
-#	sys.argv = ['-b', '../sample/bids0.csv', '-l', '../sample/loans0.csv',
-#			'True', '-d', '";"' '-o', 'test.csv', '-v']
-#	module.TestApplication.
+from scenario0 import scenario as scenario0
+from scenario1 import scenario as scenario1
+from scenario0 import argument as argument0
+from scenario1 import argument as argument1
 
 def pytest_generate_tests(metafunc):
 	for funcargs in metafunc.cls.scenario[metafunc.function.__name__]:
 		metafunc.addcall(funcargs=funcargs)
 
-argument = [['LiqSpot.py', '-b', '../../sample/bids0.csv', '-l', '../../sample/loans0.csv',
-				'True', '-d', ';', '-M', '../mo.csv', '-o', 'test.csv'],
-			['LiqSpot.py', '-b', '../../sample/bids1.csv', '-l', '../../sample/loans1.csv',
-				'True', '-d', ',', '-M', '../mo.csv', '-o', 'test.csv'],]
-
 class TestApplication:
 	scenario = {
-			'test_init' : [{'arg': argument[0], 'p': '../mo.csv'},],
-			'test_LoadMortgageOperators' : [{'arg': argument[0], 'p': ['ABC Mortgage',
-				'Prime Lending', 'Best Loans Inc', 'Integrity Lending']},
-				{'arg': argument[1], 'p': ['ABC Mortgage',	'Prime Lending',
-					'Best Loans Inc', 'Integrity Lending']}
+			'test_init' : [{'arg': argument0, 'p': scenario0['test_init']},],
+			'test_LoadMortgageOperators' : [{'arg': argument0,
+				'p': scenario0['test_LoadMortgageOperators']},
+				{'arg': argument1, 'p': scenario1['test_LoadMortgageOperators']}
 				],
 			}
 
-
-	def setup_method (self, method):
-		#sys.argv = ['LiqSpot.py', '-b', '../../sample/bids0.csv', '-l', '../../sample/loans0.csv',
-		#		'True', '-d', ';', '-M', '../mo.csv', '-o', 'test.csv'] #, '-v']
-		sys.argv = arg
-		#sys.argv = CommandLineParameters
-		self.app = Application()
-
 	def test_init (self, arg, p):
-		#sys.argv = ['LiqSpot.py', '-b', '../../sample/bids0.csv', '-l', '../../sample/loans0.csv',
-		#		'True', '-d', ';', '-M', '../mo.csv', '-o', 'test.csv'] #, '-v']
 		sys.argv = arg
 		self.app = Application()
 		self.app.ParseArg()
@@ -44,11 +27,9 @@ class TestApplication:
 		assert self.app.options.OperatorFilename == p 
 
 	def test_LoadMortgageOperators(self, arg, p):
-		sys.argv = ['LiqSpot.py', '-b', '../../sample/bids0.csv', '-l', '../../sample/loans0.csv',
-				'True', '-d', ';', '-M', '../mo.csv', '-o', 'test.csv'] #, '-v']
+		sys.argv = arg
 		self.app = Application()
 		self.app.LoadMortgageOperators()
-		#assert self.app.Mo == ['ABC Mortgage', 'Prime Lending', 'Best Loans Inc', 'Integrity Lending']
 		assert self.app.Mo ==  p
 #
 #	def test_addLoans(self):
