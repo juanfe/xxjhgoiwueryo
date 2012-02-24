@@ -17,6 +17,11 @@ class TestApplication:
 				'p': scenario0['test_LoadMortgageOperators']},
 				{'arg': argument1, 'p': scenario1['test_LoadMortgageOperators']}
 				],
+			'test_addLoans' : [{'arg': argument0,
+				 'p': scenario0['test_addLoans']['p'],
+				 'q': scenario0['test_addLoans']['q'],
+				 'r': scenario0['test_addLoans']['r']},
+				],
 			}
 
 	def test_init (self, arg, p):
@@ -31,17 +36,22 @@ class TestApplication:
 		self.app = Application()
 		self.app.LoadMortgageOperators()
 		assert self.app.Mo ==  p
-#
-#	def test_addLoans(self):
-#		self.app.LoadMortgageOperators()
-#		flo = csv.reader(open(self.app.options.loansFilename, "rb"),
-#				delimiter=self.app.options.delimiter,quoting=csv.QUOTE_NONE)
-#		idlo = flo.next()
-#		assert idlo == ['MO', 'Load Amount', 'Rate']
-#		lo = flo.next()
-#		assert lo == ['ABC Mortgage', ' 318725', ' 0.0225']
-#		self.app.addLoans(idlo, lo)
-#		assert self.app.Loans == [{'MO': 'ABC Mortgage', 'Load Amount': 318725.0, 'Rate': 0.0225}]
+
+	def test_addLoans(self, arg, p, q, r):
+		sys.argv = arg
+		self.app = Application()
+		self.app.LoadMortgageOperators()
+		flo = csv.reader(open(self.app.options.loansFilename, "rb"),
+				delimiter=self.app.options.delimiter,quoting=csv.QUOTE_NONE)
+		idlo = flo.next()
+		#assert idlo == ['MO', 'Load Amount', 'Rate']
+		assert idlo == p
+		lo = flo.next()
+		#assert lo == ['ABC Mortgage', ' 318725', ' 0.0225']
+		assert lo == q
+		self.app.addLoans(idlo, lo)
+		#assert self.app.Loans == [{'MO': 'ABC Mortgage', 'Load Amount': 318725.0, 'Rate': 0.0225}]
+		assert self.app.Loans == r
 #
 #	def test_LoadLoans(self):
 #		#In engine processing rules example.xlsx G4:M4
