@@ -251,55 +251,45 @@ class TestApplication:
 				WARateTot, GNComptAssetRem)
 		assert sum == p
 
-#	def test_SumRateAllocation(self):
-#		#In engine processing rules example.xlsx "assets availale for bid"!C182:C201
-#		self.app.LoadMortgageOperators()
-#		self.app.LoadLoans()
-#		self.app.LoadBids()
-#		self.app.LoadExceptions()
-#		assetSC = self.app.SpecifiedAssetAssignation(Competitive = True)
-#		WARateSC = self.app.WARate(assetSC)
-#		SCompAssetRem = self.app.CalcRemaing (assetSC, self.app.GetLoans())
-#		assetSNC = self.app.SpecifiedAssetAssignation(Competitive = False)
-#		SNCompAssetRem = self.app.CalcRemaing (assetSNC, SCompAssetRem)
-#		WARateSNC = self.app.WARateSNC(assetSC, assetSNC)
-#		rank = self.app.RankRateGenericCompetitive()
-#		allocateGC = self.app.AllocateGenericCompetitive(Rank = rank)
-#		valrank = self.app.AdjustRankWithAllocateAndAccepted(Allocate = allocateGC,
-#				Rank = rank, Rem = SNCompAssetRem)
-#		self.app.AdjustAllocateAndAccepted(Allocate = allocateGC, VRank = valrank)
-#		WARateS = self.app.WARateS(assetSC, WARateSC, assetSNC, WARateSNC)
-#		assetGC = self.app.GenericAssetAssignation(Rem = SNCompAssetRem, Allocate =
-#				allocateGC)
-#		GCompAssetRem = self.app.CalcRemaing (assetGC, SNCompAssetRem)
-#		MarketPremium = self.app.MarketPremium(assetSC, assetSNC,
-#				WARateS, self.app.WARate(assetGC))
-#		WARateGC = self.app.WARateGC(assetGC, MarketPremium)
-#		WARateSGC = self.app.WARateSGC(assetSC, assetSNC, assetGC, WARateS,
-#				MarketPremium)
-#		ratesGC = self.app.CalcRateAwarded(assetGC, allocateGC, SNCompAssetRem,
-#				WARateGC, MarketPremium)
-#		allocateGNC = self.app.AllocateGenericNonCompetitive(GCompAssetRem)
-#		assetGNC = self.app.GenericAssetAssignation(Rem = GCompAssetRem, Allocate =
-#				                        allocateGNC)
-#		WARateGNC = self.app.WARateGNC(assetSC, assetSNC, assetGNC, WARateS,
-#				                        self.app.WARate(assetGC), MarketPremium)
-#		GNComptAssetRem = self.app.CalcRemaing (assetGNC, GCompAssetRem)	
-#		WARateTot = self.app.WARateTot(assetSC, assetSNC, assetGC, assetGNC,
-#				WARateGNC, WARateSGC)
-#		asset = self.app.Summary(assetSC, assetSNC, assetGC, assetGNC, WARateGNC,
-#				WARateTot, GNComptAssetRem)
-#		AllocRates = self.app.SumRateAllocation(asset, assetSNC, ratesGC, WARateGNC)
-#		assert AllocRates == {'1104139': 0.038617011249892495,
-#				'1104138': 0.037367011249892494,
-#				'1104161': 0.060000000000000005,
-#				'1104152': 0.03, '1104131': 0.04159556720964421,
-#				'1104133': 0.04, '1104134': 0.04159556720964421,
-#				'1104136': 0.06, '1104140': 0.025,
-#				'1104141': 0.0411170112498925, '1104151': 0.0225,
-#				'1104143': 0.022500000000000003,
-#				'1104157': 0.04159556720964421, '1104145': 0.015,
-#				'1104155': 0.02125, '1104154': 0.046117011249892495,
-#				'1104149': 0.025, '1104159': 0.0225, '1104158': 0.0225,
-#				'1104156': 0.0225}
-
+	def test_SumRateAllocation(self, arg, p):
+		#In engine processing rules example.xlsx "assets availale for bid"!C182:C201
+		sys.argv = arg
+		self.app = Application()
+		self.app.LoadMortgageOperators()
+		self.app.LoadLoans()
+		self.app.LoadBids()
+		self.app.LoadExceptions()
+		assetSC = self.app.SpecifiedAssetAssignation(Competitive = True)
+		WARateSC = self.app.WARate(assetSC)
+		SCompAssetRem = self.app.CalcRemaing (assetSC, self.app.GetLoans())
+		assetSNC = self.app.SpecifiedAssetAssignation(Competitive = False)
+		SNCompAssetRem = self.app.CalcRemaing (assetSNC, SCompAssetRem)
+		WARateSNC = self.app.WARateSNC(assetSC, assetSNC)
+		rank = self.app.RankRateGenericCompetitive()
+		allocateGC = self.app.AllocateGenericCompetitive(Rank = rank)
+		valrank = self.app.AdjustRankWithAllocateAndAccepted(Allocate = allocateGC,
+				Rank = rank, Rem = SNCompAssetRem)
+		self.app.AdjustAllocateAndAccepted(Allocate = allocateGC, VRank = valrank)
+		WARateS = self.app.WARateS(assetSC, WARateSC, assetSNC, WARateSNC)
+		assetGC = self.app.GenericAssetAssignation(Rem = SNCompAssetRem, Allocate =
+				allocateGC)
+		GCompAssetRem = self.app.CalcRemaing (assetGC, SNCompAssetRem)
+		MarketPremium = self.app.MarketPremium(assetSC, assetSNC,
+				WARateS, self.app.WARate(assetGC))
+		WARateGC = self.app.WARateGC(assetGC, MarketPremium)
+		WARateSGC = self.app.WARateSGC(assetSC, assetSNC, assetGC, WARateS,
+				MarketPremium)
+		ratesGC = self.app.CalcRateAwarded(assetGC, allocateGC, SNCompAssetRem,
+				WARateGC, MarketPremium)
+		allocateGNC = self.app.AllocateGenericNonCompetitive(GCompAssetRem)
+		assetGNC = self.app.GenericAssetAssignation(Rem = GCompAssetRem, Allocate =
+				                        allocateGNC)
+		WARateGNC = self.app.WARateGNC(assetSC, assetSNC, assetGNC, WARateS,
+				                        self.app.WARate(assetGC), MarketPremium)
+		GNComptAssetRem = self.app.CalcRemaing (assetGNC, GCompAssetRem)	
+		WARateTot = self.app.WARateTot(assetSC, assetSNC, assetGC, assetGNC,
+				WARateGNC, WARateSGC)
+		asset = self.app.Summary(assetSC, assetSNC, assetGC, assetGNC, WARateGNC,
+				WARateTot, GNComptAssetRem)
+		AllocRates = self.app.SumRateAllocation(asset, assetSNC, ratesGC, WARateGNC)
+		assert AllocRates == p
