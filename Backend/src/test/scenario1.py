@@ -52,4 +52,5 @@ scenario = {'test_init' : '../mo.csv',
 		'test_CalcRemaing' : [(-95617.5, 'over'), (150274.0, 'under'),
                                 (383900.0, 'under'), (0, None), (-103085.0, 'over'),
                                 (485000.0, 'under'), (820471.5, 'under')],
+		'test_WARateSNC' : [0.035, 0.035, 0.035, 0.035, 0.035, 0.035, 0],
 		}

@@ -41,5 +41,8 @@ Scenario = {
 	'test_CalcRemaing' : [{'arg': argument0, 'p': scenario0['test_CalcRemaing'],},
 		{'arg': argument1, 'p': scenario1['test_CalcRemaing'],},
 		],
+	'test_WARateSNC' : [{'arg': argument0, 'p': scenario0['test_WARateSNC'],},
+		{'arg': argument1, 'p': scenario1['test_WARateSNC'],},
+		],
 }
 

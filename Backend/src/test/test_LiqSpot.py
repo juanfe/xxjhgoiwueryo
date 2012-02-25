@@ -98,21 +98,21 @@ class TestApplication:
 		SCompAssetRem = self.app.CalcRemaing (assetSC, self.app.GetLoans())
 		assert SCompAssetRem == p 
 
-#	def test_WARateSNC(self):
-#		#In engine processing rules example.xlsx "assets availale for bid"!G59:M59
-#		self.app.LoadMortgageOperators()
-#		self.app.LoadLoans()
-#		self.app.LoadBids()
-#		self.app.LoadExceptions()
-#		assetSC = self.app.SpecifiedAssetAssignation(Competitive = True)
-#		WARateSC = self.app.WARate(assetSC)
-#		SCompAssetRem = self.app.CalcRemaing (assetSC, self.app.GetLoans())
-#		assetSNC = self.app.SpecifiedAssetAssignation(Competitive = False)
-#		#SNCompAssetRem = self.app.CalcRemaing (assetSNC, SCompAssetRem)
-#		WARateSNC = self.app.WARateSNC(assetSC, assetSNC)
-#		assert WARateSNC == [0.0225, 0.0225, 0.03, 0.06, 0.025, 0.06,
-#				0.03013764067429058]
-#
+	def test_WARateSNC(self, arg, p):
+		#In engine processing rules example.xlsx "assets availale for bid"!G59:M59
+		sys.argv = arg
+		self.app = Application()
+		self.app.LoadMortgageOperators()
+		self.app.LoadLoans()
+		self.app.LoadBids()
+		self.app.LoadExceptions()
+		assetSC = self.app.SpecifiedAssetAssignation(Competitive = True)
+		WARateSC = self.app.WARate(assetSC)
+		SCompAssetRem = self.app.CalcRemaing (assetSC, self.app.GetLoans())
+		assetSNC = self.app.SpecifiedAssetAssignation(Competitive = False)
+		WARateSNC = self.app.WARateSNC(assetSC, assetSNC)
+		assert WARateSNC == p
+
 #	def test_WARateS(self):
 #		#In engine processing rules example.xlsx "assets availale for bid"!G67:M67
 #		self.app.LoadMortgageOperators()
