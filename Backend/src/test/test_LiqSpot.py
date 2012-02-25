@@ -38,6 +38,11 @@ class TestApplication:
 				'q': scenario1['test_LoadBids']['q'],
 				'r': scenario1['test_LoadBids']['r']},
 				],
+			'test_LoadExceptions' : [{'arg': argument0,}],
+			'test_SpecifiedAssetAssignation' : [{'arg': argument0,
+				 'p': scenario0['test_SpecifiedAssetAssignation']},
+				{'arg': argument1, 'p': scenario1['test_SpecifiedAssetAssignation']}
+				],
 			}
 
 	def test_init (self, arg, p):
@@ -84,42 +89,26 @@ class TestApplication:
 		assert len(self.app.Bids) == p
 		assert self.app.Bids[q] == r
 
-#	def test_LoadExceptions(self):
-#		self.app.LoadMortgageOperators()
-#		self.app.LoadLoans()
-#		self.app.LoadBids()
-#		self.app.LoadExceptions()
-#		assert self.app.Exceptions == []
-#
-#	def test_SpecifiedAssetAssignation(self):
-#		#In engine processing rules example.xlsx "assets availale for bid"!G8:M27
-#		self.app.LoadMortgageOperators()
-#		self.app.LoadLoans()
-#		self.app.LoadBids()
-#		self.app.LoadExceptions()
-#		assetSC = self.app.SpecifiedAssetAssignation(Competitive = True)
-#		assert  assetSC == {'1104139': [0, 0, 0, 0, 0, 0, 0],
-#				'1104138': [0, 0, 0, 0, 0, 0, 0],
-#				'1104161': [0, 0, 0, 0, 0, 0, 0],
-#				'1104152': [0, 0, 95975.0, 105080.0, 0, 0, 201055.0],
-#				'1104131': [0, 0, 0, 0, 0, 0, 0],
-#				'1104133': [0, 0, 0, 105080.0, 0, 0, 105080.0],
-#				'1104134': [0, 0, 0, 0, 0, 0, 0],
-#				'1104136': [0, 0, 0, 105080.0, 0, 0, 105080.0],
-#				'1104140': [0, 0, 0, 0, 103085.0, 0, 103085.0],
-#				'1104141': [0, 0, 0, 0, 0, 0, 0],
-#				'1104151': [0, 0, 0, 0, 0, 0, 0],
-#				'1104143': [0, 0, 0, 0, 0, 0, 0],
-#				'1104157': [0, 0, 0, 0, 0, 0, 0],
-#				'1104145': [31872.5, 0, 0, 0, 0, 0, 31872.5],
-#				'1104155': [0, 0, 0, 0, 103085.0, 0, 103085.0],
-#				'1104154': [0, 0, 0, 0, 0, 0, 0],
-#				'1104149': [0, 0, 0, 0, 0, 0, 0],
-#				'1104159': [0, 0, 0, 0, 0, 0, 0],
-#				'1104158': [63745.0, 0, 0, 0, 0, 0, 63745.0],
-#				'1104156': [0, 0, 0, 0, 0, 0, 0],
-#				'Total': [95617.5, 0, 95975.0, 315240.0, 206170.0, 0, 713002.5]}
-#
+	def test_LoadExceptions(self, arg):
+		sys.argv = arg
+		self.app = Application()
+		self.app.LoadMortgageOperators()
+		self.app.LoadLoans()
+		self.app.LoadBids()
+		self.app.LoadExceptions()
+		assert self.app.Exceptions == []
+
+	def test_SpecifiedAssetAssignation(self, arg, p):
+		#In engine processing rules example.xlsx "assets availale for bid"!G8:M27
+		sys.argv = arg
+		self.app = Application()
+		self.app.LoadMortgageOperators()
+		self.app.LoadLoans()
+		self.app.LoadBids()
+		self.app.LoadExceptions()
+		assetSC = self.app.SpecifiedAssetAssignation(Competitive = True)
+		assert  assetSC == p
+
 #	def test_WARateSC(self):
 #		#In engine processing rules example.xlsx "assets availale for bid"!G30:M30
 #		self.app.LoadMortgageOperators()
