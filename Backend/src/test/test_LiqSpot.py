@@ -2,10 +2,6 @@ import sys
 sys.path.append("../")
 from LiqSpot import *
 from scenario import Scenario
-#from scenario0 import scenario as scenario0
-#from scenario1 import scenario as scenario1
-#from scenario0 import argument as argument0
-#from scenario1 import argument as argument1
 
 def pytest_generate_tests(metafunc):
 	for funcargs in metafunc.cls.scenario[metafunc.function.__name__]:
@@ -18,7 +14,6 @@ class TestApplication:
 		sys.argv = arg
 		self.app = Application()
 		self.app.ParseArg()
-		#assert self.app.options.OperatorFilename == '../mo.csv'
 		assert self.app.options.OperatorFilename == p 
 
 	def test_LoadMortgageOperators(self, arg, p):
@@ -88,23 +83,21 @@ class TestApplication:
 		self.app.LoadExceptions()
 		assetSC = self.app.SpecifiedAssetAssignation(Competitive = True)
 		WARateSC = self.app.WARate(assetSC)
-		#assert WARateSC == [0.02, None, 0.03, 0.043333333333333335,
-		#		0.023125, None, 0.03256605867440858]
 		assert WARateSC == p
-#
-#	def test_CalcRemaing(self):
-#		#In engine processing rules example.xlsx "assets availale for bid"!G32:M33
-#		self.app.LoadMortgageOperators()
-#		self.app.LoadLoans()
-#		self.app.LoadBids()
-#		self.app.LoadExceptions()
-#		assetSC = self.app.SpecifiedAssetAssignation(Competitive = True)
-#		WARateSC = self.app.WARate(assetSC)
-#		SCompAssetRem = self.app.CalcRemaing (assetSC, self.app.GetLoans())
-#		assert SCompAssetRem == [(223107.5, 'under'), (375685.0, 'under'),
-#				(383900.0, 'under'), (210160.0, 'under'), (309255.0, 'under'),
-#				(485000.0, 'under'), (1987107.5, 'under')]
-#
+
+	def test_CalcRemaing(self, arg, p):
+		#In engine processing rules example.xlsx "assets availale for bid"!G32:M33
+		sys.argv = arg
+		self.app = Application()
+		self.app.LoadMortgageOperators()
+		self.app.LoadLoans()
+		self.app.LoadBids()
+		self.app.LoadExceptions()
+		assetSC = self.app.SpecifiedAssetAssignation(Competitive = True)
+		WARateSC = self.app.WARate(assetSC)
+		SCompAssetRem = self.app.CalcRemaing (assetSC, self.app.GetLoans())
+		assert SCompAssetRem == p 
+
 #	def test_WARateSNC(self):
 #		#In engine processing rules example.xlsx "assets availale for bid"!G59:M59
 #		self.app.LoadMortgageOperators()

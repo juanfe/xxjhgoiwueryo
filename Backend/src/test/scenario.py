@@ -38,5 +38,8 @@ Scenario = {
 	'test_WARateSC' : [{'arg': argument0, 'p': scenario0['test_WARateSC'],},
 		{'arg': argument1, 'p': scenario1['test_WARateSC']},
 		],
+	'test_CalcRemaing' : [{'arg': argument0, 'p': scenario0['test_CalcRemaing'],},
+		{'arg': argument1, 'p': scenario1['test_CalcRemaing'],},
+		],
 }
 
