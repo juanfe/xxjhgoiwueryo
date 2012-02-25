@@ -26,6 +26,9 @@ class TestApplication:
 				 'q': scenario1['test_addLoans']['q'],
 				 'r': scenario1['test_addLoans']['r']},
 				],
+			'test_LoadLoans' : [{'arg': argument0, 'p': scenario0['test_LoadLoans']},
+				{'arg': argument1, 'p': scenario1['test_LoadLoans']},
+				],
 			}
 
 	def test_init (self, arg, p):
@@ -53,19 +56,15 @@ class TestApplication:
 		assert lo == q
 		self.app.addLoans(idlo, lo)
 		assert self.app.Loans == r
-#
-#	def test_LoadLoans(self):
-#		#In engine processing rules example.xlsx G4:M4
-#		self.app.LoadMortgageOperators()
-#		self.app.LoadLoans()
-#		assert self.app.Loans == [{'MO': 'ABC Mortgage', 'Load Amount': 318725.0, 'Rate': 0.0225},
-#			{'MO': 'ABC Mortgage', 'Load Amount': 375685.0, 'Rate': 0.0225},
-#			{'MO': 'Prime Lending', 'Load Amount': 479875.0, 'Rate': 0.03},
-#			{'MO': 'Prime Lending', 'Load Amount': 525400.0, 'Rate': 0.06},
-#			{'MO': 'Best Loans Inc', 'Load Amount': 515425.0, 'Rate': 0.025},
-#			{'MO': 'Integrity Lending', 'Load Amount': 485000.0, 'Rate': 0.06},
-#			{'MO': 'Total', 'Load Amount': 2700110.0}]
-#
+
+	def test_LoadLoans(self, arg, p):
+		#In engine processing rules example.xlsx G4:M4
+		sys.argv = arg
+		self.app = Application()
+		self.app.LoadMortgageOperators()
+		self.app.LoadLoans()
+		assert self.app.Loans == p
+
 #	def test_LoadBids(self):
 #		#In engine processing rules example.xlsx bid input!G4:N4
 #		import datetime
