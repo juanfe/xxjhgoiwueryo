@@ -113,27 +113,28 @@ class TestApplication:
 		WARateSNC = self.app.WARateSNC(assetSC, assetSNC)
 		assert WARateSNC == p
 
-#	def test_WARateS(self):
-#		#In engine processing rules example.xlsx "assets availale for bid"!G67:M67
-#		self.app.LoadMortgageOperators()
-#		self.app.LoadLoans()
-#		self.app.LoadBids()
-#		self.app.LoadExceptions()
-#		assetSC = self.app.SpecifiedAssetAssignation(Competitive = True)
-#		WARateSC = self.app.WARate(assetSC)
-#		SCompAssetRem = self.app.CalcRemaing (assetSC, self.app.GetLoans())
-#		assetSNC = self.app.SpecifiedAssetAssignation(Competitive = False)
-#		SNCompAssetRem = self.app.CalcRemaing (assetSNC, SCompAssetRem)
-#		WARateSNC = self.app.WARateSNC(assetSC, assetSNC)
-#		rank = self.app.RankRateGenericCompetitive()
-#		allocateGC = self.app.AllocateGenericCompetitive(Rank = rank)
-#		valrank = self.app.AdjustRankWithAllocateAndAccepted(Allocate = allocateGC,
-#				Rank = rank, Rem = SNCompAssetRem)
-#		self.app.AdjustAllocateAndAccepted(Allocate = allocateGC, VRank = valrank)
-#		WARateS = self.app.WARateS(assetSC, WARateSC, assetSNC, WARateSNC)
-#		assert WARateS == [0.021666666666666667, 0.0225, 0.03, 0.0475, 0.02375,
-#				None, 0.03150890885353453]
-#
+	def test_WARateS(self, arg, p):
+		#In engine processing rules example.xlsx "assets availale for bid"!G67:M67
+		sys.argv = arg
+		self.app = Application()
+		self.app.LoadMortgageOperators()
+		self.app.LoadLoans()
+		self.app.LoadBids()
+		self.app.LoadExceptions()
+		assetSC = self.app.SpecifiedAssetAssignation(Competitive = True)
+		WARateSC = self.app.WARate(assetSC)
+		SCompAssetRem = self.app.CalcRemaing (assetSC, self.app.GetLoans())
+		assetSNC = self.app.SpecifiedAssetAssignation(Competitive = False)
+		SNCompAssetRem = self.app.CalcRemaing (assetSNC, SCompAssetRem)
+		WARateSNC = self.app.WARateSNC(assetSC, assetSNC)
+		rank = self.app.RankRateGenericCompetitive()
+		allocateGC = self.app.AllocateGenericCompetitive(Rank = rank)
+		valrank = self.app.AdjustRankWithAllocateAndAccepted(Allocate = allocateGC,
+				Rank = rank, Rem = SNCompAssetRem)
+		self.app.AdjustAllocateAndAccepted(Allocate = allocateGC, VRank = valrank)
+		WARateS = self.app.WARateS(assetSC, WARateSC, assetSNC, WARateSNC)
+		assert WARateS == p
+
 #	def test_CalcRateAwarded(self):
 #		#In engine processing rules example.xlsx
 #		# For rate "assets availale for bid"!C106:C125
