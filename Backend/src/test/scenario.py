@@ -53,5 +53,8 @@ Scenario = {
 	'test_WARateTot' : [{'arg': argument0, 'p': scenario0['test_WARateTot'],},
 			{'arg': argument1, 'p': scenario1['test_WARateTot'],},
 		],
+	'test_Summary' : [{'arg': argument0, 'p': scenario0['test_Summary'],},
+			{'arg': argument1, 'p': scenario1['test_Summary'],},
+		],
 }
 
