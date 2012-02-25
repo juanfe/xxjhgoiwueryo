@@ -29,6 +29,15 @@ class TestApplication:
 			'test_LoadLoans' : [{'arg': argument0, 'p': scenario0['test_LoadLoans']},
 				{'arg': argument1, 'p': scenario1['test_LoadLoans']},
 				],
+			'test_LoadBids' : [{'arg': argument0,
+				'p': scenario0['test_LoadBids']['p'],
+				'q': scenario0['test_LoadBids']['q'],
+				'r': scenario0['test_LoadBids']['r']},
+				{'arg': argument1,
+				'p': scenario1['test_LoadBids']['p'],
+				'q': scenario1['test_LoadBids']['q'],
+				'r': scenario1['test_LoadBids']['r']},
+				],
 			}
 
 	def test_init (self, arg, p):
@@ -65,20 +74,16 @@ class TestApplication:
 		self.app.LoadLoans()
 		assert self.app.Loans == p
 
-#	def test_LoadBids(self):
-#		#In engine processing rules example.xlsx bid input!G4:N4
-#		import datetime
-#		self.app.LoadMortgageOperators()
-#		self.app.LoadLoans()
-#		self.app.LoadBids()
-#		assert len(self.app.Bids) == 20
-#		assert self.app.Bids['1104154'] == {'loannum': '',
-#				'dateorder': datetime.datetime(2012, 1, 5, 9, 16), 'funds': 185000.0,
-#				'mo': '', 'time': datetime.datetime(1900, 1, 1, 15, 0),
-#				'bidrate': 0.03, 'competitive': True, 'ordertiming': 'Auto', 'lorm': '',
-#				'specified': False, 'aggregate': 20000000.0, 'sperate': '',
-#				'genrate': 0.2}
-#
+	def test_LoadBids(self, arg, p, q, r):
+		#In engine processing rules example.xlsx bid input!G4:N4
+		sys.argv = arg
+		self.app = Application()
+		self.app.LoadMortgageOperators()
+		self.app.LoadLoans()
+		self.app.LoadBids()
+		assert len(self.app.Bids) == p
+		assert self.app.Bids[q] == r
+
 #	def test_LoadExceptions(self):
 #		self.app.LoadMortgageOperators()
 #		self.app.LoadLoans()
