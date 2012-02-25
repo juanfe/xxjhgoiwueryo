@@ -1,4 +1,9 @@
-scenario = {
+from scenario0 import scenario as scenario0
+from scenario1 import scenario as scenario1
+from scenario0 import argument as argument0
+from scenario1 import argument as argument1
+
+Scenario = {
 	'test_init' : [{'arg': argument0, 'p': scenario0['test_init']},],
 	'test_LoadMortgageOperators' : [{'arg': argument0,
 		'p': scenario0['test_LoadMortgageOperators']},
