@@ -43,6 +43,9 @@ class TestApplication:
 				 'p': scenario0['test_SpecifiedAssetAssignation']},
 				{'arg': argument1, 'p': scenario1['test_SpecifiedAssetAssignation']}
 				],
+			'test_WARateSC' : [{'arg': argument0, 'p': scenario0['test_WARateSC'],},
+				{'arg': argument1, 'p': scenario1['test_WARateSC']},
+				],
 			}
 
 	def test_init (self, arg, p):
@@ -109,16 +112,19 @@ class TestApplication:
 		assetSC = self.app.SpecifiedAssetAssignation(Competitive = True)
 		assert  assetSC == p
 
-#	def test_WARateSC(self):
-#		#In engine processing rules example.xlsx "assets availale for bid"!G30:M30
-#		self.app.LoadMortgageOperators()
-#		self.app.LoadLoans()
-#		self.app.LoadBids()
-#		self.app.LoadExceptions()
-#		assetSC = self.app.SpecifiedAssetAssignation(Competitive = True)
-#		WARateSC = self.app.WARate(assetSC)
-#		assert WARateSC == [0.02, None, 0.03, 0.043333333333333335,
-#				0.023125, None, 0.03256605867440858]
+	def test_WARateSC(self, arg, p):
+		#In engine processing rules example.xlsx "assets availale for bid"!G30:M30
+		sys.argv = arg
+		self.app = Application()
+		self.app.LoadMortgageOperators()
+		self.app.LoadLoans()
+		self.app.LoadBids()
+		self.app.LoadExceptions()
+		assetSC = self.app.SpecifiedAssetAssignation(Competitive = True)
+		WARateSC = self.app.WARate(assetSC)
+		#assert WARateSC == [0.02, None, 0.03, 0.043333333333333335,
+		#		0.023125, None, 0.03256605867440858]
+		assert WARateSC == p
 #
 #	def test_CalcRemaing(self):
 #		#In engine processing rules example.xlsx "assets availale for bid"!G32:M33
