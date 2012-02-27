@@ -1,7 +1,9 @@
 from scenario0 import scenario as scenario0
 from scenario1 import scenario as scenario1
+from scenario1 import scenario as scenario2
 from scenario0 import argument as argument0
 from scenario1 import argument as argument1
+from scenario1 import argument as argument2
 
 Scenario = {
 	'test_init' : [{'arg': argument0, 'p': scenario0['test_init']},],
@@ -55,9 +57,11 @@ Scenario = {
 		],
 	'test_Summary' : [{'arg': argument0, 'p': scenario0['test_Summary'],},
 			{'arg': argument1, 'p': scenario1['test_Summary'],},
+			{'arg': argument1, 'p': scenario2['test_Summary'],},
 		],
 	'test_SumRateAllocation' : [{'arg': argument0, 'p': scenario0['test_SumRateAllocation'],},
 			{'arg': argument1, 'p': scenario1['test_SumRateAllocation'],},
+			{'arg': argument2, 'p': scenario2['test_SumRateAllocation'],},
 		],
 }
 
