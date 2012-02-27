@@ -624,21 +624,28 @@ class Application:
 			_all[k] = rate
 		return _all
 
-	def PrintSummary(asset, AllocRates):
+	def PrintSummary(self, asset, AllocRates):
 		if self.options.Verbose:
+			print "-"*50
+			print "Asset Summary"
 			print "-"*50
 		if self.options.output:
 			ofile = open(self.options.output, "wb")
 			summwrt = csv.writer(ofile, delimiter=self.options.delimiter, quotechar='"')
+		valsRate = 0
 		for k, bid in self.Bids.iteritems():
 			# Print in standart output if there are no output or there are
 			# verbose option.
 			if self.options.Verbose or not self.options.output:
 				print k,
-				print AllocRates[k],
-				print vals
-			if self.options.output:
-				summwrt.writerow([k, AllocRates[k]] + vals)
+				print asset[k],
+				print AllocRates[k]
+			valsRate = valsRate + AllocRates[k] * asset[k][-1]
+		valsRate = valsRate / asset['Total'][-1]
+		if self.options.Verbose or not self.options.output:
+			print "Total ",
+			print asset['Total'],
+			print valsRate
 
 	def main(self, *args):
 		self.LoadMortgageOperators()
@@ -700,7 +707,7 @@ class Application:
 		asset = self.Summary(assetSC, assetSNC, assetGC, assetGNC, WARateGNC,
 				WARateTot, GNComptAssetRem)
 		AllocRates = self.SumRateAllocation( asset, assetSNC, ratesGC, WARateGNC)
-		#self.PrintSummary(asset, AllocRates)
+		self.PrintSummary(asset, AllocRates)
 
 if __name__ == '__main__':
 	app = Application()
