@@ -37,6 +37,10 @@ class Application:
 		parser.add_option("-M", "--MorgageOperators", dest="OperatorFilename",
 				default= os.path.dirname(sys.argv[0])+"/mo.csv",
 				help = "Specify the Mortgage Operators, default mo.csv")
+		parser.add_option("-r", "--rankinvert", dest="rank_invert",
+				action="store_true",
+				help="Inverte the order of the order of the rank in " +
+				"General/Competitive bids.", default = False)
 		parser.usage = "usage: %prog [options arg] [-v]"
 		return parser
 	
@@ -239,7 +243,8 @@ class Application:
 			if self.SpecifiedCompetitive(k, Specified, Competitive):
 				if (bid['bidrate'] > 0):
 					R.append({'id':k, 'time':bid['time'], 'bidrate':bid['bidrate']})
-		R = sorted(R, key = lambda l: (l['bidrate'], l['time']), reverse=True)
+		R = sorted(R, key = lambda l: (l['bidrate'], l['time']),
+				reverse=not self.options.rank_invert)
 		rank = {}
 		i = 1
 		for r in R:
