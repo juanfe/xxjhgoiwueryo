@@ -333,7 +333,9 @@ class Application:
 				assetSNC['Total'][0:-1], WARateSNC[0:-1])
 		_WARateS.append((assetSC['Total'][-1]*WARateSC[-1] +
 				assetSNC['Total'][-1]*WARateSNC[-1])/
-				(assetSC['Total'][-1] + assetSNC['Total'][-1]))
+				(assetSC['Total'][-1] + assetSNC['Total'][-1])
+				if (assetSC['Total'][-1] + assetSNC['Total'][-1]) != 0 else 0)
+
 		return _WARateS  
 
 	def WARateTot(self, assetSC, assetSNC, assetGC, assetGNC, WARateGNC, WARateSGC):
@@ -524,8 +526,8 @@ class Application:
 				for i in range(0, len(_LoanRates) - 1):
 					rate = rate + _LoanRates[i] * assetGC[k][i] 
 				_Rates[k] = {'rate': allocate[k]['bidrate'], 'rateawarded':
-						allocate[k]['bidrate'] + rate /
-						assetGC[k][len(_LoanRates)-1]} 
+						allocate[k]['bidrate'] + (rate /
+						assetGC[k][len(_LoanRates)-1] if assetGC[k][len(_LoanRates)-1] != 0 else 0)} 
 				_RatesTot = _RatesTot + _Rates[k]['rateawarded'] * allocate[k]['allocated']
 		_Rates['Total'] = {'rateawarded':_RatesTot /
 				allocate['Total']['allocated'] if
@@ -645,16 +647,23 @@ class Application:
 		self.LoadExceptions()
 
 		# Calculate Specified and Competitive Assets
+		if self.options.Verbose:
+			print "Assets are assigned Specified/Competitive bids"
 		assetSC = self.SpecifiedAssetAssignation(Competitive = True)
 		WARateSC = self.WARate(assetSC)
 		SCompAssetRem = self.CalcRemaing (assetSC, self.GetLoans())
 
 		# Calculate Specified and Noncompetitive Assets
+		if self.options.Verbose:
+			print "Assets are assigned Specified/Non Competitive bids"
 		assetSNC = self.SpecifiedAssetAssignation(Competitive = False)
 		SNCompAssetRem = self.CalcRemaing (assetSNC, SCompAssetRem)
 		WARateSNC = self.WARateSNC(assetSC, assetSNC)
 
 		# Calculate General and Competitive Assets
+		if self.options.Verbose:
+			print "General/Competitive bids are assigned to undersubscribed assets"
+			print 50*"-"
 		rank = self.RankRateGenericCompetitive()
 		allocateGC = self.AllocateGenericCompetitive(Rank = rank)
 		valrank = self.AdjustRankWithAllocateAndAccepted(Allocate = allocateGC, 
@@ -675,6 +684,8 @@ class Application:
 				WARateGC, MarketPremium)
 
 		# Calculate General and Noncompetitive Assets
+		if self.options.Verbose:
+			print "General/Noncompetitive bids are assigned to undersubscribed assets"
 		allocateGNC = self.AllocateGenericNonCompetitive(GCompAssetRem)
 		assetGNC = self.GenericAssetAssignation(Rem = GCompAssetRem, Allocate =
 				allocateGNC)
