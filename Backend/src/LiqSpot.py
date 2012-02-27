@@ -51,8 +51,14 @@ class Application:
 			except:
 				sys.exit('Error: in the file %s, see the field delimiter in csv file, look "LiqSpot.py --help".'
 						% self.options.loansFilename)
-		d['Load Amount'] = float(d['Load Amount'].strip(' '))
-		d['Rate'] = float(d['Rate'].strip(' '))
+		try:
+			d['Load Amount'] = float(d['Load Amount'].strip(' '))
+			d['Rate'] = float(d['Rate'].strip(' '))
+		except:
+			sys.exit("Error: The number's format have an error, it is " +
+					"possible that you are using the same ',' separator of " +
+					"field and decimal expressions. Use '.' as decimal " +
+					"separator!")
 		self.TotalLoans = self.TotalLoans + d['Load Amount']
 		self.Loans.append(d)
 	
@@ -120,10 +126,22 @@ class Application:
 				sys.exit('The column %s does not match witch the format' % (d) )
 
 	def PriceToFloat(self, val):
-		return val if val == '' else float(val.strip('$ ').replace(',',''))
+		try:
+			return val if val == '' else float(val.strip('$ ').replace(',',''))
+		except:
+			sys.exit("Error: The number's format have an error, it is " +
+					"possible that you are using the same ',' separator of " +
+					"field and decimal expressions. Use '.' as decimal " +
+					"separator!")
 
 	def RateToFloat(self, val):
-		return val if val == '' else float(val.strip('% '))/100
+		try:
+			return val if val == '' else float(val.strip('% '))/100
+		except:
+			sys.exit("Error: The number's format have an error, it is " +
+					"possible that you are using the same ',' separator of " +
+					"field and decimal expressions. Use '.' as decimal " +
+					"separator!")
 
 	def cleanBidData(self, dbid):
 		price = ['aggregate', 'funds']	
