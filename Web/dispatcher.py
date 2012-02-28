@@ -96,19 +96,30 @@ class BidsRest(webapp.RequestHandler):
         bidsToAddObj =  json.loads(bidsToAddJson)
         # Adding the bid model objects
         dbUser = user.getCurrentUser(users.get_current_user())
+        # Getting the bids for the current user
+        userBids = dbUser.bids
+        currentBids = {}
+        for bid in userBids:
+            currentBids[bid.loan.collateral_key] = bid
+        currentBidsKeys = currentBids.keys()
+        # Adding or updating the bids
+        statusChoices = Bid.status.choices
+        creationTime = datetime.now()
+        expirationTime = creationTime + timedelta(hours=2)
         for key, value in bidsToAddObj.iteritems():
-            gqlQuery = Bid.gql("WHERE ANCESTOR IS KEY('User', :email) AND loan= Key('SimpleLoan',:collateral)",
-                                email= getUser(), collateral= key)
-            bid = gqlQuery.get()
+            # Getting user input values
             participation = float(value['participation'])
             bidrate = float(value['bidrate'])
-            statusChoices = Bid.status.choices
-            status = statusChoices[random.randint(0,len(statusChoices)-1)]
-            creationTime = datetime.now()
-            expirationTime = creationTime + timedelta(hours=2)
-            if(not bid):
+            # Checking if there is a bid for a given collateral key
+            if (int(key) in currentBidsKeys):
+                bid = currentBids[int(key)]
+                bid.participation = participation
+                bid.bidrate = bidrate
+                bid.put()
+            else:
                 loanQuery = loansModel.loansModel.all().filter('collateral_key =', int(key))
                 loan = loanQuery.get()
+                status = statusChoices[random.randint(0,len(statusChoices)-1)]
                 Bid(parent = dbUser,
                           user = dbUser,
                           loan = loan,
@@ -117,10 +128,6 @@ class BidsRest(webapp.RequestHandler):
                           status = status,
                           createdAt = creationTime,
                           expiresAt = expirationTime).put()
-            else:
-                bid.participation = participation
-                bid.bidrate = bidrate
-                bid.put()
     def get(self):
         checkLogin(self)
         # Getting bids from the Db
