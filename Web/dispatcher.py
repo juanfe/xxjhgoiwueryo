@@ -7,8 +7,7 @@ import StringIO, csv, random, logging
 from datetime import datetime, timedelta, date
 from ls.model import user
 from ls.model.bid import Bid
-from ls.model.simpleLoan import SimpleLoan
-from model import loansModel, jsonData
+from model import loansModel
 
 #Rendering logic
 class Page:
@@ -108,8 +107,8 @@ class BidsRest(webapp.RequestHandler):
             creationTime = datetime.now()
             expirationTime = creationTime + timedelta(hours=2)
             if(not bid):
-                loan = SimpleLoan(key_name= str(key), collateral_key = key)
-                loan.put()
+                loanQuery = loansModel.loansModel.all().filter('collateral_key =', int(key))
+                loan = loanQuery.get()
                 Bid(parent = dbUser,
                           user = dbUser,
                           loan = loan,
@@ -223,6 +222,7 @@ application = webapp.WSGIApplication(
                                       ('/clean', Clean),
                                       ('/download', Download),
                                       ('/jsonLoans', jsonLoans),
+                                      ('/loansModel', loansModel.loansModelInstance),
                                       ('/', Login)
                                      ],
                                      debug=True)
