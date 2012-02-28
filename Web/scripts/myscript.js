@@ -12,8 +12,8 @@ dojo.addOnLoad(function() {
 	initFieldLabels();
 	//Get data
 	ls.dataStore = new dojo.data.ItemFileReadStore({
-		identifier : 'Collateral',
-		url : "/jsonLoans"
+		identifier : 'collateral_key',
+		url : "../jsonLoans"
 	});
 	ls.dataStore.fetch({
 		query : {
@@ -326,6 +326,7 @@ function updateBidGrid(selectedLoans) {
 	// Create new datastore with selected items only
 	var bidStore = new dojo.data.ItemFileWriteStore({
 		data : {
+			identifier : 'collateral_key',
 			items : selectedLoans
 		}
 	});
@@ -341,6 +342,7 @@ function applyFilters() {
 	// Create new datastore with selected items only
 	var newStore = new dojo.data.ItemFileReadStore({
 		data : {
+			identifier : 'collateral_key',
 			items : selected
 		}
 	});

@@ -163,6 +163,7 @@ class jsonLoans(webapp.RequestHandler):
         self.response.headers['Content-Type'] = 'application/json'
         loanJsonObj = []
         datetypeObj = date.today()
+        nonetypeObj = None
         loans = loansModel.loansModel.all()
         for loan in loans:
             loanObj = {}
@@ -170,11 +171,15 @@ class jsonLoans(webapp.RequestHandler):
                 k = k[1:]
                 if k != 'entity' and k != 'from_entity':
                     if type(v)==type(datetypeObj):
-                        loanObj[k] = v.strftime('%m/%d/%Y')
+                        loanObj[k] = '{0}/{1}/{2}'.format(v.month,v.day,v.year) #strftime('%m/%d/%Y')
                     elif type(v) == bool:
                         loanObj[k] = 1 if v else 0
+                    elif type(v)==type(nonetypeObj):
+                        loanObj[k] = ''
                     else:
                         loanObj[k] = v
+#                    self.response.out.write('{0}({1}) {2}\n'.format(k,type(loanObj[k]),loanObj[k]))
+#            self.response.out.write('\n\n')
             loanJsonObj.append(loanObj)
         itemsWrapper = {}
         itemsWrapper['items'] = loanJsonObj
