@@ -424,7 +424,7 @@ class Application:
 		for i in zip(AssetAssigned['Total'], Loans):
 			c = i[1][0] - i[0]
 			#This line is added to reduce the error propagation
-			if abs(c) < 1e-11: c = 0
+			if abs(c) < 1e-9: c = 0
 			calc.append((c, None if c == 0 else "over" if c < 0 else "under"))
 		if self.options.Verbose:
 			print "Remained need"
