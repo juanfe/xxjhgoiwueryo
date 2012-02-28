@@ -37,6 +37,10 @@ class Application:
 		parser.add_option("-M", "--MorgageOperators", dest="OperatorFilename",
 				default= os.path.dirname(sys.argv[0])+"/mo.csv",
 				help = "Specify the Mortgage Operators, default mo.csv")
+		parser.add_option("-r", "--rankinvert", dest="rank_invert",
+				action="store_true",
+				help="Inverte the order of the order of the rank in " +
+				"General/Competitive bids.", default = False)
 		parser.usage = "usage: %prog [options arg] [-v]"
 		return parser
 	
@@ -51,8 +55,14 @@ class Application:
 			except:
 				sys.exit('Error: in the file %s, see the field delimiter in csv file, look "LiqSpot.py --help".'
 						% self.options.loansFilename)
-		d['Load Amount'] = float(d['Load Amount'].strip(' '))
-		d['Rate'] = float(d['Rate'].strip(' '))
+		try:
+			d['Load Amount'] = float(d['Load Amount'].strip(' '))
+			d['Rate'] = float(d['Rate'].strip(' '))
+		except:
+			sys.exit("Error: The number's format have an error, it is " +
+					"possible that you are using the same ',' separator of " +
+					"field and decimal expressions. Use '.' as decimal " +
+					"separator!")
 		self.TotalLoans = self.TotalLoans + d['Load Amount']
 		self.Loans.append(d)
 	
@@ -120,10 +130,22 @@ class Application:
 				sys.exit('The column %s does not match witch the format' % (d) )
 
 	def PriceToFloat(self, val):
-		return val if val == '' else float(val.strip('$ ').replace(',',''))
+		try:
+			return val if val == '' else float(val.strip('$ ').replace(',',''))
+		except:
+			sys.exit("Error: The number's format have an error, it is " +
+					"possible that you are using the same ',' separator of " +
+					"field and decimal expressions. Use '.' as decimal " +
+					"separator!")
 
 	def RateToFloat(self, val):
-		return val if val == '' else float(val.strip('% '))/100
+		try:
+			return val if val == '' else float(val.strip('% '))/100
+		except:
+			sys.exit("Error: The number's format have an error, it is " +
+					"possible that you are using the same ',' separator of " +
+					"field and decimal expressions. Use '.' as decimal " +
+					"separator!")
 
 	def cleanBidData(self, dbid):
 		price = ['aggregate', 'funds']	
@@ -221,7 +243,8 @@ class Application:
 			if self.SpecifiedCompetitive(k, Specified, Competitive):
 				if (bid['bidrate'] > 0):
 					R.append({'id':k, 'time':bid['time'], 'bidrate':bid['bidrate']})
-		R = sorted(R, key = lambda l: (l['bidrate'], l['time']), reverse=True)
+		R = sorted(R, key = lambda l: (l['bidrate'], l['time']),
+				reverse=not self.options.rank_invert)
 		rank = {}
 		i = 1
 		for r in R:
@@ -315,7 +338,9 @@ class Application:
 				assetSNC['Total'][0:-1], WARateSNC[0:-1])
 		_WARateS.append((assetSC['Total'][-1]*WARateSC[-1] +
 				assetSNC['Total'][-1]*WARateSNC[-1])/
-				(assetSC['Total'][-1] + assetSNC['Total'][-1]))
+				(assetSC['Total'][-1] + assetSNC['Total'][-1])
+				if (assetSC['Total'][-1] + assetSNC['Total'][-1]) != 0 else 0)
+
 		return _WARateS  
 
 	def WARateTot(self, assetSC, assetSNC, assetGC, assetGNC, WARateGNC, WARateSGC):
@@ -506,8 +531,8 @@ class Application:
 				for i in range(0, len(_LoanRates) - 1):
 					rate = rate + _LoanRates[i] * assetGC[k][i] 
 				_Rates[k] = {'rate': allocate[k]['bidrate'], 'rateawarded':
-						allocate[k]['bidrate'] + rate /
-						assetGC[k][len(_LoanRates)-1]} 
+						allocate[k]['bidrate'] + (rate /
+						assetGC[k][len(_LoanRates)-1] if assetGC[k][len(_LoanRates)-1] != 0 else 0)} 
 				_RatesTot = _RatesTot + _Rates[k]['rateawarded'] * allocate[k]['allocated']
 		_Rates['Total'] = {'rateawarded':_RatesTot /
 				allocate['Total']['allocated'] if
@@ -604,21 +629,28 @@ class Application:
 			_all[k] = rate
 		return _all
 
-	def PrintSummary(asset, AllocRates):
+	def PrintSummary(self, asset, AllocRates):
 		if self.options.Verbose:
+			print "-"*50
+			print "Asset Summary"
 			print "-"*50
 		if self.options.output:
 			ofile = open(self.options.output, "wb")
 			summwrt = csv.writer(ofile, delimiter=self.options.delimiter, quotechar='"')
+		valsRate = 0
 		for k, bid in self.Bids.iteritems():
 			# Print in standart output if there are no output or there are
 			# verbose option.
 			if self.options.Verbose or not self.options.output:
 				print k,
-				print AllocRates[k],
-				print vals
-			if self.options.output:
-				summwrt.writerow([k, AllocRates[k]] + vals)
+				print asset[k],
+				print AllocRates[k]
+			valsRate = valsRate + AllocRates[k] * asset[k][-1]
+		valsRate = valsRate / asset['Total'][-1]
+		if self.options.Verbose or not self.options.output:
+			print "Total ",
+			print asset['Total'],
+			print valsRate
 
 	def main(self, *args):
 		self.LoadMortgageOperators()
@@ -627,16 +659,23 @@ class Application:
 		self.LoadExceptions()
 
 		# Calculate Specified and Competitive Assets
+		if self.options.Verbose:
+			print "Assets are assigned Specified/Competitive bids"
 		assetSC = self.SpecifiedAssetAssignation(Competitive = True)
 		WARateSC = self.WARate(assetSC)
 		SCompAssetRem = self.CalcRemaing (assetSC, self.GetLoans())
 
 		# Calculate Specified and Noncompetitive Assets
+		if self.options.Verbose:
+			print "Assets are assigned Specified/Non Competitive bids"
 		assetSNC = self.SpecifiedAssetAssignation(Competitive = False)
 		SNCompAssetRem = self.CalcRemaing (assetSNC, SCompAssetRem)
 		WARateSNC = self.WARateSNC(assetSC, assetSNC)
 
 		# Calculate General and Competitive Assets
+		if self.options.Verbose:
+			print "General/Competitive bids are assigned to undersubscribed assets"
+			print 50*"-"
 		rank = self.RankRateGenericCompetitive()
 		allocateGC = self.AllocateGenericCompetitive(Rank = rank)
 		valrank = self.AdjustRankWithAllocateAndAccepted(Allocate = allocateGC, 
@@ -657,6 +696,8 @@ class Application:
 				WARateGC, MarketPremium)
 
 		# Calculate General and Noncompetitive Assets
+		if self.options.Verbose:
+			print "General/Noncompetitive bids are assigned to undersubscribed assets"
 		allocateGNC = self.AllocateGenericNonCompetitive(GCompAssetRem)
 		assetGNC = self.GenericAssetAssignation(Rem = GCompAssetRem, Allocate =
 				allocateGNC)
@@ -671,7 +712,7 @@ class Application:
 		asset = self.Summary(assetSC, assetSNC, assetGC, assetGNC, WARateGNC,
 				WARateTot, GNComptAssetRem)
 		AllocRates = self.SumRateAllocation( asset, assetSNC, ratesGC, WARateGNC)
-		#self.PrintSummary(asset, AllocRates)
+		self.PrintSummary(asset, AllocRates)
 
 if __name__ == '__main__':
 	app = Application()

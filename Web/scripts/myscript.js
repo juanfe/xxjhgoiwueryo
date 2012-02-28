@@ -71,7 +71,7 @@ dojo.addOnLoad(function() {
 			ls.loanDetailsDialog.set("title", 'Loan Details');
 			initLoanDetailsGrid();
 		}
-	})
+	});
 });
 function initBidsDialog() {
 	ls.bidDialog = new dijit.Dialog({

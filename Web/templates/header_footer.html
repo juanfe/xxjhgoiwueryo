@@ -11,16 +11,16 @@
 {% block body %}
 	<div id = "topLevelContainer" dojoType="dijit.layout.BorderContainer" design="headline" isLayoutContainer="true" gutters='false'
 		style="height:100%;width:100%;">
-			<div dojoType = "dijit.layout.ContentPane" region = "top" title="Filtros" style='width: auto;height: auto;border:solid 1px;border-color: black'>
+			<div dojoType = "dijit.layout.ContentPane" region = "top" title="Filtros" style='width: auto;height: 70px;border:solid 1px;border-color: black'>
 				<table style="width: 100%">
 					<tr>
 						<td><img src="../images/liquidityspot_logo.jpg" alt="logo"/></td>
 						<td style="margin: auto; color: #F78111; vertical-align: bottom; text-align: right;">
-							<a href="/search">Search Loans</a>&nbsp;&nbsp;&nbsp;
-							<a href="/mybids">My Bids</a>&nbsp;&nbsp;&nbsp;
+							{% for menuPage in menuPages %}
+                                <a href={{ menuPage.url }}>{{ menuPage.text }}</a>&nbsp;&nbsp;&nbsp;
+							{% endfor %}
 							{% block menuAnchors %}
 							{% endblock menuAnchors %}
-							<a href="/logout">Logout</a></td>
 					</tr>
 				</table>
 			</div>

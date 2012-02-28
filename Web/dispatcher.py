@@ -22,7 +22,7 @@ class HomePage:
     text = 'Home'
 class SearchPage:
     url = "'/search'"
-    text = 'Search assets'
+    text = 'Search loans'
 class MyBidsPage:
     url = "'/mybids'"
     text = 'My bids'
@@ -58,7 +58,6 @@ class Home(webapp.RequestHandler):
         checkLogin(self)
         page = Page.HOME
         parameters = getPageDict(page)
-        parameters = None
         self.response.out.write(template.render("templates/home.html",parameters))
 
 class Search(webapp.RequestHandler):
@@ -66,7 +65,6 @@ class Search(webapp.RequestHandler):
         checkLogin(self)
         page = Page.SEARCH
         parameters = getPageDict(page)
-        parameters = None
         self.response.out.write(template.render("templates/search.html",parameters))
 
 class MyBids(webapp.RequestHandler):
@@ -74,7 +72,6 @@ class MyBids(webapp.RequestHandler):
         checkLogin(self) 
         page = Page.MYBIDS
         parameters = getPageDict(page)
-        parameters = None
         self.response.out.write(template.render("templates/mybids.html",parameters))
 
 #Retrieving the current logged user
