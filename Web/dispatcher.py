@@ -159,32 +159,6 @@ class Clean(webapp.RequestHandler):
 class jsonLoans(webapp.RequestHandler):
     def get(self):
         checkLogin(self)
-        loanJsonObj = []
-        loans = loansModel.loansModel.all()
-        for loan in loans:
-            loanObj = {}
-            loanObj['collateral_key'] = loan.collateral_key
-            loanObj['property_type_code'] = loan.property_type_code
-            loanObj['state'] = loan.state
-            loanObj['is_adjustable'] = 1 if loan.is_adjustable else 0
-            loanObj['lien_position'] = loan.lien_position
-            loanObj['original_ltv'] = loan.original_ltv
-            loanObj['original_cltv'] = loan.original_cltv
-            loanObj['curr_upb'] = loan.curr_upb
-            loanObj['advance_amt'] = loan.advance_amt
-            loanObj['CoreLogic Collateral Risk Score'] = loan.corelogic_collateral_risk_score
-            loanObj['CoreLogic Fraud Risk Score'] = loan.corelogic_fraud_risk_score
-            loanObj['fico_score'] = loan.fico_score
-            loanJsonObj.append(loanObj)
-        itemsWrapper = {}
-        itemsWrapper['items'] = loanJsonObj
-        bidsToSendJson = json.dumps(itemsWrapper)
-        self.response.headers['Content-Type'] = 'application/json'
-        self.response.out.write(bidsToSendJson)
-
-class jsonLoansAuto(webapp.RequestHandler):
-    def get(self):
-        checkLogin(self)
         self.response.headers['Content-Type'] = 'application/json'
         loanJsonObj = []
         datetypeObj = date.today()
@@ -195,15 +169,11 @@ class jsonLoansAuto(webapp.RequestHandler):
                 k = k[1:]
                 if k != 'entity' and k != 'from_entity':
                     if type(v)==type(datetypeObj):
-#                        self.response.out.write('case date')
                         loanObj[k] = v.strftime('%m/%d/%Y')
                     elif type(v) == bool:
-#                        self.response.out.write('case bool')
                         loanObj[k] = 1 if v else 0
                     else:
                         loanObj[k] = v
-#                    self.response.out.write('{0}({1}) {2}\n'.format(k[1:],type(loanObj[k]),loanObj[k]))
-#            self.response.out.write('\n\n')
             loanJsonObj.append(loanObj)
         itemsWrapper = {}
         itemsWrapper['items'] = loanJsonObj
@@ -252,8 +222,7 @@ application = webapp.WSGIApplication(
                                       ('/search', Search),
                                       ('/clean', Clean),
                                       ('/download', Download),
-                                      ('/jsonLoans', jsonLoansAuto),
-#                                      ('/jsonLoansAuto', jsonLoansAuto),
+                                      ('/jsonLoans', jsonLoans),
                                       ('/', Login)
                                      ],
                                      debug=True)
