@@ -1,14 +1,14 @@
 from google.appengine.api import users
-from google.appengine.ext import webapp
-from google.appengine.ext import db
+from google.appengine.ext import webapp, db
 from google.appengine.ext.webapp import template
 from google.appengine.ext.webapp.util import run_wsgi_app
 from django.utils import simplejson as json
 import StringIO, csv, random, logging
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, date
 from ls.model import user
 from ls.model.bid import Bid
 from ls.model.simpleLoan import SimpleLoan
+from model import loansModel, jsonData
 
 #Rendering logic
 class Page:
@@ -158,7 +158,60 @@ class Clean(webapp.RequestHandler):
             bid = gqlQuery.get()
             if(bid):
                 bid.delete()
-        
+
+class jsonLoans(webapp.RequestHandler):
+    def get(self):
+        checkLogin(self)
+        loanJsonObj = []
+        loans = loansModel.loansModel.all()
+        for loan in loans:
+            loanObj = {}
+            loanObj['collateral_key'] = loan.collateral_key
+            loanObj['property_type_code'] = loan.property_type_code
+            loanObj['state'] = loan.state
+            loanObj['is_adjustable'] = 1 if loan.is_adjustable else 0
+            loanObj['lien_position'] = loan.lien_position
+            loanObj['original_ltv'] = loan.original_ltv
+            loanObj['original_cltv'] = loan.original_cltv
+            loanObj['curr_upb'] = loan.curr_upb
+            loanObj['advance_amt'] = loan.advance_amt
+            loanObj['CoreLogic Collateral Risk Score'] = loan.corelogic_collateral_risk_score
+            loanObj['CoreLogic Fraud Risk Score'] = loan.corelogic_fraud_risk_score
+            loanObj['fico_score'] = loan.fico_score
+            loanJsonObj.append(loanObj)
+        itemsWrapper = {}
+        itemsWrapper['items'] = loanJsonObj
+        bidsToSendJson = json.dumps(itemsWrapper)
+        self.response.headers['Content-Type'] = 'application/json'
+        self.response.out.write(bidsToSendJson)
+
+class jsonLoansAuto(webapp.RequestHandler):
+    def get(self):
+        checkLogin(self)
+        self.response.headers['Content-Type'] = 'application/json'
+        loanJsonObj = []
+        datetypeObj = date.today()
+        loans = loansModel.loansModel.all()
+        for loan in loans:
+            loanObj = {}
+            for k, v in vars(loan).items():
+                k = k[1:]
+                if k != 'entity' and k != 'from_entity':
+                    if type(v)==type(datetypeObj):
+#                        self.response.out.write('case date')
+                        loanObj[k] = v.strftime('%m/%d/%Y')
+                    elif type(v) == bool:
+#                        self.response.out.write('case bool')
+                        loanObj[k] = 1 if v else 0
+                    else:
+                        loanObj[k] = v
+#                    self.response.out.write('{0}({1}) {2}\n'.format(k[1:],type(loanObj[k]),loanObj[k]))
+#            self.response.out.write('\n\n')
+            loanJsonObj.append(loanObj)
+        itemsWrapper = {}
+        itemsWrapper['items'] = loanJsonObj
+        bidsToSendJson = json.dumps(itemsWrapper)
+        self.response.out.write(bidsToSendJson)
 
 class Login(webapp.RequestHandler):
     def get(self):
@@ -202,6 +255,8 @@ application = webapp.WSGIApplication(
                                       ('/search', Search),
                                       ('/clean', Clean),
                                       ('/download', Download),
+                                      ('/jsonLoans', jsonLoansAuto),
+#                                      ('/jsonLoansAuto', jsonLoansAuto),
                                       ('/', Login)
                                      ],
                                      debug=True)

@@ -2,6 +2,8 @@
 Created on Feb 14, 2012
 
 @author: Leonardo Zuniga S
+from model import loansModel
+                                      ('/loansModel', loansModel.loansModelInstance),
 """
 from google.appengine.ext import db, webapp
 from datetime import datetime

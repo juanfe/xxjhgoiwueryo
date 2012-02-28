@@ -13,7 +13,7 @@ dojo.addOnLoad(function() {
 	//Get data
 	ls.dataStore = new dojo.data.ItemFileReadStore({
 		identifier : 'Collateral',
-		url : "../data/FundingData.json"
+		url : "../jsonLoans"
 	});
 	ls.dataStore.fetch({
 		query : {
