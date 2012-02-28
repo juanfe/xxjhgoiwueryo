@@ -12,7 +12,7 @@ dojo.addOnLoad(function() {
 	initFieldLabels();
 	//Get data
 	ls.dataStore = new dojo.data.ItemFileReadStore({
-		identifier : 'Collateral',
+		identifier : 'collateral_key',
 		url : "../jsonLoans"
 	});
 	ls.dataStore.fetch({
