@@ -82,11 +82,6 @@ def getUser():
     else:
         return None
 
-def bidsKey():
-    entityKind = 'Bids'
-    key = getUser()
-    return db.Key.from_path(entityKind, key)
-
 #Storage of the dojo bids json
 dojoAjaxKey = 'bids'
 class BidsRest(webapp.RequestHandler):
