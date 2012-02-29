@@ -3,6 +3,7 @@
 import csv, sys, os
 from optparse import OptionParser
 from datetime import datetime
+from copy import deepcopy
 
 class Application:
 	def __init__(self):
@@ -22,6 +23,7 @@ class Application:
 				help="Read the bids information.", metavar="BIDSFILE")
 		parser.add_option("-l", "--loans", dest="loansFilename",
 				help="Read the loan or mortgages information", metavar="LOANFILE")
+		#TODO enable exceptions
 		parser.add_option("-e", "--exceptions", dest="exceptions",
 				help="List of exceptions in the calculation of the assets.",
 				metavar="EXCEPTIONSFILE", default = False)
@@ -41,6 +43,10 @@ class Application:
 				action="store_true",
 				help="Inverte the order of the order of the rank in " +
 				"General/Competitive bids.", default = False)
+		parser.add_option("-A", "--allocacceptexcetion",
+				dest="AllocAcceptException", action="store_true",
+				help="Excetion in the calculation of Allocate and Accepted " +
+				"in General/Competitive bids.", default = False)
 		parser.usage = "usage: %prog [options arg] [-v]"
 		return parser
 	
@@ -418,7 +424,7 @@ class Application:
 		for i in zip(AssetAssigned['Total'], Loans):
 			c = i[1][0] - i[0]
 			#This line is added to reduce the error propagation
-			if abs(c) < 1e-11: c = 0
+			if abs(c) < 1e-9: c = 0
 			calc.append((c, None if c == 0 else "over" if c < 0 else "under"))
 		if self.options.Verbose:
 			print "Remained need"
@@ -462,15 +468,28 @@ class Application:
 			V[k] = (v0, v) 
 		return V
 
-	def AdjustAllocateAndAccepted(self, Allocate, VRank):
+	def AdjustAllocateAndAccepted(self, Allocate, VRank, AmmountRequired):
 		vallow = Allocate
+		for k, v in vallow.iteritems():
+			vallow[k]['allocated'] = 0.0
 		Tot = 0
-		for i in Allocate.iteritems():
-			#print i[0]['Total'] # != 'Total':
-			if i[0] != 'Total':
-				vallow[i[0]]['v0'] = VRank[i[0]][0]
-				vallow[i[0]]['allocated'] = i[1]['aggregate'] - VRank[i[0]][0]
-				Tot = Tot + vallow[i[0]]['allocated']
+		if self.options.AllocAcceptException:
+			AmtRequired = deepcopy(AmmountRequired)
+			i = 1
+			l = len(vallow)
+			while AmtRequired > 0.0 and i <= l:
+				for k, v in Allocate.iteritems():
+					if k != 'Total' and v['rank'] == i:
+						vallow[k]['allocated'] =  min (AmtRequired, v['aggregate'])
+						Tot = Tot + vallow[k]['allocated']
+						AmtRequired = AmtRequired - vallow[k]['allocated']
+				i += 1
+		else:
+			for i in Allocate.iteritems():
+				if i[0] != 'Total':
+					vallow[i[0]]['v0'] = VRank[i[0]][0]
+					vallow[i[0]]['allocated'] = i[1]['aggregate'] - VRank[i[0]][0]
+					Tot = Tot + vallow[i[0]]['allocated']
 		vallow['Total']['allocated'] = Tot
 		return vallow 
 
@@ -680,7 +699,9 @@ class Application:
 		allocateGC = self.AllocateGenericCompetitive(Rank = rank)
 		valrank = self.AdjustRankWithAllocateAndAccepted(Allocate = allocateGC, 
 				Rank = rank, Rem = SNCompAssetRem)
-		self.AdjustAllocateAndAccepted(Allocate = allocateGC, VRank = valrank)
+		self.AdjustAllocateAndAccepted(Allocate = allocateGC, VRank = valrank,
+				AmmountRequired = (SNCompAssetRem[-1][0] if
+					SNCompAssetRem[-1][1] == 'under' else 0))
 		WARateS = self.WARateS(assetSC, WARateSC, assetSNC, WARateSNC)
 
 		#Generate Generic asset for Competitive
