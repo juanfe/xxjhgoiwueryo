@@ -87,7 +87,7 @@ dojoAjaxKey = 'bids'
 class BidsRest(webapp.RequestHandler):
     def post(self):
         checkLogin(self)
-        bidsToAddJson = self.request.get('bids')
+        bidsToAddJson = self.request.get(dojoAjaxKey)
         bidsToAddObj =  json.loads(bidsToAddJson)
         # Adding the bid model objects
         dbUser = user.getCurrentUser(users.get_current_user())
@@ -143,19 +143,21 @@ class BidsRest(webapp.RequestHandler):
         bidsToSendJson = json.dumps(itemsWrapper)
         self.response.headers['Content-Type'] = 'application/json'
         self.response.out.write(bidsToSendJson)
-
-class Clean(webapp.RequestHandler):
-    def post(self):
+    def delete(self):
         checkLogin(self)
-        bidsToDeleteJson = self.request.get('bids')
+        bidsToDeleteJson = self.request.get(dojoAjaxKey)
         bidsToDeleteObj =  json.loads(bidsToDeleteJson)
+        userBids = user.getCurrentUser(users.get_current_user()).bids
+        currentBids = {}
+        for bid in userBids:
+            currentBids[bid.loan.collateral_key] = bid
+        currentBidsKeys = currentBids.keys()            
         # Deleting bid model
         for key in bidsToDeleteObj.iterkeys():
-            gqlQuery = Bid.gql("WHERE ANCESTOR IS KEY('User', :email) AND loan= Key('SimpleLoan',:collateral)",
-                                email= getUser(), collateral= key)
-            bid = gqlQuery.get()
-            if(bid):
-                bid.delete()
+            if(int(key) in currentBidsKeys):
+                currentBids[int(key)].delete()
+                currentBids.pop(int(key))
+                currentBidsKeys = currentBids.keys()
 
 class jsonLoans(webapp.RequestHandler):
     def get(self):
@@ -213,7 +215,7 @@ class Download(webapp.RequestHandler):
         checkLogin(self)
         self.response.headers['Content-Type'] = 'application/octet-stream'
         self.response.headers['Content-Disposition'] = 'attachment;filename=\"Loans Details.csv\"'
-        bidsJson = self.request.get('bids')
+        bidsJson = self.request.get(dojoAjaxKey)
         bidsCsv = jsonToCsv(bidsJson)
         self.response.out.write(bidsCsv)
         
@@ -226,7 +228,6 @@ application = webapp.WSGIApplication(
                                       ('/home', Home),
                                       ('/logout', Logout),
                                       ('/search', Search),
-                                      ('/clean', Clean),
                                       ('/download', Download),
                                       ('/jsonLoans', jsonLoans),
                                       ('/loansModel', loansModel.loansModelInstance),

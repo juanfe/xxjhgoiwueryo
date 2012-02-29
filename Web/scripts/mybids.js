@@ -225,7 +225,7 @@ function cleanBidsClick(){
 		};
 	}
 	var xhrArgs = {
-        url: "/clean",
+        url: "/bids",
         content: {'bids':dojo.toJson(bids)},
         handleAs: "json",
         load: function(data) {
@@ -235,8 +235,8 @@ function cleanBidsClick(){
             console.log(error);
         }
     };
-    //Call the asynchronous xhrPost
-    var deferred = dojo.xhrPost(xhrArgs);
+    //Call the asynchronous xhrDelete
+    var deferred = dojo.xhrDelete(xhrArgs);
     deferred.then(
 		function(data){
 		    location.href="/mybids";
