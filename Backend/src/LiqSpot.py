@@ -397,7 +397,7 @@ class Application:
 		_WARateSGC = map (lambda x, y, z: z if x != None else y, WARateS[0:-1], MarketPremium,
 				__WARateSGC)
 		_WARateSGC.append(sum(map (lambda x, y: x*y, cummulativeSGC[0:-1],
-			_WARateSGC))/cummulativeSGC[-1])
+			_WARateSGC))/cummulativeSGC[-1] if cummulativeSGC[-1] != 0 else 0)
 		return _WARateSGC 
 
 	def WARateGNC(self, assetSC, assetSNC, assetGNC, WARateS, WARateGC,
@@ -643,6 +643,7 @@ class Application:
 			rate = rate if asset[k][-1] > 0 else 0
 			if ratesGC.has_key(k):
 				rate = rate + ratesGC[k]['rateawarded']
+			rate = rate if asset[k][-1] > 0 else 0
 			rate = rate + (WARateGNC[-1] if self.SpecifiedCompetitive(bid = k, specified = False, competitive =
 					False) else 0)
 			_all[k] = rate

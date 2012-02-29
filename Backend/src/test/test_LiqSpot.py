@@ -113,7 +113,7 @@ class TestApplication:
 		WARateSNC = self.app.WARateSNC(assetSC, assetSNC)
 		assert WARateSNC == p
 
-	def test_WARateS(self, arg, p):
+	def test_WARateS(self, arg, p, q):
 		#In engine processing rules example.xlsx "assets availale for bid"!G67:M67
 		sys.argv = arg
 		self.app = Application()
@@ -136,6 +136,7 @@ class TestApplication:
 					SNCompAssetRem[-1][1] == 'under' else 0))
 		WARateS = self.app.WARateS(assetSC, WARateSC, assetSNC, WARateSNC)
 		assert WARateS == p
+		assert allocateGC == q
 
 	def test_CalcRateAwarded(self, arg, p):
 		#In engine processing rules example.xlsx
