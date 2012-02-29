@@ -131,7 +131,9 @@ class TestApplication:
 		allocateGC = self.app.AllocateGenericCompetitive(Rank = rank)
 		valrank = self.app.AdjustRankWithAllocateAndAccepted(Allocate = allocateGC,
 				Rank = rank, Rem = SNCompAssetRem)
-		self.app.AdjustAllocateAndAccepted(Allocate = allocateGC, VRank = valrank)
+		self.app.AdjustAllocateAndAccepted(Allocate = allocateGC, VRank =
+				valrank, AmmountRequired = (SNCompAssetRem[-1][0] if
+					SNCompAssetRem[-1][1] == 'under' else 0))
 		WARateS = self.app.WARateS(assetSC, WARateSC, assetSNC, WARateSNC)
 		assert WARateS == p
 
@@ -155,7 +157,9 @@ class TestApplication:
 		allocateGC = self.app.AllocateGenericCompetitive(Rank = rank)
 		valrank = self.app.AdjustRankWithAllocateAndAccepted(Allocate = allocateGC,
 				Rank = rank, Rem = SNCompAssetRem)
-		self.app.AdjustAllocateAndAccepted(Allocate = allocateGC, VRank = valrank)
+		self.app.AdjustAllocateAndAccepted(Allocate = allocateGC, VRank =
+				valrank, AmmountRequired = (SNCompAssetRem[-1][0] if
+					SNCompAssetRem[-1][1] == 'under' else 0))
 		WARateS = self.app.WARateS(assetSC, WARateSC, assetSNC, WARateSNC)
 		assetGC = self.app.GenericAssetAssignation(Rem = SNCompAssetRem, Allocate =
 				allocateGC)
@@ -187,7 +191,9 @@ class TestApplication:
 		allocateGC = self.app.AllocateGenericCompetitive(Rank = rank)
 		valrank = self.app.AdjustRankWithAllocateAndAccepted(Allocate = allocateGC,
 				Rank = rank, Rem = SNCompAssetRem)
-		self.app.AdjustAllocateAndAccepted(Allocate = allocateGC, VRank = valrank)
+		self.app.AdjustAllocateAndAccepted(Allocate = allocateGC, VRank =
+				valrank, AmmountRequired = (SNCompAssetRem[-1][0] if
+					SNCompAssetRem[-1][1] == 'under' else 0))
 		WARateS = self.app.WARateS(assetSC, WARateSC, assetSNC, WARateSNC)
 		assetGC = self.app.GenericAssetAssignation(Rem = SNCompAssetRem, Allocate =
 				allocateGC)
@@ -227,7 +233,9 @@ class TestApplication:
 		allocateGC = self.app.AllocateGenericCompetitive(Rank = rank)
 		valrank = self.app.AdjustRankWithAllocateAndAccepted(Allocate = allocateGC,
 				Rank = rank, Rem = SNCompAssetRem)
-		self.app.AdjustAllocateAndAccepted(Allocate = allocateGC, VRank = valrank)
+		self.app.AdjustAllocateAndAccepted(Allocate = allocateGC, VRank =
+				valrank, AmmountRequired = (SNCompAssetRem[-1][0] if
+					SNCompAssetRem[-1][1] == 'under' else 0))
 		WARateS = self.app.WARateS(assetSC, WARateSC, assetSNC, WARateSNC)
 		assetGC = self.app.GenericAssetAssignation(Rem = SNCompAssetRem, Allocate =
 				allocateGC)
@@ -269,7 +277,9 @@ class TestApplication:
 		allocateGC = self.app.AllocateGenericCompetitive(Rank = rank)
 		valrank = self.app.AdjustRankWithAllocateAndAccepted(Allocate = allocateGC,
 				Rank = rank, Rem = SNCompAssetRem)
-		self.app.AdjustAllocateAndAccepted(Allocate = allocateGC, VRank = valrank)
+		self.app.AdjustAllocateAndAccepted(Allocate = allocateGC, VRank =
+				valrank, AmmountRequired = (SNCompAssetRem[-1][0] if
+					SNCompAssetRem[-1][1] == 'under' else 0))
 		WARateS = self.app.WARateS(assetSC, WARateSC, assetSNC, WARateSNC)
 		assetGC = self.app.GenericAssetAssignation(Rem = SNCompAssetRem, Allocate =
 				allocateGC)
