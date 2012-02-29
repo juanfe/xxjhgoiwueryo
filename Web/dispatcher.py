@@ -1,4 +1,4 @@
-from google.appengine.api import users
+from google.appengine.api import users, memcache
 from google.appengine.ext import webapp, db
 from google.appengine.ext.webapp import template
 from google.appengine.ext.webapp.util import run_wsgi_app
@@ -162,7 +162,14 @@ class BidsRest(webapp.RequestHandler):
 class jsonLoans(webapp.RequestHandler):
     def get(self):
         checkLogin(self)
+        bidsToSendJson = memcache.get("bidsToSendJson")
+        if bidsToSendJson is None:
+            bidsToSendJson = self.generateLoans()
+            if not memcache.add("bidsToSendJson", bidsToSendJson, 60):
+                logging.error("Memcache set failed.")
         self.response.headers['Content-Type'] = 'application/json'
+        self.response.out.write(bidsToSendJson)
+    def generateLoans(self):
         loanJsonObj = []
         datetypeObj = date.today()
         nonetypeObj = None
@@ -185,9 +192,7 @@ class jsonLoans(webapp.RequestHandler):
             loanJsonObj.append(loanObj)
         itemsWrapper = {}
         itemsWrapper['items'] = loanJsonObj
-        bidsToSendJson = json.dumps(itemsWrapper)
-        self.response.out.write(bidsToSendJson)
-
+        return json.dumps(itemsWrapper)
 class Login(webapp.RequestHandler):
     def get(self):
         user = getUser()
