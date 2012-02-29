@@ -1,9 +1,11 @@
 from scenario0 import scenario as scenario0
 from scenario1 import scenario as scenario1
-from scenario1 import scenario as scenario2
+from scenario2 import scenario as scenario2
+from scenario3 import scenario as scenario3
 from scenario0 import argument as argument0
 from scenario1 import argument as argument1
-from scenario1 import argument as argument2
+from scenario2 import argument as argument2
+from scenario3 import argument as argument3
 
 Scenario = {
 	'test_init' : [{'arg': argument0, 'p': scenario0['test_init']},],
