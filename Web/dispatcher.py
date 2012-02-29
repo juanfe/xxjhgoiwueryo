@@ -155,8 +155,7 @@ class BidsRest(webapp.RequestHandler):
         # Deleting bid model
         for key in bidsToDeleteObj.iterkeys():
             if(int(key) in currentBidsKeys):
-                currentBids[int(key)].delete()
-                currentBids.pop(int(key))
+                currentBids.pop(int(key)).delete()
                 currentBidsKeys = currentBids.keys()
 
 class jsonLoans(webapp.RequestHandler):
