@@ -379,6 +379,7 @@ class Application:
 		return _MarketPremium
 
 	def WARateGC(self, assetGC, MarketPremium):
+		# In 5.xlsx G146:M146
 		_WARateGC = map(lambda x: x, MarketPremium)
 		s = sum(map(lambda x, y: x*y, assetGC['Total'][0:-1], MarketPremium))
 		s = s/assetGC['Total'][-1] if assetGC['Total'][-1] != 0 else 0
@@ -400,11 +401,9 @@ class Application:
 			_WARateSGC))/cummulativeSGC[-1] if cummulativeSGC[-1] != 0 else 0)
 		return _WARateSGC 
 
-	def WARateGNC(self, assetSC, assetSNC, assetGNC, WARateS, WARateGC,
-			MarketPremium):
+	def WARateGNC(self, assetSC, assetSNC, assetGNC, WARateS, MarketPremium):
 		#G171:M171
 		_WARateGNC = []
-		#_MarketPremium = self.MarketPremium(assetSC, assetSNC, WARateS, WARateGC)
 		_WARateGNC = map (lambda x, y: x if y == None else max(x, y) , MarketPremium, WARateS[0:-1])
 		_r = sum(map ( lambda x, y: x * y, _WARateGNC,
 			assetGNC['Total'][0:-1]))
@@ -551,7 +550,7 @@ class Application:
 					rate = rate + _LoanRates[i] * assetGC[k][i] 
 				_Rates[k] = {'rate': allocate[k]['bidrate'], 'rateawarded':
 						allocate[k]['bidrate'] + (rate /
-						assetGC[k][len(_LoanRates)-1] if assetGC[k][len(_LoanRates)-1] != 0 else 0)} 
+						assetGC[k][-1] if assetGC[k][-1] != 0 else 0)} 
 				_RatesTot = _RatesTot + _Rates[k]['rateawarded'] * allocate[k]['allocated']
 		_Rates['Total'] = {'rateawarded':_RatesTot /
 				allocate['Total']['allocated'] if
@@ -723,8 +722,7 @@ class Application:
 		allocateGNC = self.AllocateGenericNonCompetitive(GCompAssetRem)
 		assetGNC = self.GenericAssetAssignation(Rem = GCompAssetRem, Allocate =
 				allocateGNC)
-		WARateGNC = self.WARateGNC(assetSC, assetSNC, assetGNC, WARateS,
-				self.WARate(assetGC), MarketPremium)
+		WARateGNC = self.WARateGNC(assetSC, assetSNC, assetGNC, WARateS, MarketPremium)
 		#G177:M177
 		GNComptAssetRem = self.CalcRemaing (assetGNC, GCompAssetRem)
 
