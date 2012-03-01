@@ -362,10 +362,13 @@ class Application:
 		return _w
 
 	def MarketPremium(self, assetSC, assetSNC, WARateS, WARateGC):
+		# In 5.xlsx G145:L145
 		_MarketPremiumPrim = []
 		_MarketPremium = []
-		HighestDailyRate = max(map (lambda x: x['bidrate'] if x['bidrate'] !=
-				'' else 0, 	self.Bids.values()))
+		_bidRates = map (lambda x: x['bidrate'] if x['bidrate'] != '' else 0,
+				self.Bids.values())
+		_moRates = map (lambda x: x['Rate'], self.Loans[0:-1])
+		HighestDailyRate = max(_bidRates + _moRates)
 		MarketRateDifferential = HighestDailyRate - WARateS[-1]
 		Cummulative = map (lambda x, y: x+y, assetSC['Total'],
 				assetSNC['Total'])
