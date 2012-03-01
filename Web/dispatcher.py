@@ -222,7 +222,26 @@ class Download(webapp.RequestHandler):
         bidsJson = self.request.get(dojoAjaxKey)
         bidsCsv = jsonToCsv(bidsJson)
         self.response.out.write(bidsCsv)
+
+class Labels(webapp.RequestHandler):
+    def get(self):
+        fieldToLabelDict = {}
+        # models where the labels are defined as verbose names
+        models = [ loansModel.loansModel, Bid ]
+        for model in models:
+            fieldToLabelDict.update(self.getModelPropertiesFieldToVerboseNameDict(model))
+        self.response.headers['Content-Type'] = 'application/json'
+        self.response.out.write(json.dumps(fieldToLabelDict))
         
+    def getModelPropertiesFieldToVerboseNameDict(self, model):
+        propertiesFieldToVerboseNamesDict = {}
+        for field, modelProperty in self.getModelPropertiesDict(model).iteritems():
+            propertiesFieldToVerboseNamesDict[field] = modelProperty.verbose_name
+        return propertiesFieldToVerboseNamesDict
+    
+    def getModelPropertiesDict(self, model):
+        return model.properties()
+            
        
 #################################################################
 
@@ -235,6 +254,7 @@ application = webapp.WSGIApplication(
                                       ('/download', Download),
                                       ('/jsonLoans', jsonLoans),
                                       ('/loansModel', loansModel.loansModelInstance),
+                                      ('/labels', Labels),
                                       ('/', Login)
                                      ],
                                      debug=True)
