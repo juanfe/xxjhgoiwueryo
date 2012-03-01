@@ -361,7 +361,7 @@ class Application:
 				WARateSGC, _w0)
 		return _w
 
-	def MarketPremium(self, assetSC, assetSNC, WARateS, WARateGC):
+	def MarketPremium(self, assetSC, assetSNC, WARateS, PreWARateGC):
 		# In 5.xlsx G145:L145
 		_MarketPremiumPrim = []
 		_MarketPremium = []
@@ -378,7 +378,7 @@ class Application:
 				Subscription)
 		_MarketPremium = map (lambda x, y, w, z: y if z > 0 and y >= w 
 				else (y + x if x != None and y != None else 0) , _MarketPremiumPrim,
-				WARateGC[0:-1], WARateS[0:-1], Cummulative[0:-1]) 
+				PreWARateGC[0:-1], WARateS[0:-1], Cummulative[0:-1]) 
 		return _MarketPremium
 
 	def WARateGC(self, assetGC, MarketPremium):
