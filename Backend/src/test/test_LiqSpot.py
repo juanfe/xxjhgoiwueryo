@@ -138,6 +138,7 @@ class TestApplication:
 		assert WARateS == p
 		assert allocateGC == q
 
+	#TODO add lines to test WARateGC in this test, and test in the test5
 	def test_CalcRateAwarded(self, arg, p):
 		#In engine processing rules example.xlsx
 		# For rate "assets availale for bid"!C106:C125
@@ -209,8 +210,7 @@ class TestApplication:
 		allocateGNC = self.app.AllocateGenericNonCompetitive(GCompAssetRem)
 		assetGNC = self.app.GenericAssetAssignation(Rem = GCompAssetRem, Allocate =
 				                        allocateGNC)
-		WARateGNC = self.app.WARateGNC(assetSC, assetSNC, assetGNC, WARateS,
-				                        self.app.WARate(assetGC), MarketPremium)
+		WARateGNC = self.app.WARateGNC(assetSC, assetSNC, assetGNC, WARateS, MarketPremium)
 		GNComptAssetRem = self.app.CalcRemaing (assetGNC, GCompAssetRem)	
 		WARateTot = self.app.WARateTot(assetSC, assetSNC, assetGC, assetGNC,
 				WARateGNC, WARateSGC)
@@ -251,8 +251,7 @@ class TestApplication:
 		allocateGNC = self.app.AllocateGenericNonCompetitive(GCompAssetRem)
 		assetGNC = self.app.GenericAssetAssignation(Rem = GCompAssetRem, Allocate =
 				                        allocateGNC)
-		WARateGNC = self.app.WARateGNC(assetSC, assetSNC, assetGNC, WARateS,
-				                        self.app.WARate(assetGC), MarketPremium)
+		WARateGNC = self.app.WARateGNC(assetSC, assetSNC, assetGNC, WARateS, MarketPremium)
 		GNComptAssetRem = self.app.CalcRemaing (assetGNC, GCompAssetRem)	
 		WARateTot = self.app.WARateTot(assetSC, assetSNC, assetGC, assetGNC,
 				WARateGNC, WARateSGC)
@@ -295,8 +294,7 @@ class TestApplication:
 		allocateGNC = self.app.AllocateGenericNonCompetitive(GCompAssetRem)
 		assetGNC = self.app.GenericAssetAssignation(Rem = GCompAssetRem, Allocate =
 				                        allocateGNC)
-		WARateGNC = self.app.WARateGNC(assetSC, assetSNC, assetGNC, WARateS,
-				                        self.app.WARate(assetGC), MarketPremium)
+		WARateGNC = self.app.WARateGNC(assetSC, assetSNC, assetGNC, WARateS, MarketPremium)
 		GNComptAssetRem = self.app.CalcRemaing (assetGNC, GCompAssetRem)	
 		WARateTot = self.app.WARateTot(assetSC, assetSNC, assetGC, assetGNC,
 				WARateGNC, WARateSGC)

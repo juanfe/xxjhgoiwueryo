@@ -3,7 +3,7 @@ dojo.provide("ls.FieldLabel");
 // and providing accesors
 var labels;
 dojo.xhrGet({
-	url : "data/labels.json",
+	url : "/labels",
 	handleAs : "json",
 	load : function(obj) {
 		labels = obj;

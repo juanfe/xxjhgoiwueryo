@@ -955,7 +955,7 @@ ls.Condition = function(configObj) {
 };
 function initFieldLabels() {
 	dojo.xhrGet({
-		url : "../data/labels.json",
+		url : "/labels",
 		handleAs : "json",
 		load : function(obj) {
 			ls.labels = obj;
