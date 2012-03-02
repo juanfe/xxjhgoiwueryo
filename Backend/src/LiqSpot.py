@@ -694,6 +694,9 @@ class Application:
 		SNCompAssetRem = self.CalcRemaing (assetSNC, SCompAssetRem)
 		WARateSNC = self.WARateSNC(assetSC, assetSNC)
 
+		# Summary the Specified rates
+		WARateS = self.WARateS(assetSC, WARateSC, assetSNC, WARateSNC)
+
 		# Calculate General and Competitive Assets
 		if self.options.Verbose:
 			print "General/Competitive bids are assigned to undersubscribed assets"
@@ -705,7 +708,6 @@ class Application:
 		self.AdjustAllocateAndAccepted(Allocate = allocateGC, VRank = valrank,
 				AmmountRequired = (SNCompAssetRem[-1][0] if
 					SNCompAssetRem[-1][1] == 'under' else 0))
-		WARateS = self.WARateS(assetSC, WARateSC, assetSNC, WARateSNC)
 
 		#Generate Generic asset for Competitive
 		assetGC = self.GenericAssetAssignation(Rem = SNCompAssetRem, Allocate =
