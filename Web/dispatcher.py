@@ -1,5 +1,5 @@
 from google.appengine.api import users, memcache
-from google.appengine.ext import webapp, db
+from google.appengine.ext import webapp
 from google.appengine.ext.webapp import template
 from google.appengine.ext.webapp.util import run_wsgi_app
 from django.utils import simplejson as json
@@ -106,13 +106,13 @@ class BidsRest(webapp.RequestHandler):
             participation = float(value['participation'])
             bidrate = float(value['bidrate'])
             # Checking if there is a bid for a given collateral key
-            if (int(key) in currentBidsKeys):
-                bid = currentBids[int(key)]
+            if (key in currentBidsKeys):
+                bid = currentBids[key]
                 bid.participation = participation
                 bid.bidrate = bidrate
                 bid.put()
             else:
-                loanQuery = loansModel.loansModel.all().filter('collateral_key =', int(key))
+                loanQuery = loansModel.loansModel.all().filter('collateral_key =', key)
                 loan = loanQuery.get()
                 status = statusChoices[random.randint(0,len(statusChoices)-1)]
                 Bid(parent = dbUser,
@@ -154,8 +154,8 @@ class BidsRest(webapp.RequestHandler):
         currentBidsKeys = currentBids.keys()            
         # Deleting bid model
         for key in bidsToDeleteObj.iterkeys():
-            if(int(key) in currentBidsKeys):
-                currentBids.pop(int(key)).delete()
+            if(key in currentBidsKeys):
+                currentBids.pop(key).delete()
                 currentBidsKeys = currentBids.keys()
 
 class jsonLoans(webapp.RequestHandler):
@@ -222,7 +222,26 @@ class Download(webapp.RequestHandler):
         bidsJson = self.request.get(dojoAjaxKey)
         bidsCsv = jsonToCsv(bidsJson)
         self.response.out.write(bidsCsv)
+
+class Labels(webapp.RequestHandler):
+    def get(self):
+        fieldToLabelDict = {}
+        # models where the labels are defined as verbose names
+        models = [ loansModel.loansModel, Bid ]
+        for model in models:
+            fieldToLabelDict.update(self.getModelPropertiesFieldToVerboseNameDict(model))
+        self.response.headers['Content-Type'] = 'application/json'
+        self.response.out.write(json.dumps(fieldToLabelDict))
         
+    def getModelPropertiesFieldToVerboseNameDict(self, model):
+        propertiesFieldToVerboseNamesDict = {}
+        for field, modelProperty in self.getModelPropertiesDict(model).iteritems():
+            propertiesFieldToVerboseNamesDict[field] = modelProperty.verbose_name
+        return propertiesFieldToVerboseNamesDict
+    
+    def getModelPropertiesDict(self, model):
+        return model.properties()
+            
        
 #################################################################
 
@@ -236,6 +255,7 @@ application = webapp.WSGIApplication(
                                       ('/jsonLoans', jsonLoans),
                                       ('/loansModel', loansModel.loansModelInstance),
                                       ('/jsonDelete', loansModel.jsonDelete),
+                                      ('/labels', Labels),
                                       ('/', Login)
                                      ],
                                      debug=True)
