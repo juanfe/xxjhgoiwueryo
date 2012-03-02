@@ -164,7 +164,7 @@ class jsonLoans(webapp.RequestHandler):
         bidsToSendJson = memcache.get("bidsToSendJson")
         if bidsToSendJson is None:
             bidsToSendJson = self.generateLoans()
-            if not memcache.add("bidsToSendJson", bidsToSendJson, 60):
+            if not memcache.add("bidsToSendJson", bidsToSendJson, 3600):
                 logging.error("Memcache set failed.")
         self.response.headers['Content-Type'] = 'application/json'
         self.response.out.write(bidsToSendJson)
@@ -235,6 +235,7 @@ application = webapp.WSGIApplication(
                                       ('/download', Download),
                                       ('/jsonLoans', jsonLoans),
                                       ('/loansModel', loansModel.loansModelInstance),
+                                      ('/jsonDelete', loansModel.jsonDelete),
                                       ('/', Login)
                                      ],
                                      debug=True)
