@@ -339,14 +339,13 @@ class Application:
 				assetSNC['Total'][0:-1], WARateSNC[0:-1])
 		d = map (lambda x, y: y if x else (0 if x == 0 else None), c, WARateSNC[0:-1])  
 		_WARateS = map (lambda x, asc, wsc, asnc, wsnc:
-				(asc*wsc + asnc*wsnc)/(asc + asnc) if x == 0 else x,
-				d, assetSC['Total'][0:-1], WARateSC[0:-1],
+				(asc*wsc + asnc*wsnc)/(asc + asnc) if x == 0 else (x if 
+					x != None else 0), d, assetSC['Total'][0:-1], WARateSC[0:-1],
 				assetSNC['Total'][0:-1], WARateSNC[0:-1])
 		_WARateS.append((assetSC['Total'][-1]*WARateSC[-1] +
 				assetSNC['Total'][-1]*WARateSNC[-1])/
 				(assetSC['Total'][-1] + assetSNC['Total'][-1])
 				if (assetSC['Total'][-1] + assetSNC['Total'][-1]) != 0 else 0)
-
 		return _WARateS  
 
 	def WARateTot(self, assetSC, assetSNC, assetGC, assetGNC, WARateGNC, WARateSGC):
