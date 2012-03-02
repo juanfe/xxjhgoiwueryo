@@ -404,12 +404,10 @@ class Application:
 		return _WARateSGC 
 
 	def WARateGNC(self, assetSC, assetSNC, assetGNC, WARateS, MarketPremium):
-		#G171:M171
+		#G171:M171 new G184:M184
 		_WARateGNC = []
 		_WARateGNC = map (lambda x, y: x if y == None else max(x, y) , MarketPremium, WARateS[0:-1])
-		_r = sum(map ( lambda x, y: x * y, _WARateGNC,
-			assetGNC['Total'][0:-1]))
-		_r = _r/assetGNC['Total'][-1] if assetGNC['Total'][-1] != 0 else 0
+		_r = WARateS[-1]
 		_WARateGNC.append(_r)
 		return _WARateGNC
 

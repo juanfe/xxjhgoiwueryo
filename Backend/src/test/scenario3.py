@@ -3,7 +3,7 @@ import datetime
 argument = ['LiqSpot.py', '-b', '../../sample/bids3.csv', '-l', '../../sample/loans3.csv',
 		'-d', ',', '-M', '../mo.csv', '-o', 'test.csv', '-r', '-A']
 
-scenario = {'test_WARateS' : { 'p': [None, None, None, None, None, None, 0],
+scenario = {'test_WARateS' : { 'p': [0, 0, 0, 0, 0, 0, 0],
 				'q': {'1104139': {'aggregate': 250000.0, 'allocated': 0.0,
 						'bidrate': 0.03125, 'rank': 10},
 					'1104138': {'aggregate': 300000.0, 'allocated': 300000.0,
