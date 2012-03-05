@@ -403,11 +403,11 @@ class Application:
 			_WARateSGC))/cummulativeSGC[-1] if cummulativeSGC[-1] != 0 else 0)
 		return _WARateSGC 
 
-	def WARateGNC(self, assetSC, assetSNC, assetGNC, WARateS, MarketPremium):
+	def WARateGNC(self, assetSC, assetSNC, assetGNC, WARateS, WARateGC, MarketPremium):
 		#G171:M171 new G184:M184
 		_WARateGNC = []
 		_WARateGNC = map (lambda x, y: x if y == None else max(x, y) , MarketPremium, WARateS[0:-1])
-		_r = WARateS[-1]
+		_r = max(WARateS[-1], WARateGC[-1])
 		_WARateGNC.append(_r)
 		return _WARateGNC
 
@@ -724,7 +724,8 @@ class Application:
 		allocateGNC = self.AllocateGenericNonCompetitive(GCompAssetRem)
 		assetGNC = self.GenericAssetAssignation(Rem = GCompAssetRem, Allocate =
 				allocateGNC)
-		WARateGNC = self.WARateGNC(assetSC, assetSNC, assetGNC, WARateS, MarketPremium)
+		WARateGNC = self.WARateGNC(assetSC, assetSNC, assetGNC, WARateS,
+				WARateGC, MarketPremium)
 		#G177:M177
 		GNComptAssetRem = self.CalcRemaing (assetGNC, GCompAssetRem)
 
