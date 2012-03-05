@@ -7,6 +7,7 @@ from scenario5 import scenario as scenario5
 from scenario6 import scenario as scenario6
 from scenario7 import scenario as scenario7
 from scenario8 import scenario as scenario8
+from scenario9 import scenario as scenario9
 from scenario0 import argument as argument0
 from scenario1 import argument as argument1
 from scenario2 import argument as argument2
@@ -16,6 +17,7 @@ from scenario5 import argument as argument5
 from scenario6 import argument as argument6
 from scenario7 import argument as argument7
 from scenario8 import argument as argument8
+from scenario9 import argument as argument9
 
 Scenario = {
 	'test_init' : [{'arg': argument0, 'p': scenario0['test_init']},],
@@ -83,6 +85,7 @@ Scenario = {
 			{'arg': argument6, 'p': scenario6['test_Summary'],},
 			{'arg': argument7, 'p': scenario7['test_Summary'],},
 			{'arg': argument8, 'p': scenario8['test_Summary'],},
+			{'arg': argument9, 'p': scenario9['test_Summary'],},
 		],
 	'test_SumRateAllocation' : [{'arg': argument0, 'p': scenario0['test_SumRateAllocation'],},
 			{'arg': argument1, 'p': scenario1['test_SumRateAllocation'],},
@@ -93,6 +96,7 @@ Scenario = {
 			{'arg': argument6, 'p': scenario6['test_SumRateAllocation'],},
 			{'arg': argument7, 'p': scenario7['test_SumRateAllocation'],},
 			{'arg': argument8, 'p': scenario8['test_SumRateAllocation'],},
+			{'arg': argument9, 'p': scenario9['test_SumRateAllocation'],},
 		],
 }
 
