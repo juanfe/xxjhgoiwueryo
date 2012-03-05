@@ -339,14 +339,13 @@ class Application:
 				assetSNC['Total'][0:-1], WARateSNC[0:-1])
 		d = map (lambda x, y: y if x else (0 if x == 0 else None), c, WARateSNC[0:-1])  
 		_WARateS = map (lambda x, asc, wsc, asnc, wsnc:
-				(asc*wsc + asnc*wsnc)/(asc + asnc) if x == 0 else x,
-				d, assetSC['Total'][0:-1], WARateSC[0:-1],
+				(asc*wsc + asnc*wsnc)/(asc + asnc) if x == 0 else (x if 
+					x != None else 0), d, assetSC['Total'][0:-1], WARateSC[0:-1],
 				assetSNC['Total'][0:-1], WARateSNC[0:-1])
 		_WARateS.append((assetSC['Total'][-1]*WARateSC[-1] +
 				assetSNC['Total'][-1]*WARateSNC[-1])/
 				(assetSC['Total'][-1] + assetSNC['Total'][-1])
 				if (assetSC['Total'][-1] + assetSNC['Total'][-1]) != 0 else 0)
-
 		return _WARateS  
 
 	def WARateTot(self, assetSC, assetSNC, assetGC, assetGNC, WARateGNC, WARateSGC):
@@ -404,13 +403,11 @@ class Application:
 			_WARateSGC))/cummulativeSGC[-1] if cummulativeSGC[-1] != 0 else 0)
 		return _WARateSGC 
 
-	def WARateGNC(self, assetSC, assetSNC, assetGNC, WARateS, MarketPremium):
-		#G171:M171
+	def WARateGNC(self, assetSC, assetSNC, assetGNC, WARateS, WARateGC, MarketPremium):
+		#G171:M171 new G184:M184
 		_WARateGNC = []
 		_WARateGNC = map (lambda x, y: x if y == None else max(x, y) , MarketPremium, WARateS[0:-1])
-		_r = sum(map ( lambda x, y: x * y, _WARateGNC,
-			assetGNC['Total'][0:-1]))
-		_r = _r/assetGNC['Total'][-1] if assetGNC['Total'][-1] != 0 else 0
+		_r = max(WARateS[-1], WARateGC[-1])
 		_WARateGNC.append(_r)
 		return _WARateGNC
 
@@ -694,6 +691,9 @@ class Application:
 		SNCompAssetRem = self.CalcRemaing (assetSNC, SCompAssetRem)
 		WARateSNC = self.WARateSNC(assetSC, assetSNC)
 
+		# Summary the Specified rates
+		WARateS = self.WARateS(assetSC, WARateSC, assetSNC, WARateSNC)
+
 		# Calculate General and Competitive Assets
 		if self.options.Verbose:
 			print "General/Competitive bids are assigned to undersubscribed assets"
@@ -705,7 +705,6 @@ class Application:
 		self.AdjustAllocateAndAccepted(Allocate = allocateGC, VRank = valrank,
 				AmmountRequired = (SNCompAssetRem[-1][0] if
 					SNCompAssetRem[-1][1] == 'under' else 0))
-		WARateS = self.WARateS(assetSC, WARateSC, assetSNC, WARateSNC)
 
 		#Generate Generic asset for Competitive
 		assetGC = self.GenericAssetAssignation(Rem = SNCompAssetRem, Allocate =
@@ -725,7 +724,8 @@ class Application:
 		allocateGNC = self.AllocateGenericNonCompetitive(GCompAssetRem)
 		assetGNC = self.GenericAssetAssignation(Rem = GCompAssetRem, Allocate =
 				allocateGNC)
-		WARateGNC = self.WARateGNC(assetSC, assetSNC, assetGNC, WARateS, MarketPremium)
+		WARateGNC = self.WARateGNC(assetSC, assetSNC, assetGNC, WARateS,
+				WARateGC, MarketPremium)
 		#G177:M177
 		GNComptAssetRem = self.CalcRemaing (assetGNC, GCompAssetRem)
 
