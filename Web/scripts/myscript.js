@@ -46,10 +46,10 @@ dojo.addOnLoad(function() {
 				field : 'curr_upb'
 			});
 			ls.coreLogicCollateralRisk = items.map(extractField, {
-				field : 'CoreLogic Collateral Risk Score'
+				field : 'corelogic_collateral_risk_score'
 			});
 			ls.coreLogicFraudRisk = items.map(extractField, {
-				field : 'CoreLogic Fraud Risk Score'
+				field : 'corelogic_fraud_risk_score'
 			});
 			ls.fico = items.map(extractField, {
 				field : 'fico_score'
@@ -366,7 +366,7 @@ function initFilters() {
 				return (val > obj.min) && (val < obj.max);
 			};
 			var condition = new ls.Condition({
-				field : 'CoreLogic Fraud Risk Score',
+				field : 'corelogic_fraud_risk_score',
 				min : value[0],
 				max : value[1]
 			});
@@ -398,7 +398,7 @@ function initFilters() {
 				return (val > obj.min) && (val < obj.max);
 			};
 			var condition = new ls.Condition({
-				field : 'CoreLogic Collateral Risk Score',
+				field : 'corelogic_collateral_risk_score',
 				min : value[0],
 				max : value[1]
 			});
@@ -844,13 +844,13 @@ function createGrid(dataStore) {
 		'headerStyles' : 'text-align: center;'
 	}, {
 		'name' : ls.labels['CoreLogic Collateral Risk Score'],
-		'field' : 'CoreLogic Collateral Risk Score',
+		'field' : 'corelogic_collateral_risk_score',
 		'width' : 'auto',
 		'cellStyles' : 'text-align: center;',
 		'headerStyles' : 'text-align: center;'
 	}, {
 		'name' : ls.labels['CoreLogic Fraud Risk Score'],
-		'field' : 'CoreLogic Fraud Risk Score',
+		'field' : 'corelogic_fraud_risk_score',
 		'width' : 'auto',
 		'cellStyles' : 'text-align: center;',
 		'headerStyles' : 'text-align: center;'
