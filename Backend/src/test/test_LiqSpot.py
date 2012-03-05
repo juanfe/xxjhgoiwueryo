@@ -210,7 +210,8 @@ class TestApplication:
 		allocateGNC = self.app.AllocateGenericNonCompetitive(GCompAssetRem)
 		assetGNC = self.app.GenericAssetAssignation(Rem = GCompAssetRem, Allocate =
 				                        allocateGNC)
-		WARateGNC = self.app.WARateGNC(assetSC, assetSNC, assetGNC, WARateS, MarketPremium)
+		WARateGNC = self.app.WARateGNC(assetSC, assetSNC, assetGNC, WARateS,
+				WARateGC, MarketPremium)
 		GNComptAssetRem = self.app.CalcRemaing (assetGNC, GCompAssetRem)	
 		WARateTot = self.app.WARateTot(assetSC, assetSNC, assetGC, assetGNC,
 				WARateGNC, WARateSGC)
@@ -251,7 +252,8 @@ class TestApplication:
 		allocateGNC = self.app.AllocateGenericNonCompetitive(GCompAssetRem)
 		assetGNC = self.app.GenericAssetAssignation(Rem = GCompAssetRem, Allocate =
 				                        allocateGNC)
-		WARateGNC = self.app.WARateGNC(assetSC, assetSNC, assetGNC, WARateS, MarketPremium)
+		WARateGNC = self.app.WARateGNC(assetSC, assetSNC, assetGNC, WARateS,
+				WARateGC, MarketPremium)
 		GNComptAssetRem = self.app.CalcRemaing (assetGNC, GCompAssetRem)	
 		WARateTot = self.app.WARateTot(assetSC, assetSNC, assetGC, assetGNC,
 				WARateGNC, WARateSGC)
@@ -294,7 +296,8 @@ class TestApplication:
 		allocateGNC = self.app.AllocateGenericNonCompetitive(GCompAssetRem)
 		assetGNC = self.app.GenericAssetAssignation(Rem = GCompAssetRem, Allocate =
 				                        allocateGNC)
-		WARateGNC = self.app.WARateGNC(assetSC, assetSNC, assetGNC, WARateS, MarketPremium)
+		WARateGNC = self.app.WARateGNC(assetSC, assetSNC, assetGNC, WARateS,
+				WARateGC, MarketPremium)
 		GNComptAssetRem = self.app.CalcRemaing (assetGNC, GCompAssetRem)	
 		WARateTot = self.app.WARateTot(assetSC, assetSNC, assetGC, assetGNC,
 				WARateGNC, WARateSGC)
