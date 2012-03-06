@@ -28,7 +28,6 @@
         "participation" : 10.5,
         "loanId" : "201149778",
         "orderType" : "Noncompetitive",
-        "bidRate" : null,
         "orderTiming": "Day Trade",
         "userId": "other@example.com"
     }
