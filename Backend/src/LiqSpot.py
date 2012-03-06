@@ -21,6 +21,8 @@ class Application:
 	
 		parser.add_option("-b", "--bids", dest="bidsFileName",
 				help="Read the bids information.", metavar="BIDSFILE")
+		parser.add_option("-u", "--users", dest="usersFileName",
+				help="List of users associated in case of a json bid file")
 		parser.add_option("-l", "--loans", dest="loansFilename",
 				help="Read the loan or mortgages information", metavar="LOANFILE")
 		#TODO enable exceptions
@@ -71,7 +73,11 @@ class Application:
 					"separator!")
 		self.TotalLoans = self.TotalLoans + d['Load Amount']
 		self.Loans.append(d)
-	
+
+	def addLoansJson(self, k, lo):
+		#TODO add LoansJson
+		d = {}
+
 	def LoadMortgageOperators(self):
 		fmo = csv.reader(open(self.options.OperatorFilename, "rb"),
 			delimiter=self.options.delimiter, quoting=csv.QUOTE_NONE)
@@ -85,19 +91,33 @@ class Application:
 			sys.exit('File %s, line %d: %s' % (self.options.OperatorFilename, fmo.line_num, e)) 
 	
 	def LoadLoans(self):
-		try:
-			flo = csv.reader(open(self.options.loansFilename, "rb"),
-				delimiter=self.options.delimiter,quoting=csv.QUOTE_NONE)
-		except:
-			sys.exit('There are no parameter -l for the loan file name.')
-		
-		try:
-			idlo = flo.next()
-			for lo in flo:
-				self.addLoans(idlo, lo)
+		fileName, fileExt = os.path.splitext(self.options.loansFilename)
+		if fileExt.lower() == ".json":
+			try:
+				flo = json.loads(open(self.options.loansFilename, "rb").read())
+			except:
+				sys.exit('There are no parameter -l for the loan file name.')
+
+			#try:
+			for k, lo in flo.iteritems():
+				self.addLoansJson(k, lo)
 			self.Loans.append({'MO': 'Total', 'Load Amount': self.TotalLoans})
-		except csv.Error, e:
-			sys.exit('File %s, line %d: %s' % (self.options.loansFilename, flo.line_num, e))
+			#except:
+			#	sys.exit('File %s, line %d: %s' % (self.options.loansFilename, flo.line_num, e))
+		else:
+			try:
+				flo = csv.reader(open(self.options.loansFilename, "rb"),
+					delimiter=self.options.delimiter,quoting=csv.QUOTE_NONE)
+			except:
+				sys.exit('There are no parameter -l for the loan file name.')
+		
+			try:
+				idlo = flo.next()
+				for lo in flo:
+					self.addLoans(idlo, lo)
+				self.Loans.append({'MO': 'Total', 'Load Amount': self.TotalLoans})
+			except csv.Error, e:
+				sys.exit('File %s, line %d: %s' % (self.options.loansFilename, flo.line_num, e))
 
 	def checkBidsColNames(self, idbid):
 		dbid = {"time":"time",
@@ -183,19 +203,31 @@ class Application:
 		self.Bids[id] = dbid
 
 	def LoadBids(self):
-		try:
-			fbids = csv.reader(open(self.options.bidsFileName, "rb"),
-				delimiter=self.options.delimiter)
-		except:
-			sys.exit('There are no parameter -b for the bids file name, or the file format is incorrect.')
+		fileName, fileExt = os.path.splitext(self.options.bidsFileName)
+		if fileExt.lower() == ".json":
+			try:
+				jsonbids = json.loads(open(self.options.bidsFileName, "rb").read())
+			except:
+				sys.exit('There are no parameter -l for the loan file name.')
+
+			#try:
+			for k, jbit in jsonbids.iteritems():
+				self.addBidsJson(k, jbit)
+			self.Loans.append({'MO': 'Total', 'Load Amount': self.TotalLoans})
+		else:
+			try:
+				fbids = csv.reader(open(self.options.bidsFileName, "rb"),
+					delimiter=self.options.delimiter)
+			except:
+				sys.exit('There are no parameter -b for the bids file name, or the file format is incorrect.')
 		
-		try:
-			idbid = fbids.next()
-			self.checkBidsColNames(idbid)
-			for b in fbids:
-				self.addBids(idbid, b)
-		except csv.Error, e:
-			sys.exit('File %s, line %d: %s' % (self.options.bidsFileName, fbids.line_num, e))
+			try:
+				idbid = fbids.next()
+				self.checkBidsColNames(idbid)
+				for b in fbids:
+					self.addBids(idbid, b)
+			except csv.Error, e:
+				sys.exit('File %s, line %d: %s' % (self.options.bidsFileName, fbids.line_num, e))
 
 	def checkExceptionsColNames(self, iexc):
 		exc = {"Bid ID": "id",
