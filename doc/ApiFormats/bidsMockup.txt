@@ -5,6 +5,7 @@ specified in the following structure:
 {
     bidId : { 
         bidId : string,
+        date : YYYY-MM-DD*,
         time : hh:mm:ss*,
         bidType : string*,
         participation : number*,
@@ -17,6 +18,7 @@ specified in the following structure:
 }
 
 * Notes on field values:
+date: Date following the (year, month, day) calendar date ISO 8601 format
 time: Time following the ISO 8601 format (24-hour clock system)
     (see http://en.wikipedia.org/wiki/ISO_8601)
 bidType: Valid values are 'General' or 'Specified

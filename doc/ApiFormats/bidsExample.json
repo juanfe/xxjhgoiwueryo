@@ -1,7 +1,8 @@
 {
     509 : { 
         bidId : "509",
-        time : 08:56:36,
+        date : 2012-01-12,
+        time : 15:00:00,
         bidType : "Specified",
         participation : 20,
         loanId : "201149912",
@@ -12,7 +13,8 @@
     },
     520 : { 
         bidId : "520",
-        time : 15:00:00,
+        date : 2012-01-12,
+        time : 17:06:12,
         bidType : "Specified",
         participation : 20,
         loanId : "201149257",
@@ -23,7 +25,8 @@
     },
     521 : { 
         bidId : "521",
-        time : 17:06:12,
+        date : 2012-01-13,
+        time : 08:56:36,
         bidType : "Specified",
         participation : 10.5,
         loanId : "201149778",
