@@ -1,20 +1,25 @@
+The bids exchange file will contain an object with the bids as properties,
+using as key the bid ID, and as value the actual bid with the properties
+specified in the following structure:
+
 {
     bidId : { 
-                bidId : string,
-                time : hh:mm:ss*,
-                bidType : string*,
-                participation : number,
-                loanId : string,
-                orderType : string*,
-                bidRate : number,
-                orderTiming: string,
-                userId: string
-            }
+        bidId : string,
+        time : hh:mm:ss*,
+        bidType : string*,
+        participation : number,
+        loanId : string,
+        orderType : string*,
+        bidRate : number,
+        orderTiming: string,
+        userId: string
+    }
 }
 
 * Notes on field values:
-time : Time following the ISO 8601 format (24-hour clock system) (see http://en.wikipedia.org/wiki/ISO_8601)
-bidType: Valid values are 'General' or 'Specified'
+time : Time following the ISO 8601 format (24-hour clock system)
+    (see http://en.wikipedia.org/wiki/ISO_8601)
+bidType: Valid values are 'General' or 'Specified
 orderType: Valid values are 'Competitive' or 'Noncompetitive'
 orderTiming: Valid values are 'Auto' or 'Day Trade'
 

@@ -1,0 +1,12 @@
+The loan exchange file will contain an object with the loans as properties,
+using as key the loan ID, and as value the actual loan with the properties
+specified in the following structure:
+
+{
+    loanId : { 
+        loanId : string,
+        loanAmount : number
+    }
+}
+
+* Notes on field values:
