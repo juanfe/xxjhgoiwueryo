@@ -1,10 +1,10 @@
 {
-    name@example.com : { 
-        userId : "name@example.com",
-        fundsAvailable :  300000 
+    "name@example.com" : { 
+        "userId" : "name@example.com",
+        "fundsAvailable" :  300000 
     },
-    other@example.com : { 
-        userId : "other@example.com",
-        fundsAvailable :  187500 
+    "other@example.com" : { 
+        "userId" : "other@example.com",
+        "fundsAvailable" :  187500 
     },
 }
