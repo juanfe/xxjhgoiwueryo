@@ -1,35 +1,35 @@
 {
-    509 : { 
-        bidId : "509",
-        time : 08:56:36,
-        bidType : "Specified",
-        participation : 20,
-        loanId : "201149912",
-        orderType : "Competitive",
-        bidRate : 3,
-        orderTiming: "Day Trade",
-        userId: "other@example.com"
+    "509" : { 
+        "bidId" : "509",
+        "time" : "08:56:36",
+        "bidType" : "Specified",
+        "participation" : 20,
+        "loanId" : "201149912",
+        "orderType" : "Competitive",
+        "bidRate" : 3,
+        "orderTiming": "Day Trade",
+        "userId": "other@example.com"
     },
-    520 : { 
-        bidId : "520",
-        time : 15:00:00,
-        bidType : "Specified",
-        participation : 20,
-        loanId : "201149257",
-        orderType : "Competitive",
-        bidRate : 2.125,
-        orderTiming: "Day Trade",
-        userId: "name@example.com"
+    "520" : { 
+        "bidId" : "520",
+        "time" : "15:00:00",
+        "bidType" : "Specified",
+        "participation" : 20,
+        "loanId" : "201149257",
+        "orderType" : "Competitive",
+        "bidRate" : 2.125,
+        "orderTiming": "Day Trade",
+        "userId": "name@example.com"
     },
-    521 : { 
-        bidId : "521",
-        time : 17:06:12,
-        bidType : "Specified",
-        participation : 10.5,
-        loanId : "201149778",
-        orderType : "Noncompetitive",
-        bidRate : ,
-        orderTiming: "Day Trade",
-        userId: "other@example.com"
+    "521" : { 
+        "bidId" : "521",
+        "time" : "17:06:12",
+        "bidType" : "Specified",
+        "participation" : 10.5,
+        "loanId" : "201149778",
+        "orderType" : "Noncompetitive",
+        "bidRate" : null,
+        "orderTiming": "Day Trade",
+        "userId": "other@example.com"
     }
 }
