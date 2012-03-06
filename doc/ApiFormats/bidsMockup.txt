@@ -7,10 +7,10 @@ specified in the following structure:
         bidId : string,
         time : hh:mm:ss*,
         bidType : string*,
-        participation : number,
+        participation : number*,
         loanId : string,
         orderType : string*,
-        bidRate : number,
+        bidRate : number*,
         orderTiming: string,
         userId: string
     }
@@ -20,7 +20,9 @@ specified in the following structure:
 time: Time following the ISO 8601 format (24-hour clock system)
     (see http://en.wikipedia.org/wiki/ISO_8601)
 bidType: Valid values are 'General' or 'Specified
+participation: as percentage (e.g 20%)
 orderType: Valid values are 'Competitive' or 'Noncompetitive'
+bidRate: as a return (e.g 3%)
 orderTiming: Valid values are 'Auto' or 'Day Trade'
 
 
