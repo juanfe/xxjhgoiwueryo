@@ -4,9 +4,10 @@ specified in the following structure:
 
 {
     userId : { 
-        userId : string,
+        userId : string*,
         fundsAvailable : number
     }
 }
 
 * Notes on field values:
+userId: Equal to the user's email

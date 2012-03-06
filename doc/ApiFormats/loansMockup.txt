@@ -4,9 +4,10 @@ specified in the following structure:
 
 {
     loanId : { 
-        loanId : string,
+        loanId : string*,
         loanAmount : number
     }
 }
 
 * Notes on field values:
+loanId: Equal to the loan's collateral_key
