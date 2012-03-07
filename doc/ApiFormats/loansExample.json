@@ -1,14 +1,17 @@
 {
     "201149912" : { 
         "loanId" : "201149912",
+        "mortgageOriginator" : "ABCD",
         "loanAmount" :  318725 
     },
     "201149257" : { 
         "loanId" : "201149257",
+        "mortgageOriginator" : "BCDE",
         "loanAmount" :  375685 
     },
     "201149778" : { 
         "loanId" : "201149778",
+        "mortgageOriginator" : "ABCD",
         "loanAmount :  479875
     }
 }
