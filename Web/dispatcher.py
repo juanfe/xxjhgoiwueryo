@@ -270,6 +270,7 @@ class BidWindow():
                 # Inserting new object into the accumulation object
                 bidsObj[bidId] = bidObj
             # Dumping to JSON the accumulation object
+            self.response.headers['Content-Type'] = 'application/json'
             self.response.out.write(json.dumps(bidsObj))
             
     class Loans(webapp.RequestHandler):
@@ -290,7 +291,9 @@ class BidWindow():
                     # Inserting new object into the accumulation object
                     loansObj[loanId] = loanObj
             # Dumping to JSON the accumulation object
+            self.response.headers['Content-Type'] = 'application/json'
             self.response.out.write(json.dumps(loansObj))
+            
     class Users(webapp.RequestHandler):
         def get(self):
             usersObj = {}
@@ -307,6 +310,7 @@ class BidWindow():
                     # Inserting new object into the accumulation object
                     usersObj[userId] = userObj
             # Dumping to JSON the accumulation object
+            self.response.headers['Content-Type'] = 'application/json'
             self.response.out.write(json.dumps(usersObj))
        
 #################################################################
