@@ -114,7 +114,7 @@ class BidsRest(webapp.RequestHandler):
             else:
                 loanQuery = loansModel.loansModel.all().filter('collateral_key =', key)
                 loan = loanQuery.get()
-                status = statusChoices[random.randint(0,len(statusChoices)-1)]
+                status = random.choice(statusChoices)
                 Bid(parent = dbUser,
                           user = dbUser,
                           loan = loan,
@@ -293,7 +293,21 @@ class BidWindow():
             self.response.out.write(json.dumps(loansObj))
     class Users(webapp.RequestHandler):
         def get(self):
-            self.response.out.write('Users')
+            usersObj = {}
+            for bid in Bid.all():
+                user = bid.user
+                userId = user.key().id_or_name()
+                if (userId not in usersObj):
+                    userObj = {}
+                    # Extracting properties
+                    fundsAvailable = user.fundsAvailable
+                    # Passing properties to the obj
+                    userObj['userId'] = userId
+                    userObj['fundsAvailable'] = fundsAvailable
+                    # Inserting new object into the accumulation object
+                    usersObj[userId] = userObj
+            # Dumping to JSON the accumulation object
+            self.response.out.write(json.dumps(usersObj))
        
 #################################################################
 
