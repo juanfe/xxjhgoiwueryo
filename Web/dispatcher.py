@@ -235,18 +235,56 @@ class Labels(webapp.RequestHandler):
         
     def getModelPropertiesFieldToVerboseNameDict(self, model):
         propertiesFieldToVerboseNamesDict = {}
-        for field, modelProperty in self.getModelPropertiesDict(model).iteritems():
+        for field, modelProperty in model.properties().iteritems():
             propertiesFieldToVerboseNamesDict[field] = modelProperty.verbose_name
         return propertiesFieldToVerboseNamesDict
-    
-    def getModelPropertiesDict(self, model):
-        return model.properties()
+
+class BidWindow():
+    class Bids(webapp.RequestHandler):
+        def get(self):
+            bidsObj = {}
+            for bid in Bid.all():
+                bidObj = {}
+                # Extracting properties
+                bidId = bid.key().id()
+                time = bid.createdAt.strftime("%H:%M:%S")
+                date = bid.createdAt.strftime("%Y-%m-%d")
+                participation = bid.participation
+                loanId = bid.loan.key().id_or_name()
+                bidRate = bid.bidrate
+                orderType = 'Competitive' if (bidRate > 0) else 'Noncompetitive'
+                userId = bid.user.key().id_or_name()
+                # Passing properties to the obj
+                bidObj['bidId'] = bidId
+                bidObj['date'] = date
+                bidObj['time'] = time
+                bidObj['bidType'] = 'Specified'
+                bidObj['participation'] = participation
+                bidObj['assetSubset'] = 'Loan'
+                bidObj['loanId'] = loanId
+                bidObj['orderType'] = orderType
+                if (orderType == 'Competitive'):
+                    bidObj['bidRate'] = bidRate
+                bidObj['orderTiming'] = 'Day Trade'
+                bidObj['userId'] = userId
+                # Inserting new object into the accumulation object
+                bidsObj[bidId] = bidObj
+            self.response.out.write(json.dumps(bidsObj))
             
+    class Loans(webapp.RequestHandler):
+        def get(self):
+            self.response.out.write('Loans')
+    class Users(webapp.RequestHandler):
+        def get(self):
+            self.response.out.write('Users')
        
 #################################################################
 
 application = webapp.WSGIApplication(
                                      [('/mybids', MyBids),
+                                      ('/bidWindow/bids', BidWindow.Bids),
+                                      ('/bidWindow/loans', BidWindow.Loans),
+                                      ('/bidWindow/users', BidWindow.Users),
                                       ('/bids', BidsRest),
                                       ('/home', Home),
                                       ('/logout', Logout),
