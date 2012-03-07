@@ -246,7 +246,7 @@ class BidWindow():
             for bid in Bid.all():
                 bidObj = {}
                 # Extracting properties
-                bidId = bid.key().id()
+                bidId = bid.key().id_or_name()
                 time = bid.createdAt.strftime("%H:%M:%S")
                 date = bid.createdAt.strftime("%Y-%m-%d")
                 participation = bid.participation
@@ -269,11 +269,28 @@ class BidWindow():
                 bidObj['userId'] = userId
                 # Inserting new object into the accumulation object
                 bidsObj[bidId] = bidObj
+            # Dumping to JSON the accumulation object
             self.response.out.write(json.dumps(bidsObj))
             
     class Loans(webapp.RequestHandler):
         def get(self):
-            self.response.out.write('Loans')
+            loansObj = {}
+            for bid in Bid.all():
+                loan = bid.loan
+                loanId = loan.key().id_or_name()
+                if (loanId not in loansObj):
+                    loanObj = {}
+                    # Extracting properties
+                    mo = loan.customer_account_key
+                    loanAmount = loan.curr_upb
+                    # Passing properties to the obj
+                    loanObj['loanId'] = loanId
+                    loanObj['mortgageOriginator'] = mo
+                    loanObj['loanAmount'] = loanAmount
+                    # Inserting new object into the accumulation object
+                    loansObj[loanId] = loanObj
+            # Dumping to JSON the accumulation object
+            self.response.out.write(json.dumps(loansObj))
     class Users(webapp.RequestHandler):
         def get(self):
             self.response.out.write('Users')
