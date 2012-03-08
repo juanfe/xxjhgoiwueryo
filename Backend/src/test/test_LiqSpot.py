@@ -29,8 +29,10 @@ class TestApplication:
 		flo = csv.reader(open(self.app.options.loansFilename, "rb"),
 				delimiter=self.app.options.delimiter,quoting=csv.QUOTE_NONE)
 		idlo = flo.next()
+		idlo.append("Rate")
 		assert idlo == p
 		lo = flo.next()
+		lo.append(str(float(self.app.options.PriorRate)/100))
 		assert lo == q
 		self.app.addLoans(idlo, lo)
 		assert self.app.Loans == r
@@ -109,6 +111,7 @@ class TestApplication:
 		assetSC = self.app.SpecifiedAssetAssignation(Competitive = True)
 		WARateSC = self.app.WARate(assetSC)
 		SCompAssetRem = self.app.CalcRemaing (assetSC, self.app.GetLoans())
+		self.app.CalcLoansRatesSNC(assetSC)
 		assetSNC = self.app.SpecifiedAssetAssignation(Competitive = False)
 		WARateSNC = self.app.WARateSNC(assetSC, assetSNC)
 		assert WARateSNC == p
@@ -124,6 +127,7 @@ class TestApplication:
 		assetSC = self.app.SpecifiedAssetAssignation(Competitive = True)
 		WARateSC = self.app.WARate(assetSC)
 		SCompAssetRem = self.app.CalcRemaing (assetSC, self.app.GetLoans())
+		self.app.CalcLoansRatesSNC(assetSC)
 		assetSNC = self.app.SpecifiedAssetAssignation(Competitive = False)
 		SNCompAssetRem = self.app.CalcRemaing (assetSNC, SCompAssetRem)
 		WARateSNC = self.app.WARateSNC(assetSC, assetSNC)
@@ -152,6 +156,7 @@ class TestApplication:
 		assetSC = self.app.SpecifiedAssetAssignation(Competitive = True)
 		WARateSC = self.app.WARate(assetSC)
 		SCompAssetRem = self.app.CalcRemaing (assetSC, self.app.GetLoans())
+		self.app.CalcLoansRatesSNC(assetSC)
 		assetSNC = self.app.SpecifiedAssetAssignation(Competitive = False)
 		SNCompAssetRem = self.app.CalcRemaing (assetSNC, SCompAssetRem)
 		WARateSNC = self.app.WARateSNC(assetSC, assetSNC)
@@ -186,6 +191,7 @@ class TestApplication:
 		assetSC = self.app.SpecifiedAssetAssignation(Competitive = True)
 		WARateSC = self.app.WARate(assetSC)
 		SCompAssetRem = self.app.CalcRemaing (assetSC, self.app.GetLoans())
+		self.app.CalcLoansRatesSNC(assetSC)
 		assetSNC = self.app.SpecifiedAssetAssignation(Competitive = False)
 		SNCompAssetRem = self.app.CalcRemaing (assetSNC, SCompAssetRem)
 		WARateSNC = self.app.WARateSNC(assetSC, assetSNC)
@@ -228,6 +234,7 @@ class TestApplication:
 		assetSC = self.app.SpecifiedAssetAssignation(Competitive = True)
 		WARateSC = self.app.WARate(assetSC)
 		SCompAssetRem = self.app.CalcRemaing (assetSC, self.app.GetLoans())
+		self.app.CalcLoansRatesSNC(assetSC)
 		assetSNC = self.app.SpecifiedAssetAssignation(Competitive = False)
 		SNCompAssetRem = self.app.CalcRemaing (assetSNC, SCompAssetRem)
 		WARateSNC = self.app.WARateSNC(assetSC, assetSNC)
@@ -272,6 +279,7 @@ class TestApplication:
 		assetSC = self.app.SpecifiedAssetAssignation(Competitive = True)
 		WARateSC = self.app.WARate(assetSC)
 		SCompAssetRem = self.app.CalcRemaing (assetSC, self.app.GetLoans())
+		self.app.CalcLoansRatesSNC(assetSC)
 		assetSNC = self.app.SpecifiedAssetAssignation(Competitive = False)
 		SNCompAssetRem = self.app.CalcRemaing (assetSNC, SCompAssetRem)
 		WARateSNC = self.app.WARateSNC(assetSC, assetSNC)
