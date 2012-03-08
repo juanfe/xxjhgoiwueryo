@@ -1,0 +1,32 @@
+{
+	"1" : {
+        "loanId" : "1",
+		"mortgageOrigintor" : "ABC Mortgage",
+        "loanAmount" :  318725
+	},
+	"2" : {
+        "loanId" : "2",
+        "mortgageOrigintor" : "ABC Mortgage",
+        "loanAmount" :  375685
+	},
+	"3" : {
+        "loanId" : "3",
+        "mortgageOrigintor" : "Prime Lending",
+        "loanAmount" :  479875
+	},
+	"4" : {
+        "loanId" : "4",
+        "mortgageOrigintor" : "Prime Lending",
+        "loanAmount" :  525400
+	},
+	"5" : {
+        "loanId" : "5",
+        "mortgageOrigintor" : "Best Loans Inc",
+        "loanAmount" :  515425
+	},
+	"6" : {
+        "loanId" : "6",
+        "mortgageOrigintor" : "Integrity Lending",
+        "loanAmount" :  485000
+	}
+}
