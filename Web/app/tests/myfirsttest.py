@@ -31,8 +31,15 @@ class MyFirstTest(unittest.TestCase):
     def tearDown(self):            
         self.testbed.deactivate()
 
-    def testFetchRootURL(self):
-
-        result = self.testapp.get("/")
-        self.assertEqual(result.status, "302 Moved Temporarily")
+    def testEmptyObjWithNoBids(self):
+        result = self.testapp.get("/bidWindow/bids")
+        self.assertEqual(result.body, "{}")
+    
+    def testEmptyObjWithNoLoans(self):
+        result = self.testapp.get("/bidWindow/loans")
+        self.assertEqual(result.body, "{}")
+        
+    def testEmptyObjWithNoUsers(self):
+        result = self.testapp.get("/bidWindow/users")
+        self.assertEqual(result.body, "{}")
         
