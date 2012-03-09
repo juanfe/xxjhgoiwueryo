@@ -49,6 +49,9 @@ class Application:
 				dest="AllocAcceptException", action="store_true",
 				help="Excetion in the calculation of Allocate and Accepted " +
 				"in General/Competitive bids.", default = False)
+		parser.add_option("-R", "--priordayrateused", dest="PriorRate",
+				default= 0, help="Prior day rate used in the Specified/Non " +
+				"Comptetitive bids")
 		parser.usage = "usage: %prog [options arg] [-v]"
 		return parser
 	
@@ -113,7 +116,9 @@ class Application:
 		
 			try:
 				idlo = flo.next()
+				idlo.append("Rate")
 				for lo in flo:
+					lo.append(str(float(self.options.PriorRate)/100))
 					self.addLoans(idlo, lo)
 				self.Loans.append({'MO': 'Total', 'Load Amount': self.TotalLoans})
 			except csv.Error, e:
@@ -370,10 +375,14 @@ class Application:
 				assetSC['Total'][0:-1], WARateSC[0:-1],
 				assetSNC['Total'][0:-1], WARateSNC[0:-1])
 		d = map (lambda x, y: y if x else (0 if x == 0 else None), c, WARateSNC[0:-1])  
-		_WARateS = map (lambda x, asc, wsc, asnc, wsnc:
-				(asc*wsc + asnc*wsnc)/(asc + asnc) if x == 0 else (x if 
-					x != None else 0), d, assetSC['Total'][0:-1], WARateSC[0:-1],
-				assetSNC['Total'][0:-1], WARateSNC[0:-1])
+		try:
+			_WARateS = map (lambda x, asc, wsc, asnc, wsnc:
+					(asc*wsc + asnc*wsnc)/(asc + asnc) if x == 0 else (x if 
+						x != None else 0), d, assetSC['Total'][0:-1], WARateSC[0:-1],
+					assetSNC['Total'][0:-1], WARateSNC[0:-1])
+		except:
+			sys.exit("Error: Try with a non cero rate in the --priordayrateused " +
+					"parameter") 	
 		_WARateS.append((assetSC['Total'][-1]*WARateSC[-1] +
 				assetSNC['Total'][-1]*WARateSNC[-1])/
 				(assetSC['Total'][-1] + assetSNC['Total'][-1])
@@ -461,6 +470,50 @@ class Application:
 			print "Remained need"
 			print calc
 		return calc
+
+	def GetMaxRateMOAccepted(self, asset, i):
+		MO = self.Loans[i]['MO']
+		l, m, j = [], 0, 0
+		for lo in self.Loans:
+			if i != j and MO == lo['MO']:
+				l.append(j)
+			j += 1
+
+		if l != []:
+			for k, a in asset.iteritems():
+				for lo in l:
+					if a[lo] > 0 and k != 'Total':
+						m = max(self.Bids[k]['bidrate'] if self.Bids[k]['bidrate'] != '' else 0, m)
+		return m
+
+	def GetMaxRateAccepted(self, asset):
+		m = 0
+		for k, a in asset.iteritems():
+			for lo in range(len(self.Loans)-1):
+				if a[lo] > 0 and k != 'Total':
+					m = max(self.Bids[k]['bidrate'] if self.Bids[k]['bidrate'] != '' else 0, m)
+		return m
+
+	def CalcLoansRatesSNC(self, assetSC):
+		i = 0
+		for v in self.Loans[:-1]:
+			m = 0
+			previousRate = v['Rate']
+			for k, a in assetSC.iteritems():
+				if a[i] > 0 and k != 'Total':
+					m = max(self.Bids[k]['bidrate'] if self.Bids[k]['bidrate'] != '' else 0, m)
+			if m == 0:
+				m = self.GetMaxRateMOAccepted(assetSC, i)
+			if m == 0:
+				m = self.GetMaxRateAccepted(assetSC)
+			#TODO see the General Competitive case
+			#if m == 0:
+			#	m = self.GetMaxRateGCAccepted()
+			if m != 0:
+				self.Loans[i]['Rate'] = m
+			else:
+				self.Loans[i]['Rate'] =  previousRate
+			i += 1
 
 	def AllocateGenericCompetitive(self, Rank):
 		_AssetAlloAndAccept = {}
@@ -717,6 +770,7 @@ class Application:
 		SCompAssetRem = self.CalcRemaing (assetSC, self.GetLoans())
 
 		# Calculate Specified and Noncompetitive Assets
+		self.CalcLoansRatesSNC(assetSC)
 		if self.options.Verbose:
 			print "Assets are assigned Specified/Non Competitive bids"
 		assetSNC = self.SpecifiedAssetAssignation(Competitive = False)

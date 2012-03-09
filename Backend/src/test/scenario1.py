@@ -1,14 +1,15 @@
 import datetime
 
 argument = ['LiqSpot.py', '-b', '../../sample/bids1.csv', '-l', '../../sample/loans1.csv',
-		'-d', ',', '-M', '../mo.csv', '-o', 'test.csv']
+		'-d', ',', '-M', '../mo.csv', '-o', 'test.csv', '-R', 3.5]
 
 scenario = {'test_init' : '../mo.csv',
 		'test_LoadMortgageOperators' :
 			['ABC Mortgage',  'Prime Lending', 'Best Loans Inc', 'Integrity Lending'],
 		'test_addLoans' : { 'p' : ['MO', 'Load Amount', 'Rate'],
 			'q' : ['ABC Mortgage', '318725', '0.035'],
-			'r' :  [{'MO': 'ABC Mortgage', 'Load Amount': 318725.0, 'Rate': 0.035}],
+			'r' :  [{'MO': 'ABC Mortgage', 'Load Amount': 318725.0,
+				'Rate': 0.035}],
 			},
 		'test_LoadLoans' :
 			[{'MO': 'ABC Mortgage', 'Load Amount': 318725.0, 'Rate': 0.035},
@@ -16,7 +17,8 @@ scenario = {'test_init' : '../mo.csv',
 				{'MO': 'Prime Lending', 'Load Amount': 479875.0, 'Rate': 0.035},
 				{'MO': 'Prime Lending', 'Load Amount': 525400.0, 'Rate': 0.035},
 				{'MO': 'Best Loans Inc', 'Load Amount': 515425.0, 'Rate': 0.035},
-				{'MO': 'Integrity Lending', 'Load Amount': 485000.0, 'Rate': 0.035},
+				{'MO': 'Integrity Lending', 'Load Amount': 485000.0,
+					'Rate': 0.035},
 				{'MO': 'Total', 'Load Amount': 2700110.0}],
 		'test_LoadBids' : { 'p' : 20,
 			'q' : '1104154',
@@ -52,7 +54,7 @@ scenario = {'test_init' : '../mo.csv',
 		'test_CalcRemaing' : [(-95617.5, 'over'), (150274.0, 'under'),
 				(383900.0, 'under'), (0, None), (-103085.0, 'over'),
 				(485000.0, 'under'), (820471.5, 'under')],
-		'test_WARateSNC' : [0.035, 0.035, 0.035, 0.035, 0.035, 0.035, 0],
+		'test_WARateSNC' : [0.035, 0.03125, 0.03, 0.06, 0.03625, 0.06, 0],
 		'test_WARateS' : { 'p': [0.028269230769230772, 0.030000000000000002,
 					0.03, 0.04025, 0.025625, 0, 0.031043944088185043],
 				'q': {'Total': {'aggregate': 0, 'allocated': 0,
