@@ -5,7 +5,7 @@ from optparse import OptionParser
 from datetime import datetime
 from copy import deepcopy
 
-class Application:
+class LiqEngine:
 	def __init__(self):
 		self.Mo = []
 		self.Loans = []
@@ -127,6 +127,16 @@ class Application:
 				self.Loans.append({'MO': 'Total', 'Load Amount': self.TotalLoans})
 			except csv.Error, e:
 				sys.exit('File %s, line %d: %s' % (self.options.loansFilename, flo.line_num, e))
+
+	def setLoans(Lo):
+		try:
+			tot =  0
+			for l in Lo:
+				tot += l['Load Amount']
+				l['Rate'] = 0
+			Lo.append({'MO': 'Total', 'Load Amount': tot})
+		except:
+			sys.exit('There are an error in %s'%(Lo))
 
 	def checkUsersColNames(self, iduser):
 		duser = {"userid":"userid",
@@ -872,5 +882,5 @@ class Application:
 		self.Calc()
 
 if __name__ == '__main__':
-	app = Application()
+	app = LiqEngine()
 	sys.exit(app.main(*sys.argv))
