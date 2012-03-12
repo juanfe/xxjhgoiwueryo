@@ -260,6 +260,13 @@ class LiqEngine:
 		except csv.Error, e:
 			sys.exit('File %s, line %d: %s' % (self.options.usersFileName, fusers.line_num, e))
 
+	def setUsers(self, Users):
+		try:
+			for u in Users:
+				self.Users[u['User Id']] = {'funds': u['Funds available']} 
+		except:
+			 sys.exit('Users format error in %s'%(Users))
+
 	def LoadBids(self):
 		fileName, fileExt = os.path.splitext(self.options.bidsFileName)
 		if fileExt.lower() == ".json":
