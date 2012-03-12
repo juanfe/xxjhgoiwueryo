@@ -133,13 +133,13 @@ class LiqEngine:
 			tot =  0
 			self.LoanIndex = []
 			for l in Lo:
-				tot += l['Load Amount']
+				tot += l['loanAmount']
 				l['Rate'] = 0
-				self.LoanIndex.append(l['Loand Id'])
+				self.LoanIndex.append(l['loanId'])
 				del(l['Loand Id'])
-				l['MO'] = l['Mortgage Operator']
-				del(l['Mortgage Operator'])
-			Lo.append({'MO': 'Total', 'Load Amount': tot})
+				l['MO'] = l['mortgageOriginator']
+				del(l['mortgageOriginator'])
+			Lo.append({'MO': 'Total', 'loanAmount': tot})
 			self.Loans = Lo
 		except:
 			sys.exit('There are an error in %s'%(Lo))
@@ -263,7 +263,7 @@ class LiqEngine:
 	def setUsers(self, Users):
 		try:
 			for u in Users:
-				self.Users[u['User Id']] = {'funds': u['Funds available']} 
+				self.Users[u['userId']] = {'funds': u['fundsAvailable']} 
 		except:
 			 sys.exit('Users format error in %s'%(Users))
 
