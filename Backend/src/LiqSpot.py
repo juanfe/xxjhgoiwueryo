@@ -94,6 +94,9 @@ class Application:
 		except csv.Error, e:
 			sys.exit('File %s, line %d: %s' % (self.options.OperatorFilename, fmo.line_num, e)) 
 	
+	def setMortgageOperators(Mo):
+		self.Mo = Mo
+
 	def LoadLoans(self):
 		fileName, fileExt = os.path.splitext(self.options.loansFilename)
 		if fileExt.lower() == ".json":
@@ -796,13 +799,6 @@ class Application:
 			print valsRate
 
 	def LoadAsConsole(self):
-		self.LoadMortgageOperators()
-		self.LoadLoans()
-		self.LoadUsers()
-		self.LoadBids()
-		self.LoadExceptions()
-
-	def LoadAsModule(self):
 		self.LoadMortgageOperators()
 		self.LoadLoans()
 		self.LoadUsers()
