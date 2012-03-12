@@ -10,6 +10,7 @@ class Application:
 		self.Mo = []
 		self.Loans = []
 		self.TotalLoans = 0
+		self.Users = {}
 		self.Bids = {}
 		self.Exceptions = []
 		parser = self.ParseArg()
@@ -124,6 +125,17 @@ class Application:
 			except csv.Error, e:
 				sys.exit('File %s, line %d: %s' % (self.options.loansFilename, flo.line_num, e))
 
+	def checkUsersColNames(self, iduser):
+		duser = {"userid":"userid",
+				"funds available":"funds"}
+		for u in iduser:
+			try:
+				p = iduser.index(u)
+				iduser[p] = duser[u.lower()]	
+			except:
+				sys.exit('The column %s does not match witch the format' % (u) )
+
+
 	def checkBidsColNames(self, idbid):
 		dbid = {"time":"time",
 				"bidid":"id",
@@ -136,8 +148,8 @@ class Application:
 				"mo if applicable":"mo",
 				"order type":"competitive",
 				"if competitive, bid rate":"bidrate",
-				"order timing":"ordertiming",
-				"funds available":"funds",
+				#"funds available":"funds",
+				"userid":"userid",
 				"if auto, date/time order placed":"dateorder",
 				"id":"id",
 				"type":"specified",
@@ -178,10 +190,11 @@ class Application:
 					"field and decimal expressions. Use '.' as decimal " +
 					"separator!")
 
+	def cleanUserData(self, duser):
+		duser['funds'] = self.PriceToFloat(duser['funds'])
+	
 	def cleanBidData(self, dbid):
-		price = ['aggregate', 'funds']	
-		for p in price:
-			dbid[p] = self.PriceToFloat(dbid[p])
+		dbid['aggregate'] = self.PriceToFloat(dbid['aggregate'])
 		rates = ['genrate','sperate', 'bidrate']
 		for r in rates:
 			dbid[r] = self.RateToFloat(dbid[r])
@@ -195,10 +208,17 @@ class Application:
 		else:
 			dbid['specified'] = False
 
-		#TODO add the today or the file date to the date
+		#TODO add today or the file date to the date
 		dbid['time'] = datetime.strptime(dbid['time'], '%I:%M:%S %p')
 		if dbid['dateorder'] != '':
 			dbid['dateorder'] = datetime.strptime(dbid['dateorder'], '%m/%d/%y %I:%M %p')
+
+	def addUsers(self, iduser, u):
+		duser = dict(zip(iduser, u))
+		id = duser['userid']
+		del(duser['userid'])
+		self.cleanUserData(duser)
+		self.Users[id] = duser
 
 	def addBids(self, idbid, b):
 		dbid = dict(zip(idbid, b))
@@ -206,6 +226,21 @@ class Application:
 		del(dbid["id"])
 		self.cleanBidData(dbid)
 		self.Bids[id] = dbid
+
+	def LoadUsers(self):
+		try:
+			fusers = csv.reader(open(self.options.usersFileName, "rb"),
+				delimiter=self.options.delimiter)
+		except:
+			sys.exit('There are no parameter -u for the user file name, or the file format is incorrect.')
+		
+		try:
+			iduser = fusers.next()
+			self.checkUsersColNames(iduser)
+			for u in fusers:
+				self.addUsers(iduser, u)
+		except csv.Error, e:
+			sys.exit('File %s, line %d: %s' % (self.options.usersFileName, fusers.line_num, e))
 
 	def LoadBids(self):
 		fileName, fileExt = os.path.splitext(self.options.bidsFileName)
@@ -756,12 +791,20 @@ class Application:
 			print asset['Total'],
 			print valsRate
 
-	def main(self, *args):
+	def LoadAsConsole(self):
 		self.LoadMortgageOperators()
 		self.LoadLoans()
 		self.LoadBids()
 		self.LoadExceptions()
 
+	def LodAsModule(self):
+		self.LoadMortgageOperators()
+		self.LoadLoans()
+		self.LoadUsers()
+		self.LoadBids()
+		self.LoadExceptions()
+
+	def Calc(self):
 		# Calculate Specified and Competitive Assets
 		if self.options.Verbose:
 			print "Assets are assigned Specified/Competitive bids"
@@ -822,6 +865,10 @@ class Application:
 				WARateTot, GNComptAssetRem)
 		AllocRates = self.SumRateAllocation( asset, assetSNC, ratesGC, WARateGNC)
 		self.PrintSummary(asset, AllocRates)
+
+def main(self, *args):
+	self.LoadAsConsole()
+	self.Calc()
 
 if __name__ == '__main__':
 	app = Application()
