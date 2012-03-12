@@ -161,7 +161,7 @@ class Application:
 				"mo":"mo",
 				"competitive":"competitive",
 				"bidrate":"bidrate",
-				"ordertiming":"ordertiming",
+				"order timing":"ordertiming",
 				"funds":"funds",
 				"dateorder":"dateorder"}
 
@@ -797,7 +797,7 @@ class Application:
 		self.LoadBids()
 		self.LoadExceptions()
 
-	def LodAsModule(self):
+	def LoadAsModule(self):
 		self.LoadMortgageOperators()
 		self.LoadLoans()
 		self.LoadUsers()
