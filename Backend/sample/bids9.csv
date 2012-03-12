@@ -1,21 +1,21 @@
-time,bidID,Bid Type,if general: Aggregate $,"if general, max % per asset","if specified, bid %","if specified, loan or MO",Loan # if applicable,MO if applicable,order type,"if competitive, bid rate",order timing,Funds available,"If auto, date/time order placed"
-3:00:00 PM,1104134,General," $500,000.00 ",10%,,,,,Noncompetitive,3.000%,Auto," $187,500.00 ",12/15/11 12:53 PM
-3:00:00 PM,1104143,Specified," $500,000.00 ",20%,20%,Loan,1,,Noncompetitive,2.875%,Auto," $500,000.00 ",12/20/11 8:43 AM
-3:00:00 PM,1104154,General," $100,000.00 ",10%,,,,,Noncompetitive,2.000%,Auto," $185,000.00 ",1/5/12 9:16 AM
-3:00:00 PM,1104152,Specified," $100,000.00 ",30%,30%,Loan,3,,Noncompetitive,2.500%,Auto," $1,500,000.00 ",1/5/12 9:15 AM
-5:06:12 PM,1104136,General," $500,000.00 ",10%,,,,,Noncompetitive,2.750%,Day Trade," $860,000.00 ",
-6:32:36 PM,1104138,Specified," $500,000.00 ",10%,10%,Loan,5,,Noncompetitive,2.625%,Day Trade," $300,000.00 ",
-7:15:48 PM,1104139,General," $100,000.00 ",20%,,,,,Noncompetitive,2.250%,Day Trade," $250,000.00 ",
-7:59:00 PM,1104140,Specified," $100,000.00 ",20%,20%,MO,,ABC Mortgage,Noncompetitive,2.875%,Day Trade," $74,000.00 ",
-8:42:12 PM,1104141,General," $500,000.00 ",30%,,,,,Noncompetitive,3.000%,Day Trade," $285,000.00 ",
-9:39:48 PM,1104159,Specified," $500,000.00 ",30%,30%,Loan,3,,Noncompetitive,3.125%,Day Trade," $532,000.00 ",
-11:06:12 PM,1104161,General," $100,000.00 ",40%,,,,,Noncompetitive,2.500%,Day Trade," $292,000.00 ",
-11:35:00 PM,1104145,Specified," $100,000.00 ",30%,30%,Loan,1,,Noncompetitive,2.375%,Day Trade," $752,000.00 ",
-2:23:00 AM,1104133,General," $500,000.00 ",20%,,,,,Noncompetitive,3.500%,Day Trade," $418,000.00 ",
-2:27:48 AM,1104149,Specified," $500,000.00 ",10%,10%,Loan,1,,Noncompetitive,3.375%,Day Trade," $47,000.00 ",
-3:54:12 AM,1104151,General," $100,000.00 ",20%,,,,,Noncompetitive,2.125%,Day Trade," $283,000.00 ",
-4:37:24 AM,1104131,Specified," $100,000.00 ",30%,30%,MO,,Prime Lending,Noncompetitive,2.500%,Day Trade," $598,000.00 ",
-6:47:00 AM,1104155,General," $500,000.00 ",20%,,,,,Noncompetitive,2.875%,Day Trade," $639,000.00 ",
-7:30:12 AM,1104156,Specified," $500,000.00 ",10%,10%,Loan,1,,Noncompetitive,2.500%,Day Trade," $274,000.00 ",
-8:13:24 AM,1104157,General," $100,000.00 ",10%,,,,,Noncompetitive,2.000%,Day Trade," $629,000.00 ",
-8:56:36 AM,1104158,Specified," $100,000.00 ",10%,10%,Loan,3,,Noncompetitive,2.125%,Day Trade," $562,000.00 ",
+time,bidID,UserId,Bid Type,if general: Aggregate $,"if general, max % per asset","if specified, bid %","if specified, loan or MO",Loan # if applicable,MO if applicable,order type,"if competitive, bid rate",order timing,"If auto, date/time order placed"
+3:00:00 PM,1104134,1104134@test.com,General," $500,000.00 ",10%,,,,,Noncompetitive,3.000%,Auto,12/15/11 12:53 PM
+3:00:00 PM,1104143,1104143@test.com,Specified," $500,000.00 ",20%,20%,Loan,1,,Noncompetitive,2.875%,Auto,12/20/11 8:43 AM
+3:00:00 PM,1104154,1104154@test.com,General," $100,000.00 ",10%,,,,,Noncompetitive,2.000%,Auto,1/5/12 9:16 AM
+3:00:00 PM,1104152,1104152@test.com,Specified," $100,000.00 ",30%,30%,Loan,3,,Noncompetitive,2.500%,Auto,1/5/12 9:15 AM
+5:06:12 PM,1104136,1104136@test.com,General," $500,000.00 ",10%,,,,,Noncompetitive,2.750%,Day Trade,
+6:32:36 PM,1104138,1104138@test.com,Specified," $500,000.00 ",10%,10%,Loan,5,,Noncompetitive,2.625%,Day Trade,
+7:15:48 PM,1104139,1104139@test.com,General," $100,000.00 ",20%,,,,,Noncompetitive,2.250%,Day Trade,
+7:59:00 PM,1104140,1104140@test.com,Specified," $100,000.00 ",20%,20%,MO,,ABC Mortgage,Noncompetitive,2.875%,Day Trade,
+8:42:12 PM,1104141,1104141@test.com,General," $500,000.00 ",30%,,,,,Noncompetitive,3.000%,Day Trade,
+9:39:48 PM,1104159,1104159@test.com,Specified," $500,000.00 ",30%,30%,Loan,3,,Noncompetitive,3.125%,Day Trade,
+11:06:12 PM,1104161,1104161@test.com,General," $100,000.00 ",40%,,,,,Noncompetitive,2.500%,Day Trade,
+11:35:00 PM,1104145,1104145@test.com,Specified," $100,000.00 ",30%,30%,Loan,1,,Noncompetitive,2.375%,Day Trade,
+2:23:00 AM,1104133,1104133@test.com,General," $500,000.00 ",20%,,,,,Noncompetitive,3.500%,Day Trade,
+2:27:48 AM,1104149,1104149@test.com,Specified," $500,000.00 ",10%,10%,Loan,1,,Noncompetitive,3.375%,Day Trade,
+3:54:12 AM,1104151,1104151@test.com,General," $100,000.00 ",20%,,,,,Noncompetitive,2.125%,Day Trade,
+4:37:24 AM,1104131,1104131@test.com,Specified," $100,000.00 ",30%,30%,MO,,Prime Lending,Noncompetitive,2.500%,Day Trade,
+6:47:00 AM,1104155,1104155@test.com,General," $500,000.00 ",20%,,,,,Noncompetitive,2.875%,Day Trade,
+7:30:12 AM,1104156,1104156@test.com,Specified," $500,000.00 ",10%,10%,Loan,1,,Noncompetitive,2.500%,Day Trade,
+8:13:24 AM,1104157,1104157@test.com,General," $100,000.00 ",10%,,,,,Noncompetitive,2.000%,Day Trade,
+8:56:36 AM,1104158,1104158@test.com,Specified," $100,000.00 ",10%,10%,Loan,3,,Noncompetitive,2.125%,Day Trade,

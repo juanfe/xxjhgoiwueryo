@@ -1,21 +1,21 @@
-time,bidID,Bid Type,if general: Aggregate $,"if general, max % per asset","if specified, bid %","if specified, loan or MO",Loan # if applicable,MO if applicable,order type,"if competitive, bid rate",order timing,Funds available,"If auto, date/time order placed"
-3:00:00 PM,1104134,General,,,,,,,Competitive,4.000%,Auto," $187,500.00 ",12/15/11 12:53 PM
-3:00:00 PM,1104143,General,,,,,,,Competitive,2.625%,Auto," $500,000.00 ",12/20/11 8:43 AM
-3:00:00 PM,1104154,General,,,,,,,Competitive,2.250%,Auto," $185,000.00 ",1/5/12 9:16 AM
-3:00:00 PM,1104152,General,,,,,,,Competitive,3.000%,Auto," $1,500,000.00 ",1/5/12 9:15 AM
-5:06:12 PM,1104136,General,,,,,,,Competitive,2.875%,Day Trade," $860,000.00 ",
-6:32:36 PM,1104138,General,,,,,,,Competitive,2.750%,Day Trade," $300,000.00 ",
-7:15:48 PM,1104139,General,,,,,,,Competitive,3.125%,Day Trade," $250,000.00 ",
-7:59:00 PM,1104140,General,,,,,,,Competitive,2.250%,Day Trade," $74,000.00 ",
-8:42:12 PM,1104141,General,,,,,,,Competitive,3.250%,Day Trade," $285,000.00 ",
-9:39:48 PM,1104159,General,,,,,,,Competitive,2.750%,Day Trade," $532,000.00 ",
-11:06:12 PM,1104161,General,,,,,,,Competitive,4.375%,Day Trade," $292,000.00 ",
-11:35:00 PM,1104145,General,,,,,,,Competitive,4.875%,Day Trade," $752,000.00 ",
-2:23:00 AM,1104133,General,,,,,,,Competitive,3.750%,Day Trade," $418,000.00 ",
-2:27:48 AM,1104149,General,,,,,,,Competitive,2.375%,Day Trade," $47,000.00 ",
-3:54:12 AM,1104151,General,,,,,,,Competitive,3.125%,Day Trade," $283,000.00 ",
-4:37:24 AM,1104131,General,,,,,,,Competitive,4.625%,Day Trade," $598,000.00 ",
-6:47:00 AM,1104155,General,,,,,,,Competitive,3.375%,Day Trade," $639,000.00 ",
-7:30:12 AM,1104156,General,,,,,,,Competitive,3.375%,Day Trade," $274,000.00 ",
-8:13:24 AM,1104157,General,,,,,,,Competitive,3.250%,Day Trade," $629,000.00 ",
-8:56:36 AM,1104158,General,,,,,,,Competitive,3.250%,Day Trade," $562,000.00 ",
+time,bidID,UserId,Bid Type,if general: Aggregate $,"if general, max % per asset","if specified, bid %","if specified, loan or MO",Loan # if applicable,MO if applicable,order type,"if competitive, bid rate",order timing,"If auto, date/time order placed"
+3:00:00 PM,1104134,1104134@test.com,General,,,,,,,Competitive,4.000%,Auto,12/15/11 12:53 PM
+3:00:00 PM,1104143,1104143@test.com,General,,,,,,,Competitive,2.625%,Auto,12/20/11 8:43 AM
+3:00:00 PM,1104154,1104154@test.com,General,,,,,,,Competitive,2.250%,Auto,1/5/12 9:16 AM
+3:00:00 PM,1104152,1104152@test.com,General,,,,,,,Competitive,3.000%,Auto,1/5/12 9:15 AM
+5:06:12 PM,1104136,1104136@test.com,General,,,,,,,Competitive,2.875%,Day Trade,
+6:32:36 PM,1104138,1104138@test.com,General,,,,,,,Competitive,2.750%,Day Trade,
+7:15:48 PM,1104139,1104139@test.com,General,,,,,,,Competitive,3.125%,Day Trade,
+7:59:00 PM,1104140,1104140@test.com,General,,,,,,,Competitive,2.250%,Day Trade,
+8:42:12 PM,1104141,1104141@test.com,General,,,,,,,Competitive,3.250%,Day Trade,
+9:39:48 PM,1104159,1104159@test.com,General,,,,,,,Competitive,2.750%,Day Trade,
+11:06:12 PM,1104161,1104161@test.com,General,,,,,,,Competitive,4.375%,Day Trade,
+11:35:00 PM,1104145,1104145@test.com,General,,,,,,,Competitive,4.875%,Day Trade,
+2:23:00 AM,1104133,1104133@test.com,General,,,,,,,Competitive,3.750%,Day Trade,
+2:27:48 AM,1104149,1104149@test.com,General,,,,,,,Competitive,2.375%,Day Trade,
+3:54:12 AM,1104151,1104151@test.com,General,,,,,,,Competitive,3.125%,Day Trade,
+4:37:24 AM,1104131,1104131@test.com,General,,,,,,,Competitive,4.625%,Day Trade,
+6:47:00 AM,1104155,1104155@test.com,General,,,,,,,Competitive,3.375%,Day Trade,
+7:30:12 AM,1104156,1104156@test.com,General,,,,,,,Competitive,3.375%,Day Trade,
+8:13:24 AM,1104157,1104157@test.com,General,,,,,,,Competitive,3.250%,Day Trade,
+8:56:36 AM,1104158,1104158@test.com,General,,,,,,,Competitive,3.250%,Day Trade,
