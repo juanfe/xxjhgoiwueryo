@@ -94,7 +94,7 @@ class LiqEngine:
 		except csv.Error, e:
 			sys.exit('File %s, line %d: %s' % (self.options.OperatorFilename, fmo.line_num, e)) 
 	
-	def setMortgageOperators(Mo):
+	def setMortgageOperators(self, Mo):
 		self.Mo = Mo
 
 	def LoadLoans(self):
@@ -128,13 +128,19 @@ class LiqEngine:
 			except csv.Error, e:
 				sys.exit('File %s, line %d: %s' % (self.options.loansFilename, flo.line_num, e))
 
-	def setLoans(Lo):
+	def setLoans(self, Lo):
 		try:
 			tot =  0
+			self.LoanIndex = []
 			for l in Lo:
 				tot += l['Load Amount']
 				l['Rate'] = 0
+				self.LoanIndex.append(l['Loand Id'])
+				del(l['Loand Id'])
+				l['MO'] = l['Mortgage Operator']
+				del(l['Mortgage Operator'])
 			Lo.append({'MO': 'Total', 'Load Amount': tot})
+			self.Loans = Lo
 		except:
 			sys.exit('There are an error in %s'%(Lo))
 
