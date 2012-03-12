@@ -148,7 +148,6 @@ class Application:
 				"mo if applicable":"mo",
 				"order type":"competitive",
 				"if competitive, bid rate":"bidrate",
-				#"funds available":"funds",
 				"userid":"userid",
 				"if auto, date/time order placed":"dateorder",
 				"id":"id",
@@ -558,7 +557,10 @@ class Application:
 			vals = {}
 			if self.SpecifiedCompetitive(k, False, True):
 				if (bid['bidrate'] > 0):
-					vals['aggregate'] = min(bid['aggregate'], bid['funds'])
+					#vals['aggregate'] = min(bid['aggregate'], bid['funds'])
+					vals['aggregate'] = min(bid['aggregate'],
+							self.Users[bid['userid']]['funds'])
+					#TODO reduce funds to the user
 					TotalAggregate = TotalAggregate + vals['aggregate']
 					vals['rank'] = Rank[k]
 					vals['bidrate'] = bid['bidrate']
@@ -682,14 +684,16 @@ class Application:
 		TotalAggregate = 0
 		for k, bid in self.Bids.iteritems():
 			if self.SpecifiedCompetitive(k, False, False):
-				TotalAggregate = TotalAggregate + bid['funds'] 
+				#TotalAggregate = TotalAggregate + bid['funds'] 
+				TotalAggregate = TotalAggregate + self.Users[bid['userid']]['funds'] 
 				
 		rate = GCompAssetRem[len(GCompAssetRem)-1][0]/TotalAggregate if TotalAggregate != 0 else 0
 		TotalAggregate = 0
 		for k, bid in self.Bids.iteritems():
 			vals = {}
 			if self.SpecifiedCompetitive(k, False, False):
-				vals['allocated'] = bid['funds'] * rate
+				#vals['allocated'] = bid['funds'] * rate
+				vals['allocated'] = self.Users[bid['userid']]['funds'] * rate
 				TotalAggregate = TotalAggregate + vals['allocated']
 				_AssetAlloAndAccept[k] = vals
 				if self.options.Verbose:
@@ -794,6 +798,7 @@ class Application:
 	def LoadAsConsole(self):
 		self.LoadMortgageOperators()
 		self.LoadLoans()
+		self.LoadUsers()
 		self.LoadBids()
 		self.LoadExceptions()
 
@@ -866,9 +871,9 @@ class Application:
 		AllocRates = self.SumRateAllocation( asset, assetSNC, ratesGC, WARateGNC)
 		self.PrintSummary(asset, AllocRates)
 
-def main(self, *args):
-	self.LoadAsConsole()
-	self.Calc()
+	def main(self, *args):
+		self.LoadAsConsole()
+		self.Calc()
 
 if __name__ == '__main__':
 	app = Application()
