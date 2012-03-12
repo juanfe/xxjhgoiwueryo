@@ -1,6 +1,7 @@
 import datetime
 
-argument = ['LiqSpot.py', '-b', '../../sample/bids6.csv', '-l', '../../sample/loans6.csv',
+argument = ['LiqSpot.py', '-b', '../../sample/bids6.csv',
+		'-u', '../../sample/users6.csv', '-l', '../../sample/loans6.csv',
 		'-d', ',', '-M', '../mo.csv', '-o', 'test.csv', '-R', 3.5]
 
 scenario = {'test_Summary' : {'1104139': [31872.5, 0, 0, 0, 0, 0, 31872.5],
