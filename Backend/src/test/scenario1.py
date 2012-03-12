@@ -1,6 +1,7 @@
 import datetime
 
-argument = ['LiqSpot.py', '-b', '../../sample/bids1.csv', '-l', '../../sample/loans1.csv',
+argument = ['LiqSpot.py', '-b', '../../sample/bids1.csv',
+		'-u', '../../sample/users1.csv', '-l', '../../sample/loans1.csv',
 		'-d', ',', '-M', '../mo.csv', '-o', 'test.csv', '-R', 3.5]
 
 scenario = {'test_init' : '../mo.csv',
@@ -23,7 +24,7 @@ scenario = {'test_init' : '../mo.csv',
 		'test_LoadBids' : { 'p' : 20,
 			'q' : '1104154',
 			'r' : {'loannum': '2',
-				'dateorder': datetime.datetime(2012, 1, 5, 9, 16), 'funds': 185000.0,
+				'dateorder': datetime.datetime(2012, 1, 5, 9, 16), 'userid': '1104154@test.com', 
 				'mo': '', 'time': datetime.datetime(1900, 1, 1, 15, 0),
 				'bidrate': 0.03, 'competitive': True, 'ordertiming': 'Auto',
 				'lorm': 'Loan', 'specified': True, 'aggregate': '', 'sperate': 0.2,
