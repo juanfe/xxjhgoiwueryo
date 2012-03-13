@@ -68,14 +68,14 @@ class LiqEngine:
 				sys.exit('Error: in the file %s, see the field delimiter in csv file, look "LiqSpot.py --help".'
 						% self.options.loansFilename)
 		try:
-			d['Load Amount'] = float(d['Load Amount'].strip(' '))
+			d['Loan Amount'] = float(d['Loan Amount'].strip(' '))
 			d['Rate'] = float(d['Rate'].strip(' '))
 		except:
 			sys.exit("Error: The number's format have an error, it is " +
 					"possible that you are using the same ',' separator of " +
 					"field and decimal expressions. Use '.' as decimal " +
 					"separator!")
-		self.TotalLoans = self.TotalLoans + d['Load Amount']
+		self.TotalLoans = self.TotalLoans + d['Loan Amount']
 		self.Loans.append(d)
 
 	def addLoansJson(self, k, lo):
@@ -108,7 +108,7 @@ class LiqEngine:
 			#try:
 			for k, lo in flo.iteritems():
 				self.addLoansJson(k, lo)
-			self.Loans.append({'MO': 'Total', 'Load Amount': self.TotalLoans})
+			self.Loans.append({'MO': 'Total', 'Loan Amount': self.TotalLoans})
 			#except:
 			#	sys.exit('File %s, line %d: %s' % (self.options.loansFilename, flo.line_num, e))
 		else:
@@ -124,7 +124,7 @@ class LiqEngine:
 				for lo in flo:
 					lo.append(str(float(self.options.PriorRate)/100))
 					self.addLoans(idlo, lo)
-				self.Loans.append({'MO': 'Total', 'Load Amount': self.TotalLoans})
+				self.Loans.append({'MO': 'Total', 'Loan Amount': self.TotalLoans})
 			except csv.Error, e:
 				sys.exit('File %s, line %d: %s' % (self.options.loansFilename, flo.line_num, e))
 
@@ -134,7 +134,7 @@ class LiqEngine:
 		for l in Lo:
 			try:
 				tot += l['loanAmount']
-				l['Load Amount'] =  l['loanAmount']
+				l['Loan Amount'] =  l['loanAmount']
 				del( l['loanAmount'])
 				l['Rate'] = 0
 				self.LoanIndex.append(l['loanId'])
@@ -280,7 +280,7 @@ class LiqEngine:
 			#try:
 			for k, jbit in jsonbids.iteritems():
 				self.addBidsJson(k, jbit)
-			self.Loans.append({'MO': 'Total', 'Load Amount': self.TotalLoans})
+			self.Loans.append({'MO': 'Total', 'Loan Amount': self.TotalLoans})
 		else:
 			try:
 				fbids = csv.reader(open(self.options.bidsFileName, "rb"),
@@ -402,7 +402,7 @@ class LiqEngine:
 				elif ((self.SpecifiedCompetitive(k, True, Competitive) and bid['sperate'] != [])
 						and ((bid['loannum'] != '' and int(bid['loannum']) == i)
 							or (bid['loannum'] == '' and bid['mo'] == a['MO']))):
-					l = bid['sperate'] * a['Load Amount']
+					l = bid['sperate'] * a['Loan Amount']
 					vals.append(l)
 					Tots[i-1] = Tots[i-1] + l
 					TotalLoan = TotalLoan + l
@@ -501,7 +501,7 @@ class LiqEngine:
 		Cummulative = map (lambda x, y: x+y, assetSC['Total'],
 				assetSNC['Total'])
 		Subscription = map (lambda x, y: x/y, Cummulative[0:-1],
-				map ( lambda x:x['Load Amount'], self.Loans)[0:-1])
+				map ( lambda x:x['Loan Amount'], self.Loans)[0:-1])
 		_MarketPremiumPrim = map ( lambda x: (1 - x)*MarketRateDifferential,
 				Subscription)
 		_MarketPremium = map (lambda x, y, w, z: y if z > 0 and y >= w 
@@ -544,7 +544,8 @@ class LiqEngine:
 		#TODO change by List Comprehensions
 		L = []
 		for i in self.Loans:
-			L.append((i['Load Amount'], 'under'))
+			print i
+			L.append((i['Loan Amount'], 'under'))
 		return L
 
 	def CalcRemaing (self, AssetAssigned, Loans):
