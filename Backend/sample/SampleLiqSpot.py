@@ -81,4 +81,6 @@ eng.setBids([{'date' : '2012-01-12', 'time' : '17:06:12', 'bidId' : '1104136',
 		'userId' : '1104158@test.com', 'bidType' : 'Specified',
 		'Participation' : 20, 'assetSubset' : 'Loan', 'loanId' : '1',
 		'orderType' : 'Competitive', 'bidRate' : 2.250,
-		'orderTiming' : 'Day Trade'}]
+		'orderTiming' : 'Day Trade'}])
+
+eng.Calc()
