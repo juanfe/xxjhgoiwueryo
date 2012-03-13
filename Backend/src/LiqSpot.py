@@ -129,20 +129,20 @@ class LiqEngine:
 				sys.exit('File %s, line %d: %s' % (self.options.loansFilename, flo.line_num, e))
 
 	def setLoans(self, Lo):
-		try:
-			tot =  0
-			self.LoanIndex = []
-			for l in Lo:
+		tot =  0
+		self.LoanIndex = []
+		for l in Lo:
+			try:
 				tot += l['loanAmount']
 				l['Rate'] = 0
 				self.LoanIndex.append(l['loanId'])
-				del(l['Loand Id'])
+				del(l['loanId'])
 				l['MO'] = l['mortgageOriginator']
 				del(l['mortgageOriginator'])
-			Lo.append({'MO': 'Total', 'loanAmount': tot})
-			self.Loans = Lo
-		except:
-			sys.exit('There are an error in %s'%(Lo))
+			except:
+				sys.exit('Error: The line %s is malformed.'%(l))
+		Lo.append({'MO': 'Total', 'loanAmount': tot})
+		self.Loans = Lo
 
 	def checkUsersColNames(self, iduser):
 		duser = {"userid":"userid",
@@ -293,6 +293,32 @@ class LiqEngine:
 					self.addBids(idbid, b)
 			except csv.Error, e:
 				sys.exit('File %s, line %d: %s' % (self.options.bidsFileName, fbids.line_num, e))
+
+	def setBids(self, Bids):
+		for b in Bids:
+			d = {}
+			try:
+				d['time'] = datetime.strptime(b['date'] + ' ' + b['time'], "%Y-%m-%d %H:%M:%S")
+				d['userid'] = b['userId']
+				d['specified'] = b['bidType'] == 'Specified'
+				if not d['specified']:
+					d['aggregate'] = b['Aggregate']
+				else:
+					d['aggregate'] = ''
+				d['bidrate'] = '' if not b.has_key('bidRate') else b['bidRate']
+				d['competitive'] = b['orderType'] == 'Competitive'
+				d['bidrate'] = '' if not d['competitive'] else b['bidRate'] / 100
+				d['dateorder'] = '' if  not b.has_key('dateOrder') \
+					else datetime.strptime(b['dateOrder'], "%Y-%m-%d %H:%M:%S")
+				d['genrate'], d['sperate'] = ('', b['Participation'] / 100) if \
+					d['specified'] else (b['Participation'] / 100, '')
+				d['lorm'] = '' if not b.has_key('assetSubset') else	b['assetSubset']
+				d['loannum'] = '' if d['lorm'] != 'Loan' else str(self.LoanIndex.index(b['loanId']) + 1)
+				d['mo'] = '' if d['lorm'] != 'MO' else d['mortgageOriginator']
+				d['ordertiming'] = b['orderTiming']
+				self.Bids[b['bidId']] = d
+			except:
+				sys.exit('Error: Line %b malformed.'%(b))
 
 	def checkExceptionsColNames(self, iexc):
 		exc = {"Bid ID": "id",
