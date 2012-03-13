@@ -134,6 +134,8 @@ class LiqEngine:
 		for l in Lo:
 			try:
 				tot += l['loanAmount']
+				l['Load Amount'] =  l['loanAmount']
+				del( l['loanAmount'])
 				l['Rate'] = 0
 				self.LoanIndex.append(l['loanId'])
 				del(l['loanId'])
@@ -141,7 +143,7 @@ class LiqEngine:
 				del(l['mortgageOriginator'])
 			except:
 				sys.exit('Error: The line %s is malformed.'%(l))
-		Lo.append({'MO': 'Total', 'loanAmount': tot})
+		Lo.append({'MO': 'Total', 'Loan Amount': tot})
 		self.Loans = Lo
 
 	def checkUsersColNames(self, iduser):
