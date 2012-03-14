@@ -9,6 +9,7 @@ class LiqEngine:
 	def __init__(self):
 		self.Mo = []
 		self.Loans = []
+		self.LoanIndex = []
 		self.TotalLoans = 0
 		self.Users = {}
 		self.Bids = {}
@@ -71,6 +72,8 @@ class LiqEngine:
 		try:
 			d['Loan Amount'] = float(d['Loan Amount'].strip(' '))
 			d['Rate'] = float(d['Rate'].strip(' '))
+			self.LoanIndex.append(d['Loan Id'])
+			del(d['Loan Id'])
 		except:
 			sys.exit("Error: The number's format have an error, it is " +
 					"possible that you are using the same ',' separator of " +
@@ -131,7 +134,6 @@ class LiqEngine:
 
 	def setLoans(self, Lo):
 		tot =  0
-		self.LoanIndex = []
 		for l in Lo:
 			try:
 				tot += l['loanAmount']
@@ -918,14 +920,26 @@ class LiqEngine:
 		# Make the summary of the assets
 		asset = self.Summary(assetSC, assetSNC, assetGC, assetGNC, WARateGNC,
 				WARateTot, GNComptAssetRem)
-		self.data["Asset Allocated"] = asset
 		AllocRates = self.SumRateAllocation( asset, assetSNC, ratesGC, WARateGNC)
-		self.data["Rates Allocated"] = AllocRates
+		self.PrepareData(asset, AllocRates)
+		return self.Data
+
+	def PrepareData(self, asset, AllocRates):
+		self.Data["Asset Allocated"] = {}
+		self.Data["Rates Allocated"] = AllocRates
+		for l in self.LoanIndex:
+			self.Data["Asset Allocated"][l] = {'Allocated': {}} 
+			for k, a in asset.iteritems():
+				al = a[self.LoanIndex.index(l)]
+				if al != 0:
+					self.Data["Asset Allocated"][l]['Allocated'][k] = al
+
+		print self.Data["Asset Allocated"]['1']
 
 	def main(self, *args):
 		self.LoadAsConsole()
 		self.Calc()
-		self.PrintSummary(asset, self.Data["Rates Allocated"])
+		#self.PrintSummary(self.Data["Asset Allocated"], self.Data["Rates Allocated"])
 
 if __name__ == '__main__':
 	app = LiqEngine()
