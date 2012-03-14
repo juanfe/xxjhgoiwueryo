@@ -12,6 +12,7 @@ class LiqEngine:
 		self.TotalLoans = 0
 		self.Users = {}
 		self.Bids = {}
+		self.Data = {}
 		self.Exceptions = []
 		parser = self.ParseArg()
 		(self.options, args) = parser.parse_args()
@@ -917,12 +918,14 @@ class LiqEngine:
 		# Make the summary of the assets
 		asset = self.Summary(assetSC, assetSNC, assetGC, assetGNC, WARateGNC,
 				WARateTot, GNComptAssetRem)
+		self.data["Asset Allocated"] = asset
 		AllocRates = self.SumRateAllocation( asset, assetSNC, ratesGC, WARateGNC)
-		self.PrintSummary(asset, AllocRates)
+		self.data["Rates Allocated"] = AllocRates
 
 	def main(self, *args):
 		self.LoadAsConsole()
 		self.Calc()
+		self.PrintSummary(asset, self.Data["Rates Allocated"])
 
 if __name__ == '__main__':
 	app = LiqEngine()
