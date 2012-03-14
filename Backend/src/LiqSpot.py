@@ -32,7 +32,7 @@ class LiqEngine:
 				metavar="EXCEPTIONSFILE", default = False)
 		parser.add_option("-o", "--output", dest="output",
 				help="Write the Liquidity Spots for the Loans",
-				metavar="OUTFILE", default = False)
+				metavar="OUTFILE", default = "")
 		parser.add_option("-d", "--delimiter", dest="delimiter",
 				help="Assigne delimiter to use in the csv format, default is ','.",
 				default=',')
@@ -546,7 +546,6 @@ class LiqEngine:
 		#TODO change by List Comprehensions
 		L = []
 		for i in self.Loans:
-			print i
 			L.append((i['Loan Amount'], 'under'))
 		return L
 
