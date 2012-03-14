@@ -846,7 +846,7 @@ class LiqEngine:
 				print asset[k],
 				print AllocRates[k]
 			valsRate = valsRate + AllocRates[k] * asset[k][-1]
-		valsRate = valsRate / asset['Total'][-1]
+		valsRate = valsRate / asset['Total'][-1] if asset['Total'][-1] != 0	else 0
 		if self.options.Verbose or not self.options.output:
 			print "Total ",
 			print asset['Total'],
