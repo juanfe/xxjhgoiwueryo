@@ -309,11 +309,13 @@ class LiqEngine:
 					d['aggregate'] = ''
 				d['bidrate'] = '' if not b.has_key('bidRate') else b['bidRate']
 				d['competitive'] = b['orderType'] == 'Competitive'
-				d['bidrate'] = '' if not d['competitive'] else b['bidRate'] / 100
+				d['bidrate'] = '' if not d['competitive'] \
+						else float(b['bidRate']) / 100
 				d['dateorder'] = '' if  not b.has_key('dateOrder') \
 					else datetime.strptime(b['dateOrder'], "%Y-%m-%d %H:%M:%S")
-				d['genrate'], d['sperate'] = ('', b['Participation'] / 100) if \
-					d['specified'] else (b['Participation'] / 100, '')
+				d['genrate'], d['sperate'] = ('', float(b['Participation']) / 100) \
+						if d['specified'] \
+						else (float(b['Participation']) / 100, '')
 				d['lorm'] = '' if not b.has_key('assetSubset') else	b['assetSubset']
 				d['loannum'] = '' if d['lorm'] != 'Loan' else str(self.LoanIndex.index(b['loanId']) + 1)
 				d['mo'] = '' if d['lorm'] != 'MO' else d['mortgageOriginator']
