@@ -62,8 +62,9 @@ class LiqEngine:
 		parser.usage = "usage: %prog [options arg] [-v]"
 		return parser
 
-	def setParameters(self, LSSpread = 1):
+	def setParameters(self, LSSpread = 1, PriorDayRateUsed = 0.0):
 		self.options.LSSpread = LSSpread
+		self.options.PriorRate = PriorDayRateUsed
 
 	def addLoans(self, idl, lo):
 		d = dict(zip(idl, lo))

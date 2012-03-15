@@ -4,7 +4,7 @@ from LiqSpot import LiqEngine
 
 eng = LiqEngine()
 
-eng.setParameters(LSSpread = 1)
+eng.setParameters(LSSpread = 1, PriorDayRateUsed = 3.5)
 
 eng.setMortgageOperators(['ABC Mortgage', 'Prime Lending', 'Best Loans Inc',
 		'Integrity Lending'])
