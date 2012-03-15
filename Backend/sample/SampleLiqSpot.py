@@ -1,5 +1,5 @@
 #!/usr/bin/python
-
+from pprint import pprint
 from LiqSpot import LiqEngine
 
 eng = LiqEngine()
@@ -76,3 +76,5 @@ eng.setBids([{'date' : '2012-01-12', 'time' : '17:06:12', 'bidId' : '1104136',
 		'orderTiming' : 'Day Trade'}])
 
 eng.Calc()
+
+pprint(eng.Data)
