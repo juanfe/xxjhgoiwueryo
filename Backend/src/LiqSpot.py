@@ -1,6 +1,7 @@
 #!/usr/bin/python
 
 import csv, sys, os
+from pprint import pprint
 from optparse import OptionParser
 from datetime import datetime
 from copy import deepcopy
@@ -837,28 +838,15 @@ class LiqEngine:
 			_all[k] = rate
 		return _all
 
-	def PrintSummary(self, asset, AllocRates):
+	def PrintSummary(self):
 		if self.options.Verbose:
 			print "-"*50
 			print "Asset Summary"
 			print "-"*50
+			pprint(self.Data)
 		if self.options.output:
 			ofile = open(self.options.output, "wb")
 			summwrt = csv.writer(ofile, delimiter=self.options.delimiter, quotechar='"')
-		valsRate = 0
-		for k, bid in self.Bids.iteritems():
-			# Print in standart output if there are no output or there are
-			# verbose option.
-			if self.options.Verbose or not self.options.output:
-				print k,
-				print asset[k],
-				print AllocRates[k]
-			valsRate = valsRate + AllocRates[k] * asset[k][-1]
-		valsRate = valsRate / asset['Total'][-1] if asset['Total'][-1] != 0	else 0
-		if self.options.Verbose or not self.options.output:
-			print "Total ",
-			print asset['Total'],
-			print valsRate
 
 	def LoadAsConsole(self):
 		self.LoadMortgageOperators()
@@ -866,6 +854,36 @@ class LiqEngine:
 		self.LoadUsers()
 		self.LoadBids()
 		self.LoadExceptions()
+
+	def PrepareData(self, asset, AllocRates, WARateTot, GNComptAssetRem):
+		self.Data["Asset Allocated"] = {}
+		self.Data["Rates Allocated"] = AllocRates
+		self.Data["Users"] = {}
+		for ku, du in self.Users.iteritems():
+			self.Data["Users"][ku] = {'Funds': du['funds'], 'Initial Funds': du['funds']}
+		for l in self.LoanIndex:
+			if GNComptAssetRem[self.LoanIndex.index(l)][1] == 'under':
+				self.Data["Asset Allocated"][l] = {'Allocated': False, 'Rate': 0.0}
+			else:
+				self.Data["Asset Allocated"][l] = {'Allocated': {}} 
+				for k, a in asset.iteritems():
+					al = a[self.LoanIndex.index(l)]
+					if al != 0:
+						self.Data["Asset Allocated"][l]['Allocated'][k] = al
+						if k != 'Total':
+							self.Data["Users"][self.Bids[k]['userid']]['Funds'] -= al
+							if abs(self.Data["Users"][self.Bids[k]['userid']]['Funds']) <= 1e-9:
+								self.Data["Users"][self.Bids[k]['userid']]['Funds'] = 0
+							if self.Data["Users"][self.Bids[k]['userid']].has_key('Loans'):
+								self.Data["Users"][self.Bids[k]['userid']]['Loans'].append(l)
+								self.Data["Users"][self.Bids[k]['userid']]['Bids'].append((k, al))
+							else:
+								self.Data["Users"][self.Bids[k]['userid']]['Loans'] = [l]
+								self.Data["Users"][self.Bids[k]['userid']]['Bids'] = [(k, al)]
+
+				self.Data["Asset Allocated"][l]['Rate'] = \
+					WARateTot[self.LoanIndex.index(l)] + \
+					float(self.options.LSSpread) / 100
 
 	def Calc(self):
 		# Calculate Specified and Competitive Assets
@@ -927,27 +945,13 @@ class LiqEngine:
 		asset = self.Summary(assetSC, assetSNC, assetGC, assetGNC, WARateGNC,
 				WARateTot, GNComptAssetRem)
 		AllocRates = self.SumRateAllocation( asset, assetSNC, ratesGC, WARateGNC)
-		self.PrepareData(asset, AllocRates)
+		self.PrepareData(asset, AllocRates, WARateTot, GNComptAssetRem)
 		return self.Data
-
-	def PrepareData(self, asset, AllocRates):
-		self.Data["Asset Allocated"] = {}
-		self.Data["Rates Allocated"] = AllocRates
-		for l in self.LoanIndex:
-			self.Data["Asset Allocated"][l] = {'Allocated': {}} 
-			for k, a in asset.iteritems():
-				al = a[self.LoanIndex.index(l)]
-				ar = AllocRates[k]
-				if al != 0:
-					self.Data["Asset Allocated"][l]['Allocated'][k] = al
-		self.Data['Alloc Rates'] = AllocRates
-
-		print self.Data["Asset Allocated"]['1']
 
 	def main(self, *args):
 		self.LoadAsConsole()
 		self.Calc()
-		#self.PrintSummary(self.Data["Asset Allocated"], self.Data["Rates Allocated"])
+		self.PrintSummary()
 
 if __name__ == '__main__':
 	app = LiqEngine()
