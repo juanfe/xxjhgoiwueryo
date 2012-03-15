@@ -44,20 +44,26 @@ class LiqEngine:
 		parser.add_option("-M", "--MorgageOperators", dest="OperatorFilename",
 				default= os.path.dirname(sys.argv[0])+"/mo.csv",
 				help = "Specify the Mortgage Operators, default mo.csv")
-		parser.add_option("-r", "--rankinvert", dest="rank_invert",
+		parser.add_option("-r", "--RankInvert", dest="rank_invert",
 				action="store_true",
 				help="Inverte the order of the order of the rank in " +
 				"General/Competitive bids.", default = False)
-		parser.add_option("-A", "--allocacceptexcetion",
+		parser.add_option("-A", "--AllocAcceptExcetion",
 				dest="AllocAcceptException", action="store_true",
 				help="Excetion in the calculation of Allocate and Accepted " +
 				"in General/Competitive bids.", default = False)
-		parser.add_option("-R", "--priordayrateused", dest="PriorRate",
-				default= 0, help="Prior day rate used in the Specified/Non " +
+		parser.add_option("-R", "--PriorDayRateUsed", dest="PriorRate",
+				default = 0, help="Prior day rate used in the Specified/Non " +
 				"Comptetitive bids")
+		parser.add_option("-L", "--LSSpread", dest="LSSpread",
+				default = 1, help="Rate to be added to the Rate's Mortgage " +
+				"Originator")
 		parser.usage = "usage: %prog [options arg] [-v]"
 		return parser
-	
+
+	def setParameters(self, LSSpread = 1):
+		self.options.LSSpread = LSSpread
+
 	def addLoans(self, idl, lo):
 		d = dict(zip(idl, lo))
 		
@@ -931,8 +937,10 @@ class LiqEngine:
 			self.Data["Asset Allocated"][l] = {'Allocated': {}} 
 			for k, a in asset.iteritems():
 				al = a[self.LoanIndex.index(l)]
+				ar = AllocRates[k]
 				if al != 0:
 					self.Data["Asset Allocated"][l]['Allocated'][k] = al
+		self.Data['Alloc Rates'] = AllocRates
 
 		print self.Data["Asset Allocated"]['1']
 
