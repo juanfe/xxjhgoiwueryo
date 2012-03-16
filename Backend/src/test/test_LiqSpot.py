@@ -12,19 +12,19 @@ class TestApplication:
 
 	def test_init (self, arg, p):
 		sys.argv = arg
-		self.app = Application()
+		self.app = LiqEngine()
 		self.app.ParseArg()
 		assert self.app.options.OperatorFilename == p 
 
 	def test_LoadMortgageOperators(self, arg, p):
 		sys.argv = arg
-		self.app = Application()
+		self.app = LiqEngine()
 		self.app.LoadMortgageOperators()
 		assert self.app.Mo ==  p
 
 	def test_addLoans(self, arg, p, q, r):
 		sys.argv = arg
-		self.app = Application()
+		self.app = LiqEngine()
 		self.app.LoadMortgageOperators()
 		flo = csv.reader(open(self.app.options.loansFilename, "rb"),
 				delimiter=self.app.options.delimiter,quoting=csv.QUOTE_NONE)
@@ -40,7 +40,7 @@ class TestApplication:
 	def test_LoadLoans(self, arg, p):
 		#In engine processing rules example.xlsx G4:M4
 		sys.argv = arg
-		self.app = Application()
+		self.app = LiqEngine()
 		self.app.LoadMortgageOperators()
 		self.app.LoadLoans()
 		assert self.app.Loans == p
@@ -48,18 +48,20 @@ class TestApplication:
 	def test_LoadBids(self, arg, p, q, r):
 		#In engine processing rules example.xlsx bid input!G4:N4
 		sys.argv = arg
-		self.app = Application()
+		self.app = LiqEngine()
 		self.app.LoadMortgageOperators()
 		self.app.LoadLoans()
+		self.app.LoadUsers()
 		self.app.LoadBids()
 		assert len(self.app.Bids) == p
 		assert self.app.Bids[q] == r
 
 	def test_LoadExceptions(self, arg):
 		sys.argv = arg
-		self.app = Application()
+		self.app = LiqEngine()
 		self.app.LoadMortgageOperators()
 		self.app.LoadLoans()
+		self.app.LoadUsers()
 		self.app.LoadBids()
 		self.app.LoadExceptions()
 		assert self.app.Exceptions == []
@@ -67,9 +69,10 @@ class TestApplication:
 	def test_SpecifiedAssetAssignation(self, arg, p):
 		#In engine processing rules example.xlsx "assets availale for bid"!G8:M27
 		sys.argv = arg
-		self.app = Application()
+		self.app = LiqEngine()
 		self.app.LoadMortgageOperators()
 		self.app.LoadLoans()
+		self.app.LoadUsers()
 		self.app.LoadBids()
 		self.app.LoadExceptions()
 		assetSC = self.app.SpecifiedAssetAssignation(Competitive = True)
@@ -78,9 +81,10 @@ class TestApplication:
 	def test_WARateSC(self, arg, p):
 		#In engine processing rules example.xlsx "assets availale for bid"!G30:M30
 		sys.argv = arg
-		self.app = Application()
+		self.app = LiqEngine()
 		self.app.LoadMortgageOperators()
 		self.app.LoadLoans()
+		self.app.LoadUsers()
 		self.app.LoadBids()
 		self.app.LoadExceptions()
 		assetSC = self.app.SpecifiedAssetAssignation(Competitive = True)
@@ -90,9 +94,10 @@ class TestApplication:
 	def test_CalcRemaing(self, arg, p):
 		#In engine processing rules example.xlsx "assets availale for bid"!G32:M33
 		sys.argv = arg
-		self.app = Application()
+		self.app = LiqEngine()
 		self.app.LoadMortgageOperators()
 		self.app.LoadLoans()
+		self.app.LoadUsers()
 		self.app.LoadBids()
 		self.app.LoadExceptions()
 		assetSC = self.app.SpecifiedAssetAssignation(Competitive = True)
@@ -103,9 +108,10 @@ class TestApplication:
 	def test_WARateSNC(self, arg, p):
 		#In engine processing rules example.xlsx "assets availale for bid"!G59:M59
 		sys.argv = arg
-		self.app = Application()
+		self.app = LiqEngine()
 		self.app.LoadMortgageOperators()
 		self.app.LoadLoans()
+		self.app.LoadUsers()
 		self.app.LoadBids()
 		self.app.LoadExceptions()
 		assetSC = self.app.SpecifiedAssetAssignation(Competitive = True)
@@ -119,9 +125,10 @@ class TestApplication:
 	def test_WARateS(self, arg, p, q):
 		#In engine processing rules example.xlsx "assets availale for bid"!G67:M67
 		sys.argv = arg
-		self.app = Application()
+		self.app = LiqEngine()
 		self.app.LoadMortgageOperators()
 		self.app.LoadLoans()
+		self.app.LoadUsers()
 		self.app.LoadBids()
 		self.app.LoadExceptions()
 		assetSC = self.app.SpecifiedAssetAssignation(Competitive = True)
@@ -148,9 +155,10 @@ class TestApplication:
 		# For rate "assets availale for bid"!C106:C125
 		# For rateawarded "assets availale for bid"!E106:E125
 		sys.argv = arg
-		self.app = Application()
+		self.app = LiqEngine()
 		self.app.LoadMortgageOperators()
 		self.app.LoadLoans()
+		self.app.LoadUsers()
 		self.app.LoadBids()
 		self.app.LoadExceptions()
 		assetSC = self.app.SpecifiedAssetAssignation(Competitive = True)
@@ -183,9 +191,10 @@ class TestApplication:
 	def test_WARateTot(self, arg, p):
 		#In engine processing rules example.xlsx "assets availale for bid"!G174:G174
 		sys.argv = arg
-		self.app = Application()
+		self.app = LiqEngine()
 		self.app.LoadMortgageOperators()
 		self.app.LoadLoans()
+		self.app.LoadUsers()
 		self.app.LoadBids()
 		self.app.LoadExceptions()
 		assetSC = self.app.SpecifiedAssetAssignation(Competitive = True)
@@ -226,9 +235,10 @@ class TestApplication:
 	def test_Summary(self, arg, p):
 		#In engine processing rules example.xlsx "assets availale for bid"!G182:M202
 		sys.argv = arg
-		self.app = Application()
+		self.app = LiqEngine()
 		self.app.LoadMortgageOperators()
 		self.app.LoadLoans()
+		self.app.LoadUsers()
 		self.app.LoadBids()
 		self.app.LoadExceptions()
 		assetSC = self.app.SpecifiedAssetAssignation(Competitive = True)
@@ -271,9 +281,10 @@ class TestApplication:
 	def test_SumRateAllocation(self, arg, p):
 		#In engine processing rules example.xlsx "assets availale for bid"!C182:C201
 		sys.argv = arg
-		self.app = Application()
+		self.app = LiqEngine()
 		self.app.LoadMortgageOperators()
 		self.app.LoadLoans()
+		self.app.LoadUsers()
 		self.app.LoadBids()
 		self.app.LoadExceptions()
 		assetSC = self.app.SpecifiedAssetAssignation(Competitive = True)

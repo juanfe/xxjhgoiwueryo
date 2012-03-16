@@ -1,7 +1,7 @@
-MO,Load Amount
-ABC Mortgage,318725
-ABC Mortgage,375685
-Prime Lending,479875
-Prime Lending,525400
-Best Loans Inc,515425
-Integrity Lending,485000
+Loan Id,MO,Loan Amount
+1,ABC Mortgage,318725
+2,ABC Mortgage,375685
+3,Prime Lending,479875
+4,Prime Lending,525400
+5,Best Loans Inc,515425
+6,Integrity Lending,485000

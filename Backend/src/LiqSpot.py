@@ -1,16 +1,20 @@
 #!/usr/bin/python
 
 import csv, sys, os
+from pprint import pprint
 from optparse import OptionParser
 from datetime import datetime
 from copy import deepcopy
 
-class Application:
+class LiqEngine:
 	def __init__(self):
 		self.Mo = []
 		self.Loans = []
+		self.LoanIndex = []
 		self.TotalLoans = 0
+		self.Users = {}
 		self.Bids = {}
+		self.Data = {}
 		self.Exceptions = []
 		parser = self.ParseArg()
 		(self.options, args) = parser.parse_args()
@@ -31,7 +35,7 @@ class Application:
 				metavar="EXCEPTIONSFILE", default = False)
 		parser.add_option("-o", "--output", dest="output",
 				help="Write the Liquidity Spots for the Loans",
-				metavar="OUTFILE", default = False)
+				metavar="OUTFILE", default = "")
 		parser.add_option("-d", "--delimiter", dest="delimiter",
 				help="Assigne delimiter to use in the csv format, default is ','.",
 				default=',')
@@ -41,20 +45,27 @@ class Application:
 		parser.add_option("-M", "--MorgageOperators", dest="OperatorFilename",
 				default= os.path.dirname(sys.argv[0])+"/mo.csv",
 				help = "Specify the Mortgage Operators, default mo.csv")
-		parser.add_option("-r", "--rankinvert", dest="rank_invert",
+		parser.add_option("-r", "--RankInvert", dest="rank_invert",
 				action="store_true",
 				help="Inverte the order of the order of the rank in " +
 				"General/Competitive bids.", default = False)
-		parser.add_option("-A", "--allocacceptexcetion",
+		parser.add_option("-A", "--AllocAcceptExcetion",
 				dest="AllocAcceptException", action="store_true",
 				help="Excetion in the calculation of Allocate and Accepted " +
 				"in General/Competitive bids.", default = False)
-		parser.add_option("-R", "--priordayrateused", dest="PriorRate",
-				default= 0, help="Prior day rate used in the Specified/Non " +
+		parser.add_option("-R", "--PriorDayRateUsed", dest="PriorRate",
+				default = 0, help="Prior day rate used in the Specified/Non " +
 				"Comptetitive bids")
+		parser.add_option("-L", "--LSSpread", dest="LSSpread",
+				default = 1, help="Rate to be added to the Rate's Mortgage " +
+				"Originator")
 		parser.usage = "usage: %prog [options arg] [-v]"
 		return parser
-	
+
+	def setParameters(self, LSSpread = 1, PriorDayRateUsed = 0.0):
+		self.options.LSSpread = LSSpread
+		self.options.PriorRate = PriorDayRateUsed
+
 	def addLoans(self, idl, lo):
 		d = dict(zip(idl, lo))
 		
@@ -67,14 +78,16 @@ class Application:
 				sys.exit('Error: in the file %s, see the field delimiter in csv file, look "LiqSpot.py --help".'
 						% self.options.loansFilename)
 		try:
-			d['Load Amount'] = float(d['Load Amount'].strip(' '))
+			d['Loan Amount'] = float(d['Loan Amount'].strip(' '))
 			d['Rate'] = float(d['Rate'].strip(' '))
+			self.LoanIndex.append(d['Loan Id'])
+			del(d['Loan Id'])
 		except:
 			sys.exit("Error: The number's format have an error, it is " +
 					"possible that you are using the same ',' separator of " +
 					"field and decimal expressions. Use '.' as decimal " +
 					"separator!")
-		self.TotalLoans = self.TotalLoans + d['Load Amount']
+		self.TotalLoans = self.TotalLoans + d['Loan Amount']
 		self.Loans.append(d)
 
 	def addLoansJson(self, k, lo):
@@ -93,6 +106,9 @@ class Application:
 		except csv.Error, e:
 			sys.exit('File %s, line %d: %s' % (self.options.OperatorFilename, fmo.line_num, e)) 
 	
+	def setMortgageOperators(self, Mo):
+		self.Mo = Mo
+
 	def LoadLoans(self):
 		fileName, fileExt = os.path.splitext(self.options.loansFilename)
 		if fileExt.lower() == ".json":
@@ -104,7 +120,7 @@ class Application:
 			#try:
 			for k, lo in flo.iteritems():
 				self.addLoansJson(k, lo)
-			self.Loans.append({'MO': 'Total', 'Load Amount': self.TotalLoans})
+			self.Loans.append({'MO': 'Total', 'Loan Amount': self.TotalLoans})
 			#except:
 			#	sys.exit('File %s, line %d: %s' % (self.options.loansFilename, flo.line_num, e))
 		else:
@@ -120,9 +136,37 @@ class Application:
 				for lo in flo:
 					lo.append(str(float(self.options.PriorRate)/100))
 					self.addLoans(idlo, lo)
-				self.Loans.append({'MO': 'Total', 'Load Amount': self.TotalLoans})
+				self.Loans.append({'MO': 'Total', 'Loan Amount': self.TotalLoans})
 			except csv.Error, e:
 				sys.exit('File %s, line %d: %s' % (self.options.loansFilename, flo.line_num, e))
+
+	def setLoans(self, Lo):
+		tot =  0
+		for l in Lo:
+			try:
+				tot += l['loanAmount']
+				l['Loan Amount'] =  l['loanAmount']
+				del( l['loanAmount'])
+				l['Rate'] = 0
+				self.LoanIndex.append(l['loanId'])
+				del(l['loanId'])
+				l['MO'] = l['mortgageOriginator']
+				del(l['mortgageOriginator'])
+			except:
+				sys.exit('Error: The line %s is malformed.'%(l))
+		Lo.append({'MO': 'Total', 'Loan Amount': tot})
+		self.Loans = Lo
+
+	def checkUsersColNames(self, iduser):
+		duser = {"userid":"userid",
+				"funds available":"funds"}
+		for u in iduser:
+			try:
+				p = iduser.index(u)
+				iduser[p] = duser[u.lower()]	
+			except:
+				sys.exit('The column %s does not match witch the format' % (u) )
+
 
 	def checkBidsColNames(self, idbid):
 		dbid = {"time":"time",
@@ -136,8 +180,7 @@ class Application:
 				"mo if applicable":"mo",
 				"order type":"competitive",
 				"if competitive, bid rate":"bidrate",
-				"order timing":"ordertiming",
-				"funds available":"funds",
+				"userid":"userid",
 				"if auto, date/time order placed":"dateorder",
 				"id":"id",
 				"type":"specified",
@@ -149,7 +192,7 @@ class Application:
 				"mo":"mo",
 				"competitive":"competitive",
 				"bidrate":"bidrate",
-				"ordertiming":"ordertiming",
+				"order timing":"ordertiming",
 				"funds":"funds",
 				"dateorder":"dateorder"}
 
@@ -178,10 +221,11 @@ class Application:
 					"field and decimal expressions. Use '.' as decimal " +
 					"separator!")
 
+	def cleanUserData(self, duser):
+		duser['funds'] = self.PriceToFloat(duser['funds'])
+	
 	def cleanBidData(self, dbid):
-		price = ['aggregate', 'funds']	
-		for p in price:
-			dbid[p] = self.PriceToFloat(dbid[p])
+		dbid['aggregate'] = self.PriceToFloat(dbid['aggregate'])
 		rates = ['genrate','sperate', 'bidrate']
 		for r in rates:
 			dbid[r] = self.RateToFloat(dbid[r])
@@ -195,10 +239,17 @@ class Application:
 		else:
 			dbid['specified'] = False
 
-		#TODO add the today or the file date to the date
+		#TODO add today or the file date to the date
 		dbid['time'] = datetime.strptime(dbid['time'], '%I:%M:%S %p')
 		if dbid['dateorder'] != '':
 			dbid['dateorder'] = datetime.strptime(dbid['dateorder'], '%m/%d/%y %I:%M %p')
+
+	def addUsers(self, iduser, u):
+		duser = dict(zip(iduser, u))
+		id = duser['userid']
+		del(duser['userid'])
+		self.cleanUserData(duser)
+		self.Users[id] = duser
 
 	def addBids(self, idbid, b):
 		dbid = dict(zip(idbid, b))
@@ -206,6 +257,28 @@ class Application:
 		del(dbid["id"])
 		self.cleanBidData(dbid)
 		self.Bids[id] = dbid
+
+	def LoadUsers(self):
+		try:
+			fusers = csv.reader(open(self.options.usersFileName, "rb"),
+				delimiter=self.options.delimiter)
+		except:
+			sys.exit('There are no parameter -u for the user file name, or the file format is incorrect.')
+		
+		try:
+			iduser = fusers.next()
+			self.checkUsersColNames(iduser)
+			for u in fusers:
+				self.addUsers(iduser, u)
+		except csv.Error, e:
+			sys.exit('File %s, line %d: %s' % (self.options.usersFileName, fusers.line_num, e))
+
+	def setUsers(self, Users):
+		try:
+			for u in Users:
+				self.Users[u['userId']] = {'funds': u['fundsAvailable']} 
+		except:
+			 sys.exit('Users format error in %s'%(Users))
 
 	def LoadBids(self):
 		fileName, fileExt = os.path.splitext(self.options.bidsFileName)
@@ -218,7 +291,7 @@ class Application:
 			#try:
 			for k, jbit in jsonbids.iteritems():
 				self.addBidsJson(k, jbit)
-			self.Loans.append({'MO': 'Total', 'Load Amount': self.TotalLoans})
+			self.Loans.append({'MO': 'Total', 'Loan Amount': self.TotalLoans})
 		else:
 			try:
 				fbids = csv.reader(open(self.options.bidsFileName, "rb"),
@@ -233,6 +306,34 @@ class Application:
 					self.addBids(idbid, b)
 			except csv.Error, e:
 				sys.exit('File %s, line %d: %s' % (self.options.bidsFileName, fbids.line_num, e))
+
+	def setBids(self, Bids):
+		for b in Bids:
+			d = {}
+			try:
+				d['time'] = datetime.strptime(b['date'] + ' ' + b['time'], "%Y-%m-%d %H:%M:%S")
+				d['userid'] = b['userId']
+				d['specified'] = b['bidType'] == 'Specified'
+				if not d['specified']:
+					d['aggregate'] = b['Aggregate']
+				else:
+					d['aggregate'] = ''
+				d['bidrate'] = '' if not b.has_key('bidRate') else b['bidRate']
+				d['competitive'] = b['orderType'] == 'Competitive'
+				d['bidrate'] = '' if not d['competitive'] \
+						else float(b['bidRate']) / 100
+				d['dateorder'] = '' if  not b.has_key('dateOrder') \
+					else datetime.strptime(b['dateOrder'], "%Y-%m-%d %H:%M:%S")
+				d['genrate'], d['sperate'] = ('', float(b['Participation']) / 100) \
+						if d['specified'] \
+						else (float(b['Participation']) / 100, '')
+				d['lorm'] = '' if not b.has_key('assetSubset') else	b['assetSubset']
+				d['loannum'] = '' if d['lorm'] != 'Loan' else str(self.LoanIndex.index(b['loanId']) + 1)
+				d['mo'] = '' if d['lorm'] != 'MO' else d['mortgageOriginator']
+				d['ordertiming'] = b['orderTiming']
+				self.Bids[b['bidId']] = d
+			except:
+				sys.exit('Error: Line %b malformed.'%(b))
 
 	def checkExceptionsColNames(self, iexc):
 		exc = {"Bid ID": "id",
@@ -314,7 +415,7 @@ class Application:
 				elif ((self.SpecifiedCompetitive(k, True, Competitive) and bid['sperate'] != [])
 						and ((bid['loannum'] != '' and int(bid['loannum']) == i)
 							or (bid['loannum'] == '' and bid['mo'] == a['MO']))):
-					l = bid['sperate'] * a['Load Amount']
+					l = bid['sperate'] * a['Loan Amount']
 					vals.append(l)
 					Tots[i-1] = Tots[i-1] + l
 					TotalLoan = TotalLoan + l
@@ -413,7 +514,7 @@ class Application:
 		Cummulative = map (lambda x, y: x+y, assetSC['Total'],
 				assetSNC['Total'])
 		Subscription = map (lambda x, y: x/y, Cummulative[0:-1],
-				map ( lambda x:x['Load Amount'], self.Loans)[0:-1])
+				map ( lambda x:x['Loan Amount'], self.Loans)[0:-1])
 		_MarketPremiumPrim = map ( lambda x: (1 - x)*MarketRateDifferential,
 				Subscription)
 		_MarketPremium = map (lambda x, y, w, z: y if z > 0 and y >= w 
@@ -456,7 +557,7 @@ class Application:
 		#TODO change by List Comprehensions
 		L = []
 		for i in self.Loans:
-			L.append((i['Load Amount'], 'under'))
+			L.append((i['Loan Amount'], 'under'))
 		return L
 
 	def CalcRemaing (self, AssetAssigned, Loans):
@@ -523,7 +624,10 @@ class Application:
 			vals = {}
 			if self.SpecifiedCompetitive(k, False, True):
 				if (bid['bidrate'] > 0):
-					vals['aggregate'] = min(bid['aggregate'], bid['funds'])
+					#vals['aggregate'] = min(bid['aggregate'], bid['funds'])
+					vals['aggregate'] = min(bid['aggregate'],
+							self.Users[bid['userid']]['funds'])
+					#TODO reduce funds to the user
 					TotalAggregate = TotalAggregate + vals['aggregate']
 					vals['rank'] = Rank[k]
 					vals['bidrate'] = bid['bidrate']
@@ -647,14 +751,16 @@ class Application:
 		TotalAggregate = 0
 		for k, bid in self.Bids.iteritems():
 			if self.SpecifiedCompetitive(k, False, False):
-				TotalAggregate = TotalAggregate + bid['funds'] 
+				#TotalAggregate = TotalAggregate + bid['funds'] 
+				TotalAggregate = TotalAggregate + self.Users[bid['userid']]['funds'] 
 				
 		rate = GCompAssetRem[len(GCompAssetRem)-1][0]/TotalAggregate if TotalAggregate != 0 else 0
 		TotalAggregate = 0
 		for k, bid in self.Bids.iteritems():
 			vals = {}
 			if self.SpecifiedCompetitive(k, False, False):
-				vals['allocated'] = bid['funds'] * rate
+				#vals['allocated'] = bid['funds'] * rate
+				vals['allocated'] = self.Users[bid['userid']]['funds'] * rate
 				TotalAggregate = TotalAggregate + vals['allocated']
 				_AssetAlloAndAccept[k] = vals
 				if self.options.Verbose:
@@ -733,35 +839,54 @@ class Application:
 			_all[k] = rate
 		return _all
 
-	def PrintSummary(self, asset, AllocRates):
+	def PrintSummary(self):
 		if self.options.Verbose:
 			print "-"*50
 			print "Asset Summary"
 			print "-"*50
+			pprint(self.Data)
 		if self.options.output:
 			ofile = open(self.options.output, "wb")
 			summwrt = csv.writer(ofile, delimiter=self.options.delimiter, quotechar='"')
-		valsRate = 0
-		for k, bid in self.Bids.iteritems():
-			# Print in standart output if there are no output or there are
-			# verbose option.
-			if self.options.Verbose or not self.options.output:
-				print k,
-				print asset[k],
-				print AllocRates[k]
-			valsRate = valsRate + AllocRates[k] * asset[k][-1]
-		valsRate = valsRate / asset['Total'][-1]
-		if self.options.Verbose or not self.options.output:
-			print "Total ",
-			print asset['Total'],
-			print valsRate
 
-	def main(self, *args):
+	def LoadAsConsole(self):
 		self.LoadMortgageOperators()
 		self.LoadLoans()
+		self.LoadUsers()
 		self.LoadBids()
 		self.LoadExceptions()
 
+	def PrepareData(self, asset, AllocRates, WARateTot, GNComptAssetRem):
+		self.Data["Asset Allocated"] = {}
+		self.Data["Rates Allocated"] = AllocRates
+		self.Data["Users"] = {}
+		for ku, du in self.Users.iteritems():
+			self.Data["Users"][ku] = {'Funds': du['funds'], 'Initial Funds': du['funds']}
+		for l in self.LoanIndex:
+			if GNComptAssetRem[self.LoanIndex.index(l)][1] == 'under':
+				self.Data["Asset Allocated"][l] = {'Allocated': False, 'Rate': 0.0}
+			else:
+				self.Data["Asset Allocated"][l] = {'Allocated': {}} 
+				for k, a in asset.iteritems():
+					al = a[self.LoanIndex.index(l)]
+					if al != 0:
+						self.Data["Asset Allocated"][l]['Allocated'][k] = al
+						if k != 'Total':
+							self.Data["Users"][self.Bids[k]['userid']]['Funds'] -= al
+							if abs(self.Data["Users"][self.Bids[k]['userid']]['Funds']) <= 1e-9:
+								self.Data["Users"][self.Bids[k]['userid']]['Funds'] = 0
+							if self.Data["Users"][self.Bids[k]['userid']].has_key('Loans'):
+								self.Data["Users"][self.Bids[k]['userid']]['Loans'].append(l)
+								self.Data["Users"][self.Bids[k]['userid']]['Bids'].append((k, al))
+							else:
+								self.Data["Users"][self.Bids[k]['userid']]['Loans'] = [l]
+								self.Data["Users"][self.Bids[k]['userid']]['Bids'] = [(k, al)]
+
+				self.Data["Asset Allocated"][l]['Rate'] = \
+					WARateTot[self.LoanIndex.index(l)] + \
+					float(self.options.LSSpread) / 100
+
+	def Calc(self):
 		# Calculate Specified and Competitive Assets
 		if self.options.Verbose:
 			print "Assets are assigned Specified/Competitive bids"
@@ -821,8 +946,14 @@ class Application:
 		asset = self.Summary(assetSC, assetSNC, assetGC, assetGNC, WARateGNC,
 				WARateTot, GNComptAssetRem)
 		AllocRates = self.SumRateAllocation( asset, assetSNC, ratesGC, WARateGNC)
-		self.PrintSummary(asset, AllocRates)
+		self.PrepareData(asset, AllocRates, WARateTot, GNComptAssetRem)
+		return self.Data
+
+	def main(self, *args):
+		self.LoadAsConsole()
+		self.Calc()
+		self.PrintSummary()
 
 if __name__ == '__main__':
-	app = Application()
+	app = LiqEngine()
 	sys.exit(app.main(*sys.argv))
