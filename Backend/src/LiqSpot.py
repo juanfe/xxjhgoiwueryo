@@ -6,6 +6,13 @@ from optparse import OptionParser
 from datetime import datetime
 from copy import deepcopy
 
+class LiqError(Exception):
+	def __init__(self, value):
+		self.value = value
+
+	def __str__(self):
+		return repr(self.value)
+
 class LiqEngine:
 	def __init__(self):
 		self.Mo = []
@@ -327,7 +334,14 @@ class LiqEngine:
 				d['genrate'], d['sperate'] = ('', float(b['Participation']) / 100) \
 						if d['specified'] \
 						else (float(b['Participation']) / 100, '')
-				d['lorm'] = '' if not b.has_key('assetSubset') else	b['assetSubset']
+				if not b.has_key('assetSubset'):
+					d['lorm'] = ''
+					if b['bidType'] != 'General':
+						raise LiqError("Error Bid type is not General, and haven't assetSubset")
+				else:
+					d['lorm'] = b['assetSubset']
+					if b['bidType'] != 'Specified':
+						raise LiqError("Error Bid type is not Specified, and have assetSubset")
 				d['loannum'] = '' if d['lorm'] != 'Loan' else str(self.LoanIndex.index(b['loanId']) + 1)
 				d['mo'] = '' if d['lorm'] != 'MO' else d['mortgageOriginator']
 				d['ordertiming'] = b['orderTiming']
@@ -859,9 +873,9 @@ class LiqEngine:
 	def PrepareData(self, asset, AllocRates, WARateTot, GNComptAssetRem):
 		self.Data["Asset Allocated"] = {}
 		self.Data["Rates Allocated"] = AllocRates
-		self.Data["Users"] = {}
+		self.Data["users"] = {}
 		for ku, du in self.Users.iteritems():
-			self.Data["Users"][ku] = {'Funds': du['funds'], 'Initial Funds': du['funds']}
+			self.Data["users"][ku] = {'fundsAvailable': du['funds'], 'Initial Funds': du['funds']}
 		for l in self.LoanIndex:
 			if GNComptAssetRem[self.LoanIndex.index(l)][1] == 'under':
 				self.Data["Asset Allocated"][l] = {'Allocated': False, 'Rate': 0.0}
@@ -872,15 +886,15 @@ class LiqEngine:
 					if al != 0:
 						self.Data["Asset Allocated"][l]['Allocated'][k] = al
 						if k != 'Total':
-							self.Data["Users"][self.Bids[k]['userid']]['Funds'] -= al
-							if abs(self.Data["Users"][self.Bids[k]['userid']]['Funds']) <= 1e-9:
-								self.Data["Users"][self.Bids[k]['userid']]['Funds'] = 0
-							if self.Data["Users"][self.Bids[k]['userid']].has_key('Loans'):
-								self.Data["Users"][self.Bids[k]['userid']]['Loans'].append(l)
-								self.Data["Users"][self.Bids[k]['userid']]['Bids'].append((k, al))
+							self.Data["users"][self.Bids[k]['userid']]['fundsAvailable'] -= al
+							if abs(self.Data["users"][self.Bids[k]['userid']]['fundsAvailable']) <= 1e-9:
+								self.Data["users"][self.Bids[k]['userid']]['fundsAvailable'] = 0
+							if self.Data["users"][self.Bids[k]['userid']].has_key('Loans'):
+								self.Data["users"][self.Bids[k]['userid']]['loans'].append(l)
+								self.Data["users"][self.Bids[k]['userid']]['bids'].append((k, al))
 							else:
-								self.Data["Users"][self.Bids[k]['userid']]['Loans'] = [l]
-								self.Data["Users"][self.Bids[k]['userid']]['Bids'] = [(k, al)]
+								self.Data["users"][self.Bids[k]['userid']]['loans'] = [l]
+								self.Data["users"][self.Bids[k]['userid']]['bids'] = [(k, al)]
 
 				self.Data["Asset Allocated"][l]['Rate'] = \
 					WARateTot[self.LoanIndex.index(l)] + \
