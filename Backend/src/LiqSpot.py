@@ -872,7 +872,7 @@ class LiqEngine:
 
 	def PrepareData(self, asset, AllocRates, WARateTot, GNComptAssetRem):
 		self.Data["loans"] = {}
-		self.Data["Rates Allocated"] = AllocRates
+		self.Data["bids"] = {}
 		self.Data["users"] = {}
 		for ku, du in self.Users.iteritems():
 			self.Data["users"][ku] = {'fundsAvailable': du['funds']}
@@ -892,18 +892,20 @@ class LiqEngine:
 							self.Data["users"][self.Bids[k]['userid']]['fundsAvailable'] -= al
 							if abs(self.Data["users"][self.Bids[k]['userid']]['fundsAvailable']) <= 1e-9:
 								self.Data["users"][self.Bids[k]['userid']]['fundsAvailable'] = 0
-							#if self.Data["Users"][self.Bids[k]['userid']].has_key('Loans'):
-							#	self.Data["Users"][self.Bids[k]['userid']]['Loans'].append(l)
-							#	self.Data["Users"][self.Bids[k]['userid']]['Bids'].append((k, al))
-							#else:
-							#	self.Data["Users"][self.Bids[k]['userid']]['Loans'] = [l]
-							#	self.Data["Users"][self.Bids[k]['userid']]['Bids'] = [(k, al)]
 
 				self.Data["loans"][l]['rateToMo'] = \
 					WARateTot[self.LoanIndex.index(l)] * 100 + \
 					float(self.options.LSSpread)
 				self.Data["loans"][l]['investorRate'] = \
 					WARateTot[self.LoanIndex.index(l)] * 100 
+		for k, a in asset.iteritems():
+			if k != 'Total' and a[-1] != 0:
+				self.Data["bids"][k] = {"bidId": k, "acceptedRate": 100*AllocRates[k],
+						"allocatedAmounts": {}, "fundsTotal": a[-1]}
+				for l in self.LoanIndex:
+					if a[self.LoanIndex.index(l)] != 0:
+						self.Data["bids"][k]["allocatedAmounts"][l] = a[self.LoanIndex.index(l)]
+
 
 	def Calc(self):
 		# Calculate Specified and Competitive Assets
