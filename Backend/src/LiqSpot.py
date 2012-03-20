@@ -871,34 +871,38 @@ class LiqEngine:
 		self.LoadExceptions()
 
 	def PrepareData(self, asset, AllocRates, WARateTot, GNComptAssetRem):
-		self.Data["Asset Allocated"] = {}
+		self.Data["loans"] = {}
 		self.Data["Rates Allocated"] = AllocRates
 		self.Data["users"] = {}
 		for ku, du in self.Users.iteritems():
-			self.Data["users"][ku] = {'fundsAvailable': du['funds'], 'Initial Funds': du['funds']}
+			self.Data["users"][ku] = {'fundsAvailable': du['funds']}
 		for l in self.LoanIndex:
 			if GNComptAssetRem[self.LoanIndex.index(l)][1] == 'under':
-				self.Data["Asset Allocated"][l] = {'Allocated': False, 'Rate': 0.0}
+				self.Data["loans"][l] = {'funded': False, 'investorRate': 0.0}
 			else:
-				self.Data["Asset Allocated"][l] = {'Allocated': {}} 
+				self.Data["loans"][l] = {'funded': True, 'loanId': l} 
 				for k, a in asset.iteritems():
 					al = a[self.LoanIndex.index(l)]
 					if al != 0:
-						self.Data["Asset Allocated"][l]['Allocated'][k] = al
-						if k != 'Total':
+						if k == 'Total':
+							self.Data["loans"][l]['fundedAmount'] = al
+						else:
+							self.Data["users"][self.Bids[k]['userid']]['userid'] = \
+									self.Bids[k]['userid']
 							self.Data["users"][self.Bids[k]['userid']]['fundsAvailable'] -= al
 							if abs(self.Data["users"][self.Bids[k]['userid']]['fundsAvailable']) <= 1e-9:
 								self.Data["users"][self.Bids[k]['userid']]['fundsAvailable'] = 0
-							if self.Data["users"][self.Bids[k]['userid']].has_key('Loans'):
-								self.Data["users"][self.Bids[k]['userid']]['loans'].append(l)
-								self.Data["users"][self.Bids[k]['userid']]['bids'].append((k, al))
-							else:
-								self.Data["users"][self.Bids[k]['userid']]['loans'] = [l]
-								self.Data["users"][self.Bids[k]['userid']]['bids'] = [(k, al)]
+							#if self.Data["Users"][self.Bids[k]['userid']].has_key('Loans'):
+							#	self.Data["Users"][self.Bids[k]['userid']]['Loans'].append(l)
+							#	self.Data["Users"][self.Bids[k]['userid']]['Bids'].append((k, al))
+							#else:
+							#	self.Data["Users"][self.Bids[k]['userid']]['Loans'] = [l]
+							#	self.Data["Users"][self.Bids[k]['userid']]['Bids'] = [(k, al)]
 
-				self.Data["Asset Allocated"][l]['Rate'] = \
-					WARateTot[self.LoanIndex.index(l)] + \
-					float(self.options.LSSpread) / 100
+				#todo aqui cambiar la sig linea por el valor del loan equivalente
+				#self.Data["Asset Allocated"][l]['Rate'] = \
+				#	WARateTot[self.LoanIndex.index(l)] + \
+				#	float(self.options.LSSpread) / 100
 
 	def Calc(self):
 		# Calculate Specified and Competitive Assets
