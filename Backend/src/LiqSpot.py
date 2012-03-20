@@ -906,15 +906,17 @@ class LiqEngine:
 					if a[self.LoanIndex.index(l)] != 0:
 						self.Data["bids"][k]["allocatedAmounts"][l] = a[self.LoanIndex.index(l)]
 
-
-	def Calc(self):
+	def CalcSC(self):
 		# Calculate Specified and Competitive Assets
 		if self.options.Verbose:
 			print "Assets are assigned Specified/Competitive bids"
 		assetSC = self.SpecifiedAssetAssignation(Competitive = True)
 		WARateSC = self.WARate(assetSC)
 		SCompAssetRem = self.CalcRemaing (assetSC, self.GetLoans())
+		return (assetSC, WARateSC, SCompAssetRem)
 
+	def Calc(self):
+		assetSC, WARateSC, SCompAssetRem = self.CalcSC()
 		# Calculate Specified and Noncompetitive Assets
 		self.CalcLoansRatesSNC(assetSC)
 		if self.options.Verbose:
