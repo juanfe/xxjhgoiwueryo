@@ -915,8 +915,7 @@ class LiqEngine:
 		SCompAssetRem = self.CalcRemaing (assetSC, self.GetLoans())
 		return (assetSC, WARateSC, SCompAssetRem)
 
-	def Calc(self):
-		assetSC, WARateSC, SCompAssetRem = self.CalcSC()
+	def CalcSNC(self, assetSC, SCompAssetRem):
 		# Calculate Specified and Noncompetitive Assets
 		self.CalcLoansRatesSNC(assetSC)
 		if self.options.Verbose:
@@ -924,6 +923,11 @@ class LiqEngine:
 		assetSNC = self.SpecifiedAssetAssignation(Competitive = False)
 		SNCompAssetRem = self.CalcRemaing (assetSNC, SCompAssetRem)
 		WARateSNC = self.WARateSNC(assetSC, assetSNC)
+		return (assetSNC, WARateSNC, SNCompAssetRem)
+
+	def Calc(self):
+		assetSC, WARateSC, SCompAssetRem = self.CalcSC()
+		assetSNC, WARateSNC, SNCompAssetRem = self.CalcSC(assetSC, SCompAssetRem)
 
 		# Summary the Specified rates
 		WARateS = self.WARateS(assetSC, WARateSC, assetSNC, WARateSNC)
