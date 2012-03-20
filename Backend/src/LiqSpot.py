@@ -899,10 +899,11 @@ class LiqEngine:
 							#	self.Data["Users"][self.Bids[k]['userid']]['Loans'] = [l]
 							#	self.Data["Users"][self.Bids[k]['userid']]['Bids'] = [(k, al)]
 
-				#todo aqui cambiar la sig linea por el valor del loan equivalente
-				#self.Data["Asset Allocated"][l]['Rate'] = \
-				#	WARateTot[self.LoanIndex.index(l)] + \
-				#	float(self.options.LSSpread) / 100
+				self.Data["loans"][l]['rateToMo'] = \
+					WARateTot[self.LoanIndex.index(l)] * 100 + \
+					float(self.options.LSSpread)
+				self.Data["loans"][l]['investorRate'] = \
+					WARateTot[self.LoanIndex.index(l)] * 100 
 
 	def Calc(self):
 		# Calculate Specified and Competitive Assets
