@@ -949,18 +949,10 @@ class LiqEngine:
 				MarketPremium)
 		ratesGC = self.CalcRateAwarded(assetGC, allocateGC, SNCompAssetRem,
 				WARateGC, MarketPremium)
-		return (assetGC, WARateGC, GCompAssetRem)
+		return (assetGC, WARateGC, GCompAssetRem, MarketPremium)
 
-	def Calc(self):
-		assetSC, WARateSC, SCompAssetRem = self.CalcSC()
-		assetSNC, WARateSNC, SNCompAssetRem = self.CalcSC(assetSC, SCompAssetRem)
-
-		# Summary the Specified rates
-		WARateS = self.WARateS(assetSC, WARateSC, assetSNC, WARateSNC)
-
-		assetGC, WARateGC, GCompAssetRem = self.CalcGC(assetSC, assetSNC, \
-				WARateS, SNCompAssetRem)
-
+	def CalcGNC(self, assetSC, assetSNC, assetGNC, WARateS, WARateGC,
+			MarketPremium):
 		# Calculate General and Noncompetitive Assets
 		if self.options.Verbose:
 			print "General/Noncompetitive bids are assigned to undersubscribed assets"
@@ -971,6 +963,19 @@ class LiqEngine:
 				WARateGC, MarketPremium)
 		#G177:M177
 		GNComptAssetRem = self.CalcRemaing (assetGNC, GCompAssetRem)
+		return (assetGNC, WARateGNC, GNComptAssetRem)
+
+	def Calc(self):
+		assetSC, WARateSC, SCompAssetRem = self.CalcSC()
+		assetSNC, WARateSNC, SNCompAssetRem = self.CalcSC(assetSC, SCompAssetRem)
+
+		# Summary the Specified rates
+		WARateS = self.WARateS(assetSC, WARateSC, assetSNC, WARateSNC)
+
+		assetGC, WARateGC, GCompAssetRem, MarketPremium = self.CalcGC(assetSC, assetSNC, \
+				WARateS, SNCompAssetRem)
+		assetGNC, WARateGNC, GNComptAssetRem = CalcGNC( assetSC, assetSNC,
+				assetGNC, WARateS, WARateGC, MarketPremium)
 
 		WARateTot = self.WARateTot(assetSC, assetSNC, assetGC, assetGNC, WARateGNC,
 				WARateSGC)
