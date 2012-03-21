@@ -20,6 +20,7 @@ class LiqEngine:
 		self.LoanIndex = []
 		self.TotalLoans = 0
 		self.Users = {}
+		self.Funds = {}
 		self.Bids = {}
 		self.Data = {}
 		self.Exceptions = []
@@ -436,6 +437,10 @@ class LiqEngine:
 				else:
 					vals.append(0)
 				i = i+1
+			if self.Users[bid['userid']]['funds'] < TotalLoan:
+				vals = [x * self.Users[bid['userid']]['funds']/TotalLoan for x in vals]
+				TotalLoan = x * self.Users[bid['userid']]['funds']
+			self.Users[bid['userid']]['funds'] -= vals[-1]
 			if self.options.Verbose:
 				print k,
 				print vals
