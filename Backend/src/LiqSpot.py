@@ -438,8 +438,9 @@ class LiqEngine:
 					vals.append(0)
 				i = i+1
 			if self.Users[bid['userid']]['funds'] < TotalLoan:
+				Tots = [x - y for x, y in zip(Tots, vals)]
 				vals = [x * self.Users[bid['userid']]['funds']/TotalLoan for x in vals]
-				TotalLoan = x * self.Users[bid['userid']]['funds']
+				Tots = [x + y for x, y in zip(Tots, vals)]
 			self.Users[bid['userid']]['funds'] -= vals[-1]
 			if self.options.Verbose:
 				print k,
@@ -448,8 +449,7 @@ class LiqEngine:
 			j = j + 1
 		_AssetAssignation['Total'] = Tots 
 		if self.options.Verbose:
-			print "Total ",
-			print Tots
+			print "Total %s"% Tots
 		return _AssetAssignation
 
 	def WARate(self, asset):
