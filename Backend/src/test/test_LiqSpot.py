@@ -171,7 +171,7 @@ class TestApplication:
 				SCompAssetRem)
 		WARateS = self.app.WARateS(assetSC, WARateSC, assetSNC, WARateSNC)
 		assetGC, WARateGC, GCompAssetRem, MarketPremium, WARateSGC, ratesGC = \
-	                self.CalcGC(assetSC, assetSNC, WARateS, SNCompAssetRem)
+	                self.app.CalcGC(assetSC, assetSNC, WARateS, SNCompAssetRem)
 		assert ratesGC == p
 
 	def test_WARateTot(self, arg, p):
@@ -188,8 +188,8 @@ class TestApplication:
 				SCompAssetRem)
 		WARateS = self.app.WARateS(assetSC, WARateSC, assetSNC, WARateSNC)
 		assetGC, WARateGC, GCompAssetRem, MarketPremium, WARateSGC, ratesGC = \
-	                self.CalcGC(assetSC, assetSNC, WARateS, SNCompAssetRem)
-		assetGNC, WARateGNC, GNComptAssetRem = self.CalcGNC( assetSC, assetSNC,	\
+	                self.app.CalcGC(assetSC, assetSNC, WARateS, SNCompAssetRem)
+		assetGNC, WARateGNC, GNComptAssetRem = self.app.CalcGNC( assetSC, assetSNC,	\
 				WARateS, WARateGC, MarketPremium, GCompAssetRem)
 		WARateTot = self.app.WARateTot(assetSC, assetSNC, assetGC, assetGNC,
 				WARateGNC, WARateSGC)
@@ -209,8 +209,8 @@ class TestApplication:
 				SCompAssetRem)
 		WARateS = self.app.WARateS(assetSC, WARateSC, assetSNC, WARateSNC)
 		assetGC, WARateGC, GCompAssetRem, MarketPremium, WARateSGC, ratesGC = \
-	                self.CalcGC(assetSC, assetSNC, WARateS, SNCompAssetRem)
-		assetGNC, WARateGNC, GNComptAssetRem = self.CalcGNC( assetSC, assetSNC,	\
+	                self.app.CalcGC(assetSC, assetSNC, WARateS, SNCompAssetRem)
+		assetGNC, WARateGNC, GNComptAssetRem = self.app.CalcGNC( assetSC, assetSNC,	\
 				WARateS, WARateGC, MarketPremium, GCompAssetRem)
 		WARateTot = self.app.WARateTot(assetSC, assetSNC, assetGC, assetGNC,
 				WARateGNC, WARateSGC)
@@ -232,8 +232,8 @@ class TestApplication:
 				SCompAssetRem)
 		WARateS = self.app.WARateS(assetSC, WARateSC, assetSNC, WARateSNC)
 		assetGC, WARateGC, GCompAssetRem, MarketPremium, WARateSGC, ratesGC = \
-	                self.CalcGC(assetSC, assetSNC, WARateS, SNCompAssetRem)
-		assetGNC, WARateGNC, GNComptAssetRem = self.CalcGNC( assetSC, assetSNC,	\
+	                self.app.CalcGC(assetSC, assetSNC, WARateS, SNCompAssetRem)
+		assetGNC, WARateGNC, GNComptAssetRem = self.app.CalcGNC( assetSC, assetSNC,	\
 				WARateS, WARateGC, MarketPremium, GCompAssetRem)
 		WARateTot = self.app.WARateTot(assetSC, assetSNC, assetGC, assetGNC,
 				WARateGNC, WARateSGC)
@@ -242,5 +242,5 @@ class TestApplication:
 		AllocRates = self.app.SumRateAllocation(asset, assetSNC, ratesGC, WARateGNC)
 		assert AllocRates == p
 	
-	#TODO
-	#def test_Calc(self, arg, p)
+#	#TODO
+#	#def test_Calc(self, arg, p)
