@@ -20,7 +20,6 @@ class LiqEngine:
 		self.LoanIndex = []
 		self.TotalLoans = 0
 		self.Users = {}
-		self.Funds = {}
 		self.Bids = {}
 		self.Data = {}
 		self.Exceptions = []
@@ -167,7 +166,8 @@ class LiqEngine:
 
 	def checkUsersColNames(self, iduser):
 		duser = {"userid":"userid",
-				"funds available":"funds"}
+				"funds available":"funds",
+				"prev_funds":"prev_funds"}
 		for u in iduser:
 			try:
 				p = iduser.index(u)
@@ -231,6 +231,7 @@ class LiqEngine:
 
 	def cleanUserData(self, duser):
 		duser['funds'] = self.PriceToFloat(duser['funds'])
+		duser['prev_funds'] = self.PriceToFloat(duser['prev_funds'])
 	
 	def cleanBidData(self, dbid):
 		dbid['aggregate'] = self.PriceToFloat(dbid['aggregate'])
@@ -275,8 +276,10 @@ class LiqEngine:
 		
 		try:
 			iduser = fusers.next()
+			iduser.append('prev_funds')
 			self.checkUsersColNames(iduser)
 			for u in fusers:
+				u.append(u[-1])
 				self.addUsers(iduser, u)
 		except csv.Error, e:
 			sys.exit('File %s, line %d: %s' % (self.options.usersFileName, fusers.line_num, e))
@@ -284,7 +287,8 @@ class LiqEngine:
 	def setUsers(self, Users):
 		try:
 			for u in Users:
-				self.Users[u['userId']] = {'funds': u['fundsAvailable']} 
+				self.Users[u['userId']] = {'funds': u['fundsAvailable'],
+						'prev_funds': u['fundsAvailable']} 
 		except:
 			 sys.exit('Users format error in %s'%(Users))
 
@@ -880,7 +884,7 @@ class LiqEngine:
 		self.Data["bids"] = {}
 		self.Data["users"] = {}
 		for ku, du in self.Users.iteritems():
-			self.Data["users"][ku] = {'fundsAvailable': du['funds']}
+			self.Data["users"][ku] = {'fundsAvailable': du['prev_funds']}
 		for l in self.LoanIndex:
 			if GNComptAssetRem[self.LoanIndex.index(l)][1] == 'under':
 				self.Data["loans"][l] = {'funded': False, 'investorRate': 0.0}
