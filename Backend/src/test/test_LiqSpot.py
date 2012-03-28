@@ -70,11 +70,7 @@ class TestApplication:
 		#In engine processing rules example.xlsx "assets availale for bid"!G8:M27
 		sys.argv = arg
 		self.app = LiqEngine()
-		self.app.LoadMortgageOperators()
-		self.app.LoadLoans()
-		self.app.LoadUsers()
-		self.app.LoadBids()
-		self.app.LoadExceptions()
+		self.app.LoadAsConsole()
 		assetSC = self.app.SpecifiedAssetAssignation(Competitive = True)
 		assert  assetSC == p
 
@@ -82,11 +78,7 @@ class TestApplication:
 		#In engine processing rules example.xlsx "assets availale for bid"!G30:M30
 		sys.argv = arg
 		self.app = LiqEngine()
-		self.app.LoadMortgageOperators()
-		self.app.LoadLoans()
-		self.app.LoadUsers()
-		self.app.LoadBids()
-		self.app.LoadExceptions()
+		self.app.LoadAsConsole()
 		assetSC = self.app.SpecifiedAssetAssignation(Competitive = True)
 		WARateSC = self.app.WARate(assetSC)
 		assert WARateSC == p
@@ -95,11 +87,7 @@ class TestApplication:
 		#In engine processing rules example.xlsx "assets availale for bid"!G32:M33
 		sys.argv = arg
 		self.app = LiqEngine()
-		self.app.LoadMortgageOperators()
-		self.app.LoadLoans()
-		self.app.LoadUsers()
-		self.app.LoadBids()
-		self.app.LoadExceptions()
+		self.app.LoadAsConsole()
 		assetSC, WARateSC, SCompAssetRem = self.app.CalcSC()
 		assert SCompAssetRem == p 
 
@@ -107,11 +95,7 @@ class TestApplication:
 		#In engine processing rules example.xlsx "assets availale for bid"!G59:M59
 		sys.argv = arg
 		self.app = LiqEngine()
-		self.app.LoadMortgageOperators()
-		self.app.LoadLoans()
-		self.app.LoadUsers()
-		self.app.LoadBids()
-		self.app.LoadExceptions()
+		self.app.LoadAsConsole()
 		assetSC, WARateSC, SCompAssetRem = self.app.CalcSC()
 		assetSNC, WARateSNC, SNCompAssetRem = self.app.CalcSNC(assetSC,
 				SCompAssetRem)
@@ -121,11 +105,7 @@ class TestApplication:
 		#In engine processing rules example.xlsx "assets availale for bid"!G67:M67
 		sys.argv = arg
 		self.app = LiqEngine()
-		self.app.LoadMortgageOperators()
-		self.app.LoadLoans()
-		self.app.LoadUsers()
-		self.app.LoadBids()
-		self.app.LoadExceptions()
+		self.app.LoadAsConsole()
 		assetSC, WARateSC, SCompAssetRem = self.app.CalcSC()
 		assetSNC, WARateSNC, SNCompAssetRem = self.app.CalcSNC(assetSC,
 				SCompAssetRem)
@@ -136,11 +116,7 @@ class TestApplication:
 		#In engine processing rules example.xlsx "assets availale for bid"!G67:M67
 		sys.argv = arg
 		self.app = LiqEngine()
-		self.app.LoadMortgageOperators()
-		self.app.LoadLoans()
-		self.app.LoadUsers()
-		self.app.LoadBids()
-		self.app.LoadExceptions()
+		self.app.LoadAsConsole()
 		assetSC, WARateSC, SCompAssetRem = self.app.CalcSC()
 		assetSNC, WARateSNC, SNCompAssetRem = self.app.CalcSNC(assetSC,
 				SCompAssetRem)
@@ -161,11 +137,7 @@ class TestApplication:
 		# For rateawarded "assets availale for bid"!E106:E125
 		sys.argv = arg
 		self.app = LiqEngine()
-		self.app.LoadMortgageOperators()
-		self.app.LoadLoans()
-		self.app.LoadUsers()
-		self.app.LoadBids()
-		self.app.LoadExceptions()
+		self.app.LoadAsConsole()
 		assetSC, WARateSC, SCompAssetRem = self.app.CalcSC()
 		assetSNC, WARateSNC, SNCompAssetRem = self.app.CalcSNC(assetSC,
 				SCompAssetRem)
@@ -178,11 +150,7 @@ class TestApplication:
 		#In engine processing rules example.xlsx "assets availale for bid"!G174:G174
 		sys.argv = arg
 		self.app = LiqEngine()
-		self.app.LoadMortgageOperators()
-		self.app.LoadLoans()
-		self.app.LoadUsers()
-		self.app.LoadBids()
-		self.app.LoadExceptions()
+		self.app.LoadAsConsole()
 		assetSC, WARateSC, SCompAssetRem = self.app.CalcSC()
 		assetSNC, WARateSNC, SNCompAssetRem = self.app.CalcSNC(assetSC,
 				SCompAssetRem)
@@ -199,11 +167,7 @@ class TestApplication:
 		#In engine processing rules example.xlsx "assets availale for bid"!G182:M202
 		sys.argv = arg
 		self.app = LiqEngine()
-		self.app.LoadMortgageOperators()
-		self.app.LoadLoans()
-		self.app.LoadUsers()
-		self.app.LoadBids()
-		self.app.LoadExceptions()
+		self.app.LoadAsConsole()
 		assetSC, WARateSC, SCompAssetRem = self.app.CalcSC()
 		assetSNC, WARateSNC, SNCompAssetRem = self.app.CalcSNC(assetSC,
 				SCompAssetRem)
@@ -222,11 +186,7 @@ class TestApplication:
 		#In engine processing rules example.xlsx "assets availale for bid"!C182:C201
 		sys.argv = arg
 		self.app = LiqEngine()
-		self.app.LoadMortgageOperators()
-		self.app.LoadLoans()
-		self.app.LoadUsers()
-		self.app.LoadBids()
-		self.app.LoadExceptions()
+		self.app.LoadAsConsole()
 		assetSC, WARateSC, SCompAssetRem = self.app.CalcSC()
 		assetSNC, WARateSNC, SNCompAssetRem = self.app.CalcSNC(assetSC,
 				SCompAssetRem)
@@ -242,5 +202,4 @@ class TestApplication:
 		AllocRates = self.app.SumRateAllocation(asset, assetSNC, ratesGC, WARateGNC)
 		assert AllocRates == p
 	
-#	#TODO
-#	#def test_Calc(self, arg, p)
+	#def test_Calc(self, arg, p)
