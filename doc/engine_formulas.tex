@@ -27,6 +27,8 @@
 \newcommand{\Bid}{B_i} %\math{B}_i}
 %Bid Rate if competitive
 \newcommand{\Rbc}{R^{(bc)}_i}
+%Loan Rate
+\newcommand{\Rl}{R^{(l)}}
 %Rate Awarded 
 \newcommand{\Raw}{R^{(aw)}_i}
 %Working Average Rate for Specified Bids
@@ -45,6 +47,8 @@
 \newcommand{\MRdif}{M^{(r})}
 %Subscription
 \newcommand{\Subs}{P^{(subs)}_j}
+%Highest daily rate
+\newcommand{\HiDayRt}{R^{(drt)}}
 
 \usepackage{amsmath}
 \begin{document}
@@ -132,8 +136,16 @@ Where $\MRdif$ are the Market Rate differential D144\cite{dx} and D186\cite{Jx},
 subscription percentage per loan G66:L66\cite{dx} and G108:L108\cite{Jx}:
 
 \begin{gather}
-	\MRdif = D184 - D185
+	\MRdif = \HiDayRt - D185
 \end{gather}
+
+Where $\HiDayRt$ is the highest daily rate D142\cite{dx} and D184\cite{Jx}.
+
+\begin{gather}
+	\HiDayRt = \max (\max_i (\Rbc), \max_j \Rl)) 
+\end{gather}
+
+Where $\Rl$ is the rate per loan $j$, calculate in the step 3. G36:L36 and G57:L57\cite{Jx}.
 
 \begin{gather}
 	\Subs = \frac{\sum _i (\asc + \asn)}{\Loan}
