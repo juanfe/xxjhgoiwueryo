@@ -13,9 +13,40 @@
 \newcommand{\rl}{{r^{_l}}_j} 
 %Final rate per bid 
 \newcommand{\rb}{{r^{_b}}_i} 
+%Assets assigned from Specified Competitive bids
+\newcommand{\asc}{a_{ij}^{(sc)}}
+%Assets assigned from Specified Non Competitive bids
+\newcommand{\asn}{a_{ij}^{(sn)}}
+%Assets assigned from General Competitive bids
+\newcommand{\agc}{a_{ij}^{(gc)}}
+%Assets assigned from General Non Competitive bids
+\newcommand{\agn}{a_{ij}^{(gn)}}
+%Loan Amount
+\newcommand{\Loan}{L_i} %{\math{L}_j}
+%Bids
+\newcommand{\Bid}{B_i} %\math{B}_i}
+%Bid Rate if competitive
+\newcommand{\Rbc}{R^{(bc)}_i}
+%Rate Awarded 
+\newcommand{\Raw}{R^{(aw)}_i}
+%Working Average Rate for Specified Bids
+\newcommand{\Rwas}{R^{(was)}}
+%Working Average Rate for Specified Competitive Bids
+\newcommand{\Rwasc}{R^{(wasc)}}
+%Working Average Rate for Specified Non Competitive Bids
+\newcommand{\Rwasn}{R^{(wasn)}}
+%Working Avergage Rate for General Competitive Bids
+\newcommand{\Rwagc}{R^{(wagc)}}
+%Working Avergage Rate for General Non Competitive Bids
+\newcommand{\Rwagn}{R^{(wagn)}}
+\newcommand{\rgcl}{r^{(gcl)}}
+\newcommand{\rwagcl}{r^{(wagcl)}}
+%Market Rate differential
+\newcommand{\MRdif}{M^{(r})}
+%Subscription
+\newcommand{\Subs}{P^{(subs)}_j}
 
 \usepackage{amsmath}
-
 \begin{document}
 \maketitle
 
@@ -43,15 +74,15 @@ Specific/competitive, Specific/noncompetitive, General/competitive and General/n
 This assets with the origin of \cite{dx} and \cite{Jx} in this order are: 
 
 \begin{description}
-	\item[$a_{ij}^{(sc)}$] Assets assigned from Specified Competitive bids; G8:L27 in \cite{dx}, and
+	\item[$\asc$] Assets assigned from Specified Competitive bids; G8:L27 in \cite{dx}, and
 		G29:L48 in \cite{Jx}.
-	\item[$a_{ij}^{(sn)}$] Assets assigned from Specified Non Competitive bids; G37:L56 and G79:L98.
-	\item[$a_{ij}^{(gc)}$] Assets assigned from General Competitive bids; G119:138 and G161:L180.
-	\item[$a_{ij}^{(gn)}$] Assets assigned from General Non Competitive bids; G159:G178 and G201:G220.
+	\item[$\asn$] Assets assigned from Specified Non Competitive bids; G37:L56 and G79:L98.
+	\item[$\agc$] Assets assigned from General Competitive bids; G119:138 and G161:L180.
+	\item[$\agn$] Assets assigned from General Non Competitive bids; G159:G178 and G201:G220.
 	\item[$a_{ij}$] Assets assigned, G195:L214 and G237:L256.
 \end{description}
 
-Here the $i$ run over the the bids $B_i$, and $j$ run over the loans $L_j$.
+Here the $i$ run over the the bids $\Bid$, and $j$ run over the loans $\Loan$.
 
 \section{Rates}\label{rates}
 
@@ -59,8 +90,8 @@ There are varios rate involved in the process:
 
 \subsection{Rate for the Mortgage Originator}
 
-There are two Mortgage Originaror in the engine \cite{dx}, we will use $R_tMO^*$ for those used in
-cell C219 and C261, and $R_tMO^\dagger$ used in cell M219, M261. The formula for 
+There are two Mortgage Originaror in the engine \cite{dx}, we will use $RMO_b$ for those used in
+cell C219 and C261, and $RtMO_l$ used in cell M219, M261. The formula are:
 
 \begin{gather}
 	RtMO_l=\frac{\sum_i \sum_j a_{ij}(\rl + LSSpread)}{\sum_i \sum_j a_{ij}} 
@@ -77,7 +108,46 @@ The difference are in the rates, $\rl$ are rate per loan $j$, and $\rb$ are rate
 
 \subsubsection{$\rl$ rate per loan $j$}
 
-$\rl$ are in G187:L187\cite{dx} and G229:L229\cite{Jx}. 
+$\rl$ are in G187:L187\cite{dx} and G229:L229\cite{Jx}. This is calculate using the next formula:
+
+\begin{gather}
+	\rl = \frac{\sum_j RL_j \asn}{\sum_j \asn} + \Raw + \max {(\Rwas , \Rwagc)}
+\end{gather}
+
+Where $\Raw$ is the Rate Awarded by Specified bid, E119:E137\cite{dx} and E161:E180\cite{Jx}. And $\Rwas$ is the
+working average rate for the specified bids M67\cite{dx} and M109\cite{Jx}, and $\Rwagc$ are the working average
+rate for the general competitive bids, M146\cite{dx} and M190\cite{Jx}.  
+
+\begin{gather}\label{Raw}
+	\Raw = \Rbc + \frac{ \sum _j \agc (\rgcl - \rwagcl}{\sum _j \agc}
+\end{gather}
+
+Where $\rgcl$  G146:M146\cite{dx} and G188:M188\cite{Jx} is:
+
+\begin{gather}\label{rgcl}
+	\rgcl = \rwagcl + (1-\Subs)*\MRdif
+\end{gather}
+
+Where $\MRdif$ are the Market Rate differential D144\cite{dx} and D186\cite{Jx}, and $\Subs$ are the
+subscription percentage per loan G66:L66\cite{dx} and G108:L108\cite{Jx}:
+
+\begin{gather}
+	\MRdif = D184 - D185
+\end{gather}
+
+\begin{gather}
+	\Subs = \frac{\sum _i (\asc + \asn)}{\Loan}
+\end{gather}
+
+And $\rwagcl$ G140:M140\cite{dx} and G182:M182\cite{Jx}, as you can see it in \ref{rgcl} is not used,
+because as you replace in \ref{Raw} it dissapear.
+
+\begin{gather}
+	\Rwas = \frac{(\Rwasc * \sum _i \sum _j \asc) + (\Rwasn * \sum _i \sum _j \asn)}{\sum _i \sum _j (\asc + \asn)}
+\end{gather}
+
+Where $\Rwasc$, $\Rwasn$ are the working average rates for specified competitive and non competite bids, M30,
+M59\cite{dx} and M51, M101\cite{Jx}.
 
 \subsubsection{$\rb$ rate per bid $i$}
 
