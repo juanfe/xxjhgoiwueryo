@@ -5,7 +5,7 @@ argument = ['LiqSpot.py', '-b', '../../sample/bids0.csv',
 		'-d', ';', '-M', '../mo.csv', '-o', 'test.csv', '-R', 1]
 
 scenario = {'test_init' : '../mo.csv', 
-		'test_LoadMortgageOperators' :
+		'test_LoadMortgageOriginator' :
 			['ABC Mortgage', 'Prime Lending', 'Best Loans Inc', 'Integrity Lending'],
 		'test_addLoans' : { 'p' : ['Loan Id', 'MO', 'Loan Amount', 'Rate'],
 			'q' : ['1', 'ABC Mortgage', ' 318725', '0.01'],

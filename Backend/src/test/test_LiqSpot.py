@@ -14,18 +14,18 @@ class TestApplication:
 		sys.argv = arg
 		self.app = LiqEngine()
 		self.app.ParseArg()
-		assert self.app.options.OperatorFilename == p 
+		assert self.app.options.OriginatorFilename == p 
 
-	def test_LoadMortgageOperators(self, arg, p):
+	def test_LoadMortgageOriginator(self, arg, p):
 		sys.argv = arg
 		self.app = LiqEngine()
-		self.app.LoadMortgageOperators()
+		self.app.LoadMortgageOriginator()
 		assert self.app.Mo ==  p
 
 	def test_addLoans(self, arg, p, q, r):
 		sys.argv = arg
 		self.app = LiqEngine()
-		self.app.LoadMortgageOperators()
+		self.app.LoadMortgageOriginator()
 		flo = csv.reader(open(self.app.options.loansFilename, "rb"),
 				delimiter=self.app.options.delimiter,quoting=csv.QUOTE_NONE)
 		idlo = flo.next()
@@ -41,7 +41,7 @@ class TestApplication:
 		#In engine processing rules example.xlsx G4:M4
 		sys.argv = arg
 		self.app = LiqEngine()
-		self.app.LoadMortgageOperators()
+		self.app.LoadMortgageOriginator()
 		self.app.LoadLoans()
 		assert self.app.Loans == p
 
@@ -49,7 +49,7 @@ class TestApplication:
 		#In engine processing rules example.xlsx bid input!G4:N4
 		sys.argv = arg
 		self.app = LiqEngine()
-		self.app.LoadMortgageOperators()
+		self.app.LoadMortgageOriginator()
 		self.app.LoadLoans()
 		self.app.LoadUsers()
 		self.app.LoadBids()
@@ -59,7 +59,7 @@ class TestApplication:
 	#def test_LoadExceptions(self, arg):
 	#	sys.argv = arg
 	#	self.app = LiqEngine()
-	#	self.app.LoadMortgageOperators()
+	#	self.app.LoadMortgageOriginator()
 	#	self.app.LoadLoans()
 	#	self.app.LoadUsers()
 	#	self.app.LoadBids()

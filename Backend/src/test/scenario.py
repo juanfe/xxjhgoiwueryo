@@ -21,9 +21,9 @@ from scenario9 import argument as argument9
 
 Scenario = {
 	'test_init' : [{'arg': argument0, 'p': scenario0['test_init']},],
-	'test_LoadMortgageOperators' : [{'arg': argument0,
-		'p': scenario0['test_LoadMortgageOperators']},
-		{'arg': argument1, 'p': scenario1['test_LoadMortgageOperators']}
+	'test_LoadMortgageOriginator' : [{'arg': argument0,
+		'p': scenario0['test_LoadMortgageOriginator']},
+		{'arg': argument1, 'p': scenario1['test_LoadMortgageOriginator']}
 		],
 	'test_addLoans' : [{'arg': argument0,
 		 'p': scenario0['test_addLoans']['p'],

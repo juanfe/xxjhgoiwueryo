@@ -49,9 +49,9 @@ class LiqEngine:
 		parser.add_option("-v", "--verbose", dest="Verbose", action="store_true",
 				help="Verbose mode",
 				default=False)
-		parser.add_option("-M", "--MorgageOperators", dest="OperatorFilename",
+		parser.add_option("-M", "--MortgageOriginator", dest="OriginatorFilename",
 				default= os.path.dirname(sys.argv[0])+"/mo.csv",
-				help = "Specify the Mortgage Operators, default mo.csv")
+				help = "Specify the Mortgage Originator, default mo.csv")
 		parser.add_option("-r", "--RankInvert", dest="rank_invert",
 				action="store_true",
 				help="Inverte the order of the order of the rank in " +
@@ -80,7 +80,8 @@ class LiqEngine:
 			self.Mo.index(d["MO"])
 		except:
 			try:
-				sys.exit('The mortgage "%s", does not match %s.' % (d["MO"], self.options.OperatorFilename))
+				sys.exit('The mortgage "%s", does not match %s.' % (d["MO"],
+					self.options.OriginatorFilename))
 			except:
 				sys.exit('Error: in the file %s, see the field delimiter in csv file, look "LiqSpot.py --help".'
 						% self.options.loansFilename)
@@ -101,8 +102,8 @@ class LiqEngine:
 		#TODO add LoansJson
 		d = {}
 
-	def LoadMortgageOperators(self):
-		fmo = csv.reader(open(self.options.OperatorFilename, "rb"),
+	def LoadMortgageOriginator(self):
+		fmo = csv.reader(open(self.options.OriginatorFilename, "rb"),
 			delimiter=self.options.delimiter, quoting=csv.QUOTE_NONE)
 		
 		try:
@@ -111,9 +112,9 @@ class LiqEngine:
 
 					self.Mo.append(op[0])
 		except csv.Error, e:
-			sys.exit('File %s, line %d: %s' % (self.options.OperatorFilename, fmo.line_num, e)) 
+			sys.exit('File %s, line %d: %s' % (self.options.OriginatorFilename, fmo.line_num, e)) 
 	
-	def setMortgageOperators(self, Mo):
+	def setMortgageOriginator(self, Mo):
 		self.Mo = Mo
 
 	def LoadLoans(self):
@@ -873,7 +874,7 @@ class LiqEngine:
 			summwrt = csv.writer(ofile, delimiter=self.options.delimiter, quotechar='"')
 
 	def LoadAsConsole(self):
-		self.LoadMortgageOperators()
+		self.LoadMortgageOriginator()
 		self.LoadLoans()
 		self.LoadUsers()
 		self.LoadBids()
