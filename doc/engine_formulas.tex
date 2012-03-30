@@ -1,0 +1,93 @@
+
+\title{Liquidity Spot formulation}
+\author{
+        Juan Fernando Jaramillo \\
+        IT Vichara Bogota\\
+        Bogot√, \underline{Colombia}
+}
+\date{\today}
+
+\documentclass[12pt]{article}
+
+\usepackage{amsmath}
+%\usepackage{footnote}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+This paper, describe some formulation, in relation with the liquidity spot engine.
+\end{abstract}
+
+%\section{Introduction}
+%This is time for all good men to come to the aid of their party!
+
+%\paragraph{Outline}
+%The remainder of this article is organized as follows.
+%Section~\ref{previous work} gives account of previous work.
+%Our new and exciting results are described in Section~\ref{results}.
+%Finally, Section~\ref{conclusions} gives the conclusions.
+
+\section{Previous work}\label{previous work}
+
+This work, is based in the work by John duHadway \cite{duHadway:11doc} and \cite{duHadway:11xls}.
+
+\section{Assets}\label{assets}
+
+Bids are sorted in four categories, that produce assets that found the loans, this categories are
+Specific/competitive, Specific/noncompetitive, General/competitive and General/noncompetitive \cite{duHadway:11doc}.
+This assets with the origin of \cite{duHadway:11xls} and \cite{Jaramillo:12xls} in this order are: 
+
+\begin{description}
+	\item[$a_{ij}^{(sc)}$] Assets assigned from Specified Competitive bids; G8:L27 in \cite{duHadway:11xls}, and
+		G29:L48 in \cite{Jaramillo:12-xls}.
+	\item[$a_{ij}^{(sn)}$] Assets assigned from Specified Non Competitive bids; G37:L56 and G79:L98.
+	\item[$a_{ij}^{(gc)}$] Assets assigned from General Competitive bids; G119:138 and G161:L180.
+	\item[$a_{ij}^{(gn)}$] Assets assigned from General Non Competitive bids; G159:G178 and G201:G220.
+	\item[$a_{ij}$] Assets assigned, G195:L214 and G237:L256.
+\end{description}
+
+Here the $i$ run over the the bids $B_i$, and $j$ run over the loans $L_j$.
+
+\section{Rates}\label{rates}
+
+There are varios rate involved in the process:
+
+\subsection{Rate for the Mortgage Originator}
+
+There are two Mortgage Originaror in the engine \cite{duHadway:11xls}, we will use $R_tMO^*$ for those used in
+cell C219 and C261, and $R_tMO^\dagger$ used in cell M219, M261. The formula for 
+
+\begin{gather}
+	R_tMO^*=\frac{\sum_i \sum_j a_{ij}(r^*_j + LSSpread)}{\sum_i \sum_j a_{ij}} 
+	= \frac{\sum_i \sum_j a_{ij}r^*_j}{\sum_i \sum_j a_{ij}} + LSSpread
+\end{gather}
+
+And
+
+\begin{gather}
+	R_tMO^\dagger = R_tSSI + LSSpread = \frac{\sum_i \sum_j a_{ij}r^\dagger _i}{\sum_i \sum_j a_{ij}} + LSSpread
+\end{gather}
+
+The difference are in the rates, $r^*_j$ are rate per loan $j$, and $r^\dagger _i$ are rate per bid $i$.
+
+\subsubsection{$r^*_j$ rate per loan $j$}
+
+$r^*_j$ are in G187:L187 and G229:L229. 
+
+\subsubsection{$r^\dagger _i$ rate per bid $i$}
+
+$r^\dagger _i$ are in C195:C214 and C237:C256
+
+
+%\section{Results}\label{results}
+%In this section we describe the results.
+
+%\section{Conclusions}\label{conclusions}
+%We worked hard, and achieved very little. :-)
+
+%\bibliographystyle{abbrv}
+\bibliographystyle{plain}
+\bibliography{engine_formulas}
+
+\end{document}
