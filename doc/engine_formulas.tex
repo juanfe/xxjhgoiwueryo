@@ -3,11 +3,13 @@
 \author{
         Juan Fernando Jaramillo \\
         IT Vichara Bogota\\
-        Bogot√, \underline{Colombia}
+	Bogota, \underline{Colombia}
 }
 \date{\today}
 
 \documentclass[12pt]{article}
+
+\usepackage[utf8]{inputenc}
 
 %Final rate per loan
 \newcommand{\rl}{{r^{_l}}_j} 
@@ -32,19 +34,32 @@
 %Rate Awarded 
 \newcommand{\Raw}{R^{(aw)}_i}
 %Working Average Rate for Specified Bids
-\newcommand{\Rwas}{R^{(was)}}
+\newcommand{\Rwas}{R^{(was)}_j}
+%Working Average Rate for Specified Bids Totaliced
+\newcommand{\Rwast}{R^{(was)}}
 %Working Average Rate for Specified Competitive Bids
-\newcommand{\Rwasc}{R^{(wasc)}}
+\newcommand{\Rwasc}{R^{(wasc)}_j}
+%Working Average Rate for Specified Competitive Bids Totaliced
+\newcommand{\Rwasct}{R^{(wasc)}}
 %Working Average Rate for Specified Non Competitive Bids
-\newcommand{\Rwasn}{R^{(wasn)}}
-%Working Avergage Rate for General Competitive Bids
-\newcommand{\Rwagc}{R^{(wagc)}}
+\newcommand{\Rwasn}{R^{(wasn)}_j}
+%Working Average Rate for Specified Non Competitive Bids Totaliced
+\newcommand{\Rwasnt}{R^{(wasn)}}
+%Working Avegage Rate for General Competitive Bids
+\newcommand{\Rwagc}{R^{(wagc)}_j}
+%Working Avegage Rate for General Competitive Bids Totaliced
+\newcommand{\Rwagct}{R^{(wagc)}}
+%Working Average Rate for Specified and General Competitive Bids
+\newcommand{\Rwasgc}{R^{(wasgc)}_j}
 %Working Avergage Rate for General Non Competitive Bids
 \newcommand{\Rwagn}{R^{(wagn)}}
+%Daily market rate
+\newcommand{\DayMarkRate}{R^{(was)}}
+
 \newcommand{\rgcl}{r^{(gcl)}}
 \newcommand{\rwagcl}{r^{(wagcl)}}
 %Market Rate differential
-\newcommand{\MRdif}{M^{(r})}
+\newcommand{\MRdif}{M^{(r)}}
 %Subscription
 \newcommand{\Subs}{P^{(subs)}_j}
 %Highest daily rate
@@ -55,7 +70,8 @@
 \maketitle
 
 \begin{abstract}
-This paper, describe some formulation, in relation with the liquidity spot engine.
+	This paper, describe some formulation, in relation with the liquidity spot engine, used in the
+	work\cite{dx} and \cite{Jx}.
 \end{abstract}
 
 %\section{Introduction}
@@ -97,29 +113,29 @@ There are varios rate involved in the process:
 There are two Mortgage Originaror in the engine \cite{dx}, we will use $RMO_b$ for those used in
 cell C219 and C261, and $RtMO_l$ used in cell M219, M261. The formula are:
 
-\begin{gather}
+\begin{gather}\label{RtMOl}
 	RtMO_l=\frac{\sum_i \sum_j a_{ij}(\rl + LSSpread)}{\sum_i \sum_j a_{ij}} 
 		= \frac{\sum_i \sum_j a_{ij}\rl}{\sum_i \sum_j a_{ij}} + LSSpread
 \end{gather}
 
 And
 
-\begin{gather}
+\begin{gather}\label{RtMOb}
 	RtMO_b = RtSSI + LSSpread = \frac{\sum_i \sum_j a_{ij}\rb}{\sum_i \sum_j a_{ij}} + LSSpread
 \end{gather}
 
 The difference are in the rates, $\rl$ are rate per loan $j$, and $\rb$ are rate per bid $i$.
 
-\subsubsection{$\rl$ rate per loan $j$}
+\subsubsection{$\rb$ rate per bids $i$}
 
-$\rl$ are in G187:L187\cite{dx} and G229:L229\cite{Jx}. This is calculate using the next formula:
+$\rb$ are in C195:C214\cite{dx} and C237:C256\cite{Jx}.
 
 \begin{gather}
-	\rl = \frac{\sum_j RL_j \asn}{\sum_j \asn} + \Raw + \max {(\Rwas , \Rwagc)}
-\end{gather}
+	\rb = \frac{\sum_j RL_j \asn}{\sum_j \asn} + \Raw + \max {(\Rwast , \Rwagct)}
+\end{gather} 
 
-Where $\Raw$ is the Rate Awarded by Specified bid, E119:E137\cite{dx} and E161:E180\cite{Jx}. And $\Rwas$ is the
-working average rate for the specified bids M67\cite{dx} and M109\cite{Jx}, and $\Rwagc$ are the working average
+Where $\Raw$ is the Rate Awarded by Specified bid, E119:E137\cite{dx} and E161:E180\cite{Jx}. And $\Rwast$ is the
+working average rate for the specified bids M67\cite{dx} and M109\cite{Jx}, and $\Rwagct$ are the working average
 rate for the general competitive bids, M146\cite{dx} and M190\cite{Jx}.  
 
 \begin{gather}\label{Raw}
@@ -136,7 +152,7 @@ Where $\MRdif$ are the Market Rate differential D144\cite{dx} and D186\cite{Jx},
 subscription percentage per loan G66:L66\cite{dx} and G108:L108\cite{Jx}:
 
 \begin{gather}
-	\MRdif = \HiDayRt - D185
+	\MRdif = \HiDayRt - \DayMarkRate
 \end{gather}
 
 Where $\HiDayRt$ is the highest daily rate D142\cite{dx} and D184\cite{Jx}.
@@ -147,29 +163,55 @@ Where $\HiDayRt$ is the highest daily rate D142\cite{dx} and D184\cite{Jx}.
 
 Where $\Rl$ is the rate per loan $j$, calculate in the step 3. G36:L36 and G57:L57\cite{Jx}.
 
+And $\DayMarkRate$ are the Dayly Market Rate D143\cite{dx} and D185\cite{Jx}, that are the total work average
+rate for the specified bids M109\cite{Jx} 
+
+
 \begin{gather}
 	\Subs = \frac{\sum _i (\asc + \asn)}{\Loan}
 \end{gather}
 
-And $\rwagcl$ G140:M140\cite{dx} and G182:M182\cite{Jx}, as you can see it in \ref{rgcl} is not used,
-because as you replace in \ref{Raw} it dissapear.
+And $\rwagcl$ G140:M140\cite{dx} and G182:M182\cite{Jx}, as you can see in \ref{rgcl} it is not used,
+because as you replace in \ref{Raw} it's eliminated.
 
 \begin{gather}
-	\Rwas = \frac{(\Rwasc * \sum _i \sum _j \asc) + (\Rwasn * \sum _i \sum _j \asn)}{\sum _i \sum _j (\asc + \asn)}
+	\Rwast = \frac{(\Rwasct * \sum _i \sum _j \asc) + (\Rwasnt * \sum _i \sum _j \asn)}{\sum _i \sum _j (\asc + \asn)}
 \end{gather}
 
-Where $\Rwasc$, $\Rwasn$ are the working average rates for specified competitive and non competite bids, M30,
+Where $\Rwasct$, $\Rwasnt$ are the working average rates for specified competitive and non competite bids, M30,
 M59\cite{dx} and M51, M101\cite{Jx}.
 
-\subsubsection{$\rb$ rate per bid $i$}
+\subsubsection{$\rl$ rate per loan $j$}
 
-$\rb$ are in C195:C214\cite{dx} and C237:C256\cite{Jx}.
+$\rl$ are in G187:L187\cite{dx} and G229:L229\cite{Jx}. This is calculate using the next formula:
+
+\begin{gather}
+	\rl = \frac{\max {(\Rwas , \Rwagc)} * \sum_i \agn + \sum_i (\asc + \asn + \agc) * \Rwasgc}{\sum_i (\asc + \asn + \agc + \agn)}
+\end{gather}
+
+Where $\Rwasgc$ is the work average rate between specified and general competitive bids per loan
+G152:L152\cite{dx} and G194:L194\cite{Jx}.
+
+\begin{gather}
+	\Rwasgc = \frac{(\Rwagc * \sum_i \agc) + (\Rwas * \sum_i (\asc + \asn))}{\sum_i (\asc + \asn + \agc)}
+\end{gather}
+
+And
+
+\begin{gather}
+	\Rwas = \frac{(\Rwasc * \sum _i  \asc) + (\Rwasn * \sum _i \asn)}{\sum _i (\asc + \asn)}
+\end{gather}
+
+Where $\Rwasc$, $\Rwasn$ are the working average rates for specified competitive and non competite bids, G30:L30,
+G59:L59\cite{dx} and G51:L51, G101:L101\cite{Jx} per loan.
 
 %\section{Results}\label{results}
 %In this section we describe the results.
 
-%\section{Conclusions}\label{conclusions}
-%We worked hard, and achieved very little. :-)
+\section{Conclusions}\label{conclusions}
+
+As Conclusions, we can aseverate that the formulas \ref{RtMOl} and \ref{RtMOb} are differents in formulation,
+and in results.
 
 %\bibliographystyle{abbrv}
 \bibliographystyle{plain}
