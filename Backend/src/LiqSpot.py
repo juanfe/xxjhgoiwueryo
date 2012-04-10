@@ -52,10 +52,6 @@ class LiqEngine:
 		parser.add_option("-M", "--MortgageOriginator", dest="OriginatorFilename",
 				default= os.path.dirname(sys.argv[0])+"/mo.csv",
 				help = "Specify the Mortgage Originator, default mo.csv")
-		parser.add_option("-r", "--RankInvert", dest="rank_invert",
-				action="store_true",
-				help="Inverte the order of the order of the rank in " +
-				"General/Competitive bids.", default = False)
 		parser.add_option("-A", "--AllocAcceptExcetion",
 				dest="AllocAcceptException", action="store_true",
 				help="Excetion in the calculation of Allocate and Accepted " +
@@ -408,7 +404,7 @@ class LiqEngine:
 				if (bid['bidrate'] > 0):
 					R.append({'id':k, 'time':bid['time'], 'bidrate':bid['bidrate']})
 		R = sorted(R, key = lambda l: (l['bidrate'], l['time']),
-				reverse=not self.options.rank_invert)
+				reverse=False)
 		rank = {}
 		i = 1
 		for r in R:
