@@ -52,10 +52,6 @@ class LiqEngine:
 		parser.add_option("-M", "--MortgageOriginator", dest="OriginatorFilename",
 				default= os.path.dirname(sys.argv[0])+"/mo.csv",
 				help = "Specify the Mortgage Originator, default mo.csv")
-		parser.add_option("-A", "--AllocAcceptExcetion",
-				dest="AllocAcceptException", action="store_true",
-				help="Excetion in the calculation of Allocate and Accepted " +
-				"in General/Competitive bids.", default = False)
 		parser.add_option("-R", "--PriorDayRateUsed", dest="PriorRate",
 				default = 0, help="Prior day rate used in the Specified/Non " +
 				"Comptetitive bids")
@@ -681,23 +677,16 @@ class LiqEngine:
 		for k, v in vallow.iteritems():
 			vallow[k]['allocated'] = 0.0
 		Tot = 0
-		if self.options.AllocAcceptException:
-			AmtRequired = deepcopy(AmmountRequired)
-			i = 1
-			l = len(vallow)
-			while AmtRequired > 0.0 and i <= l:
-				for k, v in Allocate.iteritems():
-					if k != 'Total' and v['rank'] == i:
-						vallow[k]['allocated'] =  min (AmtRequired, v['aggregate'])
-						Tot = Tot + vallow[k]['allocated']
-						AmtRequired = AmtRequired - vallow[k]['allocated']
-				i += 1
-		else:
-			for i in Allocate.iteritems():
-				if i[0] != 'Total':
-					vallow[i[0]]['v0'] = VRank[i[0]][0]
-					vallow[i[0]]['allocated'] = i[1]['aggregate'] - VRank[i[0]][0]
-					Tot = Tot + vallow[i[0]]['allocated']
+		AmtRequired = deepcopy(AmmountRequired)
+		i = 1
+		l = len(vallow)
+		while AmtRequired > 0.0 and i <= l:
+			for k, v in Allocate.iteritems():
+				if k != 'Total' and v['rank'] == i:
+					vallow[k]['allocated'] =  min (AmtRequired, v['aggregate'])
+					Tot = Tot + vallow[k]['allocated']
+					AmtRequired = AmtRequired - vallow[k]['allocated']
+			i += 1
 		vallow['Total']['allocated'] = Tot
 		return vallow 
 
