@@ -23,10 +23,10 @@ class Bid(models.Model):
 	F = MoneyField(max_digits = 20, decimal_places = 9,
 			default_currency = moneyed.USD)
 	AggregatedDate = models.DateTimeField(auto_now = True)
-	Percentage = models.DecimalField(max_digits = 15, decimal_places = 14)
+	Percentage = models.DecimalField(max_digits = 13, decimal_places = 9)
 	LoanType = models.CharField(max_length = 1, choices = LOAN_CHOICES)
 	Competitive = models.BooleanField()
-	CompetitiveRate = models.DecimalField(max_digits = 15, decimal_places = 14)
+	CompetitiveRate = models.DecimalField(max_digits = 13, decimal_places = 9)
 	OrderTiming = models.CharField(max_length = 1, choices = ORDER_CHOICES)
 	#FundsAvailable = MoneyField(max_digits = 20, decimal_places = 9,
 	#		default_currency = moneyed.USD)
