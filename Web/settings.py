@@ -119,6 +119,7 @@ INSTALLED_APPS = (
     'django.contrib.admindocs',
 	'loans',
 	'bids',
+	'users',
 )
 
 # A sample logging configuration. The only tangible logging
