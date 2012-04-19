@@ -2,7 +2,7 @@ import moneyed
 from djmoney.models.fields import MoneyField
 from django.db import models
 
-class Bids(models.Model):
+class Bid(models.Model):
 	TYPE_CHOICES = (
 			('G', 'General'),
 			('S', 'Specified'),
