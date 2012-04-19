@@ -9,7 +9,7 @@ class MortgageOriginator(models.Model):
 	def __unicode__(self):
 		return self.Name
 
-class Loans(models.Model):
+class Loan(models.Model):
 	MortgageOriginator = models.ForeignKey(MortgageOriginator)
 	Amount = MoneyField(max_digits = 20, decimal_places = 9,
 			default_currency=moneyed.USD)
