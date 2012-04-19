@@ -1,5 +1,6 @@
 import moneyed
 from djmoney.models.fields import MoneyField
+from django.contrib.auth.models import User
 from django.db import models
 
 class Bid(models.Model):
@@ -15,12 +16,10 @@ class Bid(models.Model):
 			('A', 'Auto'),
 			('D', 'Day Trade'),
 	)
-	#User = models.ForeignKey()
+	User = models.ForeignKey(User)
 	Time = models.DateTimeField(auto_now = True)
 	Type = models.CharField(max_length = 1, choices = TYPE_CHOICES)
 	Aggregated = MoneyField(max_digits = 20, decimal_places = 9,
-			default_currency = moneyed.USD)
-	F = MoneyField(max_digits = 20, decimal_places = 9,
 			default_currency = moneyed.USD)
 	AggregatedDate = models.DateTimeField(auto_now = True)
 	Percentage = models.DecimalField(max_digits = 13, decimal_places = 9)
@@ -28,6 +27,6 @@ class Bid(models.Model):
 	Competitive = models.BooleanField()
 	CompetitiveRate = models.DecimalField(max_digits = 13, decimal_places = 9)
 	OrderTiming = models.CharField(max_length = 1, choices = ORDER_CHOICES)
-	#FundsAvailable = MoneyField(max_digits = 20, decimal_places = 9,
-	#		default_currency = moneyed.USD)
+	FundsAvailable = MoneyField(max_digits = 20, decimal_places = 9,
+			default_currency = moneyed.USD)
 	FundsAvailableDate = models.DateTimeField(auto_now = True)
