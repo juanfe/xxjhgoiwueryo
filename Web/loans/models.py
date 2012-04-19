@@ -1,10 +1,11 @@
 import moneyed
 from djmoney.models.fields import MoneyField
+from django.contrib.auth.models import User
 from django.db import models
 
 class MortgageOriginator(models.Model):
 	Name = models.CharField(max_length=200)
-	#Contact = models.ForeignKey()
+	Contact = models.ForeignKey(User)
 
 	def __unicode__(self):
 		return self.Name
