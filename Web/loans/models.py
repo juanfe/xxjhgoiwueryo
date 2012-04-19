@@ -6,6 +6,9 @@ class MortgageOriginator(models.Model):
 	Name = models.CharField(max_length=200)
 	#Contact = models.ForeignKey()
 
+	def __unicode__(self):
+		return self.Name
+
 class Loans(models.Model):
 	MortgageOriginator = models.ForeignKey(MortgageOriginator)
 	Amount = MoneyField(max_digits = 20, decimal_places = 9,
