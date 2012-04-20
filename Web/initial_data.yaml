@@ -1,0 +1,225 @@
+# Groups
+- model: auth.group
+  pk: 1
+  fields:
+    name: Admin
+- model: auth.group
+  pk: 2
+  fields:
+    name: Loans Admin
+- model: auth.group
+  pk: 3
+  fields:
+    name: Mortgage Originator 
+- model: auth.group
+  pk: 4
+  fields:
+    name: Engine 
+- model: auth.group
+  pk: 5
+  fields:
+    name: Broker 
+
+# Users
+# Superuser
+- model: auth.user
+  pk: 1
+  fields:
+    username: Admin 
+    is_active: true
+    is_superuser: True
+    is_staff: true
+    email: info@vichara.com
+    groups: [1]
+    #password: Vichara
+    password: sha1$2c2ad$0b409e2354c1ed897e7b39375238e6d7dbfdd48e 
+# Mortgage Originator users
+- model: auth.user
+  pk: 2
+  fields:
+    username: ABC_Mortgage
+    #password ABC Mortgage
+    password: sha1$48b1d$e5c24196621373c2d24a4ac27b8ae2a93dedf9b5 
+    groups: [3]
+- model: auth.user
+  pk: 3
+  fields:
+    username: Prime_Lending 
+    #password: Prime Lending
+    password: sha1$20de1$774a2d06bed55c0aac2f19b7ad29a3864c851733
+    groups: [3]
+- model: auth.user
+  pk: 4
+  fields:
+    username: Best_Loans_Inc 
+    #password: Best Loans Inc
+    password: sha1$27f2e$d956aff07f9b9c27aea3484b80383eec51858866 
+    groups: [3]
+- model: auth.user
+  pk: 5
+  fields:
+    username: Integrity_Lending
+    # password: Integrity Lending 
+    password: sha1$dd313$cf00f7e61f37974682d664671e75e8b27f333a5b
+    groups: [3]
+# Broker's users
+- model: auth.user
+  pk: 6
+  fields:
+    username: 1104134
+    # password: 1104134
+    password: sha1$3e74d$96fbe12f5cc97c7e6d722f7de9e7b29de4c13771
+    email: 1104134@test.com
+    groups: [5]
+- model: auth.user
+  pk: 7
+  fields:
+    username: 1104143
+    # password: 1104143
+    password: sha1$7db48$9fd83e686efcdcea64783478b431318f3dc8e146
+    email: 1104143@test.com
+    groups: [5]
+- model: auth.user
+  pk: 8
+  fields:
+    username: 1104154
+    # password: 1104154
+    password: sha1$10d81$74f7e7cac950ef9187510a4f8ef58b1d7dd1fb52
+    email: 1104154@test.com
+    groups: [5]
+- model: auth.user
+  pk: 9
+  fields:
+    username: 1104152
+    # password: 1104152
+    password: sha1$b4aa3$49c92b39d3c47750b3981a4aebcfc4b835202cd1
+    email: 1104152@test.com
+    groups: [5]
+- model: auth.user
+  pk: 10
+  fields:
+    username: 1104136
+    # password: 1104136
+    password: sha1$4a087$ef0e70cbd9d381153afd5a6e071dbfa95914d770
+    email: 1104136@test.com
+    groups: [5]
+- model: auth.user
+  pk: 11
+  fields:
+    username: 1104138
+    # password: 1104138
+    password: sha1$7d864$9ebb76eb27293deab2ede89c93dbb8769861787b
+    email: 1104138@test.com
+    groups: [5]
+- model: auth.user
+  pk: 12
+  fields:
+    username: 1104139
+    # password: 1104139
+    password: sha1$5c1b2$7720072b94ba37b51af85af0c5319458d48dbe15
+    email: 1104139@test.com
+    groups: [5]
+- model: auth.user
+  pk: 13
+  fields:
+    username: 1104140
+    # password: 1104140
+    password: sha1$5a45b$0d3229a8ced5985c301010cc510f9b1eb56b7403
+    email: 1104140@test.com
+    groups: [5]
+- model: auth.user
+  pk: 14 
+  fields:
+    username: 1104141
+    # password: 1104141
+    password: sha1$7f04d$11c3c8e0c035cbf860d5d96479948e5b8ceda4f4
+    email: 1104141@test.com
+    groups: [5]
+- model: auth.user
+  pk: 15
+  fields:
+    username: 1104159
+    # password: 1104159
+    password: sha1$0e305$cfacaa6403f5bdca4c2f5ef32861700f8b85ef8a
+    email: 1104159@test.com
+    groups: [5]
+- model: auth.user
+  pk: 16
+  fields:
+    username: 1104161
+    # password: 1104161
+    password: sha1$eda95$bf3d41ed792b0649ba746a31c0e98665e9d0c7f4
+    email: 1104161@test.com
+    groups: [5]
+- model: auth.user
+  pk: 17
+  fields:
+    username: 1104145
+    # password: 1104145
+    password: sha1$e6a10$f9c0cc3bbf446b9db462a7820bbe47ad4dff846a
+    email: 1104145@test.com
+    groups: [5]
+- model: auth.user
+  pk: 18
+  fields:
+    username: 1104133
+    # password: 1104133
+    password: sha1$f6b9f$9ccdafc2508d01290fe9af4eefb57f4c4d45dd85
+    email: 1104133@test.com
+    groups: [5]
+- model: auth.user
+  pk: 19
+  fields:
+    username: 1104149
+    # password: 1104149
+    password: sha1$0f753$232f71ee39b67cdf97dd6f2bc40f5d38f268e710
+    email: 1104149@test.com
+    groups: [5]
+- model: auth.user
+  pk: 20
+  fields:
+    username: 1104151
+    # password: 1104151
+    password: sha1$34ef6$17a638d53d5003b9367db582cbd11d67dbb20e48
+    email: 1104151@test.com
+    groups: [5]
+- model: auth.user
+  pk: 21
+  fields:
+    username: 1104131
+    # password: 1104131
+    password: sha1$cf05b$05bca823814d856b2781406cf83cabfafa4e74d1
+    email: 1104131@test.com
+    groups: [5]
+- model: auth.user
+  pk: 22
+  fields:
+    username: 1104155
+    # password: 1104155
+    password: sha1$330e4$b8fb3e9a4b1f4714060183fb93a10e14af3be0c2
+    email: 1104155@test.com
+    groups: [5]
+- model: auth.user
+  pk: 23
+  fields:
+    username: 1104156
+    # password: 1104156
+    password: sha1$e2086$62b10732e18bb83c5eddae76a4cd252a70d065de
+    email: 1104156@test.com
+    groups: [5]
+- model: auth.user
+  pk: 24
+  fields:
+    username: 1104157
+    # password: 1104157
+    password: sha1$e62a5$6c81d5c2ce39ec5638137b2bce71930744e46611
+    email: 1104157@test.com
+    groups: [5]
+- model: auth.user
+  pk: 25
+  fields:
+    username: 1104158
+    # password: 1104158
+    password: sha1$69073$44c37ad749d5c2cc180fd52c975b2f4e0460d65c
+    email: 1104158@test.com
+    groups: [5]

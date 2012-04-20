@@ -10,6 +10,10 @@ class MortgageOriginator(models.Model):
 	def __unicode__(self):
 		return self.Name
 
+	def create_MortgageOriginator(user)
+		Name = user
+		Contact = User.objects.get(username = user)
+
 class Loan(models.Model):
 	MortgageOriginator = models.ForeignKey(MortgageOriginator)
 	Amount = MoneyField(max_digits = 20, decimal_places = 9,
