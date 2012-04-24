@@ -16,17 +16,24 @@ class Bid(models.Model):
 			('A', 'Auto'),
 			('D', 'Day Trade'),
 	)
+	STATUS_CHOICES = (
+			('K', 'Accepted'),
+			('A', 'Active'),
+			('C', 'Cancelled'),
+	)
 	User = models.ForeignKey(User)
-	Time = models.DateTimeField(auto_now = True)
+	CreatedAt = models.DateTimeField(auto_now = True)
+	ExpiresAt = models.DateTimeField(auto_now = True)
 	Type = models.CharField(max_length = 1, choices = TYPE_CHOICES)
 	Aggregated = MoneyField(max_digits = 20, decimal_places = 9,
 			default_currency = moneyed.USD)
 	AggregatedDate = models.DateTimeField(auto_now = True)
-	Percentage = models.DecimalField(max_digits = 13, decimal_places = 9)
+	Participation = models.DecimalField(max_digits = 13, decimal_places = 9)
 	LoanType = models.CharField(max_length = 1, choices = LOAN_CHOICES)
 	Competitive = models.BooleanField()
-	CompetitiveRate = models.DecimalField(max_digits = 13, decimal_places = 9)
+	CompetitiveBidRate = models.DecimalField(max_digits = 13, decimal_places = 9)
 	OrderTiming = models.CharField(max_length = 1, choices = ORDER_CHOICES)
 	FundsAvailable = MoneyField(max_digits = 20, decimal_places = 9,
 			default_currency = moneyed.USD)
 	FundsAvailableDate = models.DateTimeField(auto_now = True)
+	Status = models.CharField(max_length = 1, choices = STATUS_CHOICES)
