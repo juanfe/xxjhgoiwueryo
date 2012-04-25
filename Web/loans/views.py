@@ -1,7 +1,21 @@
+from django.template import Context, loader
+from loans.models import Loan, MortgageOriginator
 from django.http import HttpResponse
 
+def moindex(request):
+    m = MortgageOriginator(Name = "juan")
+    m.save()
+    latest_loan_mo = MortgageOriginator.objects.all().order_by('-Name')[:10]
+    t = loader.get_template('loans/moindex.html')
+    c = Context({
+        'latest_loan_mo': latest_loan_mo,
+    })
+    return HttpResponse(t.render(c))
+
 def index(request):
-    return HttpResponse("An application from Vichara Technologies.")
+    latest_loan_list = Loan.objects.all().order_by('-Creation')[:10]
+    output = ', '.join([l.MortgageOriginator for l in latest_loan_list])
+    return HttpResponse(output)
 
 def detail(request, loan_id):
 	return HttpResponse("You are at loan %s." % loan_id)
