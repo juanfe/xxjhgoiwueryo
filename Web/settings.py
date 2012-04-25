@@ -63,7 +63,7 @@ TEMPLATE_DIRS = (os.path.join(os.path.dirname(__file__), 'templates'),)
 ROOT_URLCONF = 'urls'
 
 STATICFILES_DIRS = (
-	"/home/juanfe/tmp/django-testapp/images",
-	)
+    "/home/juanfe/Vichara/liquidity/Web/images",
+)
 
 STATIC_URL = '/static/'
