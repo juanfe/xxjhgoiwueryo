@@ -1,0 +1,9 @@
+{% if latest_loan_mo %}
+   <ul>
+	 {% for ml in latest_loan_mo %}
+	 <li>i{{ ml }}</li>
+	 {% endfor %}
+   </ul>
+{% else %}
+   <p> No Mortgage Operator in the Liquidity Spot.</p>
+{% endif %}
