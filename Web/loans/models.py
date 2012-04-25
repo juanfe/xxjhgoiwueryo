@@ -5,14 +5,15 @@ from django.db import models
 
 class MortgageOriginator(models.Model):
 	Name = models.CharField(max_length=200)
-	Contact = models.ForeignKey(User)
+	#TODO add user as foreignkey to contact
+	#Contact = models.ForeignKey(User)
 
 	def __unicode__(self):
 		return self.Name
 
-	def create_MortgageOriginator(user)
-		Name = user
-		Contact = User.objects.get(username = user)
+	#def create_MortgageOriginator(user)
+	#	Name = user
+	#	Contact = User.objects.get(username = user)
 
 class Loan(models.Model):
 	MortgageOriginator = models.ForeignKey(MortgageOriginator)
