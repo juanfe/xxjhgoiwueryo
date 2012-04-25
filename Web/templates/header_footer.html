@@ -1,42 +1,35 @@
 {% extends "base.html" %}
 {% block dojoConfig %}
-	{{ block.super }}
-	<script>
-	   dojoConfig.addToRequire([
-	       "dijit.layout.BorderContainer",
-	       "dijit.layout.ContentPane"
-       ]);
-    </script>
+  {{ block.super }}
+  <script>
+    dojoConfig.addToRequire([
+      "dijit.layout.BorderContainer",
+      "dijit.layout.ContentPane"
+    ]);
+  </script>
 {% endblock dojoConfig %}
 {% block body %}
-	<div id = "topLevelContainer" dojoType="dijit.layout.BorderContainer" design="headline" isLayoutContainer="true" gutters='false'
-		style="height:100%;width:100%;">
-			<div dojoType = "dijit.layout.ContentPane" region = "top" title="Filtros" style='width: auto;height: 70px;border:solid 1px;border-color: black'>
-				<table style="width: 100%">
-					<tr>
-						<td><img src="../images/liquidityspot_logo.jpg" alt="logo"/></td>
-						<td style="margin: auto; color: #F78111; vertical-align: bottom; text-align: right;">
-							{% for menuPage in menuPages %}
-                                <a href={{ menuPage.url }}>{{ menuPage.text }}</a>&nbsp;&nbsp;&nbsp;
-							{% endfor %}
-							{% block  menuAnchors %}
-							{% endblock menuAnchors %}
-					</tr>
-				</table>
-			</div>
-			<div id="mainView" dojoType="dijit.layout.ContentPane" region="center" style="overflow: hidden;">
-				{% block content %}
-				{% endblock content %}
-			</div>
-			<div id='bottomContainer' dojoType="dijit.layout.ContentPane" splitter="false" region="bottom" style="background-color:#F78111;padding:0px;border:solid 1px;border-color: black">
-				<div id="footer">
-					<p style="float: right;margin: 0 55px 0 0;">
-						Design: Vichara Technologies, <a title="Vichara Technologies" href="http://www.vichara.com/">Vichara Technologies</a>
-					</p>
-					<p>
-						&copy; Copyright 2011 <a href="http://www.liquidityspot.com">Liquidity Spot</a> &middot; All Rights Reserved
-					</p>
-				</div>
-			</div>
-		</div>
+    <div id = "topLevelContainer" dojoType="dijit.layout.BorderContainer" design="headline"
+         isLayoutContainer="true" gutters='false' style="height:100%;width:100%;">
+      <div dojoType = "dijit.layout.ContentPane" region = "top" title="Filtros" style='width: auto;height:
+	      70px;border:solid 1px;border-color: black'>
+        <table style="width: 100%">
+          <tr>
+		  <td><img src="{{ STATIC_URL }}liquidityspot_logo.jpg" alt="logo"/></td>
+	     <td style="margin: auto; color: #F78111; vertical-align: bottom; text-align: right;">
+               {% for menuPage in menuPages %}
+                 <a href={{ menuPage.url }}>{{ menuPage.text }}</a>&nbsp;&nbsp;&nbsp;
+	       {% endfor %}
+               {% block  menuAnchors %}
+               {% endblock menuAnchors %}
+	     </td>
+          </tr>
+        </table>
+      </div>
+      <div id="mainView" dojoType="dijit.layout.ContentPane" region="center" style="overflow: hidden;">
+        {% block content %}
+	{% endblock content %}
+      </div>
+    </div> 
 {% endblock body %}
+
