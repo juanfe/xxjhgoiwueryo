@@ -1,4 +1,4 @@
-from django.template import Context, loader
+from django.template import RequestContext, loader
 from loans.models import Loan, MortgageOriginator
 from django.http import HttpResponse
 
@@ -7,7 +7,7 @@ def moindex(request):
     m.save()
     latest_loan_mo = MortgageOriginator.objects.all().order_by('-Name')[:10]
     t = loader.get_template('loans/moindex.html')
-    c = Context({
+    c = RequestContext({
         'latest_loan_mo': latest_loan_mo,
     })
     return HttpResponse(t.render(c))
