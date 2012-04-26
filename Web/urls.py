@@ -13,6 +13,8 @@ urlpatterns = patterns('',
     url(r'^loans/(?P<loan_id>\d+)/results/$', 'loans.views.results'),
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
     url(r'^admin/', include(admin.site.urls)),
+	url(r'^initial_data/$', include('initial_data')),
+	url(r'^dojango/', include('dojango.urls')),
     ('^$', 'django.views.generic.simple.direct_to_template',
         {'template': 'home.html'}),
 )
