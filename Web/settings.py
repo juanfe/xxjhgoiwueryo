@@ -26,6 +26,7 @@ INSTALLED_APPS = (
 	# It's important to put 'permission_backend_nonrel after djangotoolbox,
 	# because 'permission_backend_nonrel.admin replaces djangotoolbox's User
 	# admin site. 
+	'dojango',
 	'permission_backend_nonrel',
     'autoload',
     'dbindexer',
