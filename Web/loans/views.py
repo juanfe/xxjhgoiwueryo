@@ -14,8 +14,11 @@ def moindex(request):
 
 def index(request):
     latest_loan_list = Loan.objects.all().order_by('-Creation')[:10]
-    output = ', '.join([l.MortgageOriginator for l in latest_loan_list])
-    return HttpResponse(output)
+    t = loader.get_template('listloans.html')
+    c = RequestContext({
+		'latest_loan_list': latest_loan_list,
+    })
+    return HttpResponse(t.render(c))
 
 def detail(request, loan_id):
 	return HttpResponse("You are at loan %s." % loan_id)
