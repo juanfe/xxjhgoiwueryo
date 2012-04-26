@@ -10,6 +10,17 @@ DATABASES['native'] = DATABASES['default']
 DATABASES['default'] = {'ENGINE': 'dbindexer', 'TARGET': 'native'}
 AUTOLOAD_SITECONF = 'indexes'
 
+USE_I18N = True
+
+gettext = lambda s: s
+
+LANGUAGE_CODE = 'sr'
+LANGUAGES = (
+    ('en', gettext('English')),
+    #('de', gettext('German')),
+    #('sp', gettext('Spanish')),
+)
+
 SECRET_KEY = '=r-$b*8hglm+858&9t043hlm6-&6-3d3vfc4((7yd0dbrakhvi'
 
 AUTHENTICATION_BACKENDS = (
@@ -21,27 +32,27 @@ INSTALLED_APPS = (
     'django.contrib.contenttypes',
     'django.contrib.auth',
     'django.contrib.sessions',
-	'django.contrib.staticfiles',
+    'django.contrib.staticfiles',
     'djangotoolbox',
-	# It's important to put 'permission_backend_nonrel after djangotoolbox,
-	# because 'permission_backend_nonrel.admin replaces djangotoolbox's User
-	# admin site. 
-	'dojango',
-	'permission_backend_nonrel',
+    # It's important to put 'permission_backend_nonrel after djangotoolbox,
+    # because 'permission_backend_nonrel.admin replaces djangotoolbox's User
+    # admin site. 
+    'dojango',
+    'permission_backend_nonrel',
     'autoload',
     'dbindexer',
-	'djmoney',
-	'loans',
-	'bids',
-	'users',
+    'djmoney',
+    'loans',
+    'bids',
+    'users',
     # djangoappengine should come last, so it can override a few manage.py commands
     'djangoappengine',
 )
 
 MIDDLEWARE_CLASSES = (
+    'dojango.middleware.DojoCollector',
     # This loads the index definitions, so it has to come first
     'autoload.middleware.AutoloadMiddleware',
-
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -52,6 +63,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.request',
 	'django.core.context_processors.static',
     'django.core.context_processors.media',
+	'dojango.context_processors.config',
 )
 
 # This test runner captures stdout and associates tracebacks with their
