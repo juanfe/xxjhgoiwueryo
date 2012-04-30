@@ -30,6 +30,8 @@ AUTHENTICATION_BACKENDS = (
 DOJANGO_DATAGRID_ACCESS = (
   'myapp.Test',
   'myapp.Result',
+  'loans.MortgageOriginator',
+  'loans.Loan',
 )
 
 INSTALLED_APPS = (
