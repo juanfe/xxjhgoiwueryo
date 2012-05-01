@@ -17,83 +17,83 @@ class MortgageOriginator(models.Model):
     #    Contact = User.objects.get(username = user)
 
 class Loan(models.Model):
-	#TODO look for what means each code
-	INVESTOR_CODE_CHOICES = (
-		('BOAM', 'BOAM'),
-		('FNMA', 'FNMA'),
-		('GMAC', 'GMAC'),
-		('JPM', 'JPM'),
-	)
+    #TODO look for what means each code
+    INVESTOR_CODE_CHOICES = (
+        ('BOAM', 'BOAM'),
+        ('FNMA', 'FNMA'),
+        ('GMAC', 'GMAC'),
+        ('JPM', 'JPM'),
+    )
     PROPERTY_TYPE_CODE = (
-		('SFR', 'SFR')
-		('PUB', 'PUB')
-	)
-	LIEN_POSITION_CHOICES = (
-		(1, 1),
-		(2, 2),
-	)
-	PURPOSE_CODE_CHOICES = (
-		('CO', 'CO'),
-		('P', 'P'),
-		('R', 'R'),
-	)
-	OCCUPANCY_CODE_CHOICES = (
-		('O', 'O'),
-		('I', 'I'),
-		('S', 'S'),
-	)
-	DOC_LEVEL_CODE_CHOICES = (
-			( 1, 1),
-			( 3, 3),
-	)
+        ('SFR', 'SFR')
+        ('PUB', 'PUB')
+    )
+    LIEN_POSITION_CHOICES = (
+        (1, 1),
+        (2, 2),
+    )
+    PURPOSE_CODE_CHOICES = (
+        ('CO', 'CO'),
+        ('P', 'P'),
+        ('R', 'R'),
+    )
+    OCCUPANCY_CODE_CHOICES = (
+        ('O', 'O'),
+        ('I', 'I'),
+        ('S', 'S'),
+    )
+    DOC_LEVEL_CODE_CHOICES = (
+            ( 1, 1),
+            ( 3, 3),
+    )
     #TODO  add: db_index=true, foreign key 
     #customer_account_key = models.CharField(max_length=80, db_column="MO Name",
     #        verbose_name="Mortgage Originator")
     collateral_key = models.CharField(max_length=80, verbose_name="Loan Number")
-	#Loan Amount
+    #Loan Amount
     advance_amt = MoneyField(max_digits = 20, decimal_places = 9, verbose_name="MO advance amount",
             default_currency=moneyed.USD)
     advance_amtDate = models.DateTimeField(auto_now=True)
     state = models.USStateField(choices=STATE_CHOICES, verbose_name="Property state")
     pzip = models.models.CharField(max_length=10, verbose_name="Property zip")
     orig_upb = MoneyField(max_digits = 20, decimal_places = 9,
-			verbose_name="Original Unpaid Balance",
+            verbose_name="Original Unpaid Balance",
             default_currency=moneyed.USD)
-	orig_upbDate = models.DateTimeField(auto_now=True)
+    orig_upbDate = models.DateTimeField(auto_now=True)
     curr_upb = MoneyField(max_digits = 20, decimal_places = 9,
-			verbose_name="Current Unpaid Balance",
+            verbose_name="Current Unpaid Balance",
             default_currency=moneyed.USD)
-	curr_upbDate = models.DateTimeField(auto_now=True)
-	# Creation date
+    curr_upbDate = models.DateTimeField(auto_now=True)
+    # Creation date
     origination_date = models.DateTimeField(auto_now=True, verbose_name="origination date")
     is_adjustable = models.BooleanField(verbose_name="is interest rate adjustable?")
-	#TODO X divided by P
+    #TODO X divided by P
     investor_code = models.CharField(max_length=80, verbose_name="investor code", 
-			choices = INVESTOR_CODE_CHOICES)
-	property_type_code = models.CharField(max_length=80, verbose_name="property type code",
-			choices = PROPERTY_TYPE_CODE)
+            choices = INVESTOR_CODE_CHOICES)
+    property_type_code = models.CharField(max_length=80, verbose_name="property type code",
+            choices = PROPERTY_TYPE_CODE)
     lien_position = models.DecimalField(max_digits = 1, decimal_places = 0, verbose_name="lien position",
-			choices = LIEN_POSITION_CHOICES)
+            choices = LIEN_POSITION_CHOICES)
     original_ltv = models.DecimalField(max_digits = 10, decimal_places = 7, verbose_name="original ltv")
     original_cltv = models.DecimalField(max_digits = 10, decimal_places = 7, verbose_name="original cltv")
     fico_score = models.DecimalField(max_digits = 3, decimal_places = 0, verbose_name="fico score")
     purpose_code = models.CharField(max_length=80, verbose_name="purpose code",
-			choices = PURPOSE_CODE_CHOICES)
+            choices = PURPOSE_CODE_CHOICES)
     occupancy_code = models.CharField(max_length=80, verbose_name="occupancy code",
-			choices = OCCUPANCY_CODE_CHOICES)
+            choices = OCCUPANCY_CODE_CHOICES)
     doc_level_code = models.DecimalField(max_digits = 1, decimal_places = 0,
-			verbose_name="Document Level Code", choices = DOC_LEVEL_CODE_CHOICES)
+            verbose_name="Document Level Code", choices = DOC_LEVEL_CODE_CHOICES)
     debt_service_ratio = models.DecimalField(max_digits = 10, decimal_places = 7,
-			verbose_name="debt service ratio")
+            verbose_name="debt service ratio")
     cur_note_rate = models.DecimalField(max_digits = 10, decimal_places = 7,
-			verbose_name="Current note rate")
-	#TODO ask by the range of the Fraud risk score, may be VAR?
+            verbose_name="Current note rate")
+    #TODO ask by the range of the Fraud risk score, may be VAR?
     corelogic_fraud_risk_score = models.DecimalField(verbose_name="CoreLogic Fraud Risk Score")
     corelogic_collateral_risk_score = models.DecimalField(verbose_name="CoreLogic Collateral Risk Score")
     Hiden = models.BooleanField()
 
     #  This field are from the file 'Funding File - Definitions Template w dummy
-	#  data.xlsx
+    #  data.xlsx
     #address = models.CharField(max_length=80, verbose_name="Property address")
     #amortization_term = models.DecimalField(verbose_name="amortization term")
     #anncap_init = models.DecimalField(verbose_name="Initial Rate Adjustment Cap")
@@ -167,7 +167,7 @@ class Loan(models.Model):
     #mers_min = models.CharField(max_length=80, verbose_name="mers min number",default="100000000000000000")
     #mo_city = models.CharField(max_length=80, verbose_name="MO City")
     #mo_state = models.USStateField(choices=STATE_CHOICES,
-	#        verbose_name="Property state", verbose_name="MO State")
+    #        verbose_name="Property state", verbose_name="MO State")
     #mo_zip = models.models.CharField(max_length=10, verbose_name="MO Zip")
     #mtg_ins_company = models.CharField(max_length=80, verbose_name="mortgage insurance company")
     #mtg_ins_pct = db.BooleanProperty(verbose_name="Mortgage Insurance",default=False)
@@ -187,7 +187,7 @@ class Loan(models.Model):
     #payee1_instruction2 = models.CharField(max_length=80, verbose_name="1st Payee Wire Instruction 2")
     #payee1_name = models.CharField(max_length=80, verbose_name="1st Payee Name")
     #payee1_state = models.USStateField(choices=STATE_CHOICES,
-	#        verbose_name="Property state", verbose_name="1st Payee State")
+    #        verbose_name="Property state", verbose_name="1st Payee State")
     #payee1_zip = models.models.CharField(max_length=10, verbose_name="1st Payee Zip")
     #payee2_abanum = models.CharField(max_length=80, verbose_name="2nd payee ABA number")
     #payee2_accountnum = models.CharField(max_length=80, verbose_name="2nd payee account number")
@@ -197,7 +197,7 @@ class Loan(models.Model):
     #payee2_instruction2 = models.CharField(max_length=80, verbose_name="2nd Payee Wire Instruction 2")
     #payee2_name = models.CharField(max_length=80, verbose_name="2nd Payee Name")
     #payee2_state = models.USStateField(choices=STATE_CHOICES,
-	#        verbose_name="Property state", verbose_name="2st Payee State")
+    #        verbose_name="Property state", verbose_name="2st Payee State")
     #payee2_zip = models.models.CharField(max_length=10, verbose_name="2st Payee Zip")
     #prepay_enforceability = models.CharField(max_length=80, verbose_name="prepay enforceability")
     #prepay_penalty_flag = db.BooleanProperty(verbose_name="prepayment penalty flag",default=False)
