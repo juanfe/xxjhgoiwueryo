@@ -202,4 +202,5 @@ class TestApplication:
 		AllocRates = self.app.SumRateAllocation(asset, assetSNC, ratesGC, WARateGNC)
 		assert AllocRates == p
 	
+	#TODO make test for Calc
 	#def test_Calc(self, arg, p)
