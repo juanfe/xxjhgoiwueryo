@@ -69,9 +69,9 @@ MIDDLEWARE_CLASSES = (
 TEMPLATE_CONTEXT_PROCESSORS = (
     'django.contrib.auth.context_processors.auth',
     'django.core.context_processors.request',
-	'django.core.context_processors.static',
+    'django.core.context_processors.static',
     'django.core.context_processors.media',
-	#'dojango.context_processors.config',
+    #'dojango.context_processors.config',
 )
 
 # This test runner captures stdout and associates tracebacks with their
@@ -107,8 +107,8 @@ DOJANGO_DOJO_THEME = "claro" #Available "tundra", "soria", or "nihilo"
 
 #DOJANGO_DOJO_THEME_URL #It defaults to dojo base url/dijit/themes and there
                         #you can look at the dojo theme structure, e.g.:
-						#_dojo base url_/dijit/themes/tundra
-						#_dojo base url_/dijit/themes/tundra/tundra.css
+                        #_dojo base url_/dijit/themes/tundra
+                        #_dojo base url_/dijit/themes/tundra/tundra.css
 
 #DOJANGO_DOJO_DEBUG = True
 
