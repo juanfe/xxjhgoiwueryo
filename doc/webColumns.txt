@@ -20,7 +20,7 @@ BH 59 Purpose Code
 BL 63 Occupancy Code
 BM 64 Doc Level Code
 BN 65 Debt Service Ratio
-DL ?? Cur Note Rate 
+DL 115 Cur Note Rate 
 EF 135 CoreLogic Fraud Risk Score
 EG 136 CoreLogic Collateral Risk Score
 
