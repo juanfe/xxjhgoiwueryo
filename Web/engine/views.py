@@ -1,21 +1,21 @@
 from django.template import RequestContext, loader
 from django.shortcuts import render_to_response
-from models import Loan, MortgageOriginator
+from loans.models import Loan, MortgageOriginator
 from django.http import HttpResponse
 from datetime import datetime
 from LiqSpot import LiqEngine
 
 def calc(request):
-    eng = LiqEngine()
+	eng = LiqEngine()
 	#TODO add LSSpread and PriorDayRateUsed from config
 	eng.setParameters(LSSpread = 1, PriorDayRateUsed = 3.5)
 	eng.setLoans([{'loanId' : '1', 'mortgageOriginator': 'ABC Mortgage',
 					'loanAmount': 318725.0},
 			{'loanId' : '2', 'mortgageOriginator': 'ABC Mortgage',
 					'loanAmount': 375685.0},
-	        {'loanId' : '3', 'mortgageOriginator': 'Prime Lending',
+			{'loanId' : '3', 'mortgageOriginator': 'Prime Lending',
 					'loanAmount': 479875.0},
-	        {'loanId' : '4', 'mortgageOriginator': 'Prime Lending',
+			{'loanId' : '4', 'mortgageOriginator': 'Prime Lending',
 					'loanAmount': 525400.0},
 			{'loanId' : '5', 'mortgageOriginator': 'Best Loans Inc',
 					'loanAmount': 515425.0},
@@ -72,14 +72,16 @@ def calc(request):
 		{'date' : '2012-01-13', 'time' : '7:30:12', 'bidId' : '1104156',
 			'userId' : '1104156@test.com', 'bidType' : 'Specified',
 			'Participation' : 20, 'assetSubset' : 'Loan', 'loanId' : '2',
-			'orderType' : 'Noncompetitive', 'orderTiming' : 'Day
-			Trade'},
+			'orderType' : 'Noncompetitive', 'orderTiming' : 'Day Trade'},
 		{'date' : '2012-01-13', 'time' : '8:56:36', 'bidId' : '1104158',
 			'userId' : '1104158@test.com', 'bidType' : 'Specified',
 			'Participation' : 20, 'assetSubset' : 'Loan', 'loanId' : '1',
 			'orderType' : 'Competitive', 'bidRate' : 2.250,
 			'orderTiming' : 'Day Trade'}])
-	end.Calc()
-	#TODO pass eng.Data as context
-    context = {}
-    return render_to_response("engine/results.html", context)
+	context = {}
+	try:
+	    #TODO pass eng.Data as context
+		eng.Calc()
+		return render_to_response("engine/results.html", context)
+	except:
+		return render_to_response("500.html")

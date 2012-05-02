@@ -5,6 +5,6 @@ admin.autodiscover()
 
 handler500 = 'djangotoolbox.errorviews.server_error'
 
-urlpatterns = patterns('loans.views',
+urlpatterns = patterns('engine.views',
     url(r'^$', 'calc'), 
 )
