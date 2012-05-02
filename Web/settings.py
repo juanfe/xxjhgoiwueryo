@@ -28,10 +28,9 @@ AUTHENTICATION_BACKENDS = (
 )
 
 DOJANGO_DATAGRID_ACCESS = (
-  'myapp.Test',
-  'myapp.Result',
   'loans.MortgageOriginator',
   'loans.Loan',
+  'bids.Bid',
 )
 
 INSTALLED_APPS = (
@@ -80,16 +79,17 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 TEST_RUNNER = 'djangotoolbox.test.CapturingTestSuiteRunner'
 
 ADMIN_MEDIA_PREFIX = '/media/admin/'
-#TEMPLATE_DIRS = (os.path.join(os.path.dirname(__file__), 'templates'),)
-TEMPLATE_DIRS = (
-    '/home/juanfe/Vichara/liquidity/Web/templates',
-)
+TEMPLATE_DIRS = (os.path.join(os.path.dirname(__file__), 'templates'),)
+#TEMPLATE_DIRS = (
+#    '/home/juanfe/Vichara/liquidity/Web/templates',
+#)
 
 ROOT_URLCONF = 'urls'
 
 #TODO add relative dir as in TEMPLATE_DIRS
 STATICFILES_DIRS = (
-    "/home/juanfe/Vichara/liquidity/Web/images",
+    os.path.join(os.path.dirname(__file__), 'images'),
+#    "/home/juanfe/Vichara/liquidity/Web/images",
 )
 
 STATIC_URL = '/static/'
