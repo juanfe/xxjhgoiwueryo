@@ -818,7 +818,7 @@ class LiqEngine:
 			_AssetAssignation[k] = vals
 			j = j + 1
 		_AssetAssignation['Total'] = Tots
-		if self.options.Verbose or not self.options.output:
+		if self.options.Verbose or self.options.output != "":
 			print "Total ",
 			print Tots
 		if self.options.output:
