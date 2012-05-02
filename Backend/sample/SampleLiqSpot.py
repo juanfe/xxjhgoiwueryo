@@ -6,7 +6,7 @@ eng = LiqEngine()
 
 eng.setParameters(LSSpread = 1, PriorDayRateUsed = 3.5)
 
-eng.setMortgageOperators(['ABC Mortgage', 'Prime Lending', 'Best Loans Inc',
+eng.setMortgageOriginator(['ABC Mortgage', 'Prime Lending', 'Best Loans Inc',
 		'Integrity Lending'])
 
 eng.setLoans([{'loanId' : '1', 'mortgageOriginator': 'ABC Mortgage', 'loanAmount': 318725.0},
