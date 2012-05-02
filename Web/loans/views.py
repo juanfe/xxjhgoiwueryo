@@ -1,6 +1,9 @@
 from django.template import RequestContext, loader
-from loans.models import Loan, MortgageOriginator
+#import string
+from django.shortcuts import render_to_response
+from models import Loan, MortgageOriginator
 from django.http import HttpResponse
+from datetime import datetime
 
 def moindex(request):
     m = MortgageOriginator(Name = "juan")
@@ -13,17 +16,42 @@ def moindex(request):
     return HttpResponse(t.render(c))
 
 def index(request):
-    latest_loan_list = Loan.objects.all().order_by('-Creation')[:10]
-    t = loader.get_template('listloans.html')
-    c = RequestContext({
-		'latest_loan_list': latest_loan_list,
-    })
-    return HttpResponse(t.render(c))
+    context = {}
+    #latest_loan_list = Loan.objects.all().order_by('-Creation')[:10]
+    #t = loader.get_template('listloans.html')
+    #c = RequestContext({
+    #    'latest_loan_list': latest_loan_list,
+    #})
+    #return HttpResponse(t.render(c))
+    return render_to_response("loans/list_loans.html", context)
 
 def detail(request, loan_id):
-	return HttpResponse("You are at loan %s." % loan_id)
+    return HttpResponse("You are at loan %s." % loan_id)
 
 def results(request, loan_id):
-	return HttpResponse("You are at result of loan %s." % loan_id)
+    return HttpResponse("You are at result of loan %s." % loan_id)
 
-
+def initial_data(request):
+    l = Loan(collateral_key = "ABCD", advance_amt = 176021)
+    l.state = "WA"
+    l.zip = "98606"
+    l.orig_upb = 232000
+    l.curr_upb = 232000
+    l.origination_date = datetime.strptime("2/1/2012","%m/%d/%Y").date()
+    l.is_adjustable = False
+    l.investor_code = "JPM"
+    l.property_type_code = "SFR"
+    l.lien_position = 1
+    l.original_ltv = 35.8310
+    l.original_cltv = 35.8310
+    l.fico_score = 741
+    l.purpose_code = "CO"
+    l.occupancy_code = "O"
+    l.doc_level_code = 3
+    l.debt_service_ratio = 20.8011040
+    l.cur_note_rate = 4.3750
+    l.corelogic_fraud_risk_score = 783
+    l.corelogic_collateral_risk_score = 323
+    l.Hiden = False
+    l.save()
+    return HttpResponse("Initial data was readed")
