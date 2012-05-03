@@ -500,10 +500,6 @@ class LiqEngine:
 				assetSC['Total'][0:-1], WARateSC[0:-1],
 				assetSNC['Total'][0:-1], WARateSNC[0:-1])
 		d = map (lambda x, y: y if x else (0 if x == 0 else None), c, WARateSNC[0:-1])  
-		print 80*"&"
-		print assetSNC['Total'][0:-1]
-		print WARateSC[0:-1]
-		print WARateSNC[0:-1]
 		_asc = map ( lambda x: x if x != None else 0, assetSC['Total'][0:-1])
 		_wsc = map ( lambda x: x if x != None else 0, WARateSC[0:-1])
 		_asnc = map ( lambda x: x if x != None else 0, assetSNC['Total'][0:-1])
