@@ -4,7 +4,7 @@ from loans.models import Loan, MortgageOriginator
 from django.http import HttpResponse
 from datetime import datetime
 from LiqSpot import LiqEngine
-from models import Loan, UserFunds, Bid 
+from models import Loan, UserFunds, Bid, BidsAllocation 
 
 def calc(request):
 	eng = LiqEngine()
@@ -170,20 +170,17 @@ def calc(request):
 			nl.save()
 		# Fill Bids in the engine's bids
 		Bid.objects.all().delete()
-		# NOTE: Take care erasing BidsAllocation, because it erase in cascade
-		#BidsAllocation.objects.all().delete()
 		for b in context['bids'].iteritems():
 			nb = Bid()
 			nb.BidId = b[1]['bidId']
 			nb.FundsTotal = b[1]['fundsTotal']
 			nb.AcceptedRate = b[1]['acceptedRate']
-			#for aa in b['allocatedAmounts'].iteritems():
-			#	nbaa = BidsAllocation()
-			#	nbaa.BidId = Bid.find(b['bidId'])
-			#   nbaa.LoanId = Loan.find(a[0])
-			#	nbaa.AllocatedAmount = aa[1]
-			#	nbaa.save()
 			nb.save()
+			for aa in b[1]['allocatedAmounts'].iteritems():
+				nbaa = BidsAllocation(bid = nb)
+				#nbaa.LoanId = Loan.objects.filter(Loanid = a[0])
+				nbaa.AllocatedAmount = aa[1]
+				nbaa.save()
 		# Fill Users in the engine's User
 		UserFunds.objects.all().delete()
 		for u in context['users'].iteritems():
@@ -195,3 +192,10 @@ def calc(request):
 		return render_to_response("engine/results.html", context)
 	except:
 		return render_to_response("500.html")
+
+def del_all(request):
+	#Bid.objects.all().delete()
+	#Loan.objects.all().delete()
+	BidsAllocation.objects.all().delete()
+	#UserFunds.objects.all().delete()
+	return HttpResponse("Data was erased")

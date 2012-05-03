@@ -34,8 +34,8 @@ class Bid(models.Model):
 	FundsTotal = models.FloatField(verbose_name = "Funds Total")
 
 class BidsAllocation(models.Model):
-	BidId = models.ForeignKey(Bid)
-	LoanId = models.ForeignKey(Loan) 
+	bid = models.ForeignKey(Bid)
+	loan = models.ForeignKey(Loan) 
 	AllocatedAmount = models.FloatField(verbose_name = "Allocated Amount")
 
 class UserFunds(models.Model):
