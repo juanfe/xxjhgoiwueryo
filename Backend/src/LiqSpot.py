@@ -500,14 +500,22 @@ class LiqEngine:
 				assetSC['Total'][0:-1], WARateSC[0:-1],
 				assetSNC['Total'][0:-1], WARateSNC[0:-1])
 		d = map (lambda x, y: y if x else (0 if x == 0 else None), c, WARateSNC[0:-1])  
+		print 80*"&"
+		print assetSNC['Total'][0:-1]
+		print WARateSC[0:-1]
+		print WARateSNC[0:-1]
+		_asc = map ( lambda x: x if x != None else 0, assetSC['Total'][0:-1])
+		_wsc = map ( lambda x: x if x != None else 0, WARateSC[0:-1])
+		_asnc = map ( lambda x: x if x != None else 0, assetSNC['Total'][0:-1])
+		_wsnc = map ( lambda x: x if x != None else 0, WARateSNC[0:-1])
 		try:
 			_WARateS = map (lambda x, asc, wsc, asnc, wsnc:
-					(asc*wsc + asnc*wsnc)/(asc + asnc) if x == 0 else (x if 
-						x != None else 0), d, assetSC['Total'][0:-1], WARateSC[0:-1],
-					assetSNC['Total'][0:-1], WARateSNC[0:-1])
+					((asc*wsc + asnc*wsnc)/(asc + asnc) if x == 0 else (x if 
+						x != None else 0)) if asc + asnc != 0 else 0, d,
+					_asc, _wsc, _asnc, _wsnc)
 		except:
-			sys.exit("Error: Try with a non cero rate in the --priordayrateused " +
-					"parameter") 	
+			sys.exit("Error: Try with a non cero rate in the --PriorDayRateUsed " +
+					"parameter %s %s %s %s %s"%(d, _asc, _wsc, _asnc, _wsnc)) 	
 		_WARateS.append((assetSC['Total'][-1]*WARateSC[-1] +
 				assetSNC['Total'][-1]*WARateSNC[-1])/
 				(assetSC['Total'][-1] + assetSNC['Total'][-1])
