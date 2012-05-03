@@ -316,7 +316,15 @@ class LiqEngine:
 		for b in Bids:
 			d = {}
 			try:
-				d['time'] = datetime.strptime(b['date'] + ' ' + b['time'], "%Y-%m-%d %H:%M:%S")
+				t = b['date'] if  b.has_key('date') else ''
+				t = t + ' ' + b['time'] if b.has_key('time') else t
+				f = "%Y-%m-%d" if b.has_key('date') else ''
+				f = f + " %H:%M:%S" if b.has_key('time') else f
+				d['time'] = datetime.strptime(t, f) if f != "" else "" 
+			except:
+				d['time'] = datetime.strptime(t, "%H:%M:%S")
+
+			try:
 				d['userid'] = b['userId']
 				d['specified'] = b['bidType'] == 'Specified'
 				if not d['specified']:
@@ -341,7 +349,7 @@ class LiqEngine:
 					if b['bidType'] != 'Specified':
 						raise LiqError("Error Bid type is not Specified, and have assetSubset")
 				d['loannum'] = '' if d['lorm'] != 'Loan' else str(self.LoanIndex.index(b['loanId']) + 1)
-				d['mo'] = '' if d['lorm'] != 'MO' else d['mortgageOriginator']
+				d['mo'] = '' if d['lorm'] != 'MO' else b['mortgageOriginator']
 				d['ordertiming'] = b['orderTiming']
 				self.Bids[b['bidId']] = d
 			except:
