@@ -4,6 +4,7 @@ from loans.models import Loan, MortgageOriginator
 from django.http import HttpResponse
 from datetime import datetime
 from LiqSpot import LiqEngine
+from models import Loan, Bid, UserFunds 
 
 def calc(request):
 	eng = LiqEngine()
@@ -78,10 +79,18 @@ def calc(request):
 			'Participation' : 20, 'assetSubset' : 'Loan', 'loanId' : '1',
 			'orderType' : 'Competitive', 'bidRate' : 2.250,
 			'orderTiming' : 'Day Trade'}])
-	context = {}
 	try:
-	    #TODO pass eng.Data as context
-		eng.Calc()
+		#todo mirar como es el cuento para 
+		context = eng.Calc()
+		for l in context['loans'].iteritems():
+			u = Loan()
+			u.Loanid = l[0]
+			u.Funded = l[1]['funded']
+			u.InvestorRate = l[1]['investorRate']
+			#TODO search the RateToMo and FundedAmount
+			u.RateToMo = 0
+			u.FundedAmount = 0
+			u.save()
 		return render_to_response("engine/results.html", context)
 	except:
 		return render_to_response("500.html")
