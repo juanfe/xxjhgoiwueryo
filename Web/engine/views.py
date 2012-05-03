@@ -82,15 +82,32 @@ def calc(request):
 	try:
 		#todo mirar como es el cuento para 
 		context = eng.Calc()
+		# Fill Loans in the engine's loans
+		Loan.objects.all().delete()
 		for l in context['loans'].iteritems():
-			u = Loan()
-			u.Loanid = l[0]
-			u.Funded = l[1]['funded']
-			u.InvestorRate = l[1]['investorRate']
+			nl = Loan()
+			nl.Loanid = l[0]
+			nl.Funded = l[1]['funded']
+			nl.InvestorRate = l[1]['investorRate']
 			#TODO search the RateToMo and FundedAmount
-			u.RateToMo = 0
-			u.FundedAmount = 0
-			u.save()
+			nl.RateToMo = 0
+			nl.FundedAmount = 0
+			nl.save()
+		# Fill Bids in the engine's bids
+		Bid.objects.all().delete()
+		# NOTE: Take care erasing BidsAllocation, because it erase in cascade
+		#BidsAllocation.objects.all().delete()
+		for b in context['bids'].iteritems():
+			nb = Bid()
+			nb.save()
+		# Fill Users in the engine's User
+		UserFunds.objects.all().delete()
+		for u in context['users'].iteritems():
+			nu = UserFunds()
+			nu.User = u[0]
+			nu.Funds = u[1]['fundsAvailable']
+			nu.save() 
+
 		return render_to_response("engine/results.html", context)
 	except:
 		return render_to_response("500.html")
