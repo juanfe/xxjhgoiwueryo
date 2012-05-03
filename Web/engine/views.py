@@ -178,7 +178,7 @@ def calc(request):
 			nb.save()
 			for aa in b[1]['allocatedAmounts'].iteritems():
 				nbaa = BidsAllocation(bid = nb)
-				#nbaa.LoanId = Loan.objects.filter(Loanid = a[0])
+				nbaa.loan = Loan.objects.get(Loanid = aa[0])
 				nbaa.AllocatedAmount = aa[1]
 				nbaa.save()
 		# Fill Users in the engine's User
