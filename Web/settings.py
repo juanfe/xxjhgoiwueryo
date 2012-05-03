@@ -28,13 +28,13 @@ AUTHENTICATION_BACKENDS = (
 )
 
 DOJANGO_DATAGRID_ACCESS = (
-  'loans.MortgageOriginator',
-  'loans.Loan',
-  'bids.Bid',
-  'engine.Loan',
-  'engine.Bid',
-  'engine.UserFunds',
-  'engine.BidsAllocation',
+	'loans.MortgageOriginator',
+	'loans.Loan',
+	'bids.Bid',
+	'engine.Loan',
+	'engine.Bid',
+	'engine.UserFunds',
+	'engine.BidsAllocation',
 )
 
 INSTALLED_APPS = (

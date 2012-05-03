@@ -1,0 +1,18 @@
+{% extends "dojango/base.html" %}
+{% load dojango_base %}
+{% set_dojango_context %}
+{% load dojango_grid %}
+{% block dojango_page_title %} Testing datagrid {% endblock %}
+
+{% block dojango_content %}
+<div style="height:100px; width:1200px">
+    {% simple_datagrid engine Loan%}
+</div>
+<div style="height:100px; width:1200px">
+	{% simple_datagrid engine Bid%}
+    {#% simple_datagrid engine Bid%#}
+</div>
+<div style="height:100px; width:1200px">
+    {% simple_datagrid engine UserFunds%}
+</div>
+{% endblock %}
