@@ -9,6 +9,7 @@ handler403 = 'templates.403.html'
 
 urlpatterns = patterns('',
 	('^_ah/warmup$', 'djangoappengine.views.warmup'),
+	url(r'^home/$', 'home.views.HomePage'),
 	url(r'^mo/$', 'loans.views.moindex'), 
 	url(r'^loans/', include('loans.urls')), 
 	url(r'^bids/', include('bids.urls')),
