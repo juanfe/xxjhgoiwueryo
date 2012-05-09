@@ -39,3 +39,11 @@ def initial_data(request):
             OrderTiming = "A", FundsAvailable = 187500)
     b.save()
     return HttpResponse("Initial data was readed")
+
+def MyBids(request):
+	try:
+		return render_to_response("mybids.html",
+			context_instance=RequestContext(request))
+	except:
+		return render_to_response("500.html",
+			context_instance=RequestContext(request))
