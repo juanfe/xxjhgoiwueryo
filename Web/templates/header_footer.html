@@ -1,13 +1,14 @@
 {% extends "base.html" %}
-{% block dojoConfig %}
-  {{ block.super }}
-  <script>
+
+{# Mira en dnde poner la siguiente lnea, debe ir antes del <script> #}
+  {# block.super #}
+{% block _dojango_dj_config %}
     dojoConfig.addToRequire([
       "dijit.layout.BorderContainer",
       "dijit.layout.ContentPane"
     ]);
-  </script>
-{% endblock dojoConfig %}
+{% endblock %}
+
 {% block body %}
     <div id = "topLevelContainer" dojoType="dijit.layout.BorderContainer" design="headline"
          isLayoutContainer="true" gutters='false' style="height:100%;width:100%;">
