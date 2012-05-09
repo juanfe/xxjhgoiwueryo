@@ -90,7 +90,7 @@ TEST_RUNNER = 'djangotoolbox.test.CapturingTestSuiteRunner'
 ADMIN_MEDIA_PREFIX = '/media/admin/'
 TEMPLATE_DIRS = (os.path.join(os.path.dirname(__file__), 'templates'),
 		os.path.join(os.path.dirname(__file__),
-				'dojango-datable-test/test_app/templates'),)
+				'test_app/templates'),)
 #TEMPLATE_DIRS = (
 #	'/home/juanfe/Vichara/liquidity/Web/templates',
 #)
