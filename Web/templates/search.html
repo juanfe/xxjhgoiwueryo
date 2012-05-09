@@ -1,5 +1,5 @@
 {% extends "header_footer.html" %}
-{% block stylesheets %}
+{% block _dojango_dojo_styles %}
     <link rel="stylesheet" type="text/css"
         href="http://ajax.googleapis.com/ajax/libs/dojo/1.6.0/dojox/grid/enhanced/resources/claro/EnhancedGrid.css" />
     <link rel="stylesheet" type="text/css"
@@ -15,10 +15,11 @@
             padding:10px;
         }
     </style>
-{% endblock stylesheets %}
-{% block dojoConfig %}
-    {{ block.super }}
+{% endblock %}
+
+{% block _dojango_dj_config %}
     <script>
+    {{ block.super }}
         dojoConfig.addToRequire([
             "dijit.TitlePane",
             "dojo.data.ItemFileReadStore",
@@ -35,10 +36,12 @@
             "dijit.Dialog"
         ]);
     </script>
-{% endblock dojoConfig %}
+{% endblock %}
+
 {% block scripts %}
     <script type="text/javascript" src="scripts/myscript.js"></script>
 {% endblock scripts %}
+
 {% block content %}
     <div id="filters" data-dojo-type="dijit.TitlePane" data-dojo-props="title: 'Loan Filters'">
         <table style='margin:auto;width:100%'>
