@@ -57,7 +57,8 @@ INSTALLED_APPS = (
 	'bids',
 	'engine',
 	'test_app',
-	#'users',
+	'home',
+	'search',
 	# djangoappengine should come last, so it can override a few manage.py commands
 	'djangoappengine',
 	#'django_iso8601',
