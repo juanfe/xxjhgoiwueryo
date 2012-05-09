@@ -55,3 +55,9 @@ def initial_data(request):
     l.Hiden = False
     l.save()
     return HttpResponse("Initial data was readed")
+
+def ListLoans(request):
+	try:
+		return render("listloans.html")
+	except:
+		return render("500.html")
