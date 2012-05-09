@@ -1,12 +1,11 @@
 {% extends "base.html" %}
 
-{# Mira en dnde poner la siguiente lnea, debe ir antes del <script> #}
-  {# block.super #}
 {% block _dojango_dj_config %}
-    dojoConfig.addToRequire([
-      "dijit.layout.BorderContainer",
-      "dijit.layout.ContentPane"
-    ]);
+	{{ block.super }}
+	dojoConfig.addToRequire([
+		"dijit.layout.BorderContainer",
+		"dijit.layout.ContentPane"
+	]);
 {% endblock %}
 
 {% block dojango_body %}
@@ -32,7 +31,19 @@
         {% block content %}
 	{% endblock content %}
       </div>
+	<div id='bottomContainer' dojoType="dijit.layout.ContentPane" splitter="false" region="bottom"
+style="background-color:#F78111;padding:0px;border:solid 1px;border-color: black">
+		<div id="footer">
+			<p style="float: right;margin: 0 55px 0 0;">
+				Design: Vichara Technologies, <a title="Vichara Technologies" href="http://www.vichara.com/">Vichara Technologies</a>
+			</p>
+			<p>
+				&copy; Copyright 2012 <a href="http://www.liquidityspot.com">Liquidity Spot</a> &middot; All Rights Reserved
+			</p>
+		</div>
+	</div>
     </div> 
+	
 </body>
 {% endblock %}
 
