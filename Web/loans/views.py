@@ -58,6 +58,8 @@ def initial_data(request):
 
 def ListLoans(request):
 	try:
-		return render("listloans.html")
+		return render_to_response("listloans.html",
+			context_instance=RequestContext(request))
 	except:
-		return render("500.html")
+		return render_to_response("500.html",
+			context_instance=RequestContext(request))
