@@ -1,67 +1,49 @@
-<!DOCTYPE html 
-     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-    dir="{% if LANGUAGE_BIDI %}rtl{% else %}ltr{% endif %}"
-    xml:lang="{% firstof LANGUAGE_CODE 'en' %}"
-    lang="{% firstof LANGUAGE_CODE 'en' %}">
-  <head>
-		<meta charset="utf-8">
-    <title>{% block title %}Liquidity Spot{% endblock %}</title>
+{% extends "dojango/base_i18n.html" %}
 
-    {% block css %}
-		<!-- Dojo and dijit themes css-->
-		<link rel="stylesheet" type="text/css"
-	        href="http://ajax.googleapis.com/ajax/libs/dojo/1.6.0/dojo/resources/dojo.css" />
-		<link rel="stylesheet" type="text/css"
-		      href="http://ajax.googleapis.com/ajax/libs/dojo/1.6.0/dijit/themes/claro/claro.css" />
-		<link rel="stylesheet" type="text/css"
-		      href="http://ajax.googleapis.com/ajax/libs/dojo/1.6.0/dijit/themes/claro/document.css" />
-		<link rel="stylesheet" type="text/css"
-		      href="css/common.css" />
-    {% endblock %}
+{% block _dojango_dojo_styles %}
+	<style type="text/css">
+		@import "{{ DOJANGO.DOJO_URL }}/resources/dojo.css";
+		@import "{{ DOJANGO.THEME_CSS_URL }}";
+		@import "{{ DOJANGO.DOJO_URL }}/dijit/themes/claro/document.css";
+		@import "css/common.css";
+	</style>
+{% endblock %}
 
-		<!-- Configuring dojo -->
-    {% block preload_js %}
-		{% block dojoConfig %}
-    <script>
-      dojoConfig = {
-        isDebug: true,
-        parseOnLoad: true,
-        locale: 'en-us',
-        require: [],
-				// Add the array of modules to the require property
-				//   allow child templates to add requires to
-				//   dojoConfig
-				// Return the instance, enabling concatenated calls
-				addToRequire: function(array) {
-				  this.require = this.require.concat(array);
-					return this;
-				},
-				// Add or replace the properties specified in obj
-				// Return the instance, enabling concatenated calls
-				addProperties: function(obj) {
-				  var prop;
-					for(prop in obj){
-					  if(obj.hasOwnProperty(prop)) {
-						  this[prop] = obj[prop];
-						}
-					}
-					return this;
-				}
-			};
-		</script>
-		{% endblock dojoConfig %}
-		<!-- Dojo CDN -->
-		<!-- TODO remove the next comment, understanding what happend -->
-		<!--script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/dojo/1.6.1/dojo/dojo.xd.js"></script-->
-    {% endblock %}
+{% block _dojango_dj_config %}
+	var djConfig = {
+		'isDebug':true{# DOJANGO.DEBUG|json #},
+		'parseOnLoad':true,
+		'baseUrl':"{{ DOJANGO.DOJO_BASE_PATH }}"
+		require: [],
+		// Add the array of modules to the require property
+		//   allow child templates to add requires to
+		//   dojoConfig
+		// Return the instance, enabling concatenated calls
+		addToRequire: function(array) {
+			this.require = this.require.concat(array);
+			return this;
+		},
+		// Add or replace the properties specified in obj
+		// Return the instance, enabling concatenated calls
+		addProperties: function(obj) {
+			var prop;
+			for(prop in obj){
+				if(obj.hasOwnProperty(prop)) {
+					this[prop] = obj[prop];
+                        	}
+                	}
+	                return this;
+		}
+		{% if not DOJANGO.IS_LOCAL %}
+		,'dojoBlankHtmlUrl':"{{ DOJANGO.DOJANGO_URL }}/resources/blank.html"
+		,'dojoIframeHistoryUrl':"{{ DOJANGO.DOJANGO_URL }}/resources/blank.html"
+		{% endif %}
+		{% if DOJANGO.CDN_USE_SSL and not DOJANGO.IS_LOCAL %}
+			,'modulePaths':{'dojo': '{{ DOJANGO.DOJO_URL }}', 'dijit': '{{ DOJANGO.DIJIT_URL }}', 'dojox': '{{ DOJANGO.DOJOX_URL }}'}
+		{% endif %}
+	};
+{% endblock %}	
 
-    {% block extra-head %}{% endblock %}
-  </head>
-
-  <body class='claro'>
-		{% block body %}
-		{% endblock body %}
-  </body>
-</html>
+{% block dojango_content %}
+    {# PLACE YOUR FORMS HERE #}
+{% endblock %}
