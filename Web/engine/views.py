@@ -4,7 +4,6 @@ from loans.models import Loan, MortgageOriginator
 from django.http import HttpResponse
 from datetime import datetime
 from LiqSpot import LiqEngine
-from models import Loan, UserFunds, Bid, BidsAllocation 
 
 def calc(request):
 	eng = LiqEngine()
@@ -155,41 +154,22 @@ def calc(request):
 				'orderType' : 'Noncompetitive', 'bidRate' : 2.125,
 				'orderTiming' : 'Day Trade'}])
 	try:
-		#todo mirar como es el cuento para 
 		context = eng.Calc()
-		# Fill Loans in the engine's loans
-		Loan.objects.all().delete()
-		for l in context['loans'].iteritems():
-			nl = Loan()
-			nl.Loanid = l[0]
-			nl.Funded = l[1]['funded']
-			nl.InvestorRate = l[1]['investorRate']
-			#TODO search the RateToMo and FundedAmount
-			nl.RateToMo = 0
-			nl.FundedAmount = 0
-			nl.save()
-		# Fill Bids in the engine's bids
-		Bid.objects.all().delete()
-		for b in context['bids'].iteritems():
-			nb = Bid()
-			nb.BidId = b[1]['bidId']
-			nb.FundsTotal = b[1]['fundsTotal']
-			nb.AcceptedRate = b[1]['acceptedRate']
-			nb.save()
-			for aa in b[1]['allocatedAmounts'].iteritems():
-				nbaa = BidsAllocation(bid = nb)
-				nbaa.loan = Loan.objects.get(Loanid = aa[0])
-				nbaa.AllocatedAmount = aa[1]
-				nbaa.save()
-		# Fill Users in the engine's User
-		UserFunds.objects.all().delete()
-		for u in context['users'].iteritems():
-			nu = UserFunds()
-			nu.User = u[0]
-			nu.Funds = u[1]['fundsAvailable']
-			nu.save() 
 
-		return render_to_response("engine/results.html", context)
+		Context = {'loans':[]}
+		for c in context['loans'].iteritems():
+			Context['loans'].append(c[0])
+		Context['bids'] = []
+		for b in context['bids'].iteritems():
+			#c = {'bid': b[0]}
+			c = [{'bid': b[0]}]
+			for l in Context['loans']:
+				if l in b[1]['allocatedAmounts']:
+					c.append(({"key": l, "val": b[1]['allocatedAmounts'][l]}))
+				else:
+					c.append(({"key": l, "val": 0}))
+			Context['bids'].append(c)
+		return render_to_response("engine/results.html", Context)
 	except:
 		return render_to_response("500.html")
 
