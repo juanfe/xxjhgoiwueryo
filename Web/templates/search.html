@@ -18,7 +18,6 @@
 {% endblock %}
 
 {% block _dojango_dj_config %}
-    <script>
     {{ block.super }}
         dojoConfig.addToRequire([
             "dijit.TitlePane",
@@ -35,7 +34,6 @@
             "dijit.form.CheckBox",
             "dijit.Dialog"
         ]);
-    </script>
 {% endblock %}
 
 {% block dojango_header_extra %}
