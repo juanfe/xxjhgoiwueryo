@@ -161,7 +161,6 @@ def calc(request):
 			Context['loans'].append(c[0])
 		Context['bids'] = []
 		for b in context['bids'].iteritems():
-			#c = {'bid': b[0]}
 			c = [{'bid': b[0]}]
 			for l in Context['loans']:
 				if l in b[1]['allocatedAmounts']:
@@ -174,8 +173,5 @@ def calc(request):
 		return render_to_response("500.html")
 
 def del_all(request):
-	#Bid.objects.all().delete()
-	#Loan.objects.all().delete()
 	BidsAllocation.objects.all().delete()
-	#UserFunds.objects.all().delete()
 	return HttpResponse("Data was erased")
