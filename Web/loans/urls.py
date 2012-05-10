@@ -8,7 +8,7 @@ handler500 = 'djangotoolbox.errorviews.server_error'
 
 urlpatterns = patterns('loans.views',
     url(r'^$', 'index'), 
-    url(r'^initial_data/$', 'initial_data'),
+    url(r'^loadLoans/$', 'loansModelInstance'),
 	url(r'^listLoans/$', 'ListLoans'),
     #url(r'^(?P<loan_id>\d+)/$', 'loans.views.detail'),
     #url(r'^(?P<loan_id>\d+)/results/$', 'loans.views.results'),
