@@ -101,6 +101,7 @@ ROOT_URLCONF = 'urls'
 #TODO add relative dir as in TEMPLATE_DIRS
 STATICFILES_DIRS = (
 	os.path.join(os.path.dirname(__file__), 'images'),
+	os.path.join(os.path.dirname(__file__), 'scripts'),
 #	"/home/juanfe/Vichara/liquidity/Web/images",
 )
 
