@@ -1,0 +1,6 @@
+dojango
+xlwt
+ludibrio
+iso8601
+pytz
+xlrd
