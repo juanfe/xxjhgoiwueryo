@@ -84,7 +84,30 @@ function createGrid(dataStore) {
     ls.grid.startup();
 }
 
-dojo.ready(function () {
+dojo.ready(function(){
+	alert("Dojo version " + dojo.version + " is loaded");
+	var theGreatestTeamOfAllTime = {
+        identifier: 'collateral_key',
+		items: [
+		{ abbr:'ec', name:'Ecuador',           capital:'Quito' },
+		{ abbr:'eg', name:'Egypt',             capital:'Cairo' },
+		{ abbr:'sv', name:'El Salvador',       capital:'San Salvador' },
+		{ abbr:'gq', name:'Equatorial Guinea', capital:'Malabo' },
+		{ abbr:'er', name:'Eritrea',           capital:'Asmara' },
+		{ abbr:'ee', name:'Estonia',           capital:'Tallinn' },
+		{ abbr:'et', name:'Ethiopia',          capital:'Addis Ababa' }
+		]
+        //url: "/bids"
+	};
+	ls.dataStore = new dojo.data.ItemFileReadStore(
+		{ data:theGreatestTeamOfAllTime }
+    );
+	var grid = dijit.byId("billsGrid");
+	grid.setStore(ls.dataStore);
+	//createGrid(ls.dataStore);
+});
+
+dojo.readyold(function () {
 	ls.dataStore = new dojo.data.ItemFileReadStore({
         identifier: 'collateral_key',
         url: "/bids"
