@@ -102,6 +102,7 @@ ROOT_URLCONF = 'urls'
 STATICFILES_DIRS = (
 	os.path.join(os.path.dirname(__file__), 'images'),
 	os.path.join(os.path.dirname(__file__), 'scripts'),
+	os.path.join(os.path.dirname(__file__), 'css'),
 #	"/home/juanfe/Vichara/liquidity/Web/images",
 )
 
