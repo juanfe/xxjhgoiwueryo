@@ -1,4 +1,5 @@
 {% extends "dojango/base.html" %}
+{# extends "base.html" #}
 
 {% block dojango_page_title %}
 Grid for Bids per Loan
@@ -46,21 +47,21 @@ Grid for Bids per Loan
 <script type="text/javascript">
 dojo.ready(function() {
     var theGreatestTeamOfAllTime = {
-        items: [ 
-		{% for bid in bids %}		
-		  {
-			{% for v in bid %}
-				{% if v.bid %}
-				"bid_loan": "{{ v.bid }}",
-				{% else %}
-				"{{ v.key }}": "{{ v.val }}", 
-				{% endif %}
-			{% endfor %}
+        items: [
+        {% for bid in bids %}
+          {
+            {% for v in bid %}
+                {% if v.bid %}
+                "bid_loan": "{{ v.bid }}",
+                {% else %}
+                "{{ v.key }}": "{{ v.val }}",
+                {% endif %}
+            {% endfor %}
                   },
-		{% endfor %}
-		],
-	identifier: "bid_loan" };
- 
+        {% endfor %}
+        ],
+    identifier: "bid_loan" };
+
     var dataStore =
     new dojo.data.ItemFileReadStore(
         { data:theGreatestTeamOfAllTime }
