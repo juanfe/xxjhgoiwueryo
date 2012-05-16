@@ -1,36 +1,17 @@
-{% extends "header_footer.html" %}
+{% extends "base_hf.html" %}
 
-{% block _dojango_dojo_styles %}
-        <link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/dojo/1.6.0/dojox/grid/enhanced/resources/claro/EnhancedGrid.css" />
-        <link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/dojo/1.6.0/dojox/grid/enhanced/resources/EnhancedGrid_rtl.css" />
-{% endblock %}
-
-{% block _dojango_dj_config %}
-        {{ block.super }}
-		dojoConfig.addToRequire([
-			"ls.FieldLabel",
-			"dojo.data.ItemFileReadStore",
-			"dojo.number",
-			"dojox.grid.EnhancedGrid",
-			"dojox.grid.enhanced.plugins.Filter",
-			"dijit.form.Button",
-			"dijit.TitlePane",
-			"dijit.Tooltip"
-		]).addProperties({
-			dojoBlankHtmlUrl: 'templates/blank.html',
-			baseUrl: 'scripts/',
-			modulePaths: {ls: 'ls'}
-		});
+{% block liq_spot_dojo_styles %}
+{{ block.super }}
+<link rel="stylesheet" type="text/css"
+    href="{{ DOJANGO.DOJOX_URL }}/grid/enhanced/resources/claro/EnhancedGrid.css" />
+<link rel="stylesheet" type="text/css"
+    href="{{ DOJANGO.DOJOX_URL }}/grid/enhanced/resources/EnhancedGrid_rtl.css" />
 {% endblock %}
 
 {% block dojango_header_extra %}
-        <script type="text/javascript" src="scripts/loans.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}loans.js"></script>
 {% endblock %}
 
-{% block menuAnchors %}
-        <a href="javascript:cleanBidsClick()">Remove selected bids</a>&nbsp;&nbsp;&nbsp;
-{% endblock menuAnchors %}
-
-{% block content %}
-        <div id="grid"></div>
-{% endblock content %}
+{% block liq_spot_content_hf %}
+<div id="gridDiv"></div>
+{% endblock %}

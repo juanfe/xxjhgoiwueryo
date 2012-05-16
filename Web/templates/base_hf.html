@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% block _dojango_doctype %}
+{% endblock %}
+
+{% block _dojango_dojo_styles %}
+    <link rel="stylesheet" type="text/css"
+        href="{{ DOJANGO.DOJO_URL }}/resources/dojo.css" />
+    <link rel="stylesheet" type="text/css"
+        href="{{ DOJANGO.THEME_CSS_URL }}" />
+	{% block liq_spot_dojo_styles %}{% endblock %}
+{% endblock %}
+
+{% block _dojango_dj_config %}
+{% endblock %}
+{% block _dojango_post_dj_config %}
+{% endblock %}
+{% block dojango_src %}
+{% endblock %}
+
+{% block liq_spot_header_extra %}
+<!--script type="text/javascript">
+    //djConfig.addToRequire([
+    //djConfig.require = ["dijit.layout.BorderContainer", "dijit.layout.ContentPane"];
+    //djConfig.require = "dijit.layout.ContentPane";
+    //djConfig.require = "dijit.layout.BorderContainer";
+    //]);
+</script-->
+{% endblock %}
+
+{% block liq_spot_content %}
+{{ block.super }}
+<div id = "topLevelContainer" dojoType="dijit.layout.BorderContainer" design="headline" isLayoutContainer="true"
+	gutters='false' style="height:100%;width:100%;">
+<div>
+	  <div dojoType = "dijit.layout.ContentPane" region = "top" title="Filtros" style='width: auto;height:
+			70px;border:solid 1px;border-color: black'>
+        <table style="width: 100%">
+            <tr>
+                <td><img src="{{ STATIC_URL }}liquidityspot_logo.jpg" alt="logo"/></td>
+                <td style="margin: auto; color: #F78111; vertical-align: bottom; text-align: right;">
+                    <a href=&#39;/home&#39;>Home</a>&nbsp;&nbsp;&nbsp;
+                    <a href=&#39;/search&#39;>Search loans</a>&nbsp;&nbsp;&nbsp;
+                    <a href=&#39;/mybids&#39;>My bids</a>&nbsp;&nbsp;&nbsp;
+                    <a href=&#39;/logout&#39;>Logout</a>&nbsp;&nbsp;&nbsp;
+                    <a href="javascript:cleanBidsClick()">Remove selected bids</a>&nbsp;&nbsp;&nbsp;
+                </td>
+            </tr>
+				</table>
+		</div>
+    <div id="mainView" dojoType="dijit.layout.ContentPane" region="center" style="overflow: hidden;">
+        {% block liq_spot_content_hf %}{% endblock %}
+    </div>
+    <div id='bottomContainer' dojoType="dijit.layout.ContentPane" splitter="false" region="bottom"
+      style="background-color:#F78111;padding:0px;border:solid 1px;border-color: black">
+        <div id="footer">
+            <p style="float: right;margin: 0 55px 0 0;">
+                Design: Vichara Technologies,
+                <a title="Vichara Technologies" href="http://www.vichara.com/">Vichara Technologies</a>
+            </p>
+            <p>
+                &copy; Copyright 2011
+                <a href="http://www.liquidityspot.com">Liquidity Spot</a> &middot; All Rights Reserved
+            </p>
+        </div>
+    </div>
+</div>
+{% endblock %}
