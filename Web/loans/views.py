@@ -1,6 +1,7 @@
 from django.template import RequestContext, loader
 #import string
 from django.shortcuts import render_to_response
+from dojango.util.config import Config
 from models import Loan, MortgageOriginator
 from django.http import HttpResponse
 from datetime import datetime
@@ -31,8 +32,9 @@ def detail(request, loan_id):
 def results(request, loan_id):
     return HttpResponse("You are at result of loan %s." % loan_id)
 
-def initial_data(request):
-    l = Loan(collateral_key = "ABCD", advance_amt = 176021)
+def loansModelInstance(request):
+    l = Loan(key_name = 201149912, customer_account_key="ABCD",
+			collateral_key = "201149912", advance_amt = 176021)
     l.state = "WA"
     l.zip = "98606"
     l.orig_upb = 232000
@@ -58,7 +60,7 @@ def initial_data(request):
 
 def ListLoans(request):
 	try:
-		return render_to_response("listloans.html",
+		return render_to_response("loans/listloans.html",
 			context_instance=RequestContext(request))
 	except:
 		return render_to_response("500.html",
