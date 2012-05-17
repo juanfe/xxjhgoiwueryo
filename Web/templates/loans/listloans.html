@@ -9,6 +9,9 @@
 {% endblock %}
 
 {% block dojango_header_extra %}
+<script type="text/javascript">
+	var loans = "{{ loans }}"; 
+</script>
 <script type="text/javascript" src="{{ STATIC_URL }}loans.js"></script>
 {% endblock %}
 
