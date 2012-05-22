@@ -7,13 +7,19 @@ function createGrid(dataStore) {
     var label = function(field) {
         return ls.FieldLabel.label(field);
     };
+	var lbs = {
+		collateral: 'Collateral',
+		property_type_code: "Property Type Code",
+	};
     var fields = {
-        collateral: 'collateral_key',
+		collateral: 'collateral_key',
+		property_type_code: "property_type_code",
+        /*
         participation: 'participation',
         bidRate: 'bidrate',
         status: 'status',
         creation: 'createdAt',
-        expiration: 'expiresAt'
+        expiration: 'expiresAt'*/
     };
     // set the layout structure:   
     var layout =
@@ -25,8 +31,20 @@ function createGrid(dataStore) {
             headerStyles: 'text-align: center;'
         },
         cells:
-		[
-            {
+		[{
+                //name: label(fields.collateral),
+                name: lbs.collateral,
+                field: fields.collateral,
+                datatype: 'string'
+            },
+		    {
+				//name: label(fields.property_type_code),
+				name: lbs.property_type_code,
+				field: fields.property_type_code,
+                datatype: 'string'
+			}
+
+            /*{
                 //name: label(fields.collateral),
                 name: fields.collateral,
                 field: fields.collateral,
@@ -36,17 +54,17 @@ function createGrid(dataStore) {
                 name: fields.participation,
                 field: fields.participation,
                 datatype: 'number',
-                /*formatter: function(item){
+                *//*formatter: function(item){
                     return dojo.number.format(item,{pattern: "#0.0"});
-                }*/
+                }*//*
             }, {
                 //name: label(fields.bidRate),
                 name: fields.bidRate,
                 field: fields.bidRate,
                 datatype: 'number',
-                /*formatter: function(item){
+                *//*formatter: function(item){
                     return dojo.number.format(item,{pattern: "#0.0"});
-                }*/
+                }*//*
             }, {
                 //name: label(fields.status),
                 name: fields.status,
@@ -68,7 +86,7 @@ function createGrid(dataStore) {
                 dataTypeArgs: {
                     datePattern: "yyyy/M/d H:m:s"
                 }
-            }
+            }*/
     ]};
  
     /*create a new grid:*/
@@ -106,9 +124,9 @@ dojo.ready(function(){
     };
 
 	var data_list = loans;
-    var rows = 60;
-    for(var i=0, l=data_list.length; i<rows; i++){
-      data.items.push(dojo.mixin({ id: i+1 }, data_list[i%l]));
+	var rows = 60;
+	for(var i=0; i<data_list.length; i++){
+      data.items.push(dojo.mixin({ id: i+1 }, data_list[i]));
     }
     ls.dataStore = new dojo.data.ItemFileWriteStore({data: data});
   
