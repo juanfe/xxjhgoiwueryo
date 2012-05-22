@@ -83,8 +83,7 @@ def loansModelInstance(request):
 	return HttpResponse("Initial data was readed")
 
 def ListLoans(request):
-	l = {'loans':
-			[{"collateral_key": "normal", "participation" : 3, 
+	l = [{"collateral_key": "normal", "participation" : 3, 
 			  "bidrate": 0.3, "status": 29.91, "createdAt": "01/01/2012",
 			  "expiresAt": "01/01/2012"},
 			 {"collateral_key": "important", "participation" : 4,
@@ -93,10 +92,8 @@ def ListLoans(request):
 			 { "collateral_key": "important", "participation": 5,
 			   "bidrate": 0.23, "status": 19.34, "createdAt": "01/01/2012",
 			   "expiresAt": "01/01/2012" }
-			]}
-	#Context = {'json_list', simplejson.dumps(l)}
-	Context = simplejson.dumps(l)
-	Context = l
+			]
+	Context = {'loans': simplejson.dumps(l)}
 	try:
 		return render_to_response("loans/listloans.html", Context,
 			context_instance=RequestContext(request))
