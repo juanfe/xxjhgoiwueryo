@@ -34,7 +34,30 @@ def results(request, loan_id):
 
 def loansModelInstance(request):
     l = Loan(key_name = 201149912, customer_account_key="ABCD",
-			collateral_key = "201149912", advance_amt = 176021)
+            collateral_key = "201149912", advance_amt = 176021)
+    l.state = "WA"
+    l.zip = "98606"
+    l.orig_upb = 232000
+    l.curr_upb = 232000
+    l.origination_date = datetime.strptime("2/1/2012","%m/%d/%Y").date()
+    l.is_adjustable = False
+    l.investor_code = "JPM"
+    l.property_type_code = "SFR"
+    l.lien_position = 1
+    l.original_ltv = 35.8310
+    l.original_cltv = 35.8310
+    l.fico_score = 741
+    l.purpose_code = "CO"
+    l.occupancy_code = "O"
+    l.doc_level_code = 3
+    l.debt_service_ratio = 20.8011040
+    l.cur_note_rate = 4.3750
+    l.corelogic_fraud_risk_score = 783
+    l.corelogic_collateral_risk_score = 323
+    l.Hiden = False
+    l.save()
+    l = Loan(key_name = 201149913, customer_account_key="ABCD",
+            collateral_key = "201149913", advance_amt = 176021)
     l.state = "WA"
     l.zip = "98606"
     l.orig_upb = 232000
@@ -59,9 +82,9 @@ def loansModelInstance(request):
     return HttpResponse("Initial data was readed")
 
 def ListLoans(request):
-	try:
-		return render_to_response("loans/listloans.html",
-			context_instance=RequestContext(request))
-	except:
-		return render_to_response("500.html",
-			context_instance=RequestContext(request))
+    try:
+        return render_to_response("loans/listloans.html",
+            context_instance=RequestContext(request))
+    except:
+        return render_to_response("500.html",
+            context_instance=RequestContext(request))
