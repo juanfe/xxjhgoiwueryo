@@ -105,30 +105,7 @@ dojo.ready(function(){
       items: []
     };
 
-    var data_list = [
-      { collateral_key: "normal",
-		participation : 3, 
-		bidrate: 0.3, 
-        status: 29.91,
-		createdAt: "01/01/2012",
-		expiresAt: "01/01/2012"
-		},
-      { collateral_key: "important",
-		participation : 4,
-		bidrate: 0.5, 
-        status: 9.33,
-		createdAt: "01/01/2012",
-		expiresAt: "01/01/2012"
-        },
-      { collateral_key: "important",
-		/*col2: false,*/
-		participation: 5,
-		bidrate: 0.23,
-        status: 19.34,
-		createdAt: "01/01/2012",
-		expiresAt: "01/01/2012"
-        }
-    ];
+	var data_list = loans;
     var rows = 60;
     for(var i=0, l=data_list.length; i<rows; i++){
       data.items.push(dojo.mixin({ id: i+1 }, data_list[i%l]));
