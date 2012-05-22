@@ -6,6 +6,8 @@ from models import Loan, MortgageOriginator
 from django.http import HttpResponse
 from datetime import datetime
 from django.utils import simplejson
+import json
+from django.core.serializers.json import DjangoJSONEncoder
 
 def moindex(request):
 	m = MortgageOriginator(Name = "juan")
@@ -83,17 +85,14 @@ def loansModelInstance(request):
 	return HttpResponse("Initial data was readed")
 
 def ListLoans(request):
-	l = [{"collateral_key": "normal", "participation" : 3, 
-			  "bidrate": 0.3, "status": 29.91, "createdAt": "01/01/2012",
-			  "expiresAt": "01/01/2012"},
-			 {"collateral_key": "important", "participation" : 4,
-			  "bidrate": 0.5, "status": 9.33, "createdAt": "01/01/2012",
-			  "expiresAt": "01/01/2012"},
-			 { "collateral_key": "important", "participation": 5,
-			   "bidrate": 0.23, "status": 19.34, "createdAt": "01/01/2012",
-			   "expiresAt": "01/01/2012" }
-			]
-	Context = {'loans': simplejson.dumps(l)}
+	l = []
+	for _l in Loan.objects.all().values():
+		__l = {}
+		for k, v in _l.iteritems():
+		    __l[k] = json.dumps(v, cls = DjangoJSONEncoder)
+		l.append(__l)
+
+	Context = {'loans': l}
 	try:
 		return render_to_response("loans/listloans.html", Context,
 			context_instance=RequestContext(request))
