@@ -14,11 +14,11 @@ USE_I18N = True
 
 gettext = lambda s: s
 
-LANGUAGE_CODE = 'sr'
+LANGUAGE_CODE = 'en'
 LANGUAGES = (
 	('en', gettext('English')),
-	#('de', gettext('German')),
-	#('sp', gettext('Spanish')),
+	('de', gettext('German')),
+	('sp', gettext('Spanish')),
 )
 
 SECRET_KEY = '=r-$b*8hglm+858&9t043hlm6-&6-3d3vfc4((7yd0dbrakhvi'
@@ -59,6 +59,7 @@ INSTALLED_APPS = (
 	#'test_app',
 	'home',
 	'search',
+	'login',
 	# djangoappengine should come last, so it can override a few manage.py commands
 	'djangoappengine',
 	#'django_iso8601',
