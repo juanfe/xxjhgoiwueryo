@@ -1,4 +1,5 @@
 from django.conf.urls.defaults import *
+from django.contrib.auth.views import login, logout
 from django.contrib import admin
 admin.autodiscover()
 
@@ -9,6 +10,9 @@ handler403 = 'templates.403.html'
 
 urlpatterns = patterns('',
 	('^_ah/warmup$', 'djangoappengine.views.warmup'),
+	url(r'^accounts/login/$',  login),
+	url(r'^accounts/logout/$', logout),
+	url(r'^accounts/register/$', 'login.views.register'),
 	url(r'^home/$', 'home.views.HomePage'),
 	url(r'^search/$', 'search.views.SearchPage'), 
 	url(r'^mo/$', 'loans.views.moindex'), 
