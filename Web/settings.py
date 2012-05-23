@@ -75,6 +75,8 @@ MIDDLEWARE_CLASSES = (
 	'django.contrib.sessions.middleware.SessionMiddleware',
 	'django.contrib.auth.middleware.AuthenticationMiddleware',
 	#'dojango.middleware.DojoCollector',
+	'django.middleware.csrf.CsrfViewMiddleware',
+	'django.middleware.csrf.CsrfResponseMiddleware',
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = (
