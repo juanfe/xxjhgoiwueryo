@@ -8,7 +8,8 @@ from datetime import datetime
 from django.utils import simplejson
 import json
 from django.core.serializers.json import DjangoJSONEncoder
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
+from users.utils import UserInGroup
 
 def moindex(request):
 	m = MortgageOriginator(Name = "juan")
@@ -85,8 +86,9 @@ def loansModelInstance(request):
 	l.save()
 	return HttpResponse("Initial data was readed")
 
-#TODO ask by permission and by the user is_active
 @login_required
+@user_passes_test(lambda u: UserInGroup(u, "Admin"),
+		login_url='/accounts/login/?next=/loans/listLoans/')
 def ListLoans(request):
 	l = []
 	for _l in Loan.objects.all().values():
