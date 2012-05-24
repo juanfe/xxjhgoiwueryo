@@ -1,0 +1,49 @@
+TODO Check this procedure
+TODO Add info about the requires.txt
+
+To exect in the local machine, you must have the google app engine, and add it to the path:
+
+> export PATH=$PATH:/opt/google_appengine
+
+Deployment of Liquidity Spot [1]
+
+1. I cloned the test app  from git clone git@vichara:liquidity.git
+2. created symlinks from ~/django-nonrel directory as follows
+  
+     $ cd LiqSpot-app
+     change to /LiqSpot-app
+    [ LiqSpot-app ] $ ln -s <Yourpath/to>/django-nonrel/django django
+    [ LiqSpot-app ] $ ln -s <Yourpath/to>/django-nonrel/djangoappengine/ djangoappengine
+    [ LiqSpot-app ] $ ln -s <Yourpath/to>/django-nonrel/dbindexer/ dbindexer
+    [ LiqSpot-app ] $ ln -s ../../django-nonrel/djangotoolbox/ djangotoolbox
+  
+     mark   is the space " "
+     check if the symlinks have appeared
+     using
+  
+     [ LiqSpot-app ]$ ls -la
+
+3. logged in my appengine account using http://appengine.google.com
+    [I already have a google account ]
+4. Created an app named djangotestapp - It is a very easy process
+    explore yourself , or follow this tutorial on youtube
+
+5. once an app id ( djangotestapp ) is created we need to modify few things in cloned LiqSpot-app
+    files , namely app.yaml and settings.py
+    a) In app.yaml change application: ctst to application: djangotestapp
+    b) (Optional ) change SITE_ID = 29 to SITE_ID = 1
+6. Now use
+    $ ./manage.py createsuperuser
+      and create your super user details
+    $ ./manage.py syncdb
+     and sync the datastore
+    $ ./manage.py runserver --- to run the appengine server locally
+     and run the server  locally and point your browser to http://localhost:8000/
+     You would see It Works! Page
+7. Use  $ ./manage.py deploy
+   to upload the application on appengine
+8. point your browser to http://djangotestapp.appspot.com
+   You would see It Works! Page
+
+
+[1] http://joinwithjack.blogspot.com/p/experiments.html
