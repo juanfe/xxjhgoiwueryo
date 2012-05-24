@@ -2,7 +2,8 @@ from django.contrib.auth.models import User, Group
 from permission_backend_nonrel.models import UserPermissionList
 
 def UserInGroup(User, groupName):
-	group = Group.objects.get(name=groupName)
+	#TODO allow many check many groups
+	group = Group.objects.get(name=groupName[0])
 	up = UserPermissionList.objects.filter(user = User)
 	try:
 		return True if unicode(group.id) in up[0].group_fk_list else False

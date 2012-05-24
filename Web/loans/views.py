@@ -87,7 +87,7 @@ def loansModelInstance(request):
 	return HttpResponse("Initial data was readed")
 
 @login_required
-@user_passes_test(lambda u: UserInGroup(u, "Admin"),
+@user_passes_test(lambda u: UserInGroup(u, ["Admin"]),
 		login_url='/accounts/login/?next=/loans/listLoans/')
 def ListLoans(request):
 	l = []

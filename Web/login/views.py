@@ -3,11 +3,14 @@
 
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
-from django.http import HttpResponseRedirect
+#from django.http import HttpResponseRedirect
+from django.http import HttpResponse
 from django.shortcuts import render_to_response
+from django.contrib.auth.decorators import login_required, user_passes_test
+from users.utils import UserInGroup
 
 gin_required
-@user_passes_test(lambda u: UserInGroup(u, "Admin"),
+@user_passes_test(lambda u: UserInGroup(u, ["Admin"]),
 		        login_url='/accounts/login/?next=/accounts/register/')
 def register(request):
 	if request.method == 'POST':
