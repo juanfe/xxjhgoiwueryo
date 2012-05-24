@@ -3,7 +3,6 @@ from django.contrib.auth.views import login, logout
 from django.contrib import admin
 admin.autodiscover()
 
-#handler500 = 'djangotoolbox.errorviews.server_error'
 handler500 = 'templates.500.html'
 handler404 = 'templates.404.html'
 handler403 = 'templates.403.html'
@@ -22,7 +21,8 @@ urlpatterns = patterns('',
 	url(r'^admin/', include(admin.site.urls)),
 	url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
 	url(r'^calc/', include('engine.urls')),
-	#url(r'^initial_data/$', include('initial_data')),
+	#TODO try to move initial data to a fixture
+	url(r'^initial_data/$', 'initial_data.views.load_data'),
 	url(r'^dojango/', include('dojango.urls')),
 	url(r'^tbl/', include('test_app.urls')),
 	('^$', 'django.views.generic.simple.direct_to_template',
