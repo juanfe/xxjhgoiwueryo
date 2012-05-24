@@ -13,8 +13,7 @@ def UserInGroup(User, groupList):
 	#TODO allow many check many groups
 	gids = []
 	try:
-		for g in Group.objects.filter(name__in=groupList):
-			gids.append(unicode(g.id))
+		gids = (unicode(g.id) for g in Group.objects.filter(name__in=groupList))
 		up = UserPermissionList.objects.filter(user = User)
 		return True if len(set(gids).intersection(set(up[0].group_fk_list))) > 0 else False
 	except:
