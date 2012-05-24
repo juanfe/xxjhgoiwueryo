@@ -1,0 +1,34 @@
+== Creando un usuario remoto ==
+
+Para crear un usuario remoto, se usa:
+
+ manage.py remote createsuperuser 
+
+Al parecer si se crear remoto posiblemente se pude usar los usuario en gae. [1]
+
+[1] http://stackoverflow.com/questions/5686060/django-nonrel-google-app-engine-fail-to-log-in-admin-panel
+
+
+= Habilitando el /admin/ =
+
+En [2] dicen que se debe mirar en allButtonsPressed y GAE 1.5.3. 
+
+[2] http://stackoverflow.com/questions/8498837/django-nonrel-and-the-admin-page
+
+Yo tengo el mismo error que [2], luego el procedimiento debe estar oculto en alguna parte de allButtonsPressed,
+yo creo que mirando el c√digo de ellos se podr√a deducir. Adem√s tengo el mismo c√digo que [3]
+
+[3] http://www.joinwithjack.com/gae-and-python/enable-admin-in-django-non-rel
+
+= Usando permisos =
+
+En el c√digo de test de permission_backend_nonrel, esta como la clave para correrlo, seg√n [4]
+
+[4]
+http://stackoverflow.com/questions/6669160/how-to-make-group-permissions-work-in-django-nonrel-for-google-app-engine
+
+Al parecer esto permite usar los usuarios de la forma tradicional de django [5]
+
+[5]  https://docs.djangoproject.com/en/dev/topics/auth/#creating-users
+
+
