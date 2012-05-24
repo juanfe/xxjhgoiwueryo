@@ -4,3 +4,4 @@ ludibrio
 iso8601
 pytz
 xlrd
+permission_backend_nonrel https://github.com/django-nonrel/django-permission-backend-nonrel
