@@ -6,6 +6,9 @@ from django.contrib.auth.forms import UserCreationForm
 from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response
 
+gin_required
+@user_passes_test(lambda u: UserInGroup(u, "Admin"),
+		        login_url='/accounts/login/?next=/accounts/register/')
 def register(request):
 	if request.method == 'POST':
 		form = UserCreationForm(request.POST)
