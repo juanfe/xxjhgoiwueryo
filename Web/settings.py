@@ -56,7 +56,6 @@ INSTALLED_APPS = (
 	'loans',
 	'bids',
 	'engine',
-	#'test_app',
 	'home',
 	'search',
 	'login',
