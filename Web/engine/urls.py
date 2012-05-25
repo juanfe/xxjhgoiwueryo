@@ -6,6 +6,6 @@ admin.autodiscover()
 handler500 = 'djangotoolbox.errorviews.server_error'
 
 urlpatterns = patterns('engine.views',
-    url(r'^$', 'calc'), 
-    url(r'^del/$', 'del_all'), 
+	url(r'^$', 'calc'), 
+	url(r'^del/$', 'del_all'), 
 )
