@@ -18,3 +18,18 @@ def UserInGroup(User, groupList):
 		return True if len(set(gids).intersection(set(up[0].group_fk_list))) > 0 else False
 	except:
 		return False
+
+def is_logged_in(request):
+	return request.user.is_authenticated()
+
+def UserName(request):
+	return str(request.user)
+
+def GetUserGroups(request):
+	try:
+		User = request.user
+		g_ids = UserPermissionList.objects.filter(user = User)[0].group_fk_list
+		g_lst = Group.objects.filter(id__in = g_ids)
+		return [str(g) for g in g_lst]
+	except:
+		return []
