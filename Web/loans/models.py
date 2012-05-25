@@ -1,3 +1,6 @@
+## \file loans\models.py
+## \brief Models for loans: MortgageOriginator and Loan
+
 import moneyed
 from djmoney.models.fields import MoneyField
 from django.contrib.auth.models import User
