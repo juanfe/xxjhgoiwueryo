@@ -1,11 +1,12 @@
 from django.template import RequestContext, loader
-from django.shortcuts import render_to_response, get_object_or_404
+from django.shortcuts import render_to_response, redirect, get_object_or_404
 from bids.models import Bid
 from django.http import HttpResponse
 from datetime import datetime
 from django.contrib.auth.decorators import login_required, user_passes_test
 from users.utils import UserInGroup
 #from bids.forms import DojoBidForm, BidForm
+from bids.forms import BidForm
 
 def index(request):
     context = {}
@@ -73,3 +74,18 @@ def FormBid(request):
 	return render_to_response('bids/formbid.html',
 			{'latest_bid_list': latest_bid_list},
 			context_instance=RequestContext(request))
+
+def FormAddBid(request):
+    # sticks in a POST or renders empty form
+    form = BidForm(request.POST or None)
+    if form.is_valid():
+        cmodel = form.save()
+        #This is where you might chooose to do stuff.
+        #cmodel.name = 'test1'
+        cmodel.save()
+        return redirect(FormBid)
+
+    return render_to_response('bids/formaddbid.html',
+                              {'bid_form': form},
+                              context_instance=RequestContext(request))
+                              
