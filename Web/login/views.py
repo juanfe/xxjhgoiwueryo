@@ -9,7 +9,7 @@ from django.shortcuts import render_to_response
 from django.contrib.auth.decorators import login_required, user_passes_test
 from users.utils import UserInGroup
 
-gin_required
+@login_required
 @user_passes_test(lambda u: UserInGroup(u, ["Admin"]),
 		        login_url='/accounts/login/?next=/accounts/register/')
 def register(request):
