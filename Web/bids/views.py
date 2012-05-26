@@ -3,6 +3,9 @@ from django.shortcuts import render_to_response, get_object_or_404
 from bids.models import Bid
 from django.http import HttpResponse
 from datetime import datetime
+from django.contrib.auth.decorators import login_required, user_passes_test
+from users.utils import UserInGroup
+#from bids.forms import DojoBidForm, BidForm
 
 def index(request):
     context = {}
@@ -46,4 +49,27 @@ def MyBids(request):
 			context_instance=RequestContext(request))
 	except:
 		return render_to_response("500.html",
+			context_instance=RequestContext(request))
+
+#@login_required
+#@user_passes_test(lambda u: UserInGroup(u, ["Admin"]),
+#		login_url='/accounts/login/?next=/bids/addbid/')
+#def FormAddBid(request):#, id): #The id is passed in the url like /(?P<id>.+)/ 
+#	#Context = {'loans': ""}
+#	try:
+#		bid = Bid.objects.create()
+#		form = DojoBidForm(instance=bid)
+#		default_form = BidForm(instance=bid)
+#		#return render_to_response("bids/formaddbid.html", Context,
+#		return render_to_response("bids/formaddbid.html", locals(),
+#				context_instance=RequestContext(request))
+#	except:
+#		return render_to_response("500.html",
+#				context_instance=RequestContext(request))
+
+def FormBid(request):
+	latest_bid_list = Bid.objects.all().order_by('User')
+
+	return render_to_response('bids/formbid.html',
+			{'latest_bid_list': latest_bid_list},
 			context_instance=RequestContext(request))
