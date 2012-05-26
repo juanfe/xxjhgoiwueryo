@@ -65,6 +65,7 @@ INSTALLED_APPS = (
 	#'isodate',
 	#'iso8601',
 	#'xlwt',
+	'uni_form',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -73,7 +74,7 @@ MIDDLEWARE_CLASSES = (
 	'django.middleware.common.CommonMiddleware',
 	'django.contrib.sessions.middleware.SessionMiddleware',
 	'django.contrib.auth.middleware.AuthenticationMiddleware',
-	#'dojango.middleware.DojoCollector',
+	'dojango.middleware.DojoCollector',
 	'django.middleware.csrf.CsrfViewMiddleware',
 	'django.middleware.csrf.CsrfResponseMiddleware',
 )
@@ -117,7 +118,7 @@ STATIC_URL = '/static/'
 
 #DOJANGO_DOJO_VERSION = "1.5.0"
 
-#DOJANGO_DOJO_THEME = "claro" #Available "tundra", "soria", or "nihilo"
+DOJANGO_DOJO_THEME = "claro" #Available "tundra", "soria", or "nihilo"
 
 #DOJANGO_DOJO_THEME_URL #It defaults to dojo base url/dijit/themes and there
 						#you can look at the dojo theme structure, e.g.:
