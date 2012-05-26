@@ -1,0 +1,30 @@
+</div>
+<h1>Bids</h1>
+
+<a href="/bids/bid_add/">+ Add Bid</a>
+{% if latest_contact_list %}
+	<table border=1>
+		<tr>
+			<th>Name</th>
+			<th>&nbsp;</th>    
+		</tr>
+		{% for bid in latest_bid_list %}
+		<tr>
+			<td>
+				<a href="/phonebook/contact_edit/{{ bid.id }}/">
+					{{ bid.name }}
+				</a>
+			</td>
+			<td>
+				<a href="/phonebook/contact_edit/{{ bid.id }}/">edit</a>
+				<a href="/phonebook/contact_delete/{{ bid.id }}/">delete</a>
+			</td>      
+		</tr>
+			{% endfor %}    
+	</table>
+
+{% else %}
+	<p>No bid created.</p>
+{% endif %}
+
+
