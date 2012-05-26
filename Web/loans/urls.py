@@ -10,7 +10,7 @@ urlpatterns = patterns('loans.views',
 	url(r'^$', 'index'), 
 	url(r'^loadLoans/$', 'loansModelInstance'),
 	url(r'^listLoans/$', 'ListLoans'),
-	url(r'^delLoans/$', 'DelLoans'),
+	#url(r'^delLoans/$', 'DelLoans'),
 	#url(r'^(?P<loan_id>\d+)/$', 'loans.views.detail'),
 	#url(r'^(?P<loan_id>\d+)/results/$', 'loans.views.results'),
 )
