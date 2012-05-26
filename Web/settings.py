@@ -92,9 +92,8 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 TEST_RUNNER = 'djangotoolbox.test.CapturingTestSuiteRunner'
 
 ADMIN_MEDIA_PREFIX = '/media/admin/'
-TEMPLATE_DIRS = (os.path.join(os.path.dirname(__file__), 'templates'),
+TEMPLATE_DIRS = (os.path.join(os.path.dirname(__file__), 'templates'))
 		#os.path.join(os.path.dirname(__file__), 'dojango/templates'),
-		os.path.join(os.path.dirname(__file__), 'test_app/templates'),)
 #TEMPLATE_DIRS = (
 #	'/home/juanfe/Vichara/liquidity/Web/templates',
 #)
