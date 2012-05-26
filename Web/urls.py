@@ -24,5 +24,4 @@ urlpatterns = patterns('',
 	#TODO try to move initial data to a fixture
 	url(r'^initial_data/$', 'initial_data.views.load_data'),
 	url(r'^dojango/', include('dojango.urls')),
-	url(r'^tbl/', include('test_app.urls')),
 )
