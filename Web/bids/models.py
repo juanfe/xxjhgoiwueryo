@@ -45,3 +45,6 @@ class Bid(models.Model):
     #FundsAvailableDate = models.DateTimeField(auto_now = True)
     Status = models.CharField(max_length = 1, choices = STATUS_CHOICES,
             verbose_name = "Status", null = True)
+
+    def __unicode__(self):
+        return self.User
