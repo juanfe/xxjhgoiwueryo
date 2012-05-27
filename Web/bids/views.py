@@ -88,4 +88,23 @@ def FormAddBid(request):
     return render_to_response('bids/formaddbid.html',
                               {'bid_form': form},
                               context_instance=RequestContext(request))
-                              
+
+def FormEditBid(request, bid_id):
+    bid = get_object_or_404(Bid, pk=bid_id)
+    form = BidForm(request.POST or None, instance=bid)
+    if form.is_valid():
+        bid = form.save()
+        #this is where you might choose to do stuff.
+        #contact.name = 'test'
+        bid.save()
+        return redirect(FormBid)
+
+    return render_to_response('bids/formeditbid.html',
+                              {'bid_form': form,
+                               'bid_id': bid_id},
+                              context_instance=RequestContext(request))
+                             
+def DelBid(request, bid_id):
+    c = Bid.objects.get(pk=bid_id).delete()
+
+    return redirect(FormBid)
