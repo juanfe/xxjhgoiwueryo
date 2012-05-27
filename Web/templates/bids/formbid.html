@@ -5,19 +5,23 @@
 {% if latest_bid_list %}
 	<table border=1>
 		<tr>
-			<th>Name</th>
+			<th>Bid at</th>
+			<th>Aggragated</th>
 			<th>&nbsp;</th>    
 		</tr>
 		{% for bid in latest_bid_list %}
 		<tr>
 			<td>
-				<a href="/phonebook/contact_edit/{{ bid.id }}/">
-					{{ bid.name }}
+				<a href="/bids/bidedit/{{ bid.id }}/">
+					{{ bid.User }} {{ bid.CreatedAt }}
 				</a>
 			</td>
 			<td>
-				<a href="/phonebook/contact_edit/{{ bid.id }}/">edit</a>
-				<a href="/phonebook/contact_delete/{{ bid.id }}/">delete</a>
+				{{ bid.Aggregated }}
+			</td>
+			<td>
+				<a href="/bids/bidedit/{{ bid.id }}/">edit</a>
+				<a href="/bids/biddel/{{ bid.id }}/">delete</a>
 			</td>      
 		</tr>
 			{% endfor %}    
