@@ -21,8 +21,7 @@ class Bid(models.Model):
             ('A', 'Active'),
             ('C', 'Cancelled'),
     )
-    #User = models.ForeignKey(User)
-    User = models.CharField(max_length = 40)
+    User = models.ForeignKey(User)
     CreatedAt = models.DateTimeField(auto_now = True)
     ExpiresAt = models.DateTimeField(auto_now = True, null = True)
     Type = models.CharField(max_length = 1, choices = TYPE_CHOICES)
