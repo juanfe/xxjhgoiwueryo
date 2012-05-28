@@ -2,14 +2,14 @@
 <h1>Bids</h1>
 
 <a href="/bids/bidadd/">+ Add Bid</a>
-{% if latest_bid_list %}
+{% if active_bid_list %}
 	<table border=1>
 		<tr>
 			<th>Bid at</th>
 			<th>Aggragated</th>
 			<th>&nbsp;</th>    
 		</tr>
-		{% for bid in latest_bid_list %}
+		{% for bid in active_bid_list %}
 		<tr>
 			<td>
 				<a href="/bids/bidedit/{{ bid.id }}/">
@@ -22,6 +22,7 @@
 			<td>
 				<a href="/bids/bidedit/{{ bid.id }}/">edit</a>
 				<a href="/bids/biddel/{{ bid.id }}/">delete</a>
+				<a href="/bids/bidcancel/{{ bid.id }}/">cancel</a>
 			</td>      
 		</tr>
 			{% endfor %}    
@@ -29,6 +30,54 @@
 
 {% else %}
 	<p>No bid created.</p>
+{% endif %}
+
+{% if accepted_bid_list %}
+<h1>Bids Acepted</h1>
+	<table border=1>
+		<tr>
+			<th>Bid at</th>
+			<th>Aggragated</th>
+		</tr>
+		{% for bid in accepted_bid_list %}
+		<tr>
+			<td>
+				<a href="/bids/bidedit/{{ bid.id }}/">
+					{{ bid.User }} {{ bid.CreatedAt }}
+				</a>
+			</td>
+			<td>
+				{{ bid.Aggregated }}
+			</td>
+		</tr>
+			{% endfor %}    
+	</table>
+
+{% else %}
+	<p>No bid Acepted.</p>
+{% endif %}
+
+{% if canceled_bid_list %}
+<h1>Bids Canceled</h1>
+	<table border=1>
+		<tr>
+			<th>Bid at</th>
+			<th>Aggragated</th>
+		</tr>
+		{% for bid in calceled_bid_list %}
+		<tr>
+			<td>
+				<a href="/bids/bidedit/{{ bid.id }}/">
+					{{ bid.User }} {{ bid.CreatedAt }}
+				</a>
+			</td>
+			<td>
+				{{ bid.Aggregated }}
+			</td>
+		</tr>
+			{% endfor %}    
+	</table>
+
 {% endif %}
 
 
