@@ -7,4 +7,5 @@ GROUP_CHOICES = (
 )
 
 class LiqSpotUserCreationForm(UserCreationForm):
-	receive_newsletter = forms.ChoiceField(choices=GROUP_CHOICES)
+	lsgroup = forms.ChoiceField(choices=GROUP_CHOICES)
+	#TODO add __init__ and add groups to User
