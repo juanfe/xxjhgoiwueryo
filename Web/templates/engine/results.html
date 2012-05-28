@@ -12,62 +12,73 @@ Grid for Bids per Loan
 <link rel="stylesheet" type="text/css"
  href="http://ajax.googleapis.com/ajax/libs/dojo/1.5/dojox/grid/resources/Grid.css" />
  
- <link rel="stylesheet" type="text/css"
+<link rel="stylesheet" type="text/css"
  href="http://ajax.googleapis.com/ajax/libs/dojo/1.5/dojox/grid/resources/claroGrid.css" />
+
+<style type="text/css">
+.claro .dojoxGridCell{
+	text-align: right;
+}
+.claro .dojoxGridHeader .dojoxGridCell{
+	text-align: center;
+}
+ </style>
 {% endblock %}
 
  
 {% block dojango_content %}
-    <div style="width: 600px; height: 200px">
-        <table id="billsGrid" dojoType="dojox.grid.DataGrid">
-            <thead>
+	<div style="width: 1000px; height: 400px; text-align: center">
+		<table id="billsGrid" dojoType="dojox.grid.DataGrid" border="1">
+			<thead>
 		{% if loans %}
-                <tr>
+				<tr>
 			<th field="bid_loan">Bids/Loans</th>
 			{% for l in loans %}
 			<th field="{{ l }}">{{ l }}</th>
 			{% endfor %}
-                </tr>
+				</tr>
 		{% else %}
-                     <p>No Loans assigned.</p>
-                {% endif %}
-            </thead>
-        </table>
-    </div>
+					 <p>No Loans assigned.</p>
+				{% endif %}
+			</thead>
+		</table>
+	</div>
  
 <script type="text/javascript"
- src="http://ajax.googleapis.com/ajax/libs/dojo/1.5/dojo/dojo.xd.js"
-    djConfig="parseOnLoad:true"></script>
- 
-<script type="text/javascript">
-    dojo.require("dojox.grid.DataGrid");
-    dojo.require("dojo.data.ItemFileReadStore");
+	src="http://ajax.googleapis.com/ajax/libs/dojo/1.5/dojo/dojo.xd.js"
+	djConfig="parseOnLoad:true">
 </script>
- 
+
+<script type="text/javascript">
+	dojo.require("dojox.grid.DataGrid");
+	dojo.require("dojo.data.ItemFileReadStore");
+</script>
+
 <script type="text/javascript">
 dojo.ready(function() {
-    var theGreatestTeamOfAllTime = {
-        items: [
-        {% for bid in bids %}
-          {
-            {% for v in bid %}
-                {% if v.bid %}
-                "bid_loan": "{{ v.bid }}",
-                {% else %}
-                "{{ v.key }}": "{{ v.val }}",
-                {% endif %}
-            {% endfor %}
-                  },
-        {% endfor %}
-        ],
-    identifier: "bid_loan" };
+	var DataItems = {
+		items: [
+		{% for bid in bids %}
+			{
+			{% for v in bid %}
+				{% if v.bid %}
+				"bid_loan": "{{ v.bid }}",
+				{% else %}
+				"{{ v.key }}": "{{ v.val }}",
+				{% endif %}
+			{% endfor %}
+			},
+		{% endfor %}
+		],
+	identifier: "bid_loan" };
 
-    var dataStore =
-    new dojo.data.ItemFileReadStore(
-        { data:theGreatestTeamOfAllTime }
-    );
-    var grid = dijit.byId("billsGrid");
-    grid.setStore(dataStore);
+	var dataStore =
+		new dojo.data.ItemFileReadStore(
+			{ data:DataItems }
+		);
+	var grid = dijit.byId("billsGrid");
+
+	grid.setStore(dataStore);
 });
 </script>
 {% endblock %}
