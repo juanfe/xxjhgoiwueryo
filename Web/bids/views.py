@@ -8,19 +8,6 @@ from users.utils import UserInGroup
 #from bids.forms import DojoBidForm, BidForm
 from bids.forms import BidForm
 
-#def index(request):
-#	context = {}
-#	return render_to_response("bids/list_bids.html", context)
-
-#def detail(request, bid_id):
-#	b = get_object_or_404(Bid, pk=bid_id)
-#	return render_to_response('bids/detail.html', {'bid', b},
-#		context_instance=RequestContext(request))
-#	#HttpResponse("You're detail %s." % bid_id)
-
-#def results(request, bid_id):
-#	HttpResponse("You're result  %s." % bid_id)
-
 #def initial_data(request):
 #	b = Bid(User = "1104134",
 #			CreatedAt = datetime.strptime("2/1/2012 3:00:00 PM","%m/%d/%Y %H:%M:%S %p").date(),
@@ -50,6 +37,7 @@ def FormAddBid(request):
 	if form.is_valid():
 		cmodel = form.save(commit = False)
 		cmodel.User = request.user
+		cmodel.Status = 'A'
 		#TODO check if there are enouf funds, Participation < 100 and competitive bid rate < 100
 		#TODO Set status also
 		cmodel.save()
