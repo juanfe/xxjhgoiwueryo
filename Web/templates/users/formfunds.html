@@ -1,0 +1,31 @@
+</div>
+<h1>Funds</h1>
+
+<a href="//bidadd/">Add a new Fund</a>
+{% if users_funds %}
+	<table border=1>
+		<tr>
+			<th>Bid at</th>
+			<th>Aggragated</th>
+			<th>&nbsp;</th>    
+		</tr>
+		{% for f in users_funds %}
+		<tr>
+			<td>
+				<a href="/bids/bidedit/{{ bid.id }}/">
+					{{ f.User }}
+				</a>
+			</td>
+			<td>
+				{{ f.Funds }}
+			</td>
+			<td>
+				<a href="/bids/bidadd/{{ bid.id }}/">+ Add funds</a>
+			</td>      
+		</tr>
+			{% endfor %}    
+	</table>
+
+{% else %}
+	<p>No funds created.</p>
+{% endif %}
