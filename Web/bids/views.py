@@ -21,11 +21,14 @@ from bids.forms import BidForm
 @user_passes_test(lambda u: UserInGroup(u, ["Admin", "Broker"]),
 		login_url='/accounts/login/?next=/bids/bids/')
 def FormBid(request):
-	#latest_bid_list = Bid.objects.all().order_by('User')
-	latest_bid_list = Bid.objects.all()
+	active_bid_list = Bid.objects.filter(Status='A')
+	accepted_bid_list = Bid.objects.filter(Status='K')
+	calceled_bid_list = Bid.objects.filter(Status='C')
 
 	return render_to_response('bids/formbid.html',
-			{'latest_bid_list': latest_bid_list},
+			{'active_bid_list': active_bid_list,
+			'accepted_bid_list': accepted_bid_list,
+			'calceled_bid_list': calceled_bid_list},
 			context_instance=RequestContext(request))
 
 @login_required
