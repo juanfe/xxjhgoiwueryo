@@ -40,10 +40,11 @@ class Bid(models.Model):
             verbose_name = "Order Timing")
     #FundsAvailable = MoneyField(max_digits = 20, decimal_places = 9,
     #            default_currency = moneyed.USD)
-    FundsAvailable = models.FloatField(verbose_name = "Funds Available")
+    #TODO change FundsAvailable by a Model
+    #FundsAvailable = models.FloatField(verbose_name = "Funds Available")
     #FundsAvailableDate = models.DateTimeField(auto_now = True)
     Status = models.CharField(max_length = 1, choices = STATUS_CHOICES,
             verbose_name = "Status", null = True)
 
-    def __unicode__(self):
-        return self.User
+    #def __unicode__(self):
+    #    return self.User
