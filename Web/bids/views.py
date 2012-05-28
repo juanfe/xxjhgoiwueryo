@@ -28,7 +28,8 @@ def FormBid(request):
 	return render_to_response('bids/formbid.html',
 			{'active_bid_list': active_bid_list,
 			'accepted_bid_list': accepted_bid_list,
-			'canceled_bid_list': canceled_bid_list},
+			'canceled_bid_list': canceled_bid_list,
+			'user': str(request.user)},
 			context_instance=RequestContext(request))
 
 @login_required
