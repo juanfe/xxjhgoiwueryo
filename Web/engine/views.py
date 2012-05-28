@@ -164,7 +164,7 @@ def calc(request):
 			c = [{'bid': b[0]}]
 			for l in Context['loans']:
 				if l in b[1]['allocatedAmounts']:
-					c.append(({"key": l, "val": b[1]['allocatedAmounts'][l]}))
+					c.append(({"key": l, "val": '%.2f' % b[1]['allocatedAmounts'][l]}))
 				else:
 					c.append(({"key": l, "val": 0}))
 			Context['bids'].append(c)
