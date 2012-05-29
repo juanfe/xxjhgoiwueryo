@@ -1,5 +1,4 @@
-{% extends "dojango/base.html" %}
-{# extends "base.html" #}
+{% extends "base_hf_doj.html" %}
 
 {% block dojango_page_title %}
 Grid for Bids per Loan
@@ -24,9 +23,8 @@ Grid for Bids per Loan
 }
  </style>
 {% endblock %}
-
  
-{% block dojango_content %}
+{% block liq_spot_content %}
 	<div style="width: 1000px; height: 400px; text-align: center">
 		<table id="billsGrid" dojoType="dojox.grid.DataGrid" border="1">
 			<thead>
@@ -43,7 +41,9 @@ Grid for Bids per Loan
 			</thead>
 		</table>
 	</div>
- 
+{% endblock %}
+
+{% block liq_spot_header_extra %}
 <script type="text/javascript"
 	src="http://ajax.googleapis.com/ajax/libs/dojo/1.5/dojo/dojo.xd.js"
 	djConfig="parseOnLoad:true">
