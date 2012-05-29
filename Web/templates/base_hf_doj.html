@@ -5,3 +5,20 @@
 {% block liq_spot_dojo_styles %}
 {% endblock %}
 {% endblock %}
+
+{% block dojango_header_extra %}
+{% block liq_spot_header_extra %}
+{% endblock %}
+<script type="text/javascript">
+dojo.require("dijit.layout.ContentPane");
+dojo.require("dijit.layout.BorderContainer");
+</script>
+{% endblock %}
+
+{% block dojango_content %}
+<div id = "topLevelContainer" dojoType="dijit.layout.BorderContainer" design="headline" isLayoutContainer="true"
+		gutters='false' style="height:100%;width:100%;">
+{% block liq_spot_content %}
+{% endblock %}
+</div>
+{% endblock %}
