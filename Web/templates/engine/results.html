@@ -4,23 +4,6 @@
 Grid for Bids per Loan
 {% endblock %}
 
-{% block liq_spot_dojo_styles %}
-<link rel="stylesheet" type="text/css"
- href="{{ DOJANGO.DOJOX_URL }}/grid/resources/Grid.css" />
- 
-<link rel="stylesheet" type="text/css"
- href="{{ DOJANGO.DOJOX_URL }}/grid/resources/claroGrid.css" />
-
-<style type="text/css">
-.claro .dojoxGridCell{
-	text-align: right;
-}
-.claro .dojoxGridHeader .dojoxGridCell{
-	text-align: center;
-}
- </style>
-{% endblock %}
- 
 {% block liq_spot_content %}
 	<div style="width: 1000px; height: 400px; text-align: center">
 		<table id="billsGrid" dojoType="dojox.grid.DataGrid" border="1">

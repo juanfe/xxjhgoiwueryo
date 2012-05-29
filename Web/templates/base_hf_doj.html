@@ -7,11 +7,17 @@
 {% endblock %}
 
 {% block dojango_header_extra %}
+<style type="text/css">
+        @import "{{ DOJANGO.DOJOX_URL }}/grid/resources/Grid.css";
+        @import "{{ DOJANGO.DOJOX_URL }}/grid/resources/{{ DOJANGO.THEME }}Grid.css";
+	.{{ DOJANGO.THEME }} .dojoxGridCell{text-align: right;}
+	.{{ DOJANGO.THEME }} .dojoxGridHeader .dojoxGridCell{ text-align: center;}
+</style>
 {% block liq_spot_header_extra %}
 {% endblock %}
 <script type="text/javascript">
-dojo.require("dijit.layout.ContentPane");
-dojo.require("dijit.layout.BorderContainer");
+	dojo.require("dijit.layout.ContentPane");
+	dojo.require("dijit.layout.BorderContainer");
 </script>
 {% endblock %}
 
