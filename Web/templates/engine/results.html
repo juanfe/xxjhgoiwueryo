@@ -4,15 +4,18 @@
 Grid for Bids per Loan
 {% endblock %}
 
-{% block _dojango_dojo_styles %}
+{% block __dojango_dojo_styles %}
 <link rel="stylesheet" type="text/css"
  href="http://ajax.googleapis.com/ajax/libs/dojo/1.5/dijit/themes/claro/claro.css" />
+
+{% endblock %}
+ 
+{% block liq_spot_dojo_styles %}
+<link rel="stylesheet" type="text/css"
+ href="{{ DOJANGO.DOJOX_URL }}/grid/resources/Grid.css" />
  
 <link rel="stylesheet" type="text/css"
- href="http://ajax.googleapis.com/ajax/libs/dojo/1.5/dojox/grid/resources/Grid.css" />
- 
-<link rel="stylesheet" type="text/css"
- href="http://ajax.googleapis.com/ajax/libs/dojo/1.5/dojox/grid/resources/claroGrid.css" />
+ href="{{ DOJANGO.DOJOX_URL }}/grid/resources/claroGrid.css" />
 
 <style type="text/css">
 .claro .dojoxGridCell{
