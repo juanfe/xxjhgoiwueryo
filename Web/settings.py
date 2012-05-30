@@ -103,10 +103,9 @@ ROOT_URLCONF = 'urls'
 
 #TODO add relative dir as in TEMPLATE_DIRS
 STATICFILES_DIRS = (
-	os.path.join(os.path.dirname(__file__), 'images'),
+	os.path.join(os.path.dirname(__file__), 'static'),
 	os.path.join(os.path.dirname(__file__), 'scripts'),
 	os.path.join(os.path.dirname(__file__), 'css'),
-#	"/home/juanfe/Vichara/liquidity/Web/images",
 )
 
 STATIC_URL = '/static/'
