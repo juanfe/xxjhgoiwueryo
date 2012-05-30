@@ -31,6 +31,11 @@ Bids per Loan
 </style>
 
 <script type="text/javascript">
+	dojo.require("scripts.eng");
+	dojo.require("dojox.widget.Toaster");
+</script>
+
+<script type="text/javascript">
 	var DataItems = {
 		items: [
 		{% for bid in bids %}
