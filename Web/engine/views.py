@@ -169,8 +169,7 @@ def calc(request):
 				else:
 					c.append(({"key": l, "val": 0}))
 			Context['bids'].append(c)
-		#return render_to_response("engine/results.html", Context,
-		return render_to_response("engine/show.html", Context,
+		return render_to_response("engine/results.html", Context,
 				context_instance=RequestContext(request))
 	except:
 		return render_to_response("500.html",
