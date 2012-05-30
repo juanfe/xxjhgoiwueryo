@@ -6,7 +6,7 @@ Bids per Loan
 
 {% block liq_spot_content %}
 <table region="center" class="leftC" splitter="true" rowSelector="20px" queryOptions="{cache:true}"
-		dojoType="dojox.grid.DataGrid" id="movieGrid">
+		dojoType="dojox.grid.DataGrid" id="billsGrid">
 	<thead>
 	{% if loans %}
 		<tr>
@@ -24,3 +24,22 @@ Bids per Loan
 </table>
 {% endblock %}
 
+{% block liq_spot_header_extra %}
+<script type="text/javascript">
+	var DataItems = {
+		items: [
+		{% for bid in bids %}
+			{
+			{% for v in bid %}
+				{% if v.bid %}
+				"bid_loan": "{{ v.bid }}",
+				{% else %}
+				"{{ v.key }}": "{{ v.val }}",
+				{% endif %}
+			{% endfor %}
+			},
+		{% endfor %}
+		],
+		identifier: "bid_loan" };
+</script>
+{% endblock %}
