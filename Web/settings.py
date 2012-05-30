@@ -66,7 +66,6 @@ INSTALLED_APPS = (
 	#'isodate',
 	#'iso8601',
 	#'xlwt',
-	'uni_form',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -75,6 +74,7 @@ MIDDLEWARE_CLASSES = (
 	'django.middleware.common.CommonMiddleware',
 	'django.contrib.sessions.middleware.SessionMiddleware',
 	'django.contrib.auth.middleware.AuthenticationMiddleware',
+	'dojango.middleware.AJAXSimpleExceptionResponse',
 	'dojango.middleware.DojoCollector',
 	'django.middleware.csrf.CsrfViewMiddleware',
 	'django.middleware.csrf.CsrfResponseMiddleware',
@@ -118,6 +118,9 @@ STATIC_URL = '/static/'
 
 #DOJANGO_DOJO_VERSION = "1.5.0"
 
+#DOJANGO_DOJO_PROFILE = "local_release" # local, local_release, google, aol
+#DOJANGO_DOJO_VERSION = "1.4.0-dojango-with-dojo"
+
 DOJANGO_DOJO_THEME = "claro" #Available "tundra", "soria", or "nihilo"
 
 #DOJANGO_DOJO_THEME_URL #It defaults to dojo base url/dijit/themes and there
@@ -125,7 +128,7 @@ DOJANGO_DOJO_THEME = "claro" #Available "tundra", "soria", or "nihilo"
 						#_dojo base url_/dijit/themes/tundra
 						#_dojo base url_/dijit/themes/tundra/tundra.css
 
-#DOJANGO_DOJO_DEBUG = True
+DOJANGO_DOJO_DEBUG = True
 
 #DOJANGO_CDN_USE_SSL = True
 
@@ -136,6 +139,14 @@ DOJANGO_DOJO_THEME = "claro" #Available "tundra", "soria", or "nihilo"
 #DOJANGO_BUILD_MEDIA_URL #default: DOJANGO_BASE_MEDIA_URL + "/release"
 
 #DOJANGO_BASE_MEDIA_ROOT #default: _django project directory_/dojango/media
+#With this config, each app can have his own dojo media
+DOJANGO_BASE_MEDIA_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "dojo-media"))
+
+DOJANGO_DOJO_BUILD_PROFILES = {
+	'dojango-sample': {
+		'options': 'profileFile="%(BASE_MEDIA_ROOT)s/dojango-sample.profile.js" action=release optimize=shrinksafe.keepLines cssOptimize=comments.keepLines',
+	},
+}
 
 #DOJANGO_BASE_DOJO_ROOT #default: DOJANGO_BASE_MEDIA_ROOT + "/dojo")
 
