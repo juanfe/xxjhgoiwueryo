@@ -10,16 +10,20 @@ function createGrid(dataStore) {
 	var lbs = {
 		collateral: 'Collateral',
 		property_type_code: "Property Type Code",
+		customer_account_key: "Customer Account Key",
+		original_upb: "Original UPB",
+		current_upb: "Current UPB",
+		origination_date: "Origination Date",
+		is_adjustable: "Is Adjustable",
 	};
     var fields = {
 		collateral: 'collateral_key',
 		property_type_code: "property_type_code",
-        /*
-        participation: 'participation',
-        bidRate: 'bidrate',
-        status: 'status',
-        creation: 'createdAt',
-        expiration: 'expiresAt'*/
+		customer_account_key: "customer_account_key",
+		original_upb: 'orig_upb',
+		current_upb: 'curr_upb',
+        origination_date: 'origination_date',
+		is_adjustable: 'is_adjustable',
     };
     // set the layout structure:   
     var layout =
@@ -36,57 +40,49 @@ function createGrid(dataStore) {
                 name: lbs.collateral,
                 field: fields.collateral,
                 datatype: 'string'
-            },
-		    {
+            }, {
 				//name: label(fields.property_type_code),
 				name: lbs.property_type_code,
 				field: fields.property_type_code,
                 datatype: 'string'
-			}
-
-            /*{
-                //name: label(fields.collateral),
-                name: fields.collateral,
-                field: fields.collateral,
+			}, {
+				//name: label(fields.customer_account_key),
+				name: lbs.customer_account_key,
+				field: fields.customer_account_key,
                 datatype: 'string'
-            }, {
-                //name: label(fields.participation),
-                name: fields.participation,
-                field: fields.participation,
+			}, {
+                //name: label(fields.original_upb),
+				name: lbs.original_upb,
+                field: fields.original_upb,
                 datatype: 'number',
-                *//*formatter: function(item){
+                /*formatter: function(item){
                     return dojo.number.format(item,{pattern: "#0.0"});
-                }*//*
+                }*/
             }, {
-                //name: label(fields.bidRate),
-                name: fields.bidRate,
-                field: fields.bidRate,
+                //name: label(fields.current_upb),
+				name: lbs.current_upb,
+                field: fields.current_upb,
                 datatype: 'number',
-                *//*formatter: function(item){
+                /*formatter: function(item){
                     return dojo.number.format(item,{pattern: "#0.0"});
-                }*//*
+                }*/
             }, {
-                //name: label(fields.status),
-                name: fields.status,
-                field: fields.status,
-                datatype: 'string'
-            }, {
-                //name: label(fields.creation),
-                name: fields.creation,
-                field: fields.creation,
+                //name: label(fields.origination_date),
+                name: lbs.origination_date,
+                field: fields.origination_date,
                 datatype: 'date',
                 dataTypeArgs: {
                     datePattern: "yyyy/M/d H:m:s"
                 }
             }, {
-                //name: label(fields.expiration),
-                name: fields.expiration,
-                field: fields.expiration,
-                datatype: 'date',
+                //name: label(fields.is_adjustable),
+                name: lbs.is_adjustable,
+                field: fields.is_adjustable,
+                datatype: 'boolean',
                 dataTypeArgs: {
                     datePattern: "yyyy/M/d H:m:s"
                 }
-            }*/
+            }
     ]};
  
     /*create a new grid:*/
