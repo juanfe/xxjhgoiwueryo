@@ -1,4 +1,4 @@
-dojo.provide("scripts.show");
+dojo.provide("scripts.eng");
 
 dojo.require("dojo.parser");
 dojo.require("dijit.layout.BorderContainer");
@@ -11,10 +11,9 @@ dojo.require("dojox.dtl.filter.strings")
 
 dojo.ready(function(){
 	var grid = dijit.byId("movieGrid");
-	//grid.setStore(scripts.show.movieStore);
 	grid.connect(grid, "onRowClick", function(el){
 		var item = this.getItem(el.rowIndex);
-		scripts.show.showDetails(item);
+		scripts.eng.showDetails(item);
 	});
 	window.setTimeout(function(){ // would require a separate parse process!
 		dijit.byId("mainBC").resize();
