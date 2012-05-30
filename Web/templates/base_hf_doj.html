@@ -24,13 +24,8 @@
 		<div region="top" class="topC" dojoType="dijit.layout.ContentPane" splitter="true">
 			<h1 class="appHeader">My Movie DB</h1>
 		</div>
-		<table region="center" class="leftC" splitter="true" rowSelector="20px" queryOptions="{cache:true}" dojoType="dojox.grid.DataGrid" id="movieGrid">
-		  <thead>
-			<tr>
-			  <th field="title" width="170px">Title</th>
-			</tr>
-		  </thead>
-		</table>
+		{% block liq_spot_content %}
+		{% endblock %}
 		<div id="centerPane" region="bottom" dojoType="dijit.layout.ContentPane" style="background:#AABFDC;" >
 		   <h2 class="selectHeader">Select a movie</h2>
 		</div>

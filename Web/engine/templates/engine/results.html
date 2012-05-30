@@ -1,0 +1,17 @@
+{% extends "base_hf_doj.html" %}
+
+{% block liq_spot_page_title %}
+Bids per Loan
+{% endblock %}
+
+{% block liq_spot_content %}
+<table region="center" class="leftC" splitter="true" rowSelector="20px" queryOptions="{cache:true}"
+		dojoType="dojox.grid.DataGrid" id="movieGrid">
+	<thead>
+		<tr>
+			<th field="title" width="170px">Title</th>
+		</tr>
+	</thead>
+</table>
+{% endblock %}
+
