@@ -33,3 +33,7 @@ def GetUserGroups(request):
 		return [str(g) for g in g_lst]
 	except:
 		return []
+
+def UserContext(request):
+	return {'is_logged_in': is_logged_in(request), 'User': UserName(request),
+				'Groups': GetUserGroups(request)}
