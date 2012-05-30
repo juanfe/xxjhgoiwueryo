@@ -6,7 +6,7 @@ from datetime import datetime
 from LiqSpot import LiqEngine
 from dojango.util.dojo_collector import add_module
 from django.contrib.auth.decorators import login_required, user_passes_test
-from users.utils import UserContext
+from users.utils import UserContext, UserInGroup
 
 @login_required
 @user_passes_test(lambda u: UserInGroup(u, ["Admin"]),
