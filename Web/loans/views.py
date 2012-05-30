@@ -94,7 +94,9 @@ def ListLoans(request):
 	for _l in Loan.objects.all().values():
 		__l = {}
 		for k, v in _l.iteritems():
-		    __l[k] = json.dumps(v, cls = DjangoJSONEncoder)
+			__l[k] = json.dumps(v, cls = DjangoJSONEncoder)
+			if __l[k][0] == '"':
+				__l[k] = __l[k][1:-1]
 		l.append(__l)
 
 	Context = {'loans': l}
