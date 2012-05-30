@@ -143,8 +143,8 @@ DOJANGO_DOJO_DEBUG = True
 DOJANGO_BASE_MEDIA_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "dojo-media"))
 
 DOJANGO_DOJO_BUILD_PROFILES = {
-	'dojango-sample': {
-		'options': 'profileFile="%(BASE_MEDIA_ROOT)s/dojango-sample.profile.js" action=release optimize=shrinksafe.keepLines cssOptimize=comments.keepLines',
+	'liq-spot': {
+		'options': 'profileFile="%(BASE_MEDIA_ROOT)s/liq-spot.profile.js" action=release optimize=shrinksafe.keepLines cssOptimize=comments.keepLines',
 	},
 }
 
