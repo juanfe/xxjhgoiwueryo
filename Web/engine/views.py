@@ -5,6 +5,7 @@ from django.http import HttpResponse
 from datetime import datetime
 from LiqSpot import LiqEngine
 from dojango.util.dojo_collector import add_module
+from users.utils import UserContext
 
 def calc(request):
 	eng = LiqEngine()
@@ -157,7 +158,8 @@ def calc(request):
 	try:
 		context = eng.Calc()
 
-		Context = {'loans':[]}
+		Context = UserContext(request)
+		Context['loans'] = []
 		for c in context['loans'].iteritems():
 			Context['loans'].append(c[0])
 		Context['bids'] = []
