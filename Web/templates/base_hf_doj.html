@@ -22,10 +22,12 @@
 	<div id="mainBC" dojoType="dijit.layout.BorderContainer" style="width:100%;height:100%;">
 		<div region="top" class="topC" dojoType="dijit.layout.ContentPane" splitter="true"
 				style='width: auto;height:70px;border:solid 1px;border-color: black'>
+
 			<table style="width: 100%">
 				<tr>
 					<td><img src="{{ STATIC_URL }}images/liquidityspot_logo.jpg" alt="logo"/></td>
 					<td style="margin: auto; color: #F78111; vertical-align: bottom; text-align: right;">
+						{% if is_logged_in %}
 						<a href=&#39;/home&#39;>Home</a>&nbsp;&nbsp;&nbsp;
 						<a href=&#39;/search&#39;>Search loans</a>&nbsp;&nbsp;&nbsp;
 						<a href=&#39;/bids&#39;>Bids</a>&nbsp;&nbsp;&nbsp;
@@ -33,7 +35,11 @@
 						{% block liq_spot_menu %}
 						{% endblock %}
 						<a href=&#39;accounts/logout&#39;>Logout</a>&nbsp;&nbsp;&nbsp;
+						{% else %}
+						<a href=&#39;/accounts/login?next=/&#39;>Login</a>&nbsp;&nbsp;&nbsp;
+						{% endif %}
 					</td>
+
 				</tr>
 			</table>
 		</div>
