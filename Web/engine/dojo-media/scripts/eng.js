@@ -10,7 +10,7 @@ dojo.require("dojox.grid.DataGrid");
 dojo.require("dojox.dtl.filter.strings")
 
 dojo.ready(function(){
-	var grid = dijit.byId("movieGrid");
+	var grid = dijit.byId("billsGrid");
 	grid.connect(grid, "onRowClick", function(el){
 		var item = this.getItem(el.rowIndex);
 		scripts.eng.showDetails(item);
