@@ -5,8 +5,12 @@ from django.http import HttpResponse
 from datetime import datetime
 from LiqSpot import LiqEngine
 from dojango.util.dojo_collector import add_module
+from django.contrib.auth.decorators import login_required, user_passes_test
 from users.utils import UserContext
 
+@login_required
+@user_passes_test(lambda u: UserInGroup(u, ["Admin"]),
+		login_url='/accounts/login/?next=/calc/')
 def calc(request):
 	eng = LiqEngine()
 	#TODO add LSSpread and PriorDayRateUsed from config
