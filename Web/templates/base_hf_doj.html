@@ -1,63 +1,39 @@
-{% extends "base_doj.html" %}
-
-{% block _dojango_dojo_styles %}
-{{ block.super }}
-{% block liq_spot_dojo_styles %}
-{% endblock %}
-{% endblock %}
+{% extends "dojango/base_i18n.html" %}
+{% load dojango_grid %}
 
 {% block dojango_header_extra %}
 <style type="text/css">
-        @import "{{ DOJANGO.DOJOX_URL }}/grid/resources/Grid.css";
-        @import "{{ DOJANGO.DOJOX_URL }}/grid/resources/{{ DOJANGO.THEME }}Grid.css";
-	.{{ DOJANGO.THEME }} .dojoxGridCell{text-align: right;}
-	.{{ DOJANGO.THEME }} .dojoxGridHeader .dojoxGridCell{ text-align: center;}
+	@import "{{ DOJANGO.DOJOX_URL }}/grid/resources/Grid.css";
+	@import "{{ DOJANGO.DOJOX_URL }}/grid/resources/{{ DOJANGO.THEME }}Grid.css";
+	html,body{width:100%;height:100%;}
+	.appHeader{font-size:3em;margin-left:0.5em;margin-top:0.8em;}
+	.selectHeader{font-size:3em;margin-top:0.5em;margin-left:0.5em;}
+	.topC{height:100px;background:white url('/static/images/filmstrip.jpg');background-position:10% 30%;}
+	.centerPane{height:200px;}
+	.leftC{height:200px;}
+	
 </style>
-{% block liq_spot_header_extra %}
-{% endblock %}
 <script type="text/javascript">
-	dojo.require("dijit.layout.ContentPane");
-	dojo.require("dijit.layout.BorderContainer");
+	dojo.require("scripts.eng");
+	dojo.require("dojox.widget.Toaster");
 </script>
 {% endblock %}
 
 {% block dojango_content %}
-<div id = "topLevelContainer" dojoType="dijit.layout.BorderContainer" design="headline" isLayoutContainer="true"
-		gutters='false' style="height:100%;width:100%;">
-	<div>
-		<div dojoType = "dijit.layout.ContentPane" region = "top" title="Filtros" style='width: auto;height:
-				70px;border:solid 1px;border-color: black'>
-			<table style="width: 100%">
-				<tr>
-					<td><img src="{{ STATIC_URL }}liquidityspot_logo.jpg" alt="logo"/></td>
-					<td style="margin: auto; color: #F78111; vertical-align: bottom; text-align: right;">
-						<a href=&#39;/home&#39;>Home</a>&nbsp;&nbsp;&nbsp;
-						<a href=&#39;/search&#39;>Search loans</a>&nbsp;&nbsp;&nbsp;
-						<a href=&#39;/mybids&#39;>My bids</a>&nbsp;&nbsp;&nbsp;
-						<a href=&#39;/logout&#39;>Logout</a>&nbsp;&nbsp;&nbsp;
-						<a href="javascript:cleanBidsClick()">Remove selected bids</a>&nbsp;&nbsp;&nbsp;
-					</td>
-				</tr>
-			</table>
+	<div id="mainBC" dojoType="dijit.layout.BorderContainer" style="width:100%;height:100%;">
+		<div region="top" class="topC" dojoType="dijit.layout.ContentPane" splitter="true">
+			<h1 class="appHeader">My Movie DB</h1>
 		</div>
-		<!--div id="mainView" dojoType="dijit.layout.ContentPane" region="center" style="overflow: hidden;"-->
-		<div id="mainView" region="center" style="overflow: hidden;">
-{% block liq_spot_content %}
-{% endblock %}
-		</div>
-		<div id='bottomContainer' dojoType="dijit.layout.ContentPane" splitter="false" region="bottom"
-				style="background-color:#F78111;padding:0px;border:solid 1px;border-color: black">
-			<div id="footer">
-				<p style="float: right;margin: 0 55px 0 0;">
-					Design: Vichara Technologies,
-					<a title="Vichara Technologies" href="http://www.vichara.com/">Vichara Technologies</a>
-				</p>
-				<p>
-					&copy; Copyright 2012
-					<a href="http://www.liquidityspot.com">Liquidity Spot</a> &middot; All Rights Reserved
-				</p>
-			</div>
+		<table region="center" class="leftC" splitter="true" rowSelector="20px" queryOptions="{cache:true}" dojoType="dojox.grid.DataGrid" id="movieGrid">
+		  <thead>
+			<tr>
+			  <th field="title" width="170px">Title</th>
+			</tr>
+		  </thead>
+		</table>
+		<div id="centerPane" region="bottom" dojoType="dijit.layout.ContentPane" style="background:#AABFDC;" >
+		   <h2 class="selectHeader">Select a movie</h2>
 		</div>
 	</div>
-</div>
+	<div dojoType="dojox.widget.Toaster" id="movieAppToaster" positionDirection="br-left">
 {% endblock %}
