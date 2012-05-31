@@ -1,30 +1,24 @@
-application: pruegajuajarastar
+application: liquidityspot
 version: 1
-runtime: python27
+runtime: python
 api_version: 1
-threadsafe: yes
-
-builtins:
-- remote_api: on
-
-inbound_services:
-- warmup
-
-libraries:
-- name: django
-  version: latest
 
 handlers:
-- url: /_ah/queue/deferred
-  script: djangoappengine.deferred.handler.application
-  login: admin
+- url: /css
+  static_dir: css
+  
+- url: /scripts
+  static_dir: scripts
 
-- url: /_ah/stats/.*
-  script: djangoappengine.appstats.application
+- url: /images
+  static_dir: images
 
-- url: /media/admin
-  static_dir: django/contrib/admin/media
-  expiration: '0'
+- url: /data
+  static_dir: data
+
+- url: /favicon.ico
+  static_files: favicon.ico
+  upload: favicon.ico
 
 - url: /.*
-  script: djangoappengine.main.application
+  script: dispatcher.py
