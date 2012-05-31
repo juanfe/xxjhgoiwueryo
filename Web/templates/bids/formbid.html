@@ -1,5 +1,11 @@
-</div>
-<h1>Bid's {{ user }}</h1>
+{% extends "base_hf_doj.html" %}
+
+{% block liq_spot_page_title %}
+Bids in Liquidity Spot
+{% endblock %}
+
+{% block liq_spot_content %}
+<h1>Bid's {{ User }}</h1>
 
 <a href="/bids/bidadd/">+ Add Bid</a>
 {% if active_bid_list %}
@@ -79,5 +85,4 @@
 	</table>
 
 {% endif %}
-
-
+{% endblock %}
