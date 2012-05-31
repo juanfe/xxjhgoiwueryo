@@ -15,47 +15,35 @@ class Page:
     SEARCH = 2
     MYBIDS = 3
     LOGOUT = 4
-    LISTLOANS = 5
     
 class HomePage:
     url = "'/home'"
     text = 'Home'
-
 class SearchPage:
     url = "'/search'"
     text = 'Search loans'
-
 class MyBidsPage:
     url = "'/mybids'"
     text = 'My bids'
-
 class LogoutPage:
     url = "'/logout'"
     text = 'Logout'
-
-class ListLoansPage:
-	url = "'/listloans'"
-	text = 'List Loans'
-
 def getMenuPages(page):
     enumRegister = {
         Page.HOME : HomePage,
         Page.SEARCH : SearchPage,
         Page.MYBIDS : MyBidsPage,
-        Page.LOGOUT : LogoutPage,
-		5 : ListLoansPage
+        Page.LOGOUT : LogoutPage
     }
     menuPages = []
     for key,val in enumRegister.iteritems():
         if key != page:
             menuPages.append(val)
     return menuPages
-
 def getPageDict(page):
     return {
             'menuPages' : getMenuPages(page)
     }
-
 #Rendered pages
 def checkLogin(requestHandler):
     if (not getUser()):
@@ -135,7 +123,6 @@ class BidsRest(webapp.RequestHandler):
                           status = status,
                           createdAt = creationTime,
                           expiresAt = expirationTime).put()
-
     def get(self):
         checkLogin(self)
         # Getting bids from the Db
@@ -156,7 +143,6 @@ class BidsRest(webapp.RequestHandler):
         bidsToSendJson = json.dumps(itemsWrapper)
         self.response.headers['Content-Type'] = 'application/json'
         self.response.out.write(bidsToSendJson)
-		
     def delete(self):
         checkLogin(self)
         bidsToDeleteJson = self.request.get(dojoAjaxKey)
@@ -172,20 +158,16 @@ class BidsRest(webapp.RequestHandler):
                 currentBids.pop(key).delete()
                 currentBidsKeys = currentBids.keys()
 
-class listLoans(webapp.RequestHandler):
+class jsonLoans(webapp.RequestHandler):
     def get(self):
         checkLogin(self)
-        page = Page.LISTLOANS
-        parameters = getPageDict(page)
-        #bidsToSendJson = memcache.get("bidsToSendJson")
-        #if bidsToSendJson is None:
-        #    bidsToSendJson = self.generateLoans()
-        #    if not memcache.add("bidsToSendJson", bidsToSendJson, 3600):
-        #        logging.error("Memcache set failed.")
-        #self.response.headers['Content-Type'] = 'application/json'
-        #self.response.out.write(bidsToSendJson)
-        self.response.out.write(template.render("templates/listloans.html",parameters))
-		
+        bidsToSendJson = memcache.get("bidsToSendJson")
+        if bidsToSendJson is None:
+            bidsToSendJson = self.generateLoans()
+            if not memcache.add("bidsToSendJson", bidsToSendJson, 3600):
+                logging.error("Memcache set failed.")
+        self.response.headers['Content-Type'] = 'application/json'
+        self.response.out.write(bidsToSendJson)
     def generateLoans(self):
         loanJsonObj = []
         datetypeObj = date.today()
@@ -210,7 +192,6 @@ class listLoans(webapp.RequestHandler):
         itemsWrapper = {}
         itemsWrapper['items'] = loanJsonObj
         return json.dumps(itemsWrapper)
-
 class Login(webapp.RequestHandler):
     def get(self):
         user = getUser()
@@ -344,7 +325,7 @@ application = webapp.WSGIApplication(
                                       ('/logout', Logout),
                                       ('/search', Search),
                                       ('/download', Download),
-                                      ('/listLoans', listLoans),
+                                      ('/jsonLoans', jsonLoans),
                                       ('/loansModel', loansModel.loansModelInstance),
                                       ('/jsonDelete', loansModel.jsonDelete),
                                       ('/labels', Labels),
