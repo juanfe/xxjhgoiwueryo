@@ -238,16 +238,16 @@ ls.addGridTooltip = function(parameters) {
 
 function cleanBidsClick(){
     var selectedBids = ls.grid.selection.getSelected();
-    var bids = {};
+    var loans = {};
     for (var i=0; i< selectedBids.length; i++){
-        bids[selectedBids[i].collateral_key] =
+        loans[selectedBids[i].collateral_key] =
         {
             'collateral_key': selectedBids[i].collateral_key[0]
         };
     }
     var xhrArgs = {
-        url: "/bids",
-        content: {'bids':dojo.toJson(bids)},
+        url: "loans",
+        content: {'loans':dojo.toJson(loans)},
         handleAs: "json",
         load: function(data) {
             console.log(data);
@@ -260,7 +260,7 @@ function cleanBidsClick(){
     var deferred = dojo.xhrDelete(xhrArgs);
     deferred.then(
         function(data){
-            location.href="/mybids";
+            location.href="/loans";
         },
         function(error){
             alert("An unexpected error occurred: " + error);
