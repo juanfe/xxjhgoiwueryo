@@ -1,15 +1,13 @@
-{# extends "header_footer.html" #}
-{% extends "base_hf.html" %}
-
-{% block _dojango_dojo_styles %}
+{% extends "header_footer.html" %}
+{% block stylesheets %}
 	<link rel="stylesheet" type="text/css"
 		href="http://ajax.googleapis.com/ajax/libs/dojo/1.6.0/dojox/grid/enhanced/resources/claro/EnhancedGrid.css" />
 	<link rel="stylesheet" type="text/css"
 		href="http://ajax.googleapis.com/ajax/libs/dojo/1.6.0/dojox/grid/enhanced/resources/EnhancedGrid_rtl.css" />
-{% endblock %}
-
-{% block _dojango_dj_config %}
+{% endblock stylesheets%}
+{% block dojoConfig %}
 	{{ block.super }}
+	<script>
 		dojoConfig.addToRequire([
 			"ls.FieldLabel",
 			"dojo.data.ItemFileReadStore",
@@ -24,16 +22,14 @@
 			baseUrl: 'scripts/',
             modulePaths: {ls: 'ls'}
 		});
-{% endblock %}
-
-{% block dojango_header_extra %}
+	</script>
+{% endblock dojoConfig %}
+{% block scripts %}
 	<script type="text/javascript" src="scripts/mybids.js"></script>
-{% endblock %}
-
+{% endblock scripts %}
 {% block menuAnchors %}
 	<a href="javascript:cleanBidsClick()">Remove selected bids</a>&nbsp;&nbsp;&nbsp;
-{% endblock %}
-
+{% endblock menuAnchors %}
 {% block content %}
 	<div id="grid"></div>
-{% endblock %}
+{% endblock content %}

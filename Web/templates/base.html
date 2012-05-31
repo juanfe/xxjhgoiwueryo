@@ -1,17 +1,55 @@
-{% extends "liqbase_i18n.html" %}
-
-{% block dojango_page_title %}
-{% block liq_spot_page_title %}
-Liquidity Spot
-{% endblock %}
-{% endblock %}
-
-{% block dojango_header_extra %}
-{% block liq_spot_header_extra %}
-{% endblock %}
-{% endblock %}
-
-{% block dojango_content %}
-{% block liq_spot_content %}
-{% endblock %}
-{% endblock %}
+<html lang="en">
+	<head>
+  		<meta charset="utf-8">
+  		<title>Liquidity Spot</title>
+  		<!-- Dojo and dijit themes css-->
+  		<link rel="stylesheet" type="text/css"
+			href="http://ajax.googleapis.com/ajax/libs/dojo/1.6.0/dojo/resources/dojo.css" />
+		<link rel="stylesheet" type="text/css"
+			href="http://ajax.googleapis.com/ajax/libs/dojo/1.6.0/dijit/themes/claro/claro.css" />
+		<link rel="stylesheet" type="text/css"
+			href="http://ajax.googleapis.com/ajax/libs/dojo/1.6.0/dijit/themes/claro/document.css" />
+		<link rel="stylesheet" type="text/css"
+            href="css/common.css" />
+		{% block stylesheets %}
+		{% endblock stylesheets%}
+		<!-- Configuring dojo -->
+		{% block dojoConfig %}
+		<script>
+            dojoConfig = {
+				isDebug: true,
+				parseOnLoad: true,
+				locale: 'en-us',
+				require: [],
+				// Add the array of modules to the require property
+				//   allow child templates to add requires to
+				//   dojoConfig
+				// Return the instance, enabling concatenated calls
+				addToRequire: function(array) {
+					this.require = this.require.concat(array);
+					return this;
+				},
+				// Add or replace the properties specified in obj
+				// Return the instance, enabling concatenated calls
+				addProperties: function(obj) {
+				    var prop;
+					for(prop in obj){
+						if(obj.hasOwnProperty(prop)) {
+							this[prop] = obj[prop];
+						}
+					}
+					return this;
+				}
+			};
+		</script>
+		{% endblock dojoConfig %}
+		<!-- Dojo CDN -->
+		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/dojo/1.6.1/dojo/dojo.xd.js"></script>
+		{% block scripts %}
+		{% endblock scripts %}
+	</head>
+	<body class='claro'>
+		{% block body %}
+		{% endblock body %}
+	</body>
+</html>
