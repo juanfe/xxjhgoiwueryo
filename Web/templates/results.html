@@ -1,0 +1,67 @@
+{% extends "header_footer.html" %}
+{% block stylesheets %}
+<style type="text/css">
+        @import "http://ajax.googleapis.com/ajax/libs/dojo/1.6.0/dojox/grid/resources/Grid.css";
+        @import "http://ajax.googleapis.com/ajax/libs/dojo/1.6.0/dojox/grid/resources/claroGrid.css";
+        html,body{width:100%;height:100%;}
+        .appHeader{font-size:3em;margin-left:0.5em;margin-top:0.8em;}
+        .selectHeader{font-size:3em;margin-top:0.5em;margin-left:0.5em;}
+        .topC{height:100px;background:#F78111;}
+        .bottomPane{height:200px;background-color:#F78111;padding:0px;border:solid 1px;border-color: black}
+        .leftC{height:200px;}
+	.claro .dojoxGridCell{text-align: right;}
+	.claro .dojoxGridHeader .dojoxGridCell{ text-align: center;}
+</style>
+{% endblock stylesheets %}
+
+{% block dojoConfig %}
+    {{ block.super }}
+{% endblock dojoConfig %}
+
+{% block scripts %}
+<script type="text/javascript">
+        //dojo.require("scripts.eng");
+        dojo.require("dojox.widget.Toaster");
+</script>
+
+<script type="text/javascript">
+        var DataItems = {
+		items: [
+		{% for bid in bids %}
+			{
+			{% for v in bid %}
+				{% if v.bid %}
+				"bid_loan": "{{ v.bid }}",
+				{% else %}
+				"{{ v.key }}": "{{ v.val }}",
+				{% endif %}
+			{% endfor %}
+			},
+		{% endfor %}
+		],
+		identifier: "bid_loan" };
+</script>
+
+<script type="text/javascript" src="scripts/eng.js"></script>
+{% endblock scripts %}
+
+{% block content %}
+<table region="center" class="leftC" splitter="true" rowSelector="20px"
+		queryOptions="{cache:true}"
+		dojoType="dojox.grid.DataGrid" id="billsGrid">
+	<thead>
+	{% if loans %}
+		<tr>
+			<th field="bid_loan" width="170px">Bids/Loans</th>
+			{% for l in loans %}
+			<th field="{{ l }}">{{ l }}</th>
+			{% endfor %}
+		</tr>
+	{% else %}
+		<tr>
+		<th field="title" width="170px">No Loans assigned yet.</th>
+		</tr>
+	{% endif %}
+	</thead>
+</table>
+{% endblock content %}
