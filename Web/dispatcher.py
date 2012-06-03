@@ -76,7 +76,10 @@ class Calc(webapp.RequestHandler):
     def get(self):
         checkLogin(self)
         page = Page.CALC
-        parameters = calc()
+        parameters = getPageDict(page)
+        c = calc()
+        parameters['loans'] = c['loans']
+        parameters['bids'] = c['bids']
         self.response.out.write(template.render("templates/results.html",parameters))
 
 class MyBids(webapp.RequestHandler):
