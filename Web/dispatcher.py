@@ -8,13 +8,15 @@ from datetime import datetime, timedelta, date
 from ls.model import user
 from ls.model.bid import Bid
 from model import loansModel
+from calc import calc
 
 #Rendering logic
 class Page:
     HOME = 1
     SEARCH = 2
-    MYBIDS = 3
-    LOGOUT = 4
+    CALC = 3
+    MYBIDS = 4
+    LOGOUT = 5
     
 class HomePage:
     url = "'/home'"
@@ -22,6 +24,9 @@ class HomePage:
 class SearchPage:
     url = "'/search'"
     text = 'Search loans'
+class CalcPage:
+    url = "'/calc'"
+    text = 'Calculate'
 class MyBidsPage:
     url = "'/mybids'"
     text = 'My bids'
@@ -33,6 +38,7 @@ def getMenuPages(page):
         Page.HOME : HomePage,
         Page.SEARCH : SearchPage,
         Page.MYBIDS : MyBidsPage,
+        Page.CALC : CalcPage,
         Page.LOGOUT : LogoutPage
     }
     menuPages = []
@@ -65,6 +71,13 @@ class Search(webapp.RequestHandler):
         page = Page.SEARCH
         parameters = getPageDict(page)
         self.response.out.write(template.render("templates/search.html",parameters))
+
+class Calc(webapp.RequestHandler):
+    def get(self):
+        checkLogin(self)
+        page = Page.CALC
+        parameters = calc()
+        self.response.out.write(template.render("templates/results.html",parameters))
 
 class MyBids(webapp.RequestHandler):
     def get(self):
@@ -324,6 +337,7 @@ application = webapp.WSGIApplication(
                                       ('/home', Home),
                                       ('/logout', Logout),
                                       ('/search', Search),
+                                      ('/calc', Calc),
                                       ('/download', Download),
                                       ('/jsonLoans', jsonLoans),
                                       ('/loansModel', loansModel.loansModelInstance),
