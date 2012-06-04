@@ -19,7 +19,7 @@ def createUser(currUser):
     user = User.get_by_key_name(key_names = userEmail)
     if user is None:        
         user = User(key_name = userEmail)
-        user.fundsAvailable = 0
+        user.fundsAvailable = 0.0
         user.group = 'Broker'
         user.put()
     
