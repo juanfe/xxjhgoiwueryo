@@ -344,6 +344,7 @@ application = webapp.WSGIApplication(
                                       ('/download', Download),
                                       ('/jsonLoans', jsonLoans),
                                       ('/loansModel', loansModel.loansModelInstance),
+                                      ('/TestUsers', user.UserInstance),
                                       ('/jsonDelete', loansModel.jsonDelete),
                                       ('/labels', Labels),
                                       ('/', Login)
