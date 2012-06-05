@@ -1,10 +1,22 @@
 from datetime import datetime
 from LiqSpot import LiqEngine
+from model import loansModel
+from google.appengine.ext import db
+#from google.appengine.ext.db import Key
 
 def calct():
 	eng = LiqEngine()
 	#TODO add LSSpread and PriorDayRateUsed from config
 	eng.setParameters(LSSpread = 1, PriorDayRateUsed = 3.5)
+
+	#TODO only set loans who are involved in the calc
+	loans = db.GqlQuery("SELECT * "
+			"FROM loansModel ")
+	s = []
+	for l in loans:
+		s.append({'loanId' : l.collateral_key ,
+				'mortgageOriginator': l.property_type_code ,
+				 'loanAmount': l.curr_upb})
 
 	eng.setLoans([{'loanId' : '1', 'mortgageOriginator': 'ABC Mortgage',
 					'loanAmount': 318725.0},
@@ -18,6 +30,14 @@ def calct():
 					'loanAmount': 515425.0},
 			{'loanId' : '6', 'mortgageOriginator': 'Integrity Lending',
 					'loanAmount': 485000.0}])
+
+	users = db.GqlQuery("SELECT * "
+			"FROM User ")
+	usr = []
+	for u in users:
+		usr.append({'userId' : u.account,
+				'fundsAvailable': u.fundsAvailable })
+
 	eng.setUsers([{'userId' : '1104134@test.com', 'fundsAvailable': 187500.0},
 			{'userId' : '1104143@test.com', 'fundsAvailable': 500000.0},
 			{'userId' : '1104154@test.com', 'fundsAvailable': 185000.0},
@@ -168,6 +188,15 @@ def calc():
 				else:
 					c.append(({"key": l, "val": 0}))
 			Context['bids'].append(c)
+		loans = db.GqlQuery("SELECT * "
+				"FROM loansModel ")
+		s = ""
+		for l in loans:
+			s = s +("%s "%l.customer_account_key)
+		#Context['tempo'] = []
+		Context['tempo'] = s
+		#for l in loans.iteritems():
+		#	Context['tempo'].append(l['key_name'])
 		return Context
 	except:
 		return None
