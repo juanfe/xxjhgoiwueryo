@@ -156,6 +156,9 @@ class loansModel(db.Expando):
     u_w = db.StringProperty(verbose_name="Loan Underwriter")
     units = db.IntegerProperty(verbose_name="units",default=1)
 
+def getLoan(key):
+    return db.get(db.Key.from_path("loansModel", key))
+
 class jsonDelete(webapp.RequestHandler):
     def get(self):
         gql_object = db.GqlQuery("SELECT * FROM loansModel")
