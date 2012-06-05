@@ -13,7 +13,7 @@ class User(db.Model):
     fundsAvailable = db.FloatProperty()
     group = db.StringProperty(#required = 'true',
             choices = ['Admin', 'MO', 'Broker', 'Engine'])
-    
+
 def createUser(currUser):
     userEmail = currUser.email()
     user = User.get_by_key_name(key_names = userEmail)
@@ -26,6 +26,9 @@ def createUser(currUser):
 def getCurrentUser(user):
     return User.get_by_key_name(key_names = user.email())
 
+def getUser(key_name):
+	return db.get(db.Key.from_path("User", key_name))
+    
 class UserInstance(webapp.RequestHandler):
     def get(self):
         User(key_name = "Admin@test.com",
