@@ -303,6 +303,7 @@ class BidsInstance(webapp.RequestHandler):
 				bidrate = 2.125,
 				createdAt = datetime.datetime.strptime("6:47:00 AM", "%I:%M:%S %p"),
 				expiresAt = datetime.datetime.strptime("12/15/13 12:53 PM", "%m/%d/%y %I:%M %p"),
+				mo = getUser('EFGH'),
 				ordertiming = "Day Trade"
 				).put()
 
