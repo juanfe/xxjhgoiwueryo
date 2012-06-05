@@ -5,7 +5,7 @@ from google.appengine.ext.webapp.util import run_wsgi_app
 from django.utils import simplejson as json
 import StringIO, csv, random, logging
 from datetime import datetime, timedelta, date
-from ls.model import user
+from ls.model import user, bid
 from ls.model.bid import Bid
 from model import loansModel
 from calc import calc
@@ -345,6 +345,7 @@ application = webapp.WSGIApplication(
                                       ('/jsonLoans', jsonLoans),
                                       ('/loansModel', loansModel.loansModelInstance),
                                       ('/TestUsers', user.UserInstance),
+                                      ('/TestBids', bid.BidsInstance),
                                       ('/jsonDelete', loansModel.jsonDelete),
                                       ('/labels', Labels),
                                       ('/', Login)
