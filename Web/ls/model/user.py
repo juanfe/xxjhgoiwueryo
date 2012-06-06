@@ -22,12 +22,15 @@ def createUser(currUser):
         user.fundsAvailable = 0.0
         user.group = 'Broker'
         user.put()
-    
+
 def getCurrentUser(user):
     return User.get_by_key_name(key_names = user.email())
 
 def getUser(key_name):
 	return db.get(db.Key.from_path("User", key_name))
+
+def getUser():
+	return users.get_current_user().email()
 
 def getGroup():
 	u = users.get_current_user()
