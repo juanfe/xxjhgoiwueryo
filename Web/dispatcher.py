@@ -78,8 +78,9 @@ class Calc(webapp.RequestHandler):
         page = Page.CALC
         parameters = getPageDict(page)
         c = calc()
-        parameters['loans'] = c['loans']
-        parameters['bids'] = c['bids']
+        if c.has_key('loans') and c.has_key('bids'):
+            parameters['loans'] = c['loans']
+            parameters['bids'] = c['bids']
         self.response.out.write(template.render("templates/results.html",parameters))
 
 class MyBids(webapp.RequestHandler):
