@@ -131,20 +131,33 @@ class BidsRest(webapp.RequestHandler):
             else:
                 loanQuery = loansModel.loansModel.all().filter('collateral_key =', key)
                 loan = loanQuery.get()
-                status = random.choice(statusChoices)
+                #TODO check why the status is random?
+                #status = random.choice(statusChoices)
+                status = 'Active'
                 Bid(parent = dbUser,
                           user = dbUser,
                           loan = loan,
                           participation = participation,
                           bidrate = bidrate,
+                          #TODO add the posibility of get a None value in
+                          # bidrate, it is in the myscript.js
+                          ordertype = 'Competitive' if bidrate != None else 'Noncompetitive',
                           status = status,
                           createdAt = creationTime,
-                          expiresAt = expirationTime).put()
+                          expiresAt = expirationTime,
+                          #Added to agree with the LiqSpop engine
+                          #TODO is better to put it on the web
+                          bidtype = 'Specified',
+                          lorm = 'Loan',
+                          ordertiming = 'Day Trade',
+                          key_name = "%s %s"%(user.getUser(), creationTime),
+                          ).put()
     def get(self):
         checkLogin(self)
         # Getting bids from the Db
         bidsModelObj = []
         modelBids = user.getCurrentUser(users.get_current_user()).bids
+        #TODO add the new fields
         for modelBid in modelBids:
             bidModelObj = {}
             bidModelObj['collateral_key'] = modelBid.loan.collateral_key
