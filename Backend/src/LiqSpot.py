@@ -329,20 +329,44 @@ class LiqEngine:
 
 			try:
 				d['userid'] = b['userId']
+			except:
+				sys.exit('Error: Line userId in %b malformed.'%(str(b)))
+			try:
 				d['specified'] = b['bidType'] == 'Specified'
+			except:
+				sys.exit('Error: Line bidType in %b malformed.'%(str(b)))
+			try:
 				if not d['specified']:
 					d['aggregate'] = b['Aggregate']
 				else:
 					d['aggregate'] = ''
-				d['bidrate'] = '' if not b.has_key('bidRate') else b['bidRate']
+			except:
+				sys.exit('Error: Line Aggregate in %b malformed.'%(str(b)))
+			#try:
+			#	d['bidrate'] = '' if not b.has_key('bidRate') else b['bidRate']
+			#except:
+			#	sys.exit('Error: Line bidRate in %b malformed.'%(str(b)))
+			try:
 				d['competitive'] = b['orderType'] == 'Competitive'
+			except:
+				sys.exit('Error: Line orderType in %b malformed.'%(str(b)))
+			try:
 				d['bidrate'] = '' if not d['competitive'] \
 						else float(b['bidRate']) / 100
+			except:
+				sys.exit('Error: Line bidRate in %b malformed.'%(str(b)))
+			try:
 				d['dateorder'] = '' if  not b.has_key('dateOrder') \
 					else datetime.strptime(b['dateOrder'], "%Y-%m-%d %H:%M:%S")
+			except:
+				sys.exit('Error: Line dateOrder in %b malformed.'%(str(b)))
+			try:
 				d['genrate'], d['sperate'] = ('', float(b['Participation']) / 100) \
 						if d['specified'] \
 						else (float(b['Participation']) / 100, '')
+			except:
+				sys.exit('Error: Line Participation in %b malformed.'%(str(b)))
+			try:
 				if not b.has_key('assetSubset'):
 					d['lorm'] = ''
 					if b['bidType'] != 'General':
@@ -351,12 +375,24 @@ class LiqEngine:
 					d['lorm'] = b['assetSubset']
 					if b['bidType'] != 'Specified':
 						raise LiqError("Error Bid type is not Specified, and have assetSubset")
+			except:
+				sys.exit('Error: Line assetSubset in %b malformed.'%(str(b)))
+			try:
 				d['loannum'] = '' if d['lorm'] != 'Loan' else str(self.LoanIndex.index(b['loanId']) + 1)
+			except:
+				sys.exit('Error: Line loanId in %b malformed.'%(str(b)))
+			try:
 				d['mo'] = '' if d['lorm'] != 'MO' else b['mortgageOriginator']
+			except:
+				sys.exit('Error: Line mortgageOriginator in %b malformed.'%(str(b)))
+			try:
 				d['ordertiming'] = b['orderTiming']
+			except:
+				sys.exit('Error: Line orderTiming in %b malformed.'%(str(b)))
+			try:
 				self.Bids[b['bidId']] = d
 			except:
-				sys.exit('Error: Line %b malformed.'%(b))
+				sys.exit('Error: Line %b malformed.'%(str(b)))
 
 	def checkExceptionsColNames(self, iexc):
 		exc = {"Bid ID": "id",
