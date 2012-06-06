@@ -1,5 +1,5 @@
 '''
-Created on Jun 4, 2012
+Created on Feb 21, 2012
 
 @authors: Camilo
         Juan Fernando Jaramillo
@@ -28,7 +28,15 @@ def getCurrentUser(user):
 
 def getUser(key_name):
 	return db.get(db.Key.from_path("User", key_name))
-    
+
+def getGroup():
+	u = users.get_current_user()
+	w = User.get_by_key_name(key_names = u.email())
+	if w is None:
+		return None
+	else:
+		return w.group
+
 class UserInstance(webapp.RequestHandler):
     def get(self):
         User(key_name = "Admin@test.com",
