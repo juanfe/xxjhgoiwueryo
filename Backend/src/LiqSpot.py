@@ -315,14 +315,17 @@ class LiqEngine:
 	def setBids(self, Bids):
 		for b in Bids:
 			d = {}
-			try:
-				t = b['date'] if  b.has_key('date') else ''
-				t = t + ' ' + b['time'] if b.has_key('time') else t
-				f = "%Y-%m-%d" if b.has_key('date') else ''
-				f = f + " %H:%M:%S" if b.has_key('time') else f
-				d['time'] = datetime.strptime(t, f) if f != "" else "" 
-			except:
-				d['time'] = datetime.strptime(t, "%H:%M:%S")
+			if (isinstance (b['date'], datetime)):
+				d['time'] = b['date']
+			else:
+				try:
+					t = b['date'] if  b.has_key('date') else ''
+					t = t + ' ' + b['time'] if b.has_key('time') else t
+					f = "%Y-%m-%d" if b.has_key('date') else ''
+					f = f + " %H:%M:%S" if b.has_key('time') else f
+					d['time'] = datetime.strptime(t, f) if f != "" else "" 
+				except:
+					d['time'] = datetime.strptime(t, "%H:%M:%S")
 
 			try:
 				d['userid'] = b['userId']
