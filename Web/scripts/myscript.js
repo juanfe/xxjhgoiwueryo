@@ -230,6 +230,7 @@ function submitBidsClick() {
 	var selectedBids = ls.bidGrid.selection.getSelected();
 	var bids = {};
 	for(var i = 0; i < selectedBids.length; i++) {
+		//TODO allow bidrate in None
 		bids[selectedBids[i]['collateral_key']] = {
 			'collateral_key' : selectedBids[i]['collateral_key'][0],
 			'participation' : selectedBids[i]['participation'][0],
