@@ -23,18 +23,17 @@ def createUser(currUser):
         user.group = 'Broker'
         user.put()
 
-def getCurrentUser(user):
+def getTheUser(user):
     return User.get_by_key_name(key_names = user.email())
 
 def getUser(key_name):
 	return db.get(db.Key.from_path("User", key_name))
 
-def getUser():
+def getCurrentUser():
 	return users.get_current_user().email()
 
 def getGroup():
-	u = users.get_current_user()
-	w = User.get_by_key_name(key_names = u.email())
+	w = User.get_by_key_name(key_names = getCurrentUser())
 	if w is None:
 		return None
 	else:
@@ -119,6 +118,6 @@ class UserInstance(webapp.RequestHandler):
         User(key_name = "1104157@test.com", fundsAvailable = 629000.00,
                 account = users.User("1104157@test.com"),
                 group = 'Broker').put()
-        User(key_name = "1104158@test.com", fundsAvailable = 52000.00,
+        User(key_name = "1104158@test.com", fundsAvailable = 1052000.00,
                 account = users.User("1104158@test.com"),
                 group = 'Broker').put()
