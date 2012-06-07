@@ -107,7 +107,7 @@ class BidsRest(webapp.RequestHandler):
         bidsToAddJson = self.request.get(dojoAjaxKey)
         bidsToAddObj =  json.loads(bidsToAddJson)
         # Adding the bid model objects
-        dbUser = user.getCurrentUser(users.get_current_user())
+        dbUser = user.getTheUser(users.get_current_user())
         # Getting the bids for the current user
         userBids = dbUser.bids
         currentBids = {}
@@ -150,13 +150,13 @@ class BidsRest(webapp.RequestHandler):
                           bidtype = 'Specified',
                           lorm = 'Loan',
                           ordertiming = 'Day Trade',
-                          key_name = "%s %s"%(user.getUser(), creationTime),
+                          key_name = "%s %s"%(user.getCurrentUser(), creationTime),
                           ).put()
     def get(self):
         checkLogin(self)
         # Getting bids from the Db
         bidsModelObj = []
-        modelBids = user.getCurrentUser(users.get_current_user()).bids
+        modelBids = user.getTheUser(users.get_current_user()).bids
         #TODO add the new fields
         for modelBid in modelBids:
             bidModelObj = {}
@@ -177,7 +177,7 @@ class BidsRest(webapp.RequestHandler):
         checkLogin(self)
         bidsToDeleteJson = self.request.get(dojoAjaxKey)
         bidsToDeleteObj =  json.loads(bidsToDeleteJson)
-        userBids = user.getCurrentUser(users.get_current_user()).bids
+        userBids = user.getTheUser(users.get_current_user()).bids
         currentBids = {}
         for bid in userBids:
             currentBids[bid.loan.collateral_key] = bid
