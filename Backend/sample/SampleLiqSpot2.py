@@ -3,6 +3,8 @@ from pprint import pprint
 from LiqSpot import LiqEngine
 import datetime
 
+#TODO pilas los fondos de 4157 se van a negativo
+
 eng = LiqEngine()
 
 eng.setParameters(LSSpread = 1, PriorDayRateUsed = 3.5)
@@ -245,7 +247,15 @@ eng.setBids([{'bidType': u'Specified', 'orderType': u'Noncompetitive',
 				'orderTiming': u'Day Trade', 'Aggregate': None,
 				'bidId': u'9:39:48 PM 1104159',
 				'date': datetime.datetime(1900, 1, 1, 21, 39, 48),
-				'assetSubset': u'Loan', 'Participation': 20.0}])
+				'assetSubset': u'Loan', 'Participation': 20.0},
+			{'bidType': u'Specified', 'bidRate': 7.0, 'orderType':
+				u'Competitive', 'loanId': u'201145114',
+				'userId': u'1104158@test.com', 'orderTiming': u'Day Trade',
+				'Aggregate': None,
+				'bidId': u'1104158@test.com 2012-06-06 21:15:55.614542',
+				'date': datetime.datetime(2012, 6, 6, 21, 15, 55, 614542),
+				'assetSubset': u'Loan', 'Participation': 5.0}
+			])
 
 eng.Calc()
 pprint(eng.Data)
