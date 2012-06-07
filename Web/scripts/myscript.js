@@ -83,23 +83,12 @@ function initBidsDialog() {
 		+ "<div id='globalbid' style='margin:auto; text-align: center; width:800px; background-color: #EBF1F6;padding: 5px; border-color: #DBDBDB; border-style: solid; border-width: 5px;'>"
 		+ "&nbsp;&nbsp;&nbsp;&nbsp;Participation %&nbsp;<div id = 'globalParticipationTxBx'></div>&nbsp;&nbsp;"
 		+ "Bid Rate&nbsp;<div id = 'globalBidRateTxBx'></div>" + "&nbsp;&nbsp;&nbsp;&nbsp;"
-		+ "<div id='ordertype'></div>"
 		+ "<button dojoType='dijit.form.Button' id='submitBids' onClick='submitBidsClick'>Place bids</button>"
 		+ "</div>"
 		+ "</div>"; "</div>";
 	ls.bidDialog.set("content", html);
 	ls.bidDialog.set("title", 'Place Bids');
 	genericCreateCheckbox('globalbidChkBx', 'Apply to All', 'globalbid', 'first', function(value) {
-		var grid = dijit.byId("bidGrid");
-		if(value) {
-			applyGlobalBid();
-			for(var row = 0; row < grid.rowCount; row++) {
-				grid.selection.setSelected(row, true);
-			}
-		} else
-			grid.selection.clear();
-	});
-	genericCreateCheckbox('ordertypeChkBx', 'Competitive', 'ordertype', 'first', function(value) {
 		var grid = dijit.byId("bidGrid");
 		if(value) {
 			applyGlobalBid();
