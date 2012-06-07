@@ -5,8 +5,9 @@ from google.appengine.ext.webapp.util import run_wsgi_app
 from django.utils import simplejson as json
 import StringIO, csv, random, logging
 from datetime import datetime, timedelta, date
-from ls.model import user, bid
+from ls.model import user, bid 
 from ls.model.bid import Bid
+from ls.model.user import PageAllowed
 from model import loansModel
 from calc import calc
 
@@ -59,6 +60,7 @@ def checkLogin(requestHandler):
     requestHandler.response.headers['Expires'] = '-1'
 
 class Home(webapp.RequestHandler):
+    @PageAllowed(['Admin', 'Broker'])
     def get(self):
         checkLogin(self)
         page = Page.HOME
@@ -67,6 +69,7 @@ class Home(webapp.RequestHandler):
         self.response.out.write(template.render("templates/home.html",parameters))
 
 class Search(webapp.RequestHandler):
+    @PageAllowed(['Admin', 'Broker'])
     def get(self):
         checkLogin(self)
         page = Page.SEARCH
@@ -75,6 +78,7 @@ class Search(webapp.RequestHandler):
         self.response.out.write(template.render("templates/search.html",parameters))
 
 class Calc(webapp.RequestHandler):
+    @PageAllowed(['Admin'])
     def get(self):
         checkLogin(self)
         page = Page.CALC
@@ -87,6 +91,7 @@ class Calc(webapp.RequestHandler):
         self.response.out.write(template.render("templates/results.html",parameters))
 
 class MyBids(webapp.RequestHandler):
+    @PageAllowed(['Admin', 'Broker'])
     def get(self):
         checkLogin(self) 
         page = Page.MYBIDS

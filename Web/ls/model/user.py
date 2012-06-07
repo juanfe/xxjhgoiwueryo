@@ -6,7 +6,9 @@ Created on Feb 21, 2012
 '''
 
 from google.appengine.ext import db, webapp
+from google.appengine.ext.webapp import template
 from google.appengine.api import users
+import functools
 
 class User(db.Model):
     account = db.UserProperty(required='true', indexed='false', auto_current_user=True)
@@ -38,6 +40,23 @@ def getGroup():
 		return None
 	else:
 		return w.group
+
+def PageAllowed(groups):
+	class _PageAllowed(object):
+		def __init__(self, func):
+			self.func = func
+
+		def __get__(self, obj, type = None):
+			self._obj = obj
+			return functools.partial(self, obj)	
+
+		def __call__(self, *args, **kw):
+			g = getGroup()
+			if g in groups: 
+				self.func(*args, **kw)
+			else:
+				self._obj.response.out.write(template.render("templates/notallowed.html",[]))
+	return _PageAllowed 
 
 class UserInstance(webapp.RequestHandler):
     def get(self):
