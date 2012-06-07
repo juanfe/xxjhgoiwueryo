@@ -63,6 +63,7 @@ class Home(webapp.RequestHandler):
         checkLogin(self)
         page = Page.HOME
         parameters = getPageDict(page)
+        parameters['User'] = user.getCurrentUser()
         self.response.out.write(template.render("templates/home.html",parameters))
 
 class Search(webapp.RequestHandler):
@@ -70,6 +71,7 @@ class Search(webapp.RequestHandler):
         checkLogin(self)
         page = Page.SEARCH
         parameters = getPageDict(page)
+        parameters['User'] = user.getCurrentUser()
         self.response.out.write(template.render("templates/search.html",parameters))
 
 class Calc(webapp.RequestHandler):
@@ -77,6 +79,7 @@ class Calc(webapp.RequestHandler):
         checkLogin(self)
         page = Page.CALC
         parameters = getPageDict(page)
+        parameters['User'] = user.getCurrentUser()
         c = calc()
         if c.has_key('loans') and c.has_key('bids'):
             parameters['loans'] = c['loans']
@@ -88,6 +91,7 @@ class MyBids(webapp.RequestHandler):
         checkLogin(self) 
         page = Page.MYBIDS
         parameters = getPageDict(page)
+        parameters['User'] = user.getCurrentUser()
         self.response.out.write(template.render("templates/mybids.html",parameters))
 
 #Retrieving the current logged user
