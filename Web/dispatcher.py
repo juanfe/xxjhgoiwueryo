@@ -140,6 +140,8 @@ class BidsRest(webapp.RequestHandler):
         # Getting the bids for the current user
         userBids = dbUser.bids
         currentBids = {}
+		#TODO if the user is an admin, then add all the bids
+		#TODO if the user is a MO, the add the users for the MO
         for bid in userBids:
             currentBids[bid.loan.collateral_key] = bid
         currentBidsKeys = currentBids.keys()
