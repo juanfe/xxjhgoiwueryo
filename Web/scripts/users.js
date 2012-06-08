@@ -120,7 +120,7 @@ dojo.ready(function () {
 //   messages (optional) : is an object with properties as possible
 //     values of the cells with the corresponding message, to be
 //     shown in the tooltip, as value.
-ls.addGridTooltip = function(parameters) {
+/*ls.addGridTooltip = function(parameters) {
 	function notEmptySameType(variable, type) {
 		var typeByName = typeof type === 'string';
 		if (typeByName) {
@@ -213,9 +213,9 @@ ls.addGridTooltip = function(parameters) {
 			}  
 		}
 	}
-};
+};*/
 
-function cleanBidsClick(){
+/*function cleanBidsClick(){
 	var selectedBids = ls.grid.selection.getSelected();
 	var bids = {};
 	for (var i=0; i< selectedBids.length; i++){
@@ -245,5 +245,5 @@ function cleanBidsClick(){
 			alert("An unexpected error occurred: " + error);
 		}
 	);
-}
+}*/
 
