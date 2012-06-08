@@ -225,7 +225,7 @@ function cleanBidsClick(){
 		};
 	}
 	var xhrArgs = {
-        url: "/bids",
+        url: "/users",
         content: {'bids':dojo.toJson(bids)},
         handleAs: "json",
         load: function(data) {
