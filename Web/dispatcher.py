@@ -7,6 +7,7 @@ import StringIO, csv, random, logging
 from datetime import datetime, timedelta, date
 from ls.model import user, bid 
 from ls.model.bid import Bid
+from ls.model.user import User 
 from ls.model.user import PageAllowed, getGroup
 from model import loansModel
 from calc import calc
@@ -191,7 +192,13 @@ class BidsRest(webapp.RequestHandler):
         #TODO add the new fields
         for modelBid in modelBids:
             bidModelObj = {}
+            #FIXME if there are no necesarilly collateral_key 
+            #CHECK the next line
+            #if modelBid.loan == None: #or the next line
+            #if modelBid.loan:
             bidModelObj['collateral_key'] = modelBid.loan.collateral_key
+            #else:
+            #    bidModelObj['collateral_key'] = "" 
             bidModelObj['participation'] = modelBid.participation
             bidModelObj['bidrate'] = modelBid.bidrate
             bidModelObj['status'] = modelBid.status
@@ -276,24 +283,20 @@ class UsersRest(webapp.RequestHandler):
     def get(self):
         checkLogin(self)
         # Getting bids from the Db
-        bidsModelObj = []
-        modelBids = user.getTheUser(users.get_current_user()).bids
-        #TODO add the new fields
-        for modelBid in modelBids:
-            bidModelObj = {}
-            bidModelObj['collateral_key'] = modelBid.loan.collateral_key
-            bidModelObj['participation'] = modelBid.participation
-            bidModelObj['bidrate'] = modelBid.bidrate
-            bidModelObj['status'] = modelBid.status
-            bidModelObj['createdAt'] = modelBid.createdAt.strftime('%Y/%m/%d %H:%M:%S')
-            bidModelObj['expiresAt'] = modelBid.expiresAt.strftime('%Y/%m/%d %H:%M:%S')
-            bidsModelObj.append(bidModelObj)
+        usersModelObj = []
+        modelUsers = Bid.all()#User.all() #Bid.all()
+        for modelUser in modelUsers:
+            userModelObj = {}
+            #userModelObj['fundsAvailable'] = modelUser.fundsAvailable
+            userModelObj['collateral_key'] = "" #modelUser.loan.collateral_key
+            userModelObj['participation'] = modelUser.participation
+            usersModelObj.append(userModelObj)
         # Wrapping and sending
         itemsWrapper = {}
-        itemsWrapper['items'] = bidsModelObj
-        bidsToSendJson = json.dumps(itemsWrapper)
+        itemsWrapper['items'] = usersModelObj
+        usersToSendJson = json.dumps(itemsWrapper)
         self.response.headers['Content-Type'] = 'application/json'
-        self.response.out.write(bidsToSendJson)
+        self.response.out.write(usersToSendJson)
     #def delete(self):
     #    checkLogin(self)
     #    bidsToDeleteJson = self.request.get(dojoAjaxKey)
@@ -308,7 +311,6 @@ class UsersRest(webapp.RequestHandler):
     #        if(key in currentBidsKeys):
     #            currentBids.pop(key).delete()
     #            currentBidsKeys = currentBids.keys()
-
 
 class jsonLoans(webapp.RequestHandler):
     def get(self):
