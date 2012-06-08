@@ -23,11 +23,11 @@ class Page:
 class HomePage:
     url = "'/home'"
     text = 'Home'
-    groups = ['Admin', 'MO', 'Broker', 'Engine']
+    groups = ['Admin', 'MO', 'Broker', 'Engine', 'Guest']
 class SearchPage:
     url = "'/search'"
     text = 'Search loans'
-    groups = ['Admin', 'MO', 'Broker']
+    groups = ['Admin', 'MO', 'Broker', 'Guest']
 class CalcPage:
     url = "'/calc'"
     text = 'Calculate'
@@ -39,9 +39,9 @@ class MyBidsPage:
 class LogoutPage:
     url = "'/logout'"
     text = 'Logout'
-    groups = ['Admin', 'MO', 'Broker', 'Engine']
+    groups = ['Admin', 'MO', 'Broker', 'Engine', 'Guest']
 class UsersPage:
-    url = "'/users'"
+    url = "'/manusers'"
     text = 'Users'
     groups = ['Admin']
 def getMenuPages(page):
