@@ -8,10 +8,10 @@ function createGrid(dataStore) {
     var fields = {
         collateral: 'collateral_key',
         participation: 'participation',
-        bidRate: 'bidrate',
-        status: 'status',
-        creation: 'createdAt',
-        expiration: 'expiresAt'
+        //bidRate: 'bidrate',
+        //status: 'status',
+        //creation: 'createdAt',
+        //expiration: 'expiresAt'
     };
     // set the layout structure:
     var layout = 
@@ -35,7 +35,7 @@ function createGrid(dataStore) {
                 formatter: function(item){
                     return dojo.number.format(item,{pattern: "#0.0"});
                 }
-            }, {
+            }/*, {
                 name: label(fields.bidRate),
                 field: fields.bidRate,
                 datatype: 'number',
@@ -60,7 +60,7 @@ function createGrid(dataStore) {
                 dataTypeArgs: {
                     datePattern: "yyyy/M/d H:m:s"
                 }
-            }
+            }*/
         ]
     };
 
@@ -72,7 +72,7 @@ function createGrid(dataStore) {
         structure : layout,
         plugins: {
             filter: {
-                itemsName: 'bids'
+                itemsName: 'users'
             }
         }
     }, document.createElement('div'));
