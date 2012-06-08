@@ -1,0 +1,35 @@
+{% extends "header_footer.html" %}
+{% block stylesheets %}
+	<link rel="stylesheet" type="text/css"
+		href="http://ajax.googleapis.com/ajax/libs/dojo/1.6.0/dojox/grid/enhanced/resources/claro/EnhancedGrid.css" />
+	<link rel="stylesheet" type="text/css"
+		href="http://ajax.googleapis.com/ajax/libs/dojo/1.6.0/dojox/grid/enhanced/resources/EnhancedGrid_rtl.css" />
+{% endblock stylesheets%}
+{% block dojoConfig %}
+	{{ block.super }}
+	<script>
+		dojoConfig.addToRequire([
+			"ls.FieldLabel",
+			"dojo.data.ItemFileReadStore",
+			"dojo.number",
+			"dojox.grid.EnhancedGrid",
+			"dojox.grid.enhanced.plugins.Filter",
+			"dijit.form.Button",
+			"dijit.TitlePane",
+			"dijit.Tooltip"
+		]).addProperties({
+			dojoBlankHtmlUrl: 'templates/blank.html',
+			baseUrl: 'scripts/',
+            modulePaths: {ls: 'ls'}
+		});
+	</script>
+{% endblock dojoConfig %}
+{# block scripts %}
+	<script type="text/javascript" src="scripts/users.js"></script>
+{% endblock scripts #}
+{% block menuAnchors %}
+	<!-- a href="javascript:cleanBidsClick()">Remove selected bids</a>&nbsp;&nbsp;&nbsp;-->
+{% endblock menuAnchors %}
+{% block content %}
+	<div id="grid"></div>
+{% endblock content %}
