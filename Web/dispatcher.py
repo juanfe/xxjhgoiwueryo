@@ -217,6 +217,96 @@ class BidsRest(webapp.RequestHandler):
                 currentBids.pop(key).delete()
                 currentBidsKeys = currentBids.keys()
 
+#Storage of the dojo bids json
+dojoAjaxKey = 'bids'
+class UsersRest(webapp.RequestHandler):
+    def post(self):
+        checkLogin(self)
+        bidsToAddJson = self.request.get(dojoAjaxKey)
+        bidsToAddObj =  json.loads(bidsToAddJson)
+        # Adding the bid model objects
+        dbUser = user.getTheUser(users.get_current_user())
+        # Getting the bids for the current user
+        userBids = dbUser.bids
+        currentBids = {}
+        for bid in userBids:
+            currentBids[bid.loan.collateral_key] = bid
+        currentBidsKeys = currentBids.keys()
+        # Adding or updating the bids
+        statusChoices = Bid.status.choices
+        creationTime = datetime.now()
+        expirationTime = creationTime + timedelta(hours=2)
+        for key, value in bidsToAddObj.iteritems():
+            # Getting user input values
+            participation = float(value['participation'])
+            bidrate = float(value['bidrate'])
+            # Checking if there is a bid for a given collateral key
+            if (key in currentBidsKeys):
+                bid = currentBids[key]
+                bid.participation = participation
+                bid.bidrate = bidrate
+                bid.put()
+            else:
+                loanQuery = loansModel.loansModel.all().filter('collateral_key =', key)
+                loan = loanQuery.get()
+                #TODO check why the status is random?
+                #status = random.choice(statusChoices)
+                status = 'Active'
+                Bid(parent = dbUser,
+                          user = dbUser,
+                          loan = loan,
+                          participation = participation,
+                          bidrate = bidrate,
+                          #TODO add the posibility of get a None value in
+                          # bidrate, it is in the myscript.js
+                          ordertype = 'Competitive' if bidrate != None else 'Noncompetitive',
+                          status = status,
+                          createdAt = creationTime,
+                          expiresAt = expirationTime,
+                          #Added to agree with the LiqSpop engine
+                          #TODO is better to put it on the web
+                          bidtype = 'Specified',
+                          lorm = 'Loan',
+                          ordertiming = 'Day Trade',
+                          key_name = "%s %s"%(user.getCurrentUser(), creationTime),
+                          ).put()
+    def get(self):
+        checkLogin(self)
+        # Getting bids from the Db
+        bidsModelObj = []
+        modelBids = user.getTheUser(users.get_current_user()).bids
+        #TODO add the new fields
+        for modelBid in modelBids:
+            bidModelObj = {}
+            bidModelObj['collateral_key'] = modelBid.loan.collateral_key
+            bidModelObj['participation'] = modelBid.participation
+            bidModelObj['bidrate'] = modelBid.bidrate
+            bidModelObj['status'] = modelBid.status
+            bidModelObj['createdAt'] = modelBid.createdAt.strftime('%Y/%m/%d %H:%M:%S')
+            bidModelObj['expiresAt'] = modelBid.expiresAt.strftime('%Y/%m/%d %H:%M:%S')
+            bidsModelObj.append(bidModelObj)
+        # Wrapping and sending
+        itemsWrapper = {}
+        itemsWrapper['items'] = bidsModelObj
+        bidsToSendJson = json.dumps(itemsWrapper)
+        self.response.headers['Content-Type'] = 'application/json'
+        self.response.out.write(bidsToSendJson)
+    def delete(self):
+        checkLogin(self)
+        bidsToDeleteJson = self.request.get(dojoAjaxKey)
+        bidsToDeleteObj =  json.loads(bidsToDeleteJson)
+        userBids = user.getTheUser(users.get_current_user()).bids
+        currentBids = {}
+        for bid in userBids:
+            currentBids[bid.loan.collateral_key] = bid
+        currentBidsKeys = currentBids.keys()            
+        # Deleting bid model
+        for key in bidsToDeleteObj.iterkeys():
+            if(key in currentBidsKeys):
+                currentBids.pop(key).delete()
+                currentBidsKeys = currentBids.keys()
+
+
 class jsonLoans(webapp.RequestHandler):
     def get(self):
         checkLogin(self)
@@ -374,12 +464,15 @@ class BidWindow():
        
 #################################################################
 
+#TODO add groups grand to the urls
 application = webapp.WSGIApplication(
                                      [('/mybids', MyBids),
                                       ('/bidWindow/bids', BidWindow.Bids),
                                       ('/bidWindow/loans', BidWindow.Loans),
                                       ('/bidWindow/users', BidWindow.Users),
                                       ('/bids', BidsRest),
+                                      ('/users', UsersRest),
+                                      ('/manusers', ManUsers),
                                       ('/home', Home),
                                       ('/logout', Logout),
                                       ('/search', Search),
