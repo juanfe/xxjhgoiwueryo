@@ -65,7 +65,7 @@ function createGrid(dataStore) {
     };
 
     ls.grid = new dojox.grid.EnhancedGrid({
-        query: {'collateral_key':'*'},
+        //query: {'collateral_key':'*'},
         store : dataStore,
         clientSort : true,
         rowSelector : '20px',
@@ -101,9 +101,9 @@ dojo.ready(function () {
 			'Cancelled' : 'The bid was cancelled by the user'
 		}
 	});
-	ls.dataStore.fetch({
+	/*ls.dataStore.fetch({
 		query: {'collateral_key':'*'}
-	});
+	});*/
 });
 
 
