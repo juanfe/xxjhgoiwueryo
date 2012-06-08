@@ -18,6 +18,7 @@ class Page:
     CALC = 3
     MYBIDS = 4
     LOGOUT = 5
+    USERS = 6
     
 class HomePage:
     url = "'/home'"
@@ -34,13 +35,17 @@ class MyBidsPage:
 class LogoutPage:
     url = "'/logout'"
     text = 'Logout'
+class UsersPage:
+	url = "'/users'"
+	text = 'Users'
 def getMenuPages(page):
     enumRegister = {
         Page.HOME : HomePage,
         Page.SEARCH : SearchPage,
         Page.MYBIDS : MyBidsPage,
         Page.CALC : CalcPage,
-        Page.LOGOUT : LogoutPage
+        Page.LOGOUT : LogoutPage,
+		Page.USERS : UsersPage
     }
     menuPages = []
     for key,val in enumRegister.iteritems():
@@ -60,7 +65,7 @@ def checkLogin(requestHandler):
     requestHandler.response.headers['Expires'] = '-1'
 
 class Home(webapp.RequestHandler):
-    @PageAllowed(['Admin', 'Broker'])
+    @PageAllowed(['Admin', 'Broker', 'MO', ])
     def get(self):
         checkLogin(self)
         page = Page.HOME
@@ -78,7 +83,7 @@ class Search(webapp.RequestHandler):
         self.response.out.write(template.render("templates/search.html",parameters))
 
 class Calc(webapp.RequestHandler):
-    @PageAllowed(['Admin'])
+    @PageAllowed(['Admin', 'Engine'])
     def get(self):
         checkLogin(self)
         page = Page.CALC
@@ -98,6 +103,15 @@ class MyBids(webapp.RequestHandler):
         parameters = getPageDict(page)
         parameters['User'] = user.getCurrentUser()
         self.response.out.write(template.render("templates/mybids.html",parameters))
+
+class Users(webapp.RequestHandler):
+    @PageAllowed(['Admin'])
+    def get(self):
+        checkLogin(self)
+        page = Page.USERS
+        parameters = getPageDict(page)
+        parameters['User'] = user.getCurrentUser()
+        self.response.out.write(template.render("templates/users.html",parameters))
 
 #Retrieving the current logged user
 def getUser():
