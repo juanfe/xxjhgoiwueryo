@@ -7,7 +7,7 @@ import StringIO, csv, random, logging
 from datetime import datetime, timedelta, date
 from ls.model import user, bid 
 from ls.model.bid import Bid
-from ls.model.user import PageAllowed
+from ls.model.user import PageAllowed, getGroup
 from model import loansModel
 from calc import calc
 
@@ -23,21 +23,27 @@ class Page:
 class HomePage:
     url = "'/home'"
     text = 'Home'
+    groups = ['Admin', 'MO', 'Broker', 'Engine']
 class SearchPage:
     url = "'/search'"
     text = 'Search loans'
+    groups = ['Admin', 'MO', 'Broker']
 class CalcPage:
     url = "'/calc'"
     text = 'Calculate'
+    groups = ['Admin', 'Engine']
 class MyBidsPage:
     url = "'/mybids'"
     text = 'My bids'
+    groups = ['Admin', 'MO', 'Broker']
 class LogoutPage:
     url = "'/logout'"
     text = 'Logout'
+    groups = ['Admin', 'MO', 'Broker', 'Engine']
 class UsersPage:
-	url = "'/users'"
-	text = 'Users'
+    url = "'/users'"
+    text = 'Users'
+    groups = ['Admin']
 def getMenuPages(page):
     enumRegister = {
         Page.HOME : HomePage,
@@ -49,7 +55,7 @@ def getMenuPages(page):
     }
     menuPages = []
     for key,val in enumRegister.iteritems():
-        if key != page:
+        if key != page and getGroup() in val.groups:
             menuPages.append(val)
     return menuPages
 def getPageDict(page):
