@@ -282,14 +282,13 @@ class UsersRest(webapp.RequestHandler):
 
     def get(self):
         checkLogin(self)
-        # Getting bids from the Db
+        # Getting Users from the Db
         usersModelObj = []
-        modelUsers = Bid.all()#User.all() #Bid.all()
+        modelUsers = User.all()
         for modelUser in modelUsers:
             userModelObj = {}
-            #userModelObj['fundsAvailable'] = modelUser.fundsAvailable
-            userModelObj['collateral_key'] = "" #modelUser.loan.collateral_key
-            userModelObj['participation'] = modelUser.participation
+            userModelObj['fundsAvailable'] = modelUser.fundsAvailable
+            userModelObj['group'] = modelUser.group
             usersModelObj.append(userModelObj)
         # Wrapping and sending
         itemsWrapper = {}
