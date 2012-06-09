@@ -52,7 +52,7 @@ def getMenuPages(page):
         Page.MYBIDS : MyBidsPage,
         Page.CALC : CalcPage,
         Page.LOGOUT : LogoutPage,
-		Page.USERS : UsersPage
+        Page.USERS : UsersPage
     }
     menuPages = []
     for key,val in enumRegister.iteritems():
@@ -141,8 +141,8 @@ class BidsRest(webapp.RequestHandler):
         # Getting the bids for the current user
         userBids = dbUser.bids
         currentBids = {}
-		#TODO if the user is an admin, then add all the bids
-		#TODO if the user is a MO, the add the users for the MO
+        #TODO if the user is an admin, then add all the bids
+        #TODO if the user is a MO, the add the users for the MO
         for bid in userBids:
             currentBids[bid.loan.collateral_key] = bid
         currentBidsKeys = currentBids.keys()
