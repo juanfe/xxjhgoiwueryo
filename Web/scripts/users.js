@@ -29,9 +29,9 @@ function createGrid(dataStore) {
                 name: label(fields.fundsAvailable),
                 field: fields.fundsAvailable,
                 datatype: 'number',
-                formatter: function(item){
+                /*formatter: function(item){
                     return dojo.number.format(item,{pattern: "#0.0"});
-                }
+                }*/
             },{
                 name: label(fields.group),
                 field: fields.group,
