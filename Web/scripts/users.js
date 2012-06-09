@@ -6,12 +6,9 @@ function createGrid(dataStore) {
         return ls.FieldLabel.label(field);
     };
     var fields = {
-        collateral: 'collateral_key',
-        participation: 'participation',
-        //bidRate: 'bidrate',
-        //status: 'status',
-        //creation: 'createdAt',
-        //expiration: 'expiresAt'
+        account: 'account',
+        fundsAvailable: 'fundsAvailable',
+        group: 'group'
     };
     // set the layout structure:
     var layout = 
@@ -25,42 +22,21 @@ function createGrid(dataStore) {
         cells: 
         [ 
             {
-                name: label(fields.collateral),
-                field: fields.collateral,
+                name: label(fields.account),
+                field: fields.account,
                 datatype: 'string'
             },{
-                name: label(fields.participation),
-                field: fields.participation,
+                name: label(fields.fundsAvailable),
+                field: fields.fundsAvailable,
                 datatype: 'number',
                 formatter: function(item){
                     return dojo.number.format(item,{pattern: "#0.0"});
                 }
-            }/*, {
-                name: label(fields.bidRate),
-                field: fields.bidRate,
-                datatype: 'number',
-                formatter: function(item){
-                    return dojo.number.format(item,{pattern: "#0.0"});
-                }
-            }, {
-                name: label(fields.status),
-                field: fields.status,
+            },{
+                name: label(fields.group),
+                field: fields.group,
                 datatype: 'string'
-            }, {
-                name: label(fields.creation),
-                field: fields.creation,
-                datatype: 'date',
-                dataTypeArgs: {
-                    datePattern: "yyyy/M/d H:m:s"
-                }
-            }, {
-                name: label(fields.expiration),
-                field: fields.expiration,
-                datatype: 'date',
-                dataTypeArgs: {
-                    datePattern: "yyyy/M/d H:m:s"
-                }
-            }*/
+            }
         ]
     };
 
