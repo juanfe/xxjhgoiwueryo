@@ -77,7 +77,7 @@ class Home(webapp.RequestHandler):
         checkLogin(self)
         page = Page.HOME
         parameters = getPageDict(page)
-        parameters['User'] = user.getCurrentUser()
+        parameters['User'] = "%s %s"%(user.getCurrentUser(), getGroup())
         self.response.out.write(template.render("templates/home.html",parameters))
 
 class Search(webapp.RequestHandler):
@@ -86,7 +86,7 @@ class Search(webapp.RequestHandler):
         checkLogin(self)
         page = Page.SEARCH
         parameters = getPageDict(page)
-        parameters['User'] = user.getCurrentUser()
+        parameters['User'] = "%s %s"%(user.getCurrentUser(), getGroup())
         self.response.out.write(template.render("templates/search.html",parameters))
 
 class Calc(webapp.RequestHandler):
@@ -95,7 +95,7 @@ class Calc(webapp.RequestHandler):
         checkLogin(self)
         page = Page.CALC
         parameters = getPageDict(page)
-        parameters['User'] = user.getCurrentUser()
+        parameters['User'] = "%s %s"%(user.getCurrentUser(), getGroup())
         c = calc()
         if c.has_key('loans') and c.has_key('bids'):
             parameters['loans'] = c['loans']
@@ -108,16 +108,16 @@ class MyBids(webapp.RequestHandler):
         checkLogin(self) 
         page = Page.MYBIDS
         parameters = getPageDict(page)
-        parameters['User'] = user.getCurrentUser()
+        parameters['User'] = "%s %s"%(user.getCurrentUser(), getGroup())
         self.response.out.write(template.render("templates/mybids.html",parameters))
 
-class Users(webapp.RequestHandler):
-    @PageAllowed(['Admin'])
+class ManUsers(webapp.RequestHandler):
+    @PageAllowed(['Admin', 'Broker'])
     def get(self):
         checkLogin(self)
         page = Page.USERS
         parameters = getPageDict(page)
-        parameters['User'] = user.getCurrentUser()
+        parameters['User'] = "%s %s"%(user.getCurrentUser(), getGroup())
         self.response.out.write(template.render("templates/users.html",parameters))
 
 #Retrieving the current logged user
@@ -287,7 +287,10 @@ class UsersRest(webapp.RequestHandler):
         modelUsers = User.all()
         for modelUser in modelUsers:
             userModelObj = {}
-            userModelObj['fundsAvailable'] = modelUser.fundsAvailable
+            #TODO add the field email of the user
+            #userModelObj['account'] = modelUser.account
+            userModelObj['fundsAvailable'] = modelUser.fundsAvailable if \
+                    modelUser.group == 'Broker' else ''
             userModelObj['group'] = modelUser.group
             usersModelObj.append(userModelObj)
         # Wrapping and sending
