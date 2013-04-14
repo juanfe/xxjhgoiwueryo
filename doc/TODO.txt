@@ -1,0 +1,1 @@
+Change to webapp2, django1.4 and switch threadsafe: true in app.yaml 
