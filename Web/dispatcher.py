@@ -60,7 +60,7 @@ def checkLogin(requestHandler):
     requestHandler.response.headers['Expires'] = '-1'
 
 class Home(webapp.RequestHandler):
-    #@PageAllowed(['Admin', 'Broker'])
+    @PageAllowed(['Admin', 'Broker', 'MO'])
     def get(self):
         checkLogin(self)
         page = Page.HOME
@@ -69,7 +69,7 @@ class Home(webapp.RequestHandler):
         self.response.out.write(template.render("templates/home.html",parameters))
 
 class Search(webapp.RequestHandler):
-    #@PageAllowed(['Admin', 'Broker'])
+    @PageAllowed(['Admin', 'Broker', 'MO'])
     def get(self):
         checkLogin(self)
         page = Page.SEARCH
@@ -78,7 +78,7 @@ class Search(webapp.RequestHandler):
         self.response.out.write(template.render("templates/search.html",parameters))
 
 class Calc(webapp.RequestHandler):
-    #@PageAllowed(['Admin'])
+    @PageAllowed(['Admin'])
     def get(self):
         checkLogin(self)
         page = Page.CALC
@@ -91,7 +91,7 @@ class Calc(webapp.RequestHandler):
         self.response.out.write(template.render("templates/results.html",parameters))
 
 class MyBids(webapp.RequestHandler):
-    #@PageAllowed(['Admin', 'Broker'])
+    @PageAllowed(['Admin', 'Broker', 'MO'])
     def get(self):
         checkLogin(self) 
         page = Page.MYBIDS
