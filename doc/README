@@ -1,0 +1,9 @@
+# The work environtment is as follow, you can run this with: $ . ./README
+workon ls_gae1.7.7
+export PYTHONPATH=/home/juanfe/repos/Vichara/google_appengine:/home/juanfe/repos/Vichara/google_appengine/lib/webob_0_9:/home/juanfe/repos/Vichara/google_appengine/lib/yaml-3.10:/home/juanfe/repos/Vichara/google_appengine/lib/django-1.2
+export PATH=$PATH:/home/juanfe/repos/Vichara/google_appengine
+
+#Dont forget to instance the loans, bids and user by:
+#localhost:8080/loansModel
+#localhost:8080/TestUsers
+#localhost:8080/TestBids

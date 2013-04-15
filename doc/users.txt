@@ -1,0 +1,5 @@
+name=john.duhadway@liquidityspot.com     john.duhadway@liquidityspot.com
+name=john@duhadwayllc.com    john@duhadwayllc.com
+name=juajarastar@gmail.com   juajarastar
+name=leonardo.zuniga@gmail.com   leonardo.zuniga
+name=marscamand@gmail.com    marscamand
