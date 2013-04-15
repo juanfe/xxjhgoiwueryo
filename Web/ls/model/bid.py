@@ -62,7 +62,7 @@ class BidsInstance(webapp.RequestHandler):
 				createdAt = datetime.datetime.strptime("3:00:00 PM", "%I:%M:%S %p"),
 				expiresAt = datetime.datetime.strptime("12/15/13 12:53 PM", "%m/%d/%y %I:%M %p"),
 				ordertiming = "Auto",
-				mo = getUser('ABCD'),
+				mo = getUser('ABCD@test.com'),
 				orderAt = datetime.datetime.strptime("12/20/11 8:43 AM", "%m/%d/%y %I:%M %p")
 				).put()
 
@@ -95,7 +95,7 @@ class BidsInstance(webapp.RequestHandler):
 				bidrate = 3.0,
 				createdAt = datetime.datetime.strptime("3:00:00 PM", "%I:%M:%S %p"),
 				expiresAt = datetime.datetime.strptime("12/15/13 12:53 PM", "%m/%d/%y %I:%M %p"),
-				mo = getUser('BCDE'),
+				mo = getUser('BCDE@test.com'),
 				ordertiming = "Auto",
 				orderAt = datetime.datetime.strptime("1/5/12 9:15 AM", "%m/%d/%y %I:%M %p")
 				).put()
@@ -303,7 +303,7 @@ class BidsInstance(webapp.RequestHandler):
 				bidrate = 2.125,
 				createdAt = datetime.datetime.strptime("6:47:00 AM", "%I:%M:%S %p"),
 				expiresAt = datetime.datetime.strptime("12/15/13 12:53 PM", "%m/%d/%y %I:%M %p"),
-				mo = getUser('EFGH'),
+				mo = getUser('EFGH@test.com'),
 				ordertiming = "Day Trade"
 				).put()
 

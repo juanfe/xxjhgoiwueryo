@@ -60,6 +60,19 @@ def PageAllowed(groups):
 
 class UserInstance(webapp.RequestHandler):
     def get(self):
+        User(key_name = "john.duhadway@liquidityspot.com",
+                account = users.User("john.duhadway@liquidityspot.com"),
+                group = 'Broker').put()
+        User(key_name = "john@duhadwayllc.com",
+                account = users.User("john@duhadwayllc.com"),
+                group = 'Broker').put()
+        User(key_name = "marscamand@gmail.com",
+                account = users.User("marscamand@gmail.com"),
+                group = 'Broker').put()
+
+        User(key_name = "juajarastar@gmail.com",
+                account = users.User("juajarastar@gmail.com"),
+                group = 'Admin').put()
         User(key_name = "Admin@test.com",
                 account = users.User("Admin@test.com"),
                 group = 'Admin').put()
@@ -67,16 +80,16 @@ class UserInstance(webapp.RequestHandler):
                 account = users.User("Engine@test.com"),
                 group = 'Engine').put()
 
-        User(key_name = "ABCD",
+        User(key_name = "ABCD@test.com",
                 account = users.User("ABCD@test.com"),
                 group = 'MO').put()
-        User(key_name = "BCDE",
+        User(key_name = "BCDE@test.com",
                 account = users.User("BCDE@test.com"),
                 group = 'MO').put()
-        User(key_name = "EFGH",
+        User(key_name = "EFGH@test.com",
                 account = users.User("EFGH@test.com"),
                 group = 'MO').put()
-        User(key_name = "HIJK",
+        User(key_name = "HIJK@test.com",
                 account = users.User("HIJK@test.com"),
                 group = 'MO').put()
 
