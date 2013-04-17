@@ -10,58 +10,71 @@ from google.appengine.ext.webapp import template
 from google.appengine.api import users
 import functools
 
+
 class User(db.Model):
-    account = db.UserProperty(required='true', indexed='false', auto_current_user=True)
+    account = db.UserProperty(required='true', indexed='false',
+            auto_current_user=True)
     fundsAvailable = db.FloatProperty()
-    group = db.StringProperty(#required = 'true',
+    group = db.StringProperty(  # required = 'true',
             choices = ['Admin', 'MO', 'Broker', 'Engine'])
+
 
 def createUser(currUser):
     userEmail = currUser.email()
     user = User.get_by_key_name(key_names = userEmail)
-    if user is None:        
+    if user is None:
         user = User(key_name = userEmail)
         user.fundsAvailable = 0.0
         user.group = 'Broker'
         user.put()
 
+
 def getTheUser(user):
     return User.get_by_key_name(key_names = user.email())
 
+
 def getUser(key_name):
-	return db.get(db.Key.from_path("User", key_name))
+    return db.get(db.Key.from_path("User", key_name))
+
 
 def getCurrentUser():
     u = users.get_current_user()
-    if u != None:
-	    return u.email()
+    if u:
+        return u.email()
     else:
         return u
-	#return users.get_current_user().email()
+    # return users.get_current_user().email()
+
 
 def getGroup():
-	w = User.get_by_key_name(key_names = getCurrentUser())
-	if w is None:
-		return None
-	else:
-		return w.group
+    w = User.get_by_key_name(key_names = getCurrentUser())
+    if w is None:
+        return None
+    else:
+        return w.group
+
 
 def PageAllowed(groups):
-	class _PageAllowed(object):
-		def __init__(self, func):
-			self.func = func
+    class _PageAllowed(object):
+        def __init__(self, func):
+            self.func = func
 
-		def __get__(self, obj, type = None):
-			self._obj = obj
-			return functools.partial(self, obj)	
+        def __get__(self, obj, type = None):
+            self._obj = obj
+            return functools.partial(self, obj)
 
-		def __call__(self, *args, **kw):
-			g = getGroup()
-			if g in groups: 
-				self.func(*args, **kw)
-			else:
-				self._obj.response.out.write(template.render("templates/notallowed.html",[]))
-	return _PageAllowed 
+        def __call__(self, *args, **kw):
+            g = getGroup()
+            if g in groups:
+                self.func(*args, **kw)
+            else:
+                #self.redirect(users.create_login_url('/'))
+                #self.response.out.write("hola")
+                #self._obj.response.out.write("hola")
+                self._obj.response.out.write(template.render(
+                        "templates/notallowed.html", []))
+    return _PageAllowed
+
 
 class UserInstance(webapp.RequestHandler):
     def get(self):
