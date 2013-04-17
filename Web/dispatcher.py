@@ -51,18 +51,11 @@ def getPageDict(page):
     return {
             'menuPages' : getMenuPages(page)
     }
-#Rendered pages
-def checkLogin(requestHandler):
-    if (not getUser()):
-        requestHandler.redirect('/')
-    requestHandler.response.headers['Cache-Control'] = 'no-store, no-cache'
-    requestHandler.response.headers['Pragma'] = 'no-cache'
-    requestHandler.response.headers['Expires'] = '-1'
+
 
 class Home(webapp.RequestHandler):
     @PageAllowed(['Admin', 'Broker', 'MO'])
     def get(self):
-        checkLogin(self)
         page = Page.HOME
         parameters = getPageDict(page)
         parameters['User'] = user.getCurrentUser()
@@ -71,16 +64,14 @@ class Home(webapp.RequestHandler):
 class Search(webapp.RequestHandler):
     @PageAllowed(['Admin', 'Broker', 'MO'])
     def get(self):
-        checkLogin(self)
         page = Page.SEARCH
         parameters = getPageDict(page)
         parameters['User'] = user.getCurrentUser()
         self.response.out.write(template.render("templates/search.html",parameters))
 
 class Calc(webapp.RequestHandler):
-    @PageAllowed(['Admin'])
+    @PageAllowed(['Admin', 'Engine'])
     def get(self):
-        checkLogin(self)
         page = Page.CALC
         parameters = getPageDict(page)
         parameters['User'] = user.getCurrentUser()
@@ -93,26 +84,16 @@ class Calc(webapp.RequestHandler):
 class MyBids(webapp.RequestHandler):
     @PageAllowed(['Admin', 'Broker', 'MO'])
     def get(self):
-        checkLogin(self) 
         page = Page.MYBIDS
         parameters = getPageDict(page)
         parameters['User'] = user.getCurrentUser()
         self.response.out.write(template.render("templates/mybids.html",parameters))
 
-#Retrieving the current logged user
-def getUser():
-    curr_user = users.get_current_user()
-    if curr_user:
-        user.createUser(curr_user)
-        return curr_user.email()
-    else:
-        return None
 
 #Storage of the dojo bids json
 dojoAjaxKey = 'bids'
 class BidsRest(webapp.RequestHandler):
     def post(self):
-        checkLogin(self)
         bidsToAddJson = self.request.get(dojoAjaxKey)
         bidsToAddObj =  json.loads(bidsToAddJson)
         # Adding the bid model objects
@@ -162,7 +143,6 @@ class BidsRest(webapp.RequestHandler):
                           key_name = "%s %s"%(user.getCurrentUser(), creationTime),
                           ).put()
     def get(self):
-        checkLogin(self)
         # Getting bids from the Db
         bidsModelObj = []
         modelBids = user.getTheUser(users.get_current_user()).bids
@@ -183,7 +163,6 @@ class BidsRest(webapp.RequestHandler):
         self.response.headers['Content-Type'] = 'application/json'
         self.response.out.write(bidsToSendJson)
     def delete(self):
-        checkLogin(self)
         bidsToDeleteJson = self.request.get(dojoAjaxKey)
         bidsToDeleteObj =  json.loads(bidsToDeleteJson)
         userBids = user.getTheUser(users.get_current_user()).bids
@@ -199,7 +178,6 @@ class BidsRest(webapp.RequestHandler):
 
 class jsonLoans(webapp.RequestHandler):
     def get(self):
-        checkLogin(self)
         bidsToSendJson = memcache.get("bidsToSendJson")
         if bidsToSendJson is None:
             bidsToSendJson = self.generateLoans()
@@ -231,13 +209,11 @@ class jsonLoans(webapp.RequestHandler):
         itemsWrapper = {}
         itemsWrapper['items'] = loanJsonObj
         return json.dumps(itemsWrapper)
+
 class Login(webapp.RequestHandler):
+    @PageAllowed(['Admin', 'Broker', 'MO'])
     def get(self):
-        user = getUser()
-        if user:
-            self.redirect('/home')
-        else:
-            self.redirect(users.create_login_url('/'))
+        self.redirect('/home')
 
 class Logout(webapp.RequestHandler):
     def get(self):
@@ -255,7 +231,6 @@ def jsonToCsv(jsonStr):
     
 class Download(webapp.RequestHandler):
     def post(self):
-        checkLogin(self)
         self.response.headers['Content-Type'] = 'application/octet-stream'
         self.response.headers['Content-Disposition'] = 'attachment;filename=\"Loans Details.csv\"'
         bidsJson = self.request.get(dojoAjaxKey)
