@@ -70,12 +70,11 @@ def PageAllowed(groups):
             g = getGroup()
             if g in groups:
                 self.func(*args, **kw)
-            else:
-                #self.redirect(users.create_login_url('/'))
-                #self.response.out.write("hola")
-                #self._obj.response.out.write("hola")
+            elif g:
                 self._obj.response.out.write(template.render(
                         "templates/notallowed.html", []))
+            else:
+                self._obj.redirect(users.create_login_url('/'))
     return _PageAllowed
 
 
