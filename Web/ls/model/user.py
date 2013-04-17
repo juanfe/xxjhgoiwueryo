@@ -43,15 +43,18 @@ def getCurrentUser():
         return u.email()
     else:
         return u
-    # return users.get_current_user().email()
 
 
 def getGroup():
-    w = User.get_by_key_name(key_names = getCurrentUser())
-    if w is None:
-        return None
+    u = getCurrentUser()
+    if u:
+        w = User.get_by_key_name(key_names = u)
+        if w:
+            return w.group
+        else:
+            return w
     else:
-        return w.group
+        return u
 
 
 def PageAllowed(groups):
