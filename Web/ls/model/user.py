@@ -32,7 +32,12 @@ def getUser(key_name):
 	return db.get(db.Key.from_path("User", key_name))
 
 def getCurrentUser():
-	return users.get_current_user().email()
+    u = users.get_current_user()
+    if u != None:
+	    return u.email()
+    else:
+        return u
+	#return users.get_current_user().email()
 
 def getGroup():
 	w = User.get_by_key_name(key_names = getCurrentUser())
