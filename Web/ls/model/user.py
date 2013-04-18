@@ -16,7 +16,7 @@ class User(db.Model):
             auto_current_user=True)
     fundsAvailable = db.FloatProperty()
     group = db.StringProperty(  # required = 'true',
-            choices = ['Admin', 'MO', 'Broker', 'Engine'])
+            choices = ['Admin', 'MO', 'Broker', 'Engine', 'Guest'])
 
 
 def createUser(currUser):

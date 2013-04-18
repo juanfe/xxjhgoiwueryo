@@ -7,7 +7,8 @@ import StringIO, csv, random, logging
 from datetime import datetime, timedelta, date
 from ls.model import user, bid 
 from ls.model.bid import Bid
-from ls.model.user import PageAllowed
+from ls.model.user import User 
+from ls.model.user import PageAllowed, getGroup
 from model import loansModel
 from calc import calc
 
@@ -18,33 +19,44 @@ class Page:
     CALC = 3
     MYBIDS = 4
     LOGOUT = 5
+    USERS = 6
     
 class HomePage:
     url = "/home"
     text = 'Home'
+    groups = ['Admin', 'MO', 'Broker', 'Engine', 'Guest']
 class SearchPage:
     url = "/search"
     text = 'Search loans'
+    groups = ['Admin', 'MO', 'Broker', 'Guest']
 class CalcPage:
     url = "/calc"
     text = 'Calculate'
+    groups = ['Admin', 'Engine']
 class MyBidsPage:
     url = "/mybids"
     text = 'My bids'
+    groups = ['Admin', 'MO', 'Broker']
 class LogoutPage:
     url = "/logout"
     text = 'Logout'
+    groups = ['Admin', 'MO', 'Broker', 'Engine', 'Guest']
+class UsersPage:
+    url = "'/manusers'"
+    text = 'Users'
+    groups = ['Admin']
 def getMenuPages(page):
     enumRegister = {
         Page.HOME : HomePage,
         Page.SEARCH : SearchPage,
         Page.MYBIDS : MyBidsPage,
         Page.CALC : CalcPage,
-        Page.LOGOUT : LogoutPage
+        Page.LOGOUT : LogoutPage,
+        Page.USERS : UsersPage
     }
     menuPages = []
     for key,val in enumRegister.iteritems():
-        if key != page:
+        if key != page and getGroup() in val.groups:
             menuPages.append(val)
     return menuPages
 def getPageDict(page):
@@ -54,11 +66,11 @@ def getPageDict(page):
 
 
 class Home(webapp.RequestHandler):
-    @PageAllowed(['Admin', 'Broker', 'MO'])
+    @PageAllowed(['Admin', 'Broker', 'MO', ])
     def get(self):
         page = Page.HOME
         parameters = getPageDict(page)
-        parameters['User'] = user.getCurrentUser()
+        parameters['User'] = "%s %s"%(user.getCurrentUser(), getGroup())
         self.response.out.write(template.render("templates/home.html",parameters))
 
 class Search(webapp.RequestHandler):
@@ -66,7 +78,7 @@ class Search(webapp.RequestHandler):
     def get(self):
         page = Page.SEARCH
         parameters = getPageDict(page)
-        parameters['User'] = user.getCurrentUser()
+        parameters['User'] = "%s %s"%(user.getCurrentUser(), getGroup())
         self.response.out.write(template.render("templates/search.html",parameters))
 
 class Calc(webapp.RequestHandler):
@@ -74,7 +86,7 @@ class Calc(webapp.RequestHandler):
     def get(self):
         page = Page.CALC
         parameters = getPageDict(page)
-        parameters['User'] = user.getCurrentUser()
+        parameters['User'] = "%s %s"%(user.getCurrentUser(), getGroup())
         c = calc()
         if c.has_key('loans') and c.has_key('bids'):
             parameters['loans'] = c['loans']
@@ -86,8 +98,17 @@ class MyBids(webapp.RequestHandler):
     def get(self):
         page = Page.MYBIDS
         parameters = getPageDict(page)
-        parameters['User'] = user.getCurrentUser()
+        parameters['User'] = "%s %s"%(user.getCurrentUser(), getGroup())
         self.response.out.write(template.render("templates/mybids.html",parameters))
+
+class ManUsers(webapp.RequestHandler):
+    @PageAllowed(['Admin', 'Broker'])
+    def get(self):
+        checkLogin(self)
+        page = Page.USERS
+        parameters = getPageDict(page)
+        parameters['User'] = "%s %s"%(user.getCurrentUser(), getGroup())
+        self.response.out.write(template.render("templates/users.html",parameters))
 
 
 #Storage of the dojo bids json
@@ -101,6 +122,8 @@ class BidsRest(webapp.RequestHandler):
         # Getting the bids for the current user
         userBids = dbUser.bids
         currentBids = {}
+        #TODO if the user is an admin, then add all the bids
+        #TODO if the user is a MO, the add the users for the MO
         for bid in userBids:
             currentBids[bid.loan.collateral_key] = bid
         currentBidsKeys = currentBids.keys()
@@ -149,7 +172,13 @@ class BidsRest(webapp.RequestHandler):
         #TODO add the new fields
         for modelBid in modelBids:
             bidModelObj = {}
+            #FIXME if there are no necesarilly collateral_key 
+            #CHECK the next line
+            #if modelBid.loan == None: #or the next line
+            #if modelBid.loan:
             bidModelObj['collateral_key'] = modelBid.loan.collateral_key
+            #else:
+            #    bidModelObj['collateral_key'] = "" 
             bidModelObj['participation'] = modelBid.participation
             bidModelObj['bidrate'] = modelBid.bidrate
             bidModelObj['status'] = modelBid.status
@@ -175,6 +204,94 @@ class BidsRest(webapp.RequestHandler):
             if(key in currentBidsKeys):
                 currentBids.pop(key).delete()
                 currentBidsKeys = currentBids.keys()
+
+#Storage of the dojo bids json
+dojoAjaxKey = 'bids'
+class UsersRest(webapp.RequestHandler):
+    #def post(self):
+    #    checkLogin(self)
+    #    usersToAddJson = self.request.get(dojoAjaxKey)
+    #    usersToAddObj =  json.loads(usersToAddJson)
+    #    # Adding the bid model objects
+    #    ##dbUser = user.getTheUser(users.get_current_user())
+    #    # Getting the bids for the current user
+    #    userBids = dbUser.bids
+    #    currentBids = {}
+    #    for bid in userBids:
+    #        currentBids[bid.loan.collateral_key] = bid
+    #    currentBidsKeys = currentBids.keys()
+    #    # Adding or updating the bids
+    #    statusChoices = Bid.status.choices
+    #    creationTime = datetime.now()
+    #    expirationTime = creationTime + timedelta(hours=2)
+    #    for key, value in usersToAddObj.iteritems():
+    #        # Getting user input values
+    #        participation = float(value['participation'])
+    #        bidrate = float(value['bidrate'])
+    #        # Checking if there is a bid for a given collateral key
+    #        if (key in currentBidsKeys):
+    #            bid = currentBids[key]
+    #            bid.participation = participation
+    #            bid.bidrate = bidrate
+    #            bid.put()
+    #        else:
+    #            loanQuery = loansModel.loansModel.all().filter('collateral_key =', key)
+    #            loan = loanQuery.get()
+    #            #TODO check why the status is random?
+    #            #status = random.choice(statusChoices)
+    #            status = 'Active'
+    #            Bid(parent = dbUser,
+    #                      user = dbUser,
+    #                      loan = loan,
+    #                      participation = participation,
+    #                      bidrate = bidrate,
+    #                      #TODO add the posibility of get a None value in
+    #                      # bidrate, it is in the myscript.js
+    #                      ordertype = 'Competitive' if bidrate != None else 'Noncompetitive',
+    #                      status = status,
+    #                      createdAt = creationTime,
+    #                      expiresAt = expirationTime,
+    #                      #Added to agree with the LiqSpop engine
+    #                      #TODO is better to put it on the web
+    #                      bidtype = 'Specified',
+    #                      lorm = 'Loan',
+    #                      ordertiming = 'Day Trade',
+    #                      key_name = "%s %s"%(user.getCurrentUser(), creationTime),
+    #                      ).put()
+
+    def get(self):
+        checkLogin(self)
+        # Getting Users from the Db
+        usersModelObj = []
+        modelUsers = User.all()
+        for modelUser in modelUsers:
+            userModelObj = {}
+            #TODO add the field email of the user
+            #userModelObj['account'] = modelUser.account
+            userModelObj['fundsAvailable'] = modelUser.fundsAvailable if \
+                    modelUser.group == 'Broker' else ''
+            userModelObj['group'] = modelUser.group
+            usersModelObj.append(userModelObj)
+        # Wrapping and sending
+        itemsWrapper = {}
+        itemsWrapper['items'] = usersModelObj
+        usersToSendJson = json.dumps(itemsWrapper)
+        self.response.headers['Content-Type'] = 'application/json'
+        self.response.out.write(usersToSendJson)
+    #def delete(self):
+    #    checkLogin(self)
+    #    bidsToDeleteJson = self.request.get(dojoAjaxKey)
+    #    bidsToDeleteObj =  json.loads(bidsToDeleteJson)
+    #    userBids = user.getTheUser(users.get_current_user()).bids
+    #    currentBids = {}
+    #    for bid in userBids:
+    #        currentBids[bid.loan.collateral_key] = bid
+    #    currentBidsKeys = currentBids.keys()            
+    #    # Deleting bid model
+    #    for key in bidsToDeleteObj.iterkeys():
+    #        if(key in currentBidsKeys):
+    #            currentBids.pop(key).delete()
+    #            currentBidsKeys = currentBids.keys()
 
 class jsonLoans(webapp.RequestHandler):
     def get(self):
@@ -329,12 +446,15 @@ class BidWindow():
        
 #################################################################
 
+#TODO add groups grand to the urls
 application = webapp.WSGIApplication(
                                      [('/mybids', MyBids),
                                       ('/bidWindow/bids', BidWindow.Bids),
                                       ('/bidWindow/loans', BidWindow.Loans),
                                       ('/bidWindow/users', BidWindow.Users),
                                       ('/bids', BidsRest),
+                                      ('/users', UsersRest),
+                                      ('/manusers', ManUsers),
                                       ('/home', Home),
                                       ('/logout', Logout),
                                       ('/search', Search),
