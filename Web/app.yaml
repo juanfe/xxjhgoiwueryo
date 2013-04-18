@@ -1,10 +1,14 @@
-application: liquidityspot
-version: 1-0-1
+application: pruegajuajarastar
+version: 1-0-3
 runtime: python27
 api_version: 1
 threadsafe: false
 
 handlers:
+- url: /admin/.*
+  script: $PYTHON_LIB/google/appengine/ext/admin
+  login: admin
+    
 - url: /css
   static_dir: css
   
