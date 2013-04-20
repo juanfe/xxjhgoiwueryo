@@ -185,10 +185,8 @@ class BidsRest(webapp.RequestHandler):
                         bidrate = bidrate,
                         #TODO add the posibility of get a None value in
                         # bidrate, it is in the myscript.js
-                        if bidrate:
-                            ordertype = 'Noncompetitive'
-                        else:
-                            ordertype = 'Competitive'
+                        ordertype = 'Noncompetitive' if bidrate else
+                                'Competitive',
                         status = status,
                         createdAt = creationTime,
                         expiresAt = expirationTime,
