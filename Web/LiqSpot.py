@@ -939,7 +939,7 @@ class LiqEngine:
                         if k == 'Total':
                             self.Data["loans"][l]['fundedAmount'] = al
                         else:
-                            self.Data["users"][self.Bids[k]['userid']]['userid'] =
+                            self.Data["users"][self.Bids[k]['userid']]['userid'] = \
                                     self.Bids[k]['userid']
                             self.Data["users"][self.Bids[k]['userid']]['fundsAvailable'] -= al
                             if abs(self.Data["users"][self.Bids[k]['userid']]['fundsAvailable']) <= 1e-9:
