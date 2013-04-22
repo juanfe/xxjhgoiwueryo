@@ -4,6 +4,8 @@
 # pip install PIL
 # For testing:
 # pip install funkload
+# For follow post use tcpwatch
+# pip install tcpwatch
 workon webtest
 export PYTHONPATH=/home/juanfe/repos/Vichara/google_appengine:/home/juanfe/repos/Vichara/google_appengine/lib/webob_0_9:/home/juanfe/repos/Vichara/google_appengine/lib/yaml-3.10:/home/juanfe/repos/Vichara/google_appengine/lib/django-1.2
 export PATH=$PATH:/home/juanfe/repos/Vichara/google_appengine
