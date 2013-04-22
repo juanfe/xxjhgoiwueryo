@@ -1,8 +1,22 @@
 from funkload.FunkLoadTestCase import FunkLoadTestCase
 
+
 class LS(FunkLoadTestCase):
     def setUp(self):
         self.server_url = self.conf_get('main', 'url')
+
+    def test_get(self):
+        server_url = self.server_url
+        self.get(server_url + "/",
+                description="Get /")
+        self.get(server_url + "/_ah/login?continue=http%3A//localhost%3A8080",
+                params = [["cmd", "bm_loadBookmark"],
+                    ["transId", ""],
+                    ["user", "juanfer"],
+                    ["code", 1]],
+                description="Get /_ah/login")
+        #self.assert_("login" not in self.getLastUrl(), "Error in login")
+        #self.assert_(ret.code in [200, 302, 405], "expecting a 200 or 302 or 405")
 
     def test_ls(self):
         server_url = self.server_url
