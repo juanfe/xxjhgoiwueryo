@@ -207,13 +207,10 @@ class BidsRest(webapp.RequestHandler):
         #TODO add the new fields
         for modelBid in modelBids:
             bidModelObj = {}
-            #FIXME if there are no necesarilly collateral_key
-            #CHECK the next line
-            #if modelBid.loan == None: #or the next line
-            #if modelBid.loan:
-            bidModelObj['collateral_key'] = modelBid.loan.collateral_key
-            #else:
-            #    bidModelObj['collateral_key'] = ""
+            if modelBid.loan:
+                bidModelObj['collateral_key'] = modelBid.loan.collateral_key
+            else:
+                bidModelObj['collateral_key'] = ""
             bidModelObj['participation'] = modelBid.participation
             bidModelObj['bidrate'] = modelBid.bidrate
             bidModelObj['status'] = modelBid.status
