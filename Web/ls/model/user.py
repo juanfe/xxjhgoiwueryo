@@ -30,11 +30,25 @@ def createUser(currUser):
 
 
 # Get the db user, using the system user
+# get the db user from the system user
+# Sample
+# u = users.get_current_user()
+# print (user.getTheUser(u).account)
+# >>> juajarastar
 def getTheUser(user):
-    return User.get_by_key_name(key_names = user.email())
+    if user == None:
+        return user
+    try:
+        email = user.email()
+    except:
+        email = str(user)
+    return User.get_by_key_name(key_names = email)
+    #return User.get_by_key_name(key_names = user.email())
 
 
-# Get the user from the db using the mail = key name
+# Get the db user from the db using the mail = key name
+# Sample: print (user.getUser("1104134@test.com").account)
+# >>> 1104134@test.com
 def getUser(key_name):
     return db.get(db.Key.from_path("User", key_name))
 
