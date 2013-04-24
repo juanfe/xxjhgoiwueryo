@@ -25,18 +25,21 @@ def createUser(currUser):
     if user is None:
         user = User(key_name = userEmail)
         user.fundsAvailable = 0.0
-        user.group = 'Broker'
+        user.group = 'Guest'
         user.put()
 
 
+# Get the db user, using the system user
 def getTheUser(user):
     return User.get_by_key_name(key_names = user.email())
 
 
+# Get the user from the db using the mail = key name
 def getUser(key_name):
     return db.get(db.Key.from_path("User", key_name))
 
 
+# Get the current user key name = email, or None if there are not
 def getCurrentUser():
     u = users.get_current_user()
     if u:
@@ -67,14 +70,20 @@ def PageAllowed(groups):
             return functools.partial(self, obj)
 
         def __call__(self, *args, **kw):
+            u = users.get_current_user()
+            # If not connected
+            if not u:
+                self._obj.redirect(users.create_login_url('/'))
+            dbUser = getTheUser(u) 
+            ## If the user is not in the db
+            if not dbUser:
+                createUser(u)
             g = getGroup()
             if g in groups:
                 self.func(*args, **kw)
-            elif g:
+            else:
                 self._obj.response.out.write(template.render(
                         "templates/notallowed.html", []))
-            else:
-                self._obj.redirect(users.create_login_url('/'))
     return _PageAllowed
 
 
