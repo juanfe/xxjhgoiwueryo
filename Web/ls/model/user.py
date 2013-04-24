@@ -72,18 +72,19 @@ def PageAllowed(groups):
         def __call__(self, *args, **kw):
             u = users.get_current_user()
             # If not connected
-            if not u:
+            if u == None:
                 self._obj.redirect(users.create_login_url('/'))
-            dbUser = getTheUser(u) 
-            ## If the user is not in the db
-            if not dbUser:
-                createUser(u)
-            g = getGroup()
-            if g in groups:
-                self.func(*args, **kw)
             else:
-                self._obj.response.out.write(template.render(
-                        "templates/notallowed.html", []))
+                dbUser = getTheUser(u) 
+                # If the user is not in the db
+                if not dbUser:
+                    createUser(u)
+                g = getGroup()
+                if g in groups:
+                    self.func(*args, **kw)
+                else:
+                    self._obj.response.out.write(template.render(
+                            "templates/notallowed.html", []))
     return _PageAllowed
 
 
