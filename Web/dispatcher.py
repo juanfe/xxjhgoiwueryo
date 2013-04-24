@@ -58,7 +58,7 @@ class LogoutPage:
 
 
 class UsersPage:
-    url = "'/manusers'"
+    url = "/manusers"
     text = 'Users'
     groups = ['Admin']
 
