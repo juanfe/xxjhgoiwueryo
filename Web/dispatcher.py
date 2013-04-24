@@ -308,10 +308,9 @@ class UsersRest(webapp.RequestHandler):
         modelUsers = User.all()
         for modelUser in modelUsers:
             userModelObj = {}
-            #TODO add the field email of the user
-            #userModelObj['account'] = modelUser.account
+            userModelObj['account'] = str(modelUser.account)
             userModelObj['fundsAvailable'] = modelUser.fundsAvailable if \
-                    modelUser.group == 'Broker' else ''
+                    modelUser.group == 'Broker' else '*****'
             userModelObj['group'] = modelUser.group
             usersModelObj.append(userModelObj)
         # Wrapping and sending
