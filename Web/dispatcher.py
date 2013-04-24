@@ -143,6 +143,7 @@ class ManUsers(webapp.RequestHandler):
 dojoAjaxKey = 'bids'
 
 
+# TODO add decorator
 class BidsRest(webapp.RequestHandler):
     def post(self):
         bidsToAddJson = self.request.get(dojoAjaxKey)
