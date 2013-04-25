@@ -1,0 +1,12 @@
+* Retirar líneas comentadas inútiles
+
+* Mirar Calc porque la linea
+ c.has_key('loans') 
+ es deprecated, se usa 'in' en su lugar, see pep8 dispatcher.py
+
+* Mirar qué hace la línea:
+dojoAjaxKey = 'bids'
+  en dispatcher.py, hay dos ubicaciones, al parecer relacionadas con Ajax
+
+* Interface para cargar Loans, y administrarlos
+
