@@ -34,7 +34,7 @@ class Bid(db.Model):
     orderAt = db.DateTimeProperty(verbose_name="Order placed at")
 
 
-class BidsInstance(webapp.RequestHandler):
+class BidsInstance():
 	def get(self):
 		#"3:00:00 PM";1104134;"1104134@test.com";"General";" $15,000,000.00
 		#";"10%";;;;;"Noncompetitive";;"Auto";"12/15/11 12:53 PM"

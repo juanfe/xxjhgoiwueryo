@@ -388,11 +388,11 @@ class Login(webapp.RequestHandler):
         self.redirect('/home')
 
 
-#class TestingInsatance(webapp.RequestHandler):
-#    def get(self):
-#        user.UserInstance(self)
-#        loansModel.loansModelInstance(self)
-#        bid.BidsInstance(self)
+class TestingInstance(webapp.RequestHandler):
+    def get(self):
+        user.UserInstance().get()
+        loansModel.loansModelInstance().get()
+        bid.BidsInstance().get()
 
 
 class Logout(webapp.RequestHandler):
@@ -534,11 +534,7 @@ application = webapp.WSGIApplication(
                                       ('/calc', Calc),
                                       ('/download', Download),
                                       ('/jsonLoans', jsonLoans),
-                                      #('/DataTesting', TestingInsatance),
-                                      ('/loansModel',
-                                          loansModel.loansModelInstance),
-                                      ('/TestUsers', user.UserInstance),
-                                      ('/TestBids', bid.BidsInstance),
+                                      ('/DataTesting', TestingInstance),
                                       ('/jsonDelete', loansModel.jsonDelete),
                                       ('/labels', Labels),
                                       ('/', Login)

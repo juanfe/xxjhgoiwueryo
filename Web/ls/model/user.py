@@ -101,7 +101,7 @@ def PageAllowed(groups):
     return _PageAllowed
 
 
-class UserInstance(webapp.RequestHandler):
+class UserInstance():
     def get(self):
         User(key_name = "john.duhadway@liquidityspot.com",
                 account = users.User("john.duhadway@liquidityspot.com"),
