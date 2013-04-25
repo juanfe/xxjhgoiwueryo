@@ -514,11 +514,14 @@ class LiqEngine:
             for k, a in self.Bids.iteritems():
                 if a['bidrate']:
                     rate = rate + asset[k][i] * a['bidrate']
-            if rate:
-                TotRate = TotRate + rate
-            if asset['Total'][i]:
-                rate = rate / asset['Total'][i]
-            else:
+            try:
+                if rate:
+                    TotRate = TotRate + rate
+                if asset['Total'][i]:
+                    rate = rate / asset['Total'][i]
+                else:
+                    rate = None
+            except:
                 rate = None
             _WARate.append(rate)
         TotRate = TotRate / asset['Total'][len(self.Loans)-1] if asset['Total'][len(self.Loans)-1] != 0 else 0
