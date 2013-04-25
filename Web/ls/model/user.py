@@ -43,7 +43,6 @@ def getTheUser(user):
     except:
         email = str(user)
     return User.get_by_key_name(key_names = email)
-    #return User.get_by_key_name(key_names = user.email())
 
 
 # Get the db user from the db using the mail = key name
