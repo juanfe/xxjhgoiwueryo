@@ -12,7 +12,7 @@ from datetime import datetime
 from ls.model.user import PageAllowed
 
 # This is an extensible class with all the parameter definitions present in the JSON files
-class loansModel(db.Expando):
+class loansModel(db.Model):
     customer_account_key = db.StringProperty(verbose_name="MO Name")
     collateral_key = db.StringProperty(verbose_name="Loan Number")
     address = db.StringProperty(verbose_name="Property address")
