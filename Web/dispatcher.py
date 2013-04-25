@@ -383,9 +383,16 @@ class jsonLoans(webapp.RequestHandler):
 
 
 class Login(webapp.RequestHandler):
-    @PageAllowed(['Admin', 'Broker', 'MO'])
+    @PageAllowed(['Admin', 'Broker', 'MO', 'Engine'])
     def get(self):
         self.redirect('/home')
+
+
+#class TestingInsatance(webapp.RequestHandler):
+#    def get(self):
+#        user.UserInstance(self)
+#        loansModel.loansModelInstance(self)
+#        bid.BidsInstance(self)
 
 
 class Logout(webapp.RequestHandler):
@@ -527,6 +534,7 @@ application = webapp.WSGIApplication(
                                       ('/calc', Calc),
                                       ('/download', Download),
                                       ('/jsonLoans', jsonLoans),
+                                      #('/DataTesting', TestingInsatance),
                                       ('/loansModel',
                                           loansModel.loansModelInstance),
                                       ('/TestUsers', user.UserInstance),
