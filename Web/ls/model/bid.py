@@ -33,6 +33,7 @@ class Bid(db.Model):
     expiresAt = db.DateTimeProperty(verbose_name="Expires at")
     orderAt = db.DateTimeProperty(verbose_name="Order placed at")
 
+
 class BidsInstance(webapp.RequestHandler):
 	def get(self):
 		#"3:00:00 PM";1104134;"1104134@test.com";"General";" $15,000,000.00
