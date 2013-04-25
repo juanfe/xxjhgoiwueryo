@@ -112,6 +112,15 @@ class UserInstance(webapp.RequestHandler):
         User(key_name = "marscamand@gmail.com",
                 account = users.User("marscamand@gmail.com"),
                 group = 'Broker').put()
+        User(key_name = "leonardo.zuniga@gmail.com", fundsAvailable = 1000000.0,
+                account = users.User("leonardo.zuniga@gmail.com"),
+                group = 'Engine').put()
+        User(key_name = "michaelhow@gmail.com", fundsAvailable = 1000000.0,
+                account = users.User("michaelhow@gmail.com"),
+                group = 'Broker').put()
+        User(key_name = "paola.chikung@gmail.com", fundsAvailable = 1000000.0,
+                account = users.User("paola.chikung@gmail.com"),
+                group = 'Broker').put()
 
         User(key_name = "juajarastar@gmail.com",
                 account = users.User("juajarastar@gmail.com"),
