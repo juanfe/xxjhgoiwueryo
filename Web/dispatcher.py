@@ -86,7 +86,7 @@ def getPageDict(page):
 
 
 class Home(webapp.RequestHandler):
-    @PageAllowed(['Admin', 'Broker', 'MO', ])
+    @PageAllowed(['Admin', 'Broker', 'MO', 'Engine'])
     def get(self):
         page = Page.HOME
         parameters = getPageDict(page)
@@ -96,7 +96,7 @@ class Home(webapp.RequestHandler):
 
 
 class Search(webapp.RequestHandler):
-    @PageAllowed(['Admin', 'Broker', 'MO'])
+    @PageAllowed(['Admin', 'Broker', 'MO', 'Engine'])
     def get(self):
         page = Page.SEARCH
         parameters = getPageDict(page)
