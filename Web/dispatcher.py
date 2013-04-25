@@ -115,12 +115,23 @@ class Calc(webapp.RequestHandler):
         if 'loans' in c and 'bids' in c:
             parameters['loans'] = c['loans']
             parameters['bids'] = c['bids']
+        for i in range(1, len(c['bids'])):
+            b = Bid.get_by_key_name(key_names = c['bids'][i][0]['bid'])
+            for j in range(len(c['bids'][i])):
+                if 'key' in c['bids'][i][j]:
+                    l = loansModel.getLoan(c['bids'][i][j]['key'])
+                    # TODO remove the next to comments
+                    #l.curr_upb -= c['bids'][i][j]['key']
+                    #l.put()
+        # TODO remove the next to comments
+        #    b.status = 'Accepted'
+        #    b.put()
         self.response.out.write(template.render("templates/results.html",
                 parameters))
 
 
 class MyBids(webapp.RequestHandler):
-    @PageAllowed(['Admin', 'Broker', 'MO'])
+    @PageAllowed(['Admin', 'Broker', 'MO', 'Engine'])
     def get(self):
         page = Page.MYBIDS
         parameters = getPageDict(page)
