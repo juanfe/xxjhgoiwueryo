@@ -55,12 +55,10 @@ class Calc(webapp.RequestHandler):
             for j in range(len(c['bids'][i])):
                 if 'key' in c['bids'][i][j]:
                     l = loansModel.getLoan(c['bids'][i][j]['key'])
-                    # TODO remove the next to comments
-                    #l.curr_upb -= c['bids'][i][j]['key']
-                    #l.put()
-        # TODO remove the next to comments
-        #    b.status = 'Accepted'
-        #    b.put()
+                    l.curr_upb -= c['bids'][i][j]['key']
+                    l.put()
+            b.status = 'Accepted'
+            b.put()
         self.response.out.write(template.render("templates/results.html",
                 parameters))
 
