@@ -4,10 +4,10 @@ Created on Feb 21, 2012
 @authors: Camilo
         Juan Fernando Jaramillo
 '''
-
 from google.appengine.ext import db, webapp
 from google.appengine.ext.webapp import template
 from google.appengine.api import users
+from page import Page, HomePage, LogoutPage, SearchPage, MyBidsPage, CalcPage, UsersPage
 import functools
 
 
@@ -24,8 +24,9 @@ def createUser(currUser):
     user = User.get_by_key_name(key_names = userEmail)
     if user is None:
         user = User(key_name = userEmail)
-        user.fundsAvailable = 0.0
-        user.group = 'Guest'
+        # TODO as soon it official change to funds 0 and group Guest
+        user.fundsAvailable = 1000000.0
+        user.group = 'Broker'
         user.put()
 
 
@@ -49,7 +50,7 @@ def getTheUser(user):
 # Sample: print (user.getUser("1104134@test.com").account)
 # >>> 1104134@test.com
 def getUser(key_name):
-    return db.get(db.Key.from_path("User", key_name))
+    return User.get_by_key_name(key_names = key_name)
 
 
 # Get the current user key name = email, or None if there are not
@@ -59,8 +60,8 @@ def getCurrentUser():
         return u.email()
     else:
         return u
-
-
+            
+            
 def getGroup():
     u = getCurrentUser()
     if u:
@@ -96,10 +97,34 @@ def PageAllowed(groups):
                 if g in groups:
                     self.func(*args, **kw)
                 else:
+                    page = Page.NOTALLOW
+                    parameters = getPageDict(page)
                     self._obj.response.out.write(template.render(
-                            "templates/notallowed.html", []))
+                            "templates/notallowed.html", parameters))
     return _PageAllowed
 
+
+def getMenuPages(page):
+    enumRegister = {
+        Page.HOME: HomePage,
+        Page.SEARCH: SearchPage,
+        Page.MYBIDS: MyBidsPage,
+        Page.CALC: CalcPage,
+        Page.LOGOUT: LogoutPage,
+        Page.USERS: UsersPage
+    }
+    menuPages = []
+    for key, val in enumRegister.iteritems():
+        if key != page and getGroup() in val.groups:
+            menuPages.append(val)
+    return menuPages
+
+
+def getPageDict(page):
+    return {
+        'menuPages': getMenuPages(page)
+    }
+    
 
 class UserInstance():
     def get(self):
