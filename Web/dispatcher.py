@@ -11,86 +11,21 @@ from datetime import datetime, timedelta, date
 from ls.model import user, bid
 from ls.model.bid import Bid
 from ls.model.user import User
-from ls.model.user import PageAllowed, getGroup
+from ls.model.user import PageAllowed, getGroup, getCurrentUser, getPageDict, getTheUser
+from ls.model.page import Page
 from model import loansModel
 from calc import calc
+import logging
 
 #Rendering logic
 
 
-class Page:
-    HOME = 1
-    SEARCH = 2
-    CALC = 3
-    MYBIDS = 4
-    LOGOUT = 5
-    USERS = 6
-
-
-class HomePage:
-    url = "/home"
-    text = 'Home'
-    groups = ['Admin', 'MO', 'Broker', 'Engine', 'Guest']
-
-
-class SearchPage:
-    url = "/search"
-    text = 'Search loans'
-    groups = ['Admin', 'MO', 'Broker', 'Guest']
-
-
-class CalcPage:
-    url = "/calc"
-    text = 'Calculate'
-    groups = ['Admin', 'Engine']
-
-
-class MyBidsPage:
-    url = "/mybids"
-    text = 'My bids'
-    groups = ['Admin', 'MO', 'Broker']
-
-
-class LogoutPage:
-    url = "/logout"
-    text = 'Logout'
-    groups = ['Admin', 'MO', 'Broker', 'Engine', 'Guest']
-
-
-class UsersPage:
-    url = "/manusers"
-    text = 'Users'
-    groups = ['Admin']
-
-
-def getMenuPages(page):
-    enumRegister = {
-        Page.HOME: HomePage,
-        Page.SEARCH: SearchPage,
-        Page.MYBIDS: MyBidsPage,
-        Page.CALC: CalcPage,
-        Page.LOGOUT: LogoutPage,
-        Page.USERS: UsersPage
-    }
-    menuPages = []
-    for key, val in enumRegister.iteritems():
-        if key != page and getGroup() in val.groups:
-            menuPages.append(val)
-    return menuPages
-
-
-def getPageDict(page):
-    return {
-            'menuPages': getMenuPages(page)
-    }
-
-
 class Home(webapp.RequestHandler):
-    @PageAllowed(['Admin', 'Broker', 'MO', 'Engine'])
+    @PageAllowed(['Admin']) #, 'Broker', 'MO', 'Engine'])
     def get(self):
         page = Page.HOME
         parameters = getPageDict(page)
-        parameters['User'] = "%s %s" % (user.getCurrentUser(), getGroup())
+        parameters['User'] = "%s %s" % (getCurrentUser(), getGroup())
         self.response.out.write(template.render("templates/home.html",
                 parameters))
 
@@ -100,7 +35,7 @@ class Search(webapp.RequestHandler):
     def get(self):
         page = Page.SEARCH
         parameters = getPageDict(page)
-        parameters['User'] = "%s %s" % (user.getCurrentUser(), getGroup())
+        parameters['User'] = "%s %s" % (getCurrentUser(), getGroup())
         self.response.out.write(template.render("templates/search.html",
                 parameters))
 
@@ -110,7 +45,7 @@ class Calc(webapp.RequestHandler):
     def get(self):
         page = Page.CALC
         parameters = getPageDict(page)
-        parameters['User'] = "%s %s" % (user.getCurrentUser(), getGroup())
+        parameters['User'] = "%s %s" % (getCurrentUser(), getGroup())
         c = calc()
         if 'loans' in c and 'bids' in c:
             parameters['loans'] = c['loans']
@@ -135,7 +70,7 @@ class MyBids(webapp.RequestHandler):
     def get(self):
         page = Page.MYBIDS
         parameters = getPageDict(page)
-        parameters['User'] = "%s %s" % (user.getCurrentUser(), getGroup())
+        parameters['User'] = "%s %s" % (getCurrentUser(), getGroup())
         self.response.out.write(template.render("templates/mybids.html",
                 parameters))
 
@@ -145,7 +80,7 @@ class ManUsers(webapp.RequestHandler):
     def get(self):
         page = Page.USERS
         parameters = getPageDict(page)
-        parameters['User'] = "%s %s" % (user.getCurrentUser(), getGroup())
+        parameters['User'] = "%s %s" % (getCurrentUser(), getGroup())
         self.response.out.write(template.render("templates/users.html",
                 parameters))
 
@@ -207,14 +142,14 @@ class BidsRest(webapp.RequestHandler):
                         bidtype = 'Specified',
                         lorm = 'Loan',
                         ordertiming = 'Day Trade',
-                        key_name = "%s %s" % (user.getCurrentUser(),
+                        key_name = "%s %s" % (getCurrentUser(),
                             creationTime),
                     ).put()
 
     def get(self):
         # Getting bids from the Db
         bidsModelObj = []
-        modelBids = user.getTheUser(users.get_current_user()).bids
+        modelBids = getTheUser(users.get_current_user()).bids
         #TODO add the new fields
         for modelBid in modelBids:
             bidModelObj = {}
@@ -240,7 +175,7 @@ class BidsRest(webapp.RequestHandler):
     def delete(self):
         bidsToDeleteJson = self.request.get(dojoAjaxKey)
         bidsToDeleteObj = json.loads(bidsToDeleteJson)
-        userBids = user.getTheUser(users.get_current_user()).bids
+        userBids = getTheUser(users.get_current_user()).bids
         currentBids = {}
         for bid in userBids:
             currentBids[bid.loan.collateral_key] = bid
@@ -261,7 +196,7 @@ class UsersRest(webapp.RequestHandler):
     #    usersToAddJson = self.request.get(dojoAjaxKey)
     #    usersToAddObj =  json.loads(usersToAddJson)
     #    # Adding the bid model objects
-    #    ##dbUser = user.getTheUser(users.get_current_user())
+    #    ##dbUser = getTheUser(users.get_current_user())
     #    # Getting the bids for the current user
     #    userBids = dbUser.bids
     #    currentBids = {}
@@ -306,7 +241,7 @@ class UsersRest(webapp.RequestHandler):
     #                      bidtype = 'Specified',
     #                      lorm = 'Loan',
     #                      ordertiming = 'Day Trade',
-    #                      key_name = "%s %s"%(user.getCurrentUser(),
+    #                      key_name = "%s %s"%(getCurrentUser(),
     #                              creationTime),
     #                      ).put()
 
@@ -331,7 +266,7 @@ class UsersRest(webapp.RequestHandler):
     #def delete(self):
     #    bidsToDeleteJson = self.request.get(dojoAjaxKey)
     #    bidsToDeleteObj =  json.loads(bidsToDeleteJson)
-    #    userBids = user.getTheUser(users.get_current_user()).bids
+    #    userBids = getTheUser(users.get_current_user()).bids
     #    currentBids = {}
     #    for bid in userBids:
     #        currentBids[bid.loan.collateral_key] = bid
@@ -392,6 +327,10 @@ class TestingInstance(webapp.RequestHandler):
     def get(self):
         user.UserInstance().get()
         loansModel.loansModelInstance().get()
+
+
+class TestingBids(webapp.RequestHandler):
+    def get(self):
         bid.BidsInstance().get()
 
 
@@ -535,6 +474,7 @@ application = webapp.WSGIApplication(
                                       ('/download', Download),
                                       ('/jsonLoans', jsonLoans),
                                       ('/DataTesting', TestingInstance),
+                                      ('/BidTesting', TestingBids),
                                       ('/jsonDelete', loansModel.jsonDelete),
                                       ('/labels', Labels),
                                       ('/', Login)
