@@ -93,13 +93,17 @@ class BidsRest(webapp.RequestHandler):
         bidsToAddJson = self.request.get(dojoAjaxKey)
         bidsToAddObj = json.loads(bidsToAddJson)
         # Adding the bid model objects
-        dbUser = user.getTheUser(users.get_current_user())
+        dbUser = getTheUser(users.get_current_user())
         # Getting the bids for the current user
         userBids = dbUser.bids
         currentBids = {}
         #TODO if the user is an admin, then add all the bids
         #TODO if the user is a MO, the add the users for the MO
         for bid in userBids:
+            print bid.loan
+            logging.debug(80*"#")
+            logging.debug(bid.loan)
+            logging.debug(80*"#")
             currentBids[bid.loan.collateral_key] = bid
         currentBidsKeys = currentBids.keys()
         # Adding or updating the bids
