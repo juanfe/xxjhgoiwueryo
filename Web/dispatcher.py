@@ -337,6 +337,11 @@ class TestingInstance(webapp.RequestHandler):
         loansModel.loansModelInstance().get()
 
 
+class TestingLoans(webapp.RequestHandler):
+    def get(self):
+        loansModel.loansModelInstance().get()
+        
+
 class TestingBids(webapp.RequestHandler):
     def get(self):
         bid.BidsInstance().get()
@@ -482,6 +487,7 @@ application = webapp.WSGIApplication(
                                       ('/download', Download),
                                       ('/jsonLoans', jsonLoans),
                                       ('/DataTesting', TestingInstance),
+                                      ('/LoanTesting', TestingLoans),
                                       ('/BidTesting', TestingBids),
                                       ('/jsonDelete', loansModel.jsonDelete),
                                       ('/labels', Labels),
