@@ -52,10 +52,14 @@ class Calc(webapp.RequestHandler):
             parameters['bids'] = c['bids']
         for i in range(1, len(c['bids'])):
             b = Bid.get_by_key_name(key_names = c['bids'][i][0]['bid'])
+            logging.debug("c['bids'][i][0] = " + 80 * "#")
+            logging.debug(c['bids'][i][0]['bid'])
+            logging.debug(i)
+            logging.debug(80 * "#")
             for j in range(len(c['bids'][i])):
                 if 'key' in c['bids'][i][j]:
                     l = loansModel.getLoan(c['bids'][i][j]['key'])
-                    l.curr_upb -= c['bids'][i][j]['key']
+                    l.curr_upb -= long(c['bids'][i][j]['key'])
                     l.put()
             b.status = 'Accepted'
             b.put()
