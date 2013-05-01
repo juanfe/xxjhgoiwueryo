@@ -103,12 +103,14 @@ class BidsRest(webapp.RequestHandler):
         currentBids = {}
         #TODO if the user is an admin, then add all the bids
         #TODO if the user is a MO, the add the users for the MO
+        i = 0 
         for bid in userBids:
-            print bid.loan
-            logging.debug(80*"#")
-            logging.debug(bid.loan)
-            logging.debug(80*"#")
-            currentBids[bid.loan.collateral_key] = bid
+            if bid.loan:
+                currentBids[bid.loan.collateral_key] = bid
+            else:
+                currentBids[i] = bid
+                i += 1
+               
         currentBidsKeys = currentBids.keys()
         # Adding or updating the bids
         statusChoices = Bid.status.choices
