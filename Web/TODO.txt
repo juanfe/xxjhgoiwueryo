@@ -10,3 +10,10 @@ dojoAjaxKey = 'bids'
 
 * Interface para cargar Loans, y administrarlos
 
+* Fix not allowed html
+
+* Poner test de funcionalida
+
+* mover lo de ls/model a model
+
+* Poner funcionalidad para borrar los ejemplos bids y loans, y recrearlos
