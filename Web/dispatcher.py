@@ -1814,13 +1814,12 @@ class Calc(webapp.RequestHandler):
                     {'key': u'201148589', 'val': 0},
                     {'key': u'201149751', 'val': 0},
                     {'key': u'201149359', 'val': 0}]]
-
-                    #'menuPages': '[<span class="webkit-html-tag">&lt;class <span class="webkit-html-attribute-name">ls.model.page.LogoutPage</span> <span class="webkit-html-attribute-name">at</span> <span class="webkit-html-attribute-name">0x3e17870</span>&gt;</span>']}
-                    # </td></tr><tr><td class="webkit-line-number"></td><td class="webkit-line-content">Status: 200 OK</td></tr><tr><td class="webkit-line-number"></td><td class="webkit-line-content">Content-Type: text/html; charset=utf-8</td></tr><tr><td class="webkit-line-number"></td><td class="webkit-line-content">Content-Length: 0</td></tr><tr><td class="webkit-line-number"></td><td class="webkit-line-content">Cache-Control: no-cache</td></tr><tr><td class="webkit-line-number"></td><td class="webkit-line-content"><br></td></tr><tr><td class="webkit-line-number"></td><td class="webkit-line-content"></td></tr></tbody></table></body></html>
-            #self.response.out.write(template.render("templates/oops.html",
-            #        []))
             self.response.out.write(template.render("templates/results.html",
                     parameters))
+            #TODO remove the previous lines and replace with the oops to
+            # best practices accomplishment
+            #self.response.out.write(template.render("templates/oops.html",
+            #        []))
 
 
 class MyBids(webapp.RequestHandler):
