@@ -9,14 +9,20 @@ class LS(FunkLoadTestCase):
         server_url = self.server_url
         self.get(server_url + "/",
                 description="Get /")
-        self.get(server_url + "/_ah/login?continue=http%3A//localhost%3A8080",
-                params = [["cmd", "bm_loadBookmark"],
-                    ["transId", ""],
-                    ["user", "juanfer"],
-                    ["code", 1]],
-                description="Get /_ah/login")
+        ret = self.get(server_url + "/_ah/login",
+                params = [["email", "juajara@gmail.com"],
+                    ["action", "Login"],
+                    ["continue", "http://localhost:8080/"]],
+                description="Login test")
+        print 80*"~"
+        #print (ret)
+        #print (ret.body)
+        #print self.getBody()
+        print self.getLastUrl()
+        #print dir(FunkLoadTestCase)
+        print 80*"~"
         #self.assert_("login" not in self.getLastUrl(), "Error in login")
-        #self.assert_(ret.code in [200, 302, 405], "expecting a 200 or 302 or 405")
+        self.assert_(ret.code in [200, 302, 304], "expecting a 200 or 302 or 405")
 
     def test_ls(self):
         server_url = self.server_url
