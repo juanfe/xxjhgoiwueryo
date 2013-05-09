@@ -218,6 +218,7 @@ function initBidsGrid() {
 function submitBidsClick() {
 	var selectedBids = ls.bidGrid.selection.getSelected();
 	var bids = {};
+    //alert(selectedBids.length);
 	for(var i = 0; i < selectedBids.length; i++) {
 		//TODO allow bidrate in None
 		bids[selectedBids[i]['collateral_key']] = {
@@ -226,6 +227,7 @@ function submitBidsClick() {
 			'bidrate' : selectedBids[i]['bidrate'][0]
 		};
 	}
+    //alert(bids[selectedBids[i-1]['collateral_key']]['collateral_key'])
 	dijit.byId('bidDialog').hide();
 
 	var xhrArgs = {
