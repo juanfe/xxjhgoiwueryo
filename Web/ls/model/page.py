@@ -1,5 +1,6 @@
 from google.appengine.api import users
 
+# In this script you allow menus for the diferents type of users
 
 class Page:
     HOME = 1
@@ -14,40 +15,40 @@ class Page:
 class HomePage:
     url = "/home"
     text = 'Home'
-    groups = ['Admin'] #, 'MO', 'Broker', 'Engine', 'Guest']
+    groups = ['Admin', 'Demo', 'MO', 'Broker', 'Engine', 'Guest']
 
 
 class SearchPage:
     url = "/search"
     text = 'Search loans'
-    groups = ['Admin', 'MO', 'Broker', 'Guest']
+    groups = ['Admin', 'MO', 'Broker', 'Guest', 'Demo']
 
 
 class CalcPage:
     url = "/calc"
     text = 'Calculate'
-    groups = ['Admin', 'Engine']
+    groups = ['Admin', 'Engine', 'Demo']
 
 
 class MyBidsPage:
     url = "/mybids"
     text = 'My bids'
-    groups = ['Admin', 'MO', 'Broker']
+    groups = ['Admin', 'MO', 'Broker', 'Demo']
 
 
 class LogoutPage:
     url = "/logout"
     text = 'Logout'
-    groups = ['Admin', 'MO', 'Broker', 'Engine', 'Guest']
+    groups = ['Admin', 'MO', 'Broker', 'Engine', 'Guest', 'Demo']
 
 
 class NotAllowpage:
     url = "/notallow"
     text = 'Not Allowed'
-    groups = ['Admin', 'MO', 'Broker', 'Engine', 'Guest']
+    groups = ['Admin', 'MO', 'Broker', 'Engine', 'Guest', 'Demo']
 
 
 class UsersPage:
     url = "/manusers"
     text = 'Users'
-    groups = ['Admin']
+    groups = ['Admin', 'Demo']
