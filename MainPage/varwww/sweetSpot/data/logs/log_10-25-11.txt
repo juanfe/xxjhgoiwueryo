@@ -1,0 +1,118 @@
+10-25-11 13:01:47	190.146.245.147	INFO	jmendez	Log In	
+10-25-11 13:02:31	190.146.245.147	INFO	jmendez	Switch Repository	rep. id=c126a778cd77bf0b84447f4b1a5e283d
+10-25-11 14:04:58	190.146.245.147	INFO	admin	Log In	
+10-25-11 14:27:24	190.146.245.147	INFO	admin	Log In	
+10-25-11 14:29:13	190.146.245.147	INFO	admin	Log In	
+10-25-11 14:31:05	190.146.245.147	INFO	admin	Switch Repository	rep. id=ajxp_conf
+10-25-11 14:34:35	190.146.245.147	INFO	admin	Log In	
+10-25-11 14:34:46	190.146.245.147	INFO	admin	Switch Repository	rep. id=ajxp_conf
+10-25-11 14:38:26	190.146.245.147	INFO	admin	Log In	
+10-25-11 14:39:05	190.146.245.147	INFO	admin	Log In	
+10-25-11 14:52:59	190.146.245.147	INFO	admin	Log In	
+10-25-11 14:56:55	190.146.245.147	INFO	admin	Log In	
+10-25-11 15:06:21	190.146.245.147	INFO	admin	Log In	
+10-25-11 15:07:52	190.146.245.147	INFO	admin	Log In	
+10-25-11 15:08:08	190.146.245.147	INFO	Company2Admin	Log In	
+10-25-11 15:08:31	190.146.245.147	INFO	Company2Admin	Log In	
+10-25-11 15:09:09	190.146.245.147	INFO	admin	Log In	
+10-25-11 15:09:25	190.146.245.147	INFO	Company2Admin	Log In	
+10-25-11 15:10:49	190.146.245.147	INFO	Company2Admin	Log In	
+10-25-11 15:11:13	190.146.245.147	INFO	user2company2	Log In	
+10-25-11 15:22:31	190.146.245.147	INFO	user2company2	Log In	
+10-25-11 15:25:25	190.146.245.147	INFO	admin	Log In	
+10-25-11 15:26:05	190.146.245.147	INFO	admin	Switch Repository	rep. id=ajxp_conf
+10-25-11 15:26:51	190.146.245.147	INFO	user2company2	Log In	
+10-25-11 15:26:59	190.146.245.147	INFO	admin	Log In	
+10-25-11 15:27:09	190.146.245.147	INFO	admin	Switch Repository	rep. id=ajxp_conf
+10-25-11 15:27:28	190.146.245.147	INFO	admin	Edit Repository	repo_name=Demand Side
+10-25-11 15:27:41	190.146.245.147	INFO	admin	Edit Repository	repo_name=Supply Side
+10-25-11 15:27:58	190.146.245.147	INFO	user2company2	Log In	
+10-25-11 15:28:37	190.146.245.147	INFO	user2company2	Switch Repository	rep. id=c126a778cd77bf0b84447f4b1a5e283d
+10-25-11 15:28:48	190.146.245.147	INFO	user2company2	Switch Repository	rep. id=3e06a811f8d60258bb4fefbf9d479bb9
+10-25-11 15:29:02	190.146.245.147	INFO	admin	Log In	
+10-25-11 15:29:13	190.146.245.147	INFO	admin	Switch Repository	rep. id=ajxp_conf
+10-25-11 15:29:54	190.146.245.147	INFO	user2company2	Log In	
+10-25-11 15:35:42	190.146.245.147	INFO	admin	Log In	
+10-25-11 15:36:24	190.146.245.147	INFO	admin	Log In	
+10-25-11 15:36:35	190.146.245.147	INFO	admin	Switch Repository	rep. id=ajxp_conf
+10-25-11 15:36:57	190.146.245.147	INFO	admin	Edit Repository	repo_name=Demand Side
+10-25-11 15:37:05	190.146.245.147	INFO	admin	Edit Repository	repo_name=Supply Side
+10-25-11 15:37:58	190.146.245.147	INFO	user2company2	Log In	
+10-25-11 15:38:47	190.146.245.147	INFO	admin	Log In	
+10-25-11 15:39:01	190.146.245.147	INFO	admin	Switch Repository	rep. id=ajxp_conf
+10-25-11 15:41:32	190.146.245.147	INFO	user2company2	Log In	
+10-25-11 15:41:50	190.146.245.147	INFO	admin	Log In	
+10-25-11 15:43:27	190.146.245.147	INFO	user2company2	Log In	
+10-25-11 15:43:47	190.146.245.147	INFO	admin	Log In	
+10-25-11 15:43:59	190.146.245.147	INFO	admin	Switch Repository	rep. id=ajxp_conf
+10-25-11 15:45:09	190.146.245.147	INFO	user2company2	Log In	
+10-25-11 15:50:31	190.146.245.147	INFO	admin	Log In	
+10-25-11 15:51:12	190.146.245.147	INFO	admin	Switch Repository	rep. id=ajxp_conf
+10-25-11 15:52:49	190.146.245.147	INFO	admin	Log In	
+10-25-11 15:53:05	190.146.245.147	INFO	user2company2	Log In	
+10-25-11 15:53:52	190.146.245.147	INFO	user2company2	Log In	
+10-25-11 15:57:27	190.146.245.147	INFO	admin	Log In	
+10-25-11 15:58:59	190.146.245.147	INFO	user2company2	Log In	
+10-25-11 16:00:31	190.146.245.147	INFO	admin	Log In	
+10-25-11 16:01:05	190.146.245.147	INFO	admin	Switch Repository	rep. id=ajxp_conf
+10-25-11 16:08:36	190.146.245.147	INFO	admin	Edit Repository	repo_name=Demand Side
+10-25-11 16:08:45	190.146.245.147	INFO	admin	Edit Repository	repo_name=Supply Side
+10-25-11 16:12:24	190.146.245.147	INFO	admin	Log In	
+10-25-11 16:12:39	190.146.245.147	INFO	admin	Switch Repository	rep. id=ajxp_conf
+10-25-11 16:13:07	190.146.245.147	INFO	user2company2	Log In	
+10-25-11 16:13:45	190.146.245.147	INFO	admin	Log In	
+10-25-11 16:13:57	190.146.245.147	INFO	admin	Switch Repository	rep. id=ajxp_conf
+10-25-11 16:14:28	190.146.245.147	INFO	user2company2	Log In	
+10-25-11 16:14:41	190.146.245.147	INFO	user2company2	Switch Repository	rep. id=c126a778cd77bf0b84447f4b1a5e283d
+10-25-11 16:14:46	190.146.245.147	INFO	user2company2	Switch Repository	rep. id=3e06a811f8d60258bb4fefbf9d479bb9
+10-25-11 16:14:58	190.146.245.147	INFO	admin	Log In	
+10-25-11 16:15:09	190.146.245.147	INFO	admin	Switch Repository	rep. id=ajxp_conf
+10-25-11 16:15:43	190.146.245.147	INFO	user2company2	Log In	
+10-25-11 16:15:54	190.146.245.147	INFO	user2company2	Switch Repository	rep. id=c126a778cd77bf0b84447f4b1a5e283d
+10-25-11 16:16:05	190.146.245.147	INFO	admin	Log In	
+10-25-11 16:16:20	190.146.245.147	INFO	admin	Switch Repository	rep. id=ajxp_conf
+10-25-11 16:16:51	190.146.245.147	INFO	admin	Edit Repository	repo_name=Supply Side
+10-25-11 16:17:00	190.146.245.147	INFO	admin	Edit Repository	repo_name=Demand Side
+10-25-11 16:17:25	190.146.245.147	INFO	user2company2	Log In	
+10-25-11 16:21:41	190.146.245.147	INFO	user2company2	Log In	
+10-25-11 16:22:21	190.146.245.147	INFO	admin	Log In	
+10-25-11 16:22:33	190.146.245.147	INFO	admin	Switch Repository	rep. id=ajxp_conf
+10-25-11 16:22:52	190.146.245.147	INFO	user2company2	Log In	
+10-25-11 16:23:35	190.146.245.147	INFO	admin	Log In	
+10-25-11 16:23:47	190.146.245.147	INFO	admin	Switch Repository	rep. id=ajxp_conf
+10-25-11 16:26:50	190.146.245.147	INFO	user2company2	Log In	
+10-25-11 16:27:29	190.146.245.147	INFO	user2company2	Log In	
+10-25-11 16:28:05	190.146.245.147	INFO	admin	Log In	
+10-25-11 16:28:20	190.146.245.147	INFO	admin	Switch Repository	rep. id=ajxp_conf
+10-25-11 16:29:27	190.146.245.147	INFO	user2company2	Log In	
+10-25-11 16:30:08	190.146.245.147	INFO	user2company2	Log In	
+10-25-11 16:31:12	190.146.245.147	INFO	Company2Admin	Log In	
+10-25-11 16:31:41	190.146.245.147	INFO	Company2Admin	Log In	
+10-25-11 16:32:25	190.146.245.147	INFO	admin	Log In	
+10-25-11 16:32:40	190.146.245.147	INFO	admin	Switch Repository	rep. id=ajxp_conf
+10-25-11 16:38:06	190.146.245.147	INFO	Company2Admin	Log In	
+10-25-11 16:39:25	190.146.245.147	INFO	admin	Log In	
+10-25-11 16:39:53	190.146.245.147	INFO	admin	Switch Repository	rep. id=ajxp_conf
+10-25-11 16:40:43	190.146.245.147	INFO	user2company2	Log In	
+10-25-11 16:46:02	190.146.245.147	INFO	admin	Log In	
+10-25-11 16:46:18	190.146.245.147	INFO	admin	Switch Repository	rep. id=ajxp_conf
+10-25-11 16:46:37	190.146.245.147	INFO	user2company2	Log In	
+10-25-11 16:47:14	190.146.245.147	INFO	fakeCompanyAdmin	Log In	
+10-25-11 16:47:45	190.146.245.147	INFO	fakeCompanyAdmin	Log In	
+10-25-11 16:55:13	190.146.245.147	INFO	Company2Admin	Log In	
+10-25-11 16:57:14	190.146.245.147	INFO	Company2Admin	Log In	
+10-25-11 16:57:45	190.146.245.147	INFO	shared	Create User	user_id=user3company2
+10-25-11 16:57:45	190.146.245.147	INFO	user3company2	Log In	
+10-25-11 16:59:30	190.146.245.147	INFO	fakeCompanyAdmin	Log In	
+10-25-11 17:00:12	190.146.245.147	INFO	shared	Create User	user_id=fakeUser1
+10-25-11 17:00:12	190.146.245.147	INFO	fakeUser1	Log In	
+10-25-11 17:00:37	190.146.245.147	INFO	admin	Log In	
+10-25-11 18:42:45	190.146.245.147	INFO	admin	Log In	
+10-25-11 19:00:33	190.146.245.147	INFO	shared	Create User	user_id=Company3Admin
+10-25-11 19:00:33	190.146.245.147	INFO	Company3Admin	Log In	
+10-25-11 19:05:29	190.146.245.147	INFO	admin	Log In	
+10-25-11 19:57:57	190.146.245.147	INFO	admin	Log In	
+10-25-11 20:58:20	190.146.245.147	INFO	Company2Admin	Log In	
+10-25-11 21:07:13	190.146.245.147	INFO	admin	Log In	
+10-25-11 21:10:26	190.146.245.147	INFO	admin	Log In	
+10-25-11 21:11:08	190.146.245.147	INFO	admin	Log In	

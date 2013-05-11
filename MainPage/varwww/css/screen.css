@@ -1,0 +1,380 @@
+		
+table, input, textarea, select, li{
+	font:100% Trebuchet MS, Arial, Helvetica, Sans-Serif;
+	line-height:160%;
+	color:#333;
+	}				
+p, blockquote, ul, ol, form{
+	margin:1em 0;
+	}
+blockquote{
+	}
+img{
+	border:none;
+	}			
+hr{
+	display:none;
+	}	
+table{
+	margin:1em 0;
+	width:100%;
+	border-collapse:collapse;
+	}
+th, td{	
+	padding:2px 5px;
+	}	
+th{	
+	text-align:left;
+	}
+li{
+	display:list-item;
+	}	
+	
+#container{	
+	margin:0 auto;
+	width:600px;
+	padding:100px 40px;
+	text-align:left;
+	background: #ffffff;
+	}		
+	
+#container2{
+	margin: 0 auto;
+	width: 320px;
+	padding: 50px 20px;
+	text-align: left;
+	background: #ffffff;
+}
+
+/* form 1 */
+
+	#form1{
+		margin:1em 0;
+		padding-top:10px;
+		background:#fff url(../images/form1/form_top.gif) no-repeat 0 0;
+		}
+	#form1 fieldset{
+		margin:0;
+		padding:0;
+		border:none;	
+		float:left;
+		display:inline;
+		width:260px;
+		margin-left:25px;
+		}		
+	#form1 legend{display:none;}	
+	#form1 p{margin:.5em 0;}	
+	#form1 label{display:block;}	
+	#form1 input, #form1 textarea{		
+		width:252px;
+		border:1px solid #ddd;
+		background:#fff url(../images/form1/form_input.gif) repeat-x;
+		padding:3px;
+		}		
+	#form1 textarea{
+		height:125px;
+		overflow:auto;
+		}					
+	#form1 p.submit{
+		clear:both;
+		background:url(../images/form1/form_bottom.gif) no-repeat 0 100%;
+		padding:0 25px 20px 25px;
+		margin:0;
+		text-align:right;
+		}	
+	#form1 button{
+		width:150px;
+		height:37px;
+		line-height:37px;		
+		border:none;
+		background:url(../images/form1/form_button.gif) no-repeat 0 0;
+		color:#fff;
+		cursor:pointer;
+		text-align:center;
+		}
+	#form1 label.error, #commentForm input.submit { margin-left: 253px; }				
+
+/* // form 1 */
+
+
+/* form 2 */
+
+		#form2{
+		margin:1em 0;
+		padding-top:10px;
+		background:url(../images/form1/form_top.gif) no-repeat 0 0;
+		}
+	#form2 fieldset{
+		margin:0;
+		padding:0;
+		border:none;	
+		float:left;
+		display:inline;
+		width:260px;
+		margin-left:25px;
+		}		
+	#form2 legend{display:none;}	
+	#form2 p{margin:.5em 0;}	
+	#form2 label{display:block;}	
+	#form2 input, #form1 textarea{		
+		width:120px;
+		border:1px solid #ddd;
+		background:#fff url(../images/form1/form_input.gif) repeat-x;
+		padding:3px;
+		}		
+	#form2 textarea{
+		height:125px;
+		overflow:auto;
+		}					
+	#form2 p.submit{
+		clear:both;
+		background:url(../images/form1/form_bottom.gif) no-repeat 0 100%;
+		padding:0 25px 20px 25px;
+		margin:0;
+		text-align:right;
+		}	
+	#form2 button{
+		width:150px;
+		height:37px;
+		line-height:37px;		
+		border:none;
+		background:url(../images/form1/form_button.gif) no-repeat 0 0;
+		color:#fff;
+		cursor:pointer;
+		text-align:center;
+		}				
+
+/* // form 2 */
+
+/* form 3 */
+
+	#form3{
+		margin:1em 0;
+		padding-top:10px;
+		background:#fff url(../images/form1/form_top.gif) no-repeat 0 0;
+		}
+	#form3 fieldset{
+		margin:0;
+		padding:0;
+		border:none;	
+		float:left;
+		display:inline;
+		width:260px;
+		margin-left:25px;
+		}		
+	#form3 legend{display:none;}	
+	#form3{margin:.5em 0;}	
+	#form3 label{display:block;}	
+	#form3 input, #form3 textarea{		
+		width:252px;
+		border:1px solid #ddd;
+		background:#fff url(../images/form1/form_input.gif) repeat-x;
+		padding:3px;
+		}		
+	#form3 textarea{
+		height:125px;
+		overflow:auto;
+		}					
+	#form3 p.submit{
+		clear:both;
+		background:url(../images/form1/form_bottom.gif) no-repeat 0 100%;
+		padding:0 25px 20px 25px;
+		margin:0;
+		text-align:right;
+		}	
+	#form3 button{
+		width:150px;
+		height:37px;
+		line-height:37px;		
+		border:none;
+		background:url(../images/form1/form_button.gif) no-repeat 0 0;
+		color:#fff;
+		cursor:pointer;
+		text-align:center;
+		}
+	#form3 label.error, label.error {
+	/* remove the next line when you have trouble in IE6 with labels in list */
+	color: red;
+	font-style: italic
+}	
+
+/* // form 3 */
+
+/* form 4 */
+
+	#form4{
+		margin:1em 0;
+		padding-top:1.5em;
+		color:#246878;
+		width:350px; /* customize width, this form have fluid layout */
+		background:#fbfaf4 url(../images/form4/form_bg.gif) repeat-y;		
+		}
+	#form4 h3{
+		margin:0 20px;
+		height:28px;
+		text-indent:-8000px;
+		background:url(../images/form4/form_heading.gif) no-repeat 0 0;	
+		}		
+	#form4 fieldset{
+		margin:0;
+		padding:0;
+		border:none;	
+		padding-bottom:1em;
+		}		
+	#form4 legend{display:none;}	
+	#form4 p{margin:.5em 20px;}	
+	#form4 label{display:block;}	
+	#form4 input, #form4 textarea{		
+		width:302px;
+		border:1px solid #dfdfdf;
+		background:#fff;
+		padding:5px 3px;
+		}		
+	#form4 textarea{
+		height:125px;
+		overflow:auto;
+		}					
+	#form4 p.submit{
+		text-align:right;
+		}	
+	#form4 button{
+		margin:0;
+		padding:0;
+		text-indent:-8000px;
+		overflow:hidden;
+		width:88px;
+		height:56px;
+		border:none;
+		background:url(../images/form4/form_button.gif) no-repeat 0 0;
+		cursor:pointer;
+		text-align:left;
+		}				
+
+/* // form 4 */
+
+
+/* form 5 */
+
+	#form5{
+		margin:1em 0;
+		padding-top:10px;
+		}
+	#form5 fieldset{
+		margin:0;
+		padding-top:.5em;
+		border:none;	
+		border-top:1px solid #f1f1f1;
+		}		
+	#form5 legend{
+		background:#fff;
+		padding:0 5px;
+		font-style:italic;
+		}	
+	#form5 p{
+		clear:both;
+		margin:.5em 0;
+		overflow:hidden;
+		}	
+	#form5 label{
+		float:left;
+		width:60px;
+		display:block;
+		text-align:right;
+		margin-right:10px;
+		}	
+	#form5 input, #form5 textarea{	
+		margin:0;	
+		width:250px;
+		border:1px solid #ddd;		
+		padding:3px 5px 3px 25px;
+		}		
+	
+	
+	#form5 input#name{background:#fff url(../images/form5/form_name.gif) no-repeat 5px 50%;}
+	#form5 input#email{background:#fff url(../images/form5/form_email.gif) no-repeat 5px 50%;}
+	#form5 input#web{background:#fff url(../images/form5/form_url.gif) no-repeat 5px 50%;}
+	#form5 textarea#message{background:#fff url(../images/form5/form_note.gif) no-repeat 5px 6px;}
+	
+	
+	#form5 textarea{
+		height:125px;
+		overflow:auto;
+		}					
+	#form5 p.submit{
+		clear:both;
+		margin:1em 0;
+		padding:.5em 70px;
+		border-top:1px solid #f1f1f1;		
+		
+		}	
+	#form5 button{
+		height:28px;
+		line-height:28px;		
+		border-top:1px solid #999;
+		border-left:1px solid #999;
+		border-right:1px solid #333;
+		border-bottom:1px solid #333;
+		background:url(../images/form5/form_button.gif) no-repeat;
+		padding:0 10px 0 25px;
+		color:#333;
+		cursor:pointer;
+		text-align:left;
+		font-size:11px;
+		font-weight:bold;
+		}				
+
+/* // form 5 */
+
+/* form Contact */
+
+#formContact{
+		margin:1em 0;
+		padding-top:10px;
+		background:#fff url(../images/formContact/form_top.gif) no-repeat 0 0;
+		}
+	#formContact fieldset{
+		margin:0;
+		padding:0;
+		border:none;	
+		float:left;
+		display:inline;
+		width:260px;
+		margin-left:25px;
+		}		
+	#formContact legend{display:none;}	
+	#formContact p{margin:.5em 0;}	
+	#formContact label{display:block;}	
+	#formContact input, #formContact textarea{		
+		width:252px;
+		border:1px solid #ddd;
+		background:#fff url(../images/formContact/form_input.gif) repeat-x;
+		padding:3px;
+		}		
+	#formContact textarea{
+		height:125px;
+		overflow:auto;
+		}					
+	#formContact p.submit{
+		clear:both;
+		background:url(../images/formContact/form_bottom.gif) no-repeat 0 100%;
+		padding:0 35px 20px 25px;
+		margin:0;
+		text-align: right;
+		}	
+	#formContact button{
+		width:100px;
+		height:25px;
+		line-height:25px;		
+		border:none;
+		background:url(../images/formContact/form_button.gif) no-repeat 0 0;
+		color:#fff;
+		cursor:pointer;
+		text-align:center;
+		}
+	#formContact label.error, label.error {
+		color: red;
+		font-style: italic
+		}
+
+/* // form Contact */
+

@@ -1,0 +1,21 @@
+10-14-11 17:24:11	68.126.127.173	INFO	admin	Log In	
+10-14-11 17:24:43	68.126.127.173	INFO	admin	Switch Repository	rep. id=ajxp_shared
+10-14-11 17:25:02	68.126.127.173	INFO	admin	Switch Repository	rep. id=c126a778cd77bf0b84447f4b1a5e283d
+10-14-11 17:25:36	68.126.127.173	INFO	admin	Switch Repository	rep. id=3e06a811f8d60258bb4fefbf9d479bb9
+10-14-11 17:26:28	68.126.127.173	INFO	admin	Switch Repository	rep. id=ajxp_conf
+10-14-11 17:27:46	68.126.127.173	INFO	admin	Log In	
+10-14-11 17:28:00	68.126.127.173	INFO	admin	Switch Repository	rep. id=ajxp_conf
+10-14-11 17:28:24	68.126.127.173	INFO	admin	Listing plugins	
+10-14-11 17:28:26	68.126.127.173	INFO	admin	Listing plugins	
+10-14-11 17:30:14	68.126.127.173	INFO	admin	Delete User	user_id=demanduser;sub_user=
+10-14-11 17:31:15	68.126.127.173	INFO	admin	Create User	user_id=johndoe
+10-14-11 17:32:11	68.126.127.173	INFO	admin	Log In	
+10-14-11 17:33:01	68.126.127.173	INFO	admin	Switch Repository	rep. id=ajxp_conf
+10-14-11 17:33:41	68.126.127.173	INFO	admin	Delete User	user_id=johndoe;sub_user=
+10-14-11 18:10:39	68.126.127.173	INFO	admin	Log In	
+10-14-11 18:15:46	68.126.127.173	INFO	admin	Switch Repository	rep. id=3e06a811f8d60258bb4fefbf9d479bb9
+10-14-11 18:24:03	68.126.127.173	INFO	admin	Switch Repository	rep. id=c126a778cd77bf0b84447f4b1a5e283d
+10-14-11 18:24:24	68.126.127.173	INFO	admin	Switch Repository	rep. id=3e06a811f8d60258bb4fefbf9d479bb9
+10-14-11 18:24:56	68.126.127.173	INFO	admin	Switch Repository	rep. id=c126a778cd77bf0b84447f4b1a5e283d
+10-14-11 18:25:19	68.126.127.173	INFO	admin	Create Dir	dir=//Brett info
+10-14-11 18:41:16	68.126.127.173	INFO	admin	Switch Repository	rep. id=3e06a811f8d60258bb4fefbf9d479bb9

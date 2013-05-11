@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ajxpdriver name="fs" label="File System (Standard)" description="The most standard access to a filesystem located on the server." mixins="filesystem_commons,slug_provider">
+	<client_settings icon="plugins/access.fs/icon.png"/>
+	<server_settings>
+		<param name="PATH" type="string" label="Path" description="Real path to the root folder on the server" mandatory="true"/>
+		<param name="CREATE" type="boolean" label="Create" description="Create folder if it does not exists" default="true" mandatory="true"/>
+        <param name="CHMOD_VALUE" type="string" label="File Creation Mask" description="Optionnaly apply a chmod operation. Value must be numeric, like 0777, 0644, etc." default="0666"/>
+        <global_param name="SHOW_HIDDEN_FILES" type="boolean" label="Show hidden files" description="Show files beginning with a ." default="false"/>
+        <global_param name="HIDE_RECYCLE" type="boolean" label="Hide recycle bin" description="Whether to show the recycle bin folder. Unlike in the following options, the folder will be hidden but still writeable." default="false"/>
+        <global_param name="HIDE_EXTENSIONS" type="string" label="Hide extensions" description="Comma-separated list of extensions to hide. Extensions, files and folders that are hidden are also access forbidden." default="ser"/>
+        <global_param name="HIDE_FOLDERS" type="string" label="Hide folders" description="Comma-separated list of specific folders to hide"/>
+        <global_param name="HIDE_FILENAMES" type="string" label="Hide files" description="Comma-separated list of specific files to hide"/>
+        <global_param name="PROBE_REAL_SIZE" type="boolean" label="Real Size Probing" description="Use system command line to get the filesize instead of php built-in function (fixes the 2Go limitation)" default="false"/>
+	</server_settings>
+	<class_definition filename="plugins/access.fs/class.fsAccessDriver.php" classname="fsAccessDriver"/>
+	<class_stream_wrapper filename="plugins/access.fs/class.fsAccessWrapper.php" classname="fsAccessWrapper" protocol="ajxp.fs"/>
+	<registry_contributions>
+		<external_file filename="plugins/access.fs/fsActions.xml" include="actions/*" exclude=""/>
+		<client_configs>
+			<component_config className="FilesList">
+				<columns switchGridMode="filelist">
+					<column messageId="1" attributeName="ajxp_label" sortType="StringDirFile" defaultWidth="48%"/>
+					<column messageId="2" attributeName="filesize" sortType="NumericCellSorterValue" modifier="FilesList.prototype.partSizeCellRenderer" defaultWidth="9%"/>
+					<column messageId="3" attributeName="mimestring" sortType="String" defaultWidth="10%"/>
+					<column messageId="4" attributeName="ajxp_modiftime" sortType="MyDate" defaultWidth="14%"/>
+				</columns>
+			</component_config>
+			<component_config className="FoldersTree">
+				<property name="display" value="dz"/>
+			</component_config>			
+		</client_configs>
+		<external_file filename="plugins/access.fs/fsActions.xml" include="client_configs/*" exclude=""/>
+        <hooks>
+            <serverCallback hookName="node.info" methodName="loadNodeInfo"/>
+        </hooks>
+	</registry_contributions>
+</ajxpdriver>

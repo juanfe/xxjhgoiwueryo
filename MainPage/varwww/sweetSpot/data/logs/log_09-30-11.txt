@@ -1,0 +1,34 @@
+09-30-11 15:22:08	186.112.49.122	INFO	admin	Create User	user_id=admin
+09-30-11 15:27:26	186.112.49.122	INFO	admin	Create Repository	repo_name=Demand Side
+09-30-11 15:27:43	186.112.49.122	INFO	admin	Switch Repository	rep. id=3e06a811f8d60258bb4fefbf9d479bb9
+09-30-11 15:28:13	186.112.49.122	INFO	admin	Create Dir	dir=//Application information
+09-30-11 15:28:40	186.112.49.122	INFO	admin	Create Dir	dir=//Bid submission
+09-30-11 15:28:51	186.112.49.122	INFO	admin	Create Dir	dir=//Current pipeline upload
+09-30-11 15:29:01	186.112.49.122	INFO	admin	Create Dir	dir=//Daily outstanding
+09-30-11 15:29:11	186.112.49.122	INFO	admin	Create Dir	dir=//Legal agreements
+09-30-11 15:29:24	186.112.49.122	INFO	admin	Create Dir	dir=//Monthly performance information
+09-30-11 15:30:15	186.112.49.122	INFO	admin	Upload File	file=/Current pipeline upload/Locked Loans 20091231.xlsx
+09-30-11 15:31:19	186.112.49.122	INFO	admin	Upload File	file=/Legal agreements/Custodial.DOC
+09-30-11 15:31:21	186.112.49.122	INFO	admin	Upload File	file=/Legal agreements/ETA.DOC
+09-30-11 15:31:25	186.112.49.122	INFO	admin	Upload File	file=/Legal agreements/Freddie Mac Master Commitment 20101202.pdf
+09-30-11 15:31:27	186.112.49.122	INFO	admin	Upload File	file=/Legal agreements/Funding File - Definitions Template.xlsx
+09-30-11 15:31:29	186.112.49.122	INFO	admin	Upload File	file=/Legal agreements/Guaranty.DOC
+09-30-11 15:31:34	186.112.49.122	INFO	admin	Upload File	file=/Legal agreements/MRA.doc
+09-30-11 15:31:37	186.112.49.122	INFO	admin	Upload File	file=/Legal agreements/PSL.DOC
+09-30-11 15:31:50	186.112.49.122	INFO	admin	Switch Repository	rep. id=ajxp_conf
+09-30-11 15:32:32	186.112.49.122	INFO	admin	Create Repository	repo_name=Supply Side
+09-30-11 15:32:36	186.112.49.122	INFO	admin	Switch Repository	rep. id=c126a778cd77bf0b84447f4b1a5e283d
+09-30-11 15:32:46	186.112.49.122	INFO	admin	Create Dir	dir=//Account Statement
+09-30-11 15:32:53	186.112.49.122	INFO	admin	Create Dir	dir=//Cash available
+09-30-11 15:33:12	186.112.49.122	INFO	admin	Rename	original=/Account Statement;new=Account statement
+09-30-11 15:33:25	186.112.49.122	INFO	admin	Create Dir	dir=//Collateral reports
+09-30-11 15:33:34	186.112.49.122	INFO	admin	Create Dir	dir=//Daily bid file
+09-30-11 15:33:45	186.112.49.122	INFO	admin	Create Dir	dir=//Legal agreements
+09-30-11 15:34:05	186.112.49.122	INFO	admin	Create Dir	dir=//Mortgage originator performance information
+09-30-11 15:34:26	186.112.49.122	INFO	admin	Create Dir	dir=/Daily bid file/Daily sub file
+09-30-11 15:34:45	186.112.49.122	INFO	admin	Log Out	
+09-30-11 15:47:15	186.112.49.122	INFO	admin	Log In	
+09-30-11 20:07:18	186.112.49.122	INFO	admin	Log In	
+09-30-11 20:12:57	186.112.49.122	INFO	admin	Log In	
+09-30-11 20:14:16	186.112.49.122	INFO	admin	Log In	
+09-30-11 20:15:37	186.112.49.122	INFO	admin	Log In	

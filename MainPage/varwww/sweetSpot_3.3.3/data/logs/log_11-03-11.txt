@@ -1,0 +1,10 @@
+11-03-11 19:36:48	190.146.245.147	INFO	shared	Create User	user_id=admin
+11-03-11 19:37:03	190.146.245.147	INFO	admin	Log In	
+11-03-11 19:37:10	190.146.245.147	INFO	admin	Switch Repository	rep. id=ajxp_conf
+11-03-11 19:37:17	190.146.245.147	INFO	admin	Log Out	
+11-03-11 19:41:32	190.146.245.147	INFO	admin	Log In	
+11-03-11 19:41:36	190.146.245.147	INFO	admin	Listing plugins	
+11-03-11 19:41:36	190.146.245.147	INFO	admin	Listing plugins	
+11-03-11 19:42:17	190.146.245.147	INFO	admin	Log Out	
+11-03-11 19:47:00	190.146.245.147	INFO	admin	Log In	
+11-03-11 19:47:28	190.146.245.147	INFO	admin	Log Out	

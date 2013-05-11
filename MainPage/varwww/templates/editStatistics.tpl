@@ -1,0 +1,70 @@
+{config_load file="statistics.conf"}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<link href="../css/main.css" rel="stylesheet" type="text/css" />
+	<link href="../css/screen.css" rel="stylesheet" type="text/css" />
+	<link href="../css/table.css" rel="stylesheet" type="text/css" />
+	
+</head>
+
+<body>
+	<div id="container">
+	<form id="form2" action="../edit/editStats.php" method="post">
+			<fieldset><legend>Modify Statistics</legend>
+				<table id="table-3" >
+					<tr>
+						<td><label for="loans"># of loans: </label>
+					<label for"loans">Today: </label>
+					<input type="text" name="loans" id="loans" size="10" value="{#numLoansToday#}" />
+					<label for"loans">7 days: </label>
+					<input type="text" name="loans7" id="loans7" size="10" value="{#numLoans7#}"/>
+					<label for"loans">30 days: </label>
+					<input type="text" name="loans30" id="loans30" size="10" value="{#numLoans30#}"/></td>
+					
+					<td><label for"loans">Principal amount: </label>
+					<label for"loans">Today: </label>
+					<input type="text" name="PAmount" id="PAmount" size="10" value="{#pAmountToday#}"/>
+					<label for"loans">7 days: </label>
+					<input type="text" name="PAmount7" id="PAmount7" size="10" value="{#pAmount7#}"/>
+					<label for"loans">30 days: </label>
+					<input type="text" name="PAmount30" id="PAmount30" size="10" value="{#pAmount30#}"/></td>
+					
+					<td><label for"loans">WA demand side rate: </label>
+					<label for"loans">Today: </label>
+					<input type="text" name="WAdemand" id="WAdemand" size="10" value="{#WAdemandSideRateToday#}"/>
+					<label for"loans">7 days: </label>
+					<input type="text" name="WAdemand7" id="WAdemand7" size="10" value="{#WAdemandSideRate7#}"/>
+					<label for"loans">30 days: </label>
+					<input type="text" name="WAdemand30" id="WAdemand30" size="10" value="{#WAdemandSideRate30#}"/></td>
+					</tr>
+					
+					<tr>
+						<td><label for"loans">WA supply side yield: </label>
+					<label for"loans">Today: </label>
+					<input type="text" name="WAsupply" id="WAsupply" size="10" value="{#WAsupplySideYieldToday#}"/>
+					<label for"loans">7 days: </label>
+					<input type="text" name="WAsupply7" id="WAsupply7" size="10" value="{#WAsupplySideYield7#}"/>
+					<label for"loans">30 days: </label>
+					<input type="text" name="WAsupply30" id="WAsupply30" size="10" value="{#WAsupplySideYield30#}"/></td>
+					
+					<td><label for"loans">WA duration: </label>
+					<label for"loans">Today: </label>
+					<input type="text" name="WAduration" id="WAduration" size="10" value="{#WAdurationToday#}"/>
+					<label for"loans">7 days: </label>
+					<input type="text" name="WAduration7" id="WAduration7" size="10" value="{#WAduration7#}"/>
+					<label for"loans">30 days: </label>
+					<input type="text" name="WAduration30" id="WAduration30" size="10" value="{#WAduration30#}"/></td>
+					</tr>
+				</table>
+			</fieldset>
+			<p class="submit"><button type="submit">Save</button></p>
+		</form>
+		All changes will be visible after you click the save button.
+		</div>
+		
+		<div id="footer">
+	</div>
+</body>
+</html>
+

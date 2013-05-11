@@ -1,0 +1,1 @@
+a:1:{s:19:"notify.phpmail-lite";a:6:{s:19:"AJXP_PLUGIN_ENABLED";b:1;s:4:"FROM";s:17:"contact@lspot.com";s:2:"TO";s:31:"juansebastian.mendezr@gmail.com";s:7:"SUBJECT";s:20:"New upload on server";s:4:"BODY";s:92:"A new file AJXP_FILE is being uploaded on the server, into AJXP_FOLDER by the user AJXP_USER";s:6:"MAILER";s:8:"sendmail";}}

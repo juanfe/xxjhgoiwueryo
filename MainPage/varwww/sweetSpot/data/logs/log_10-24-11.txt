@@ -1,0 +1,28 @@
+10-24-11 13:43:28	190.146.245.147	INFO	admin	Log In	
+10-24-11 13:44:16	190.146.245.147	INFO	fakeCompanyAdmin	Log In	
+10-24-11 13:49:43	190.146.245.147	INFO	admin	Log In	
+10-24-11 14:06:04	190.146.245.147	INFO	shared	Create User	user_id=Company2Admin
+10-24-11 14:06:04	190.146.245.147	INFO	Company2Admin	Log In	
+10-24-11 14:06:35	190.146.245.147	INFO	admin	Log In	
+10-24-11 14:08:30	190.146.245.147	INFO	admin	Switch Repository	rep. id=ajxp_conf
+10-24-11 14:08:34	190.146.245.147	INFO	admin	Listing plugins	
+10-24-11 14:09:44	190.146.245.147	INFO	Company2Admin	Log In	
+10-24-11 14:10:04	190.146.245.147	INFO	admin	Log In	
+10-24-11 14:10:15	190.146.245.147	INFO	admin	Switch Repository	rep. id=ajxp_conf
+10-24-11 14:10:43	190.146.245.147	INFO	Company2Admin	Log In	
+10-24-11 14:18:02	190.146.245.147	INFO	Company2Admin	Log In	
+10-24-11 14:22:31	190.146.245.147	INFO	Company2Admin	Log In	
+10-24-11 14:29:01	190.146.245.147	INFO	Company2Admin	Log In	
+10-24-11 14:37:37	190.146.245.147	INFO	Company2Admin	Log In	
+10-24-11 14:52:39	190.146.245.147	INFO	Company2Admin	Log In	
+10-24-11 15:04:50	190.146.245.147	INFO	Company2Admin	Log In	
+10-24-11 15:08:00	190.146.245.147	INFO	Company2Admin	Log In	
+10-24-11 15:09:30	190.146.245.147	INFO	shared	Create User	user_id=user2company2
+10-24-11 15:09:30	190.146.245.147	INFO	user2company2	Log In	
+10-24-11 15:10:36	190.146.245.147	INFO	Company2Admin	Log In	
+10-24-11 15:11:13	190.146.245.147	INFO	Company2Admin	Log In	
+10-24-11 15:13:24	190.146.245.147	INFO	Company2Admin	Log In	
+10-24-11 15:28:32	190.146.245.147	INFO	Company2Admin	Log In	
+10-24-11 15:39:52	190.146.245.147	INFO	admin	Log In	
+10-24-11 16:30:57	190.146.245.147	INFO	admin	Switch Repository	rep. id=ajxp_conf
+10-24-11 21:27:00	190.146.245.147	INFO	jmendez	Log In	
