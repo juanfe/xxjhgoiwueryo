@@ -8,11 +8,11 @@ from google.appengine.ext.webapp import template
 from google.appengine.ext.webapp.util import run_wsgi_app
 from django.utils import simplejson as json
 from datetime import datetime, timedelta, date
-from ls.model import user, bid
-from ls.model.bid import Bid
-from ls.model.user import User
-from ls.model.user import PageAllowed, getGroup, getCurrentUser, getPageDict, getTheUser
-from ls.model.page import Page
+from model import user, bid
+from model.bid import Bid
+from model.user import User
+from model.user import PageAllowed, getGroup, getCurrentUser, getPageDict, getTheUser
+from model.page import Page
 from model import loansModel
 from calc import calc
 from demo import Demo_Param_Calc

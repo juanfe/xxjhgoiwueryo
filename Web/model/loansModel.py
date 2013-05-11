@@ -9,7 +9,7 @@ from model import loansModel
 """
 from google.appengine.ext import db, webapp
 from datetime import datetime
-from ls.model.user import PageAllowed
+from user import PageAllowed
 
 # This is an extensible class with all the parameter definitions present in the JSON files
 class loansModel(db.Model):
