@@ -1,1 +1,0 @@
-from myfirsttest import MyFirstTest
