@@ -9,6 +9,7 @@ from google.appengine.ext.webapp.util import run_wsgi_app
 from django.utils import simplejson as json
 from datetime import datetime, timedelta, date
 from model import user, bid
+form model.demo_user import UserInstance
 from model.bid import Bid
 from model.user import User
 from model.user import PageAllowed, getGroup, getCurrentUser, getPageDict, getTheUser
@@ -346,7 +347,7 @@ class Login(webapp.RequestHandler):
 
 class TestingInstance(webapp.RequestHandler):
     def get(self):
-        user.UserInstance().get()
+        UserInstance().get()
         loansModel.loansModelInstance().get()
 
 
