@@ -9,12 +9,13 @@ from google.appengine.ext.webapp.util import run_wsgi_app
 from django.utils import simplejson as json
 from datetime import datetime, timedelta, date
 from model import user, bid
-form model.demo_user import UserInstance
+from model.demo_user import UserInstance
+from model.demo_loan import LoanInstance
 from model.bid import Bid
 from model.user import User
 from model.user import PageAllowed, getGroup, getCurrentUser, getPageDict, getTheUser
 from model.page import Page
-from model import loansModel
+from model import loan
 from calc import calc
 from demo import Demo_Param_Calc
 import logging
@@ -61,7 +62,7 @@ class Calc(webapp.RequestHandler):
                 logging.debug(80 * "#")
                 for j in range(len(c['bids'][i])):
                     if 'key' in c['bids'][i][j]:
-                        l = loansModel.getLoan(c['bids'][i][j]['key'])
+                        l = loan.getLoan(c['bids'][i][j]['key'])
                         l.curr_upb -= long(c['bids'][i][j]['key'])
                         l.put()
                 b.status = 'Accepted'
@@ -141,7 +142,7 @@ class BidsRest(webapp.RequestHandler):
                 bid.bidrate = bidrate
                 bid.put()
             else:
-                loanQuery = loansModel.loansModel.all(). \
+                loanQuery = loan.Loan.all(). \
                         filter('collateral_key =', key)
                 loan = loanQuery.get()
                 #TODO check why the status is random?
@@ -240,7 +241,7 @@ class UsersRest(webapp.RequestHandler):
     #            bid.bidrate = bidrate
     #            bid.put()
     #        else:
-    #            loanQuery = loansModel.loansModel.all().
+    #            loanQuery = loan.Loan.all().
     #                    filter('collateral_key =', key)
     #            loan = loanQuery.get()
     #            #TODO check why the status is random?
@@ -314,7 +315,7 @@ class jsonLoans(webapp.RequestHandler):
         loanJsonObj = []
         datetypeObj = date.today()
         nonetypeObj = None
-        loans = loansModel.loansModel.all()
+        loans = loan.Loan.all()
         for loan in loans:
             loanObj = {}
             for k, v in vars(loan).items():
@@ -348,12 +349,12 @@ class Login(webapp.RequestHandler):
 class TestingInstance(webapp.RequestHandler):
     def get(self):
         UserInstance().get()
-        loansModel.loansModelInstance().get()
+        LoanInstance().get()
 
 
 class TestingLoans(webapp.RequestHandler):
     def get(self):
-        loansModel.loansModelInstance().get()
+        LoanInstance().get()
         
 
 class TestingBids(webapp.RequestHandler):
@@ -391,7 +392,7 @@ class Labels(webapp.RequestHandler):
     def get(self):
         fieldToLabelDict = {}
         # models where the labels are defined as verbose names
-        models = [loansModel.loansModel, Bid]
+        models = [loan.Loan, Bid]
         for model in models:
             fieldToLabelDict.update(
                     self.getModelPropertiesFieldToVerboseNameDict(model))
@@ -503,7 +504,7 @@ application = webapp.WSGIApplication(
                                       ('/DataTesting', TestingInstance),
                                       ('/LoanTesting', TestingLoans),
                                       ('/BidTesting', TestingBids),
-                                      ('/jsonDelete', loansModel.jsonDelete),
+                                      ('/jsonDelete', demo_loan.DeleteLoans),
                                       ('/labels', Labels),
                                       ('/', Login)
                                      ],

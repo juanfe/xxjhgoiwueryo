@@ -7,7 +7,7 @@ Created on Feb 21, 2012
 from google.appengine.ext import db, webapp
 from google.appengine.api import users
 from user import User, getUser
-from model.loansModel import loansModel, getLoan
+from model.loan import Loan, getLoan
 import datetime
 import time
 
@@ -16,7 +16,7 @@ class Bid(db.Model):
     #bidtype = db.StringProperty(verbose_name="Bid Type", choices = ['General',
     #        'Specified'], required = 'true')
     bidtype = db.StringProperty(verbose_name="Bid Type", choices = ['General', 'Specified'])
-    loan = db.ReferenceProperty(loansModel, verbose_name="Loan", collection_name = 'bids')
+    loan = db.ReferenceProperty(Loan, verbose_name="Loan", collection_name = 'bids')
     participation = db.FloatProperty(verbose_name="Participation %", required = 'true')
     lorm = db.StringProperty(verbose_name="Loan or MO", choices = ['Loan', 'MO'])
     mo = db.ReferenceProperty(User, verbose_name="Mortgage Originator")
