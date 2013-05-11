@@ -21,7 +21,7 @@ import logging
 
 
 class Home(webapp.RequestHandler):
-    @PageAllowed(['Admin']) #, 'Broker', 'MO', 'Engine'])
+    @PageAllowed(['Admin', 'Demo']) #, 'Broker', 'MO', 'Engine'])
     def get(self):
         page = Page.HOME
         parameters = getPageDict(page)
@@ -31,7 +31,7 @@ class Home(webapp.RequestHandler):
 
 
 class Search(webapp.RequestHandler):
-    @PageAllowed(['Admin', 'Broker', 'MO', 'Engine'])
+    @PageAllowed(['Admin', 'Broker', 'MO', 'Engine', 'Demo'])
     def get(self):
         page = Page.SEARCH
         parameters = getPageDict(page)
@@ -41,7 +41,7 @@ class Search(webapp.RequestHandler):
 
 
 class Calc(webapp.RequestHandler):
-    @PageAllowed(['Admin', 'Engine'])
+    @PageAllowed(['Admin', 'Engine', 'Demo'])
     def get(self):
         try:
             page = Page.CALC
@@ -1823,7 +1823,7 @@ class Calc(webapp.RequestHandler):
 
 
 class MyBids(webapp.RequestHandler):
-    @PageAllowed(['Admin', 'Broker', 'MO', 'Engine'])
+    @PageAllowed(['Admin', 'Broker', 'MO', 'Engine', 'Demo'])
     def get(self):
         page = Page.MYBIDS
         parameters = getPageDict(page)
@@ -1833,7 +1833,7 @@ class MyBids(webapp.RequestHandler):
 
 
 class ManUsers(webapp.RequestHandler):
-    @PageAllowed(['Admin', 'Broker'])
+    @PageAllowed(['Admin', 'Broker', 'Demo'])
     def get(self):
         page = Page.USERS
         parameters = getPageDict(page)
@@ -2081,7 +2081,7 @@ class jsonLoans(webapp.RequestHandler):
 
 
 class Login(webapp.RequestHandler):
-    @PageAllowed(['Admin', 'Broker', 'MO', 'Engine'])
+    @PageAllowed(['Admin', 'Broker', 'MO', 'Engine', 'Demo'])
     def get(self):
         self.redirect('/home')
 
