@@ -1,6 +1,6 @@
 from datetime import datetime
 from LiqSpot import LiqEngine
-from model import Loan
+from model.loan import Loan
 from google.appengine.ext import db
 
 
@@ -18,7 +18,7 @@ def CallEngine():
 
     #TODO only set loans who are involved in the calc
     loans = db.GqlQuery("SELECT * "
-            "FROM loan")
+            "FROM Loan")
     s = []
     for l in loans:
         s.append({'loanId': l.key().name(),
