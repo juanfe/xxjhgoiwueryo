@@ -346,10 +346,15 @@ class Login(webapp.RequestHandler):
         self.redirect('/home')
 
 
-class TestingInstance(webapp.RequestHandler):
+class UserInstance(webapp.RequestHandler):
     def get(self):
         UserInstance().get()
+
+
+class TestingInstance(webapp.RequestHandler):
+    def get(self):
         LoanInstance().get()
+        bid.BidsInstance().get()
 
 
 class TestingLoans(webapp.RequestHandler):
