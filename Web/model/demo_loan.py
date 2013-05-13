@@ -4,6 +4,8 @@ Created on March 11, 2013
 @author: Juan Fernando Jaramillo
 """
 from datetime import datetime
+from google.appengine.ext import webapp
+from user import PageAllowed
 from loan import Loan
 
 
