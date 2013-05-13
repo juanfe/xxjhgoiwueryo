@@ -4,12 +4,22 @@ Created on Feb 21, 2012
 @authors: Camilo
         Juan Fernando Jaramillo
 '''
-from google.appengine.ext import db, webapp
-from google.appengine.ext.webapp import template
 from google.appengine.api import users
+from google.appengine.ext import webapp
+from user import PageAllowed
 from user import User
 
+
+class DeleteUsers(webapp.RequestHandler):    
+    @PageAllowed(['Demo',])
+    def get(self):
+        gql_object = db.GqlQuery("SELECT * FROM User")
+        for item in gql_object: 
+            item.delete()  
+
+
 class UserInstance():
+    @PageAllowed(['Demo',])
     def get(self):
         User(key_name = "john.duhadway@liquidityspot.com",
                 account = users.User("john.duhadway@liquidityspot.com"),
