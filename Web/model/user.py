@@ -7,7 +7,8 @@ Created on Feb 21, 2012
 from google.appengine.ext import db, webapp
 from google.appengine.ext.webapp import template
 from google.appengine.api import users
-from page import Page, HomePage, LogoutPage, SearchPage, MyBidsPage, CalcPage, UsersPage
+from page import Page, HomePage, LogoutPage, SearchPage, MyBidsPage, CalcPage
+from page import UsersPage, DemoData, DemoRecreate
 import functools
 
 
@@ -111,7 +112,9 @@ def getMenuPages(page):
         Page.MYBIDS: MyBidsPage,
         Page.CALC: CalcPage,
         Page.LOGOUT: LogoutPage,
-        Page.USERS: UsersPage
+        Page.USERS: UsersPage,
+        Page.DEMODATA: DemoData,
+        Page.DEMORECREATE: DemoRecreate
     }
     menuPages = []
     for key, val in enumRegister.iteritems():

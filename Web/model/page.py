@@ -9,7 +9,9 @@ class Page:
     MYBIDS = 4
     LOGOUT = 5
     USERS = 6
-    NOTALLOW = 7
+    DEMODATA = 7
+    DEMORECREATE = 8
+    NOTALLOW = 9
 
 
 class HomePage:
@@ -52,3 +54,15 @@ class UsersPage:
     url = "/manusers"
     text = 'Users'
     groups = ['Admin', 'Demo']
+
+
+class DemoData:
+    url = "/DataTesting"
+    text = "Create Demo Data"
+    groups = ['Demo']
+
+
+class DemoRecreate: 
+    url = "/RecreateData"
+    text = "Recreate Demo Data"
+    groups = ['Demo']
