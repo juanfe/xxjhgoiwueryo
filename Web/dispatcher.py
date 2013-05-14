@@ -350,8 +350,8 @@ class Login(webapp.RequestHandler):
 class UserInstance(webapp.RequestHandler):
     @PageAllowed(['Admin', 'Demo'])
     def get(self):
-        UserInstance().get()
-        UserInstance().get_demo()
+        UsrInstance().get()
+        UsrInstance().get_demo()
         self.redirect('/home')
 
 
