@@ -9,8 +9,9 @@ from google.appengine.ext.webapp.util import run_wsgi_app
 from django.utils import simplejson as json
 from datetime import datetime, timedelta, date
 from model import user, bid
-from model.demo_user import UserInstance
 from model.demo_loan import LoanInstance
+from model.demo_bid import BidsInstance
+from model.demo_user import UsrInstance
 from model.bid import Bid
 from model.user import User
 from model.user import PageAllowed, getGroup, getCurrentUser, getPageDict, getTheUser
