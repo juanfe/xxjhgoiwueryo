@@ -67,6 +67,8 @@ class UsrInstance():
                 account = users.User("HIJK@test.com"),
                 group = 'MO').put()
 
+    @PageAllowed(['Demo',])
+    def get_demo(self):
         User(key_name = "1104134@test.com", fundsAvailable = 187500.00,
                 account = users.User("1104134@test.com"),
                 group = 'Broker').put()
