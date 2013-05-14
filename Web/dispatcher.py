@@ -348,24 +348,42 @@ class Login(webapp.RequestHandler):
 
 
 class UserInstance(webapp.RequestHandler):
+    @PageAllowed(['Admin', 'Demo'])
     def get(self):
         UserInstance().get()
+        UserInstance().get_demo()
+        self.redirect('/home')
 
 
 class TestingInstance(webapp.RequestHandler):
+    @PageAllowed(['Admin', 'Demo'])
     def get(self):
         LoanInstance().get()
-        bid.BidsInstance().get()
+        BidsInstance().get()
+        self.redirect('/home')
+
+
+class UpdateDemoData(webapp.RequestHandler):
+    @PageAllowed(['Admin', 'Demo'])
+    def get(self):
+        UsrInstance().UpdateDemoData()
+        BidsInstance().UpdateDemoData()
+        LoanInstance().UpdateDemoData()
+        self.redirect('/home')
 
 
 class TestingLoans(webapp.RequestHandler):
+    @PageAllowed(['Admin', 'Demo'])
     def get(self):
         LoanInstance().get()
+        self.redirect('/home')
         
 
 class TestingBids(webapp.RequestHandler):
+    @PageAllowed(['Admin', 'Demo'])
     def get(self):
-        bid.BidsInstance().get()
+        BidsInstance().get()
+        self.redirect('/home')
 
 
 class Logout(webapp.RequestHandler):
