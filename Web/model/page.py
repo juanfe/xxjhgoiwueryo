@@ -64,5 +64,5 @@ class DemoData:
 
 class DemoRecreate: 
     url = "/RecreateData"
-    text = "Recreate Demo Data"
+    text = "Update Demo Data"
     groups = ['Demo']
