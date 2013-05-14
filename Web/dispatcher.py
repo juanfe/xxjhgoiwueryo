@@ -19,6 +19,7 @@ from model.page import Page
 from model import loan
 from calc import calc
 from demo import Demo_Param_Calc
+from lserrors import CalcError
 import logging
 
 #Rendering logic
