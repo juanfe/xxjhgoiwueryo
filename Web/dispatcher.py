@@ -525,10 +525,11 @@ application = webapp.WSGIApplication(
                                       ('/calc', Calc),
                                       ('/download', Download),
                                       ('/jsonLoans', jsonLoans),
+                                      ('/UserTesting', UserInstance),
                                       ('/DataTesting', TestingInstance),
+                                      ('/RecreateData', UpdateDemoData),
                                       ('/LoanTesting', TestingLoans),
                                       ('/BidTesting', TestingBids),
-                                      ('/jsonDelete', demo_loan.DeleteLoans),
                                       ('/labels', Labels),
                                       ('/', Login)
                                      ],
