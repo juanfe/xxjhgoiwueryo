@@ -18,7 +18,11 @@ class DeleteUsers(webapp.RequestHandler):
             item.delete()  
 
 
-class UserInstance():
+class UsrInstance():
+    @PageAllowed(['Demo',])
+    def UpdateDemoData(self):
+        self.get_demo()
+
     @PageAllowed(['Demo',])
     def get(self):
         User(key_name = "john.duhadway@liquidityspot.com",
