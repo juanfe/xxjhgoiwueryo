@@ -33,14 +33,14 @@ function createGrid(dataStore) {
                 field: fields.participation,
                 datatype: 'number',
                 formatter: function(item){
-                    return dojo.number.format(item,{pattern: "#0.0"});
+                    return dojo.number.format(item,{pattern: "##0.0%"});
                 }
             }, {
                 name: label(fields.bidRate),
                 field: fields.bidRate,
                 datatype: 'number',
                 formatter: function(item){
-                    return dojo.number.format(item,{pattern: "#0.0"});
+                    return dojo.number.format(item,{pattern: "##0.0%"});
                 }
             }, {
                 name: label(fields.status),

@@ -582,7 +582,7 @@ function initFilters() {
 		style : 'width:100px;',
 		label : "Max Advance %",
 		constraints : {
-			pattern : "#00.00"
+			pattern : "##0.00%"
 		},
 		onChange : function(value) {
 			if(this.State == 'Error')
