@@ -15,12 +15,10 @@ from user import PageAllowed
 
 
 class BidsInstance():
-    @PageAllowed(['Demo',])
     def  UpdateDemoData(self):
         self.get()
 
     
-    @PageAllowed(['Demo',])
     def get(self):
         #"3:00:00 PM";1104134;"1104134@test.com";"General";" $15,000,000.00
         #";"10%";;;;;"Noncompetitive";;"Auto";"12/15/11 12:53 PM"

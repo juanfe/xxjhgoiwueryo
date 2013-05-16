@@ -19,11 +19,9 @@ class DeleteUsers(webapp.RequestHandler):
 
 
 class UsrInstance():
-    @PageAllowed(['Demo',])
     def UpdateDemoData(self):
         self.get_demo()
 
-    @PageAllowed(['Demo',])
     def get(self):
         User(key_name = "john.duhadway@liquidityspot.com",
                 account = users.User("john.duhadway@liquidityspot.com"),
@@ -67,7 +65,6 @@ class UsrInstance():
                 account = users.User("HIJK@test.com"),
                 group = 'MO').put()
 
-    @PageAllowed(['Demo',])
     def get_demo(self):
         User(key_name = "1104134@test.com", fundsAvailable = 187500.00,
                 account = users.User("1104134@test.com"),
