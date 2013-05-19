@@ -154,6 +154,8 @@ class Loan(db.Model):
     tradelines = db.IntegerProperty(verbose_name="tradelines")
     u_w = db.StringProperty(verbose_name="Loan Underwriter")
     units = db.IntegerProperty(verbose_name="units",default=1)
+    status = db.StringProperty(verbose_name="Status", choices = ['Funded', 'Open'])
+
 
 def getLoan(key):
     return db.get(db.Key.from_path("Loan", key))
