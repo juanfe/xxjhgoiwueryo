@@ -1,0 +1,8 @@
+To set the environment run:
+
+. ./env.sh
+
+To star server run:
+
+. ./run.sh
+
