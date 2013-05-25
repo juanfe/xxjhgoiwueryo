@@ -318,9 +318,9 @@ class jsonLoans(webapp.RequestHandler):
         datetypeObj = date.today()
         nonetypeObj = None
         loans = loan.Loan.all()
-        for loan in loans:
+        for _loan in loans:
             loanObj = {}
-            for k, v in vars(loan).items():
+            for k, v in vars(_loan).items():
                 k = k[1:]
                 if k != 'entity' and k != 'from_entity':
                     if type(v) == type(datetypeObj):
