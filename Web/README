@@ -6,3 +6,6 @@ To star server run:
 
 . ./run.sh
 
+To upload to appengine:
+
+. ./update.sh
