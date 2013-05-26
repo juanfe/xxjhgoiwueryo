@@ -20,7 +20,6 @@ from model import loan
 from calc import calc
 from demo import Demo_Param_Calc
 from lserrors import CalcError
-import logging
 
 #Rendering logic
 
@@ -53,20 +52,28 @@ class Calc(webapp.RequestHandler):
         parameters['User'] = "%s %s" % (getCurrentUser(), getGroup())
         try:
             c = calc()
+            logging.debug(80*"*")
+            logging.debug("loans =")
+            logging.debug(c['loans'])
+            logging.debug(80*"*")
+            logging.debug("bids =")
+            logging.debug(c['bids'])
             if 'loans' in c and 'bids' in c:
                 parameters['loans'] = c['loans']
                 parameters['bids'] = c['bids']
             for i in range(1, len(c['bids'])):
                 b = Bid.get_by_key_name(key_names = c['bids'][i][0]['bid'])
-                logging.debug("c['bids'][i][0] = " + 80 * "#")
-                logging.debug(c['bids'][i][0]['bid'])
-                logging.debug(i)
-                logging.debug(80 * "#")
                 for j in range(len(c['bids'][i])):
                     if 'key' in c['bids'][i][j]:
                         l = loan.getLoan(c['bids'][i][j]['key'])
-                        l.curr_upb -= long(c['bids'][i][j]['key'])
-                        l.put()
+                        if (l.curr_upb >= long(float(c['bids'][i][j]['val']))):
+                            l.curr_upb -= long(float(c['bids'][i][j]['val']))
+                            l.put()
+                        else:
+                            raise CalcError("ERROR: At discount Bit %s to Loan %s curr_upb %s" %
+                                    (str(c['bids'][i][0]['bid']), str(l.collateral_key),
+                                    str(l.curr_upb)))
+   
                 b.status = 'Accepted'
                 b.put()
             self.response.out.write(template.render("templates/results.html",
